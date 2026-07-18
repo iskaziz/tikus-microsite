@@ -1,0 +1,140 @@
+@keyframes ring-breathe {
+  0%, 100% {
+    transform: scale(1.06) rotate(-0.15deg);
+  }
+  50% {
+    transform: scale(1.11) rotate(0.15deg);
+  }
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate3d(-2%, -2%, 0);
+  }
+  25% {
+    transform: translate3d(2%, -1%, 0);
+  }
+  50% {
+    transform: translate3d(1%, 2%, 0);
+  }
+  75% {
+    transform: translate3d(-1%, 1%, 0);
+  }
+  100% {
+    transform: translate3d(-2%, -2%, 0);
+  }
+}
+
+@keyframes scroll-mark {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateY(0.5rem);
+    opacity: 1;
+  }
+}
+
+@keyframes hotspot-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.72);
+    opacity: 0.9;
+  }
+  72%, 100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes hotspot-enter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.68);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes dialog-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.hero__rings {
+  animation: ring-breathe 16s ease-in-out infinite;
+}
+
+.page-grain {
+  animation: grain-shift 0.8s steps(2, end) infinite;
+}
+
+.scroll-cue__mark::after {
+  animation: scroll-mark 1.7s ease-in-out infinite;
+}
+
+.hotspot {
+  animation: hotspot-enter 260ms ease-out both;
+  animation-delay: var(--hotspot-delay, 0ms);
+}
+
+.hotspot__dot::before {
+  animation: hotspot-pulse 2.15s ease-out infinite;
+  animation-delay: var(--hotspot-delay, 0ms);
+}
+
+.hotspot__dot::after {
+  animation: hotspot-pulse 2.15s 1.05s ease-out infinite;
+  animation-delay: calc(var(--hotspot-delay, 0ms) + 1.05s);
+}
+
+.hotspot__tooltip,
+.room-thumbnail,
+.room-thumbnail img,
+.room-thumbnail__image,
+.return-button,
+.info-dialog__close {
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    filter 180ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.info-dialog[open] .info-dialog__surface {
+  animation: dialog-rise 220ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .page-grain {
+    animation: none !important;
+  }
+
+  .hotspot__dot::before,
+  .hotspot__dot::after {
+    display: none;
+  }
+}
