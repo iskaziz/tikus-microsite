@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#870b17">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Enter Samasihat Wellness Retreat in the official interactive microsite for TIKUS, a Feisk Productions film.">
+
+  <title>TIKUS — Official Film Microsite</title>
+
+  <link
+    rel="preload"
+    as="image"
+    href="assets/images/title/tikus-title-1200.webp"
+    imagesrcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w"
+    imagesizes="min(82vw, 74rem)"
+    type="image/webp">
+  <link
+    rel="preload"
+    as="image"
+    href="assets/images/scenes/samasihat-house-exterior-1600.avif"
+    imagesrcset="assets/images/scenes/samasihat-house-exterior-960.avif 960w, assets/images/scenes/samasihat-house-exterior-1600.avif 1600w"
+    imagesizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)"
+    type="image/avif">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <script defer src="js/content-data.js"></script>
+  <script defer src="js/modal-controller.js"></script>
+  <script defer src="js/scene-controller.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#explorer">Skip to the house explorer</a>
+  <div class="page-grain" aria-hidden="true"></div>
+
+  <main id="main-content" data-dialog-inert>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__rings" aria-hidden="true"></div>
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <p class="eyebrow hero__eyebrow">Welcome to Samasihat</p>
+
+        <h1 class="hero__title" id="hero-title">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w"
+              sizes="min(82vw, 74rem)">
+            <img
+              src="assets/images/title/tikus-title-1200.png"
+              srcset="assets/images/title/tikus-title-720.png 720w, assets/images/title/tikus-title-1200.png 1200w"
+              sizes="min(82vw, 74rem)"
+              width="1200"
+              height="392"
+              alt="TIKUS"
+              fetchpriority="high"
+              decoding="async">
+          </picture>
+        </h1>
+
+        <p class="hero__headline">The road is gone.<br>The weekend has only just begun.</p>
+        <p class="hero__support">A wellness retreat. A houseful of strangers. A murderer among them.</p>
+        <p class="hero__credit">A Feisk Productions film</p>
+      </div>
+
+      <a class="scroll-cue" href="#explorer" aria-label="Scroll to explore the house">
+        <span>Explore the house</span>
+        <span class="scroll-cue__mark" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <section class="explorer" id="explorer" aria-labelledby="explorer-title" tabindex="-1" data-scene-explorer data-active-scene="house">
+      <div class="explorer__rings" aria-hidden="true"></div>
+
+      <header class="section-heading">
+        <p class="eyebrow">Samasihat Wellness Retreat</p>
+        <h2 id="explorer-title">Everyone in the house is a question mark.</h2>
+        <p>
+          Newlyweds Mimi and Jay transform Mimi’s inherited family bungalow into an isolated wellness retreat. Their first weekend is disrupted by relentless rain, flooding and a fallen tree that cuts off the road. When an unexpected traveller and a police inspector arrive with news that a Kuala Lumpur murder may be connected to the retreat, every person in the house becomes a question mark.
+        </p>
+      </header>
+
+      <div class="scene-explorer" aria-busy="false">
+        <div class="scene-toolbar">
+          <button class="return-button" type="button" data-return-house hidden>
+            <span aria-hidden="true">←</span>
+            Return to House
+          </button>
+          <p class="scene-instruction">Choose a room, then select a pulsing point to uncover its story.</p>
+        </div>
+
+        <div class="scene-stage" data-scene-stage aria-describedby="scene-introduction">
+          <picture data-scene-picture>
+            <source
+              data-scene-source="avif"
+              type="image/avif"
+              srcset="assets/images/scenes/samasihat-house-exterior-960.avif 960w, assets/images/scenes/samasihat-house-exterior-1600.avif 1600w"
+              sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)">
+            <source
+              data-scene-source="webp"
+              type="image/webp"
+              srcset="assets/images/scenes/samasihat-house-exterior-960.webp 960w, assets/images/scenes/samasihat-house-exterior-1600.webp 1600w"
+              sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)">
+            <img
+              data-scene-image
+              src="assets/images/scenes/samasihat-house-exterior-1600.jpg"
+              srcset="assets/images/scenes/samasihat-house-exterior-960.jpg 960w, assets/images/scenes/samasihat-house-exterior-1600.jpg 1600w"
+              sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)"
+              width="1672"
+              height="941"
+              alt="A wide retro illustration of the isolated Samasihat bungalow at night, surrounded by dark trees and crimson sky."
+              fetchpriority="high"
+              decoding="async">
+          </picture>
+
+          <div class="scene-stage__vignette" aria-hidden="true"></div>
+          <div class="hotspot-layer" data-hotspot-layer aria-label="Interactive scene points"></div>
+          <div class="iris-transition" data-iris hidden aria-hidden="true"></div>
+        </div>
+
+        <div class="scene-caption">
+          <p class="eyebrow" data-scene-eyebrow>Samasihat Wellness Retreat</p>
+          <h3 data-scene-title>The House</h3>
+          <p id="scene-introduction" data-scene-introduction>Choose a room below to step inside.</p>
+        </div>
+
+        <nav class="room-navigation" aria-label="Choose a room">
+          <div class="thumbnail-strip">
+            <button class="room-thumbnail" type="button" data-scene-choice="sitting-room" aria-pressed="false">
+              <span class="room-thumbnail__image">
+                <picture>
+                  <source type="image/webp" srcset="assets/images/thumbnails/sitting-room-480.webp 480w, assets/images/thumbnails/sitting-room-720.webp 720w" sizes="(max-width: 40rem) 74vw, 22rem">
+                  <img src="assets/images/thumbnails/sitting-room-480.jpg" srcset="assets/images/thumbnails/sitting-room-480.jpg 480w, assets/images/thumbnails/sitting-room-720.jpg 720w" sizes="(max-width: 40rem) 74vw, 22rem" width="720" height="405" loading="lazy" decoding="async" alt="">
+                </picture>
+              </span>
+              <span class="room-thumbnail__label">Sitting Room</span>
+            </button>
+
+            <button class="room-thumbnail" type="button" data-scene-choice="kitchen" aria-pressed="false">
+              <span class="room-thumbnail__image">
+                <picture>
+                  <source type="image/webp" srcset="assets/images/thumbnails/kitchen-480.webp 480w, assets/images/thumbnails/kitchen-720.webp 720w" sizes="(max-width: 40rem) 74vw, 22rem">
+                  <img src="assets/images/thumbnails/kitchen-480.jpg" srcset="assets/images/thumbnails/kitchen-480.jpg 480w, assets/images/thumbnails/kitchen-720.jpg 720w" sizes="(max-width: 40rem) 74vw, 22rem" width="720" height="405" loading="lazy" decoding="async" alt="">
+                </picture>
+              </span>
+              <span class="room-thumbnail__label">Kitchen</span>
+            </button>
+
+            <button class="room-thumbnail" type="button" data-scene-choice="orchid-room" aria-pressed="false">
+              <span class="room-thumbnail__image">
+                <picture>
+                  <source type="image/webp" srcset="assets/images/thumbnails/orchid-room-480.webp 480w, assets/images/thumbnails/orchid-room-720.webp 720w" sizes="(max-width: 40rem) 74vw, 22rem">
+                  <img src="assets/images/thumbnails/orchid-room-480.jpg" srcset="assets/images/thumbnails/orchid-room-480.jpg 480w, assets/images/thumbnails/orchid-room-720.jpg 720w" sizes="(max-width: 40rem) 74vw, 22rem" width="720" height="405" loading="lazy" decoding="async" alt="">
+                </picture>
+              </span>
+              <span class="room-thumbnail__label">Orchid Room</span>
+            </button>
+          </div>
+        </nav>
+
+        <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-scene-status></p>
+      </div>
+    </section>
+
+    <section class="pending-material" aria-labelledby="pending-title">
+      <div class="pending-material__inner">
+        <header>
+          <p class="eyebrow">Film information</p>
+          <h2 id="pending-title">More from TIKUS</h2>
+        </header>
+
+        <dl class="pending-grid">
+          <div>
+            <dt>Trailer</dt>
+            <dd>URL pending</dd>
+          </div>
+          <div>
+            <dt>Release date</dt>
+            <dd>To be announced</dd>
+          </div>
+          <div>
+            <dt>Social media</dt>
+            <dd>URL pending</dd>
+          </div>
+          <div>
+            <dt>Cast portrait</dt>
+            <dd>Approved artwork pending</dd>
+          </div>
+          <div>
+            <dt>Press kit</dt>
+            <dd>Download pending</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-dialog-inert>
+    <p><strong>TIKUS</strong> · A Feisk Productions film</p>
+    <a href="#main-content">Back to top</a>
+  </footer>
+
+  <dialog class="info-dialog" id="hotspot-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-body">
+    <article class="info-dialog__surface">
+      <button class="info-dialog__close" type="button" data-dialog-close aria-label="Close information panel">
+        <span aria-hidden="true">×</span>
+      </button>
+      <p class="eyebrow" data-dialog-eyebrow></p>
+      <h2 id="dialog-title" data-dialog-title tabindex="-1"></h2>
+      <p id="dialog-body" data-dialog-body></p>
+      <p class="info-dialog__hint">Press Escape to close.</p>
+    </article>
+  </dialog>
+</body>
+</html>
