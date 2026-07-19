@@ -1108,6 +1108,7 @@ button:disabled {
 
 .scene-ambient__light {
   opacity: 0;
+  filter: blur(0.12rem);
   mix-blend-mode: screen;
 }
 
@@ -1116,74 +1117,106 @@ button:disabled {
 }
 
 .scene-ambient__dust {
-  inset: -12%;
+  inset: -14%;
   opacity: 0;
   mix-blend-mode: screen;
   background-image:
-    radial-gradient(circle, rgba(255, 244, 220, 0.62) 0 0.055rem, transparent 0.075rem),
-    radial-gradient(circle, rgba(255, 244, 220, 0.42) 0 0.04rem, transparent 0.065rem),
-    radial-gradient(circle, rgba(255, 244, 220, 0.3) 0 0.035rem, transparent 0.06rem);
-  background-position: 0 0, 2.8rem 1.9rem, 5.2rem 3.1rem;
-  background-size: 7.5rem 6.4rem, 8.7rem 7.8rem, 11rem 9rem;
+    radial-gradient(circle, rgba(255, 244, 220, 0.86) 0 0.075rem, transparent 0.11rem),
+    radial-gradient(circle, rgba(255, 224, 180, 0.64) 0 0.055rem, transparent 0.09rem),
+    radial-gradient(circle, rgba(255, 244, 220, 0.5) 0 0.045rem, transparent 0.08rem);
+  background-position: 0 0, 3.1rem 2.2rem, 5.6rem 3.5rem;
+  background-size: 7.2rem 6rem, 9rem 7.4rem, 11.5rem 9.5rem;
+}
+
+.scene-ambient__dust::before,
+.scene-ambient__dust::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.72;
+  background-repeat: repeat;
+}
+
+.scene-ambient__dust::before {
+  background-image:
+    radial-gradient(circle, rgba(255, 244, 220, 0.72) 0 0.11rem, transparent 0.17rem),
+    radial-gradient(circle, rgba(255, 214, 150, 0.48) 0 0.08rem, transparent 0.14rem);
+  background-position: 1rem 2rem, 7rem 4.5rem;
+  background-size: 15rem 12rem, 18rem 15rem;
+}
+
+.scene-ambient__dust::after {
+  opacity: 0.45;
+  background-image:
+    radial-gradient(circle, rgba(255, 244, 220, 0.68) 0 0.16rem, transparent 0.24rem);
+  background-position: 4rem 1.5rem;
+  background-size: 23rem 18rem;
 }
 
 .explorer[data-active-scene="house"] .scene-ambient__light {
-  opacity: 0.11;
-  background: linear-gradient(180deg, rgba(255, 244, 220, 0.12), transparent 42%);
+  opacity: 0.18;
+  background:
+    radial-gradient(ellipse at 54% 14%, rgba(255, 226, 193, 0.3), transparent 36%),
+    linear-gradient(180deg, rgba(255, 244, 220, 0.18), transparent 45%);
 }
 
 .explorer[data-active-scene="house"] .scene-ambient__weather {
-  opacity: 0.19;
+  opacity: 0.3;
   background:
-    repeating-linear-gradient(103deg, transparent 0 1.5rem, rgba(239, 228, 204, 0.36) 1.55rem 1.61rem, transparent 1.66rem 3rem);
-  background-size: 8rem 8rem;
+    repeating-linear-gradient(103deg, transparent 0 1.42rem, rgba(239, 228, 204, 0.58) 1.48rem 1.56rem, transparent 1.62rem 2.9rem);
+  background-size: 7.5rem 7.5rem;
   mix-blend-mode: screen;
 }
 
 .explorer[data-active-scene="house"] .scene-ambient__dust {
-  opacity: 0.035;
+  opacity: 0.07;
 }
 
 .explorer[data-active-scene="sitting-room"] .scene-ambient__light {
-  opacity: 0.24;
+  opacity: 0.39;
   background:
-    radial-gradient(circle at 18% 67%, rgba(255, 205, 120, 0.48), transparent 19%),
-    radial-gradient(circle at 75% 59%, rgba(255, 214, 145, 0.34), transparent 24%),
-    linear-gradient(180deg, rgba(255, 244, 220, 0.07), transparent 52%);
+    radial-gradient(circle at 17% 66%, rgba(255, 191, 89, 0.82), transparent 20%),
+    radial-gradient(circle at 75% 58%, rgba(255, 210, 128, 0.64), transparent 25%),
+    linear-gradient(180deg, rgba(255, 244, 220, 0.13), transparent 54%);
 }
 
 .explorer[data-active-scene="sitting-room"] .scene-ambient__dust {
-  opacity: 0.14;
+  opacity: 0.29;
 }
 
 .explorer[data-active-scene="kitchen"] .scene-ambient__light {
-  opacity: 0.22;
+  opacity: 0.36;
   background:
-    radial-gradient(ellipse at 43% 8%, rgba(255, 236, 194, 0.38), transparent 29%),
-    radial-gradient(circle at 79% 43%, rgba(174, 208, 224, 0.16), transparent 18%);
+    radial-gradient(ellipse at 43% 7%, rgba(255, 232, 179, 0.74), transparent 31%),
+    radial-gradient(circle at 78% 43%, rgba(174, 220, 238, 0.34), transparent 20%),
+    linear-gradient(90deg, rgba(255, 205, 125, 0.09), transparent 46%);
 }
 
 .explorer[data-active-scene="kitchen"] .scene-ambient__weather {
-  left: 67%;
-  opacity: 0.13;
-  background: repeating-linear-gradient(103deg, transparent 0 1.1rem, rgba(220, 238, 244, 0.38) 1.15rem 1.2rem, transparent 1.25rem 2.3rem);
+  left: 66%;
+  opacity: 0.24;
+  background: repeating-linear-gradient(103deg, transparent 0 1.03rem, rgba(220, 238, 244, 0.62) 1.08rem 1.16rem, transparent 1.21rem 2.2rem);
   mix-blend-mode: screen;
 }
 
 .explorer[data-active-scene="kitchen"] .scene-ambient__dust {
-  opacity: 0.1;
+  opacity: 0.24;
 }
 
 .explorer[data-active-scene="orchid-room"] .scene-ambient__light {
-  opacity: 0.26;
+  opacity: 0.42;
   background:
-    radial-gradient(circle at 80% 66%, rgba(255, 205, 120, 0.52), transparent 21%),
-    radial-gradient(circle at 28% 24%, rgba(255, 232, 202, 0.2), transparent 18%),
-    linear-gradient(110deg, transparent 36%, rgba(255, 244, 220, 0.055) 59%, transparent 78%);
+    radial-gradient(circle at 80% 66%, rgba(255, 188, 91, 0.84), transparent 22%),
+    radial-gradient(circle at 28% 24%, rgba(255, 232, 202, 0.38), transparent 19%),
+    linear-gradient(110deg, transparent 34%, rgba(255, 244, 220, 0.13) 59%, transparent 79%);
 }
 
 .explorer[data-active-scene="orchid-room"] .scene-ambient__dust {
-  opacity: 0.18;
+  opacity: 0.34;
+}
+
+.explorer[data-active-scene]:not([data-active-scene="house"]) .scene-stage picture img {
+  will-change: filter;
 }
 
 /* Trailer dialog */
