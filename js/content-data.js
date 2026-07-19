@@ -156,7 +156,12 @@
   global.TIKUS_CONTENT = Object.freeze({
     site: {
       title: 'TIKUS',
-      baseDocumentTitle: 'TIKUS — Official Film Microsite'
+      baseDocumentTitle: 'TIKUS — Official Film Microsite',
+      trailer: Object.freeze({
+        youtubeId: '9sgXasrieAE',
+        watchUrl: 'https://youtu.be/9sgXasrieAE',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/9sgXasrieAE?rel=0&modestbranding=1'
+      })
     },
     sceneOrder: Object.freeze(['sitting-room', 'kitchen', 'orchid-room']),
     scenes: Object.freeze(scenes)

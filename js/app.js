@@ -7,13 +7,23 @@
     const status = document.querySelector('[data-scene-status]');
 
     try {
-      if (!global.TIKUS_CONTENT || !global.TikusModalController || !global.TikusSceneController) {
+      if (
+        !global.TIKUS_CONTENT ||
+        !global.TikusModalController ||
+        !global.TikusTrailerModalController ||
+        !global.TikusSceneController
+      ) {
         throw new Error('Required TIKUS modules did not load.');
       }
 
-      const dialog = document.getElementById('hotspot-dialog');
+      const hotspotDialog = document.getElementById('hotspot-dialog');
+      const trailerDialog = document.getElementById('trailer-dialog');
       const explorerRoot = document.querySelector('[data-scene-explorer]');
-      const modal = new global.TikusModalController(dialog);
+      const modal = new global.TikusModalController(hotspotDialog);
+      const trailer = new global.TikusTrailerModalController(
+        trailerDialog,
+        global.TIKUS_CONTENT.site.trailer
+      );
       const scenes = new global.TikusSceneController({
         data: global.TIKUS_CONTENT,
         modal,
@@ -21,7 +31,7 @@
       });
 
       scenes.init();
-      global.TikusMicrosite = Object.freeze({ modal, scenes });
+      global.TikusMicrosite = Object.freeze({ modal, trailer, scenes });
     } catch (error) {
       console.error(error);
       if (status) {
