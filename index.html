@@ -67,10 +67,50 @@
         <p class="hero__credit">A Feisk Productions film</p>
       </div>
 
-      <a class="scroll-cue" href="#explorer" aria-label="Scroll to explore the house">
-        <span>Explore the house</span>
+      <a class="scroll-cue" href="#trailer" aria-label="Scroll to watch the trailer">
+        <span>Watch the trailer</span>
         <span class="scroll-cue__mark" aria-hidden="true"></span>
       </a>
+    </section>
+
+    <section class="trailer-section" id="trailer" aria-labelledby="trailer-title">
+      <div class="trailer-section__rings" aria-hidden="true"></div>
+
+      <header class="section-heading trailer-section__heading">
+        <p class="eyebrow">Now showing</p>
+        <h2 id="trailer-title">Watch the trailer</h2>
+        <p>
+          Tune in to TIKUS through a television from another time. Playback begins only after you choose to watch.
+        </p>
+      </header>
+
+      <div class="retro-tv" aria-label="Retro television trailer player">
+        <div class="retro-tv__cabinet">
+          <button class="retro-tv__screen" type="button" data-trailer-open aria-haspopup="dialog" aria-controls="trailer-dialog">
+            <span class="retro-tv__screen-art" aria-hidden="true">
+              <span class="retro-tv__signal">TIKUS</span>
+              <span class="retro-tv__play-mark"></span>
+              <span class="retro-tv__screen-label">Play official trailer</span>
+            </span>
+            <span class="visually-hidden">Play the official TIKUS trailer</span>
+          </button>
+
+          <div class="retro-tv__panel" aria-hidden="true">
+            <span class="retro-tv__brand">TIKUS<br>VISION</span>
+            <span class="retro-tv__knob retro-tv__knob--channel"></span>
+            <span class="retro-tv__knob retro-tv__knob--volume"></span>
+            <span class="retro-tv__speaker"></span>
+            <span class="retro-tv__channel">CH 01</span>
+          </div>
+        </div>
+        <div class="retro-tv__feet" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <p class="trailer-section__note">The video is hosted by YouTube. No video is loaded until the television is selected.</p>
+      <a class="trailer-section__continue" href="#explorer">Enter the house <span aria-hidden="true">↓</span></a>
     </section>
 
     <section class="explorer" id="explorer" aria-labelledby="explorer-title" tabindex="-1" data-scene-explorer data-active-scene="house">
@@ -117,6 +157,11 @@
               decoding="async">
           </picture>
 
+          <div class="scene-ambient" aria-hidden="true">
+            <span class="scene-ambient__light"></span>
+            <span class="scene-ambient__weather"></span>
+            <span class="scene-ambient__dust"></span>
+          </div>
           <div class="scene-stage__vignette" aria-hidden="true"></div>
           <div class="hotspot-layer" data-hotspot-layer aria-label="Interactive scene points"></div>
           <div class="iris-transition" data-iris hidden aria-hidden="true"></div>
@@ -176,7 +221,7 @@
         <dl class="pending-grid">
           <div>
             <dt>Trailer</dt>
-            <dd>URL pending</dd>
+            <dd><a href="#trailer">Watch above</a></dd>
           </div>
           <div>
             <dt>Release date</dt>
@@ -203,6 +248,34 @@
     <p><strong>TIKUS</strong> · A Feisk Productions film</p>
     <a href="#main-content">Back to top</a>
   </footer>
+
+  <dialog class="trailer-dialog" id="trailer-dialog" aria-labelledby="trailer-dialog-title" aria-describedby="trailer-dialog-description">
+    <article class="trailer-dialog__surface">
+      <header class="trailer-dialog__header">
+        <div>
+          <p class="eyebrow">Official trailer</p>
+          <h2 id="trailer-dialog-title" tabindex="-1">TIKUS</h2>
+          <p class="visually-hidden" id="trailer-dialog-description">YouTube video player for the official TIKUS trailer.</p>
+        </div>
+        <button class="trailer-dialog__close" type="button" data-trailer-close aria-label="Close trailer">
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+
+      <div class="trailer-dialog__player">
+        <iframe
+          data-trailer-frame
+          title="Official TIKUS trailer"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+
+      <p class="trailer-dialog__fallback">
+        <a data-trailer-link href="https://youtu.be/9sgXasrieAE" target="_blank" rel="noopener noreferrer">Watch directly on YouTube</a>
+      </p>
+    </article>
+  </dialog>
 
   <dialog class="info-dialog" id="hotspot-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-body">
     <article class="info-dialog__surface">
