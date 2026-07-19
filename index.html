@@ -110,7 +110,28 @@
       </div>
 
       <p class="trailer-section__note">The video is hosted by YouTube. No video is loaded until the television is selected.</p>
-      <a class="trailer-section__continue" href="#explorer">Enter the house <span aria-hidden="true">↓</span></a>
+      <a class="trailer-section__continue" href="#cast">Meet the cast <span aria-hidden="true">↓</span></a>
+    </section>
+
+    <section class="cast-section" id="cast" aria-labelledby="cast-title">
+      <div class="cast-section__rings" aria-hidden="true"></div>
+
+      <header class="section-heading cast-section__heading">
+        <p class="eyebrow">Cast &amp; characters</p>
+        <h2 id="cast-title">The faces around the table</h2>
+        <p>
+          Select a playing card to turn it over and reveal the film character. Approved portraits and short profiles will be added when available.
+        </p>
+      </header>
+
+      <div class="cast-table" role="group" aria-label="Illustrated tabletop with cast playing cards">
+        <div class="cast-table__edge" aria-hidden="true"></div>
+        <div class="cast-grid" data-cast-grid></div>
+        <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-cast-status></p>
+      </div>
+
+      <p class="cast-section__instruction">Select a card to flip it. Select it again to return to the cast profile.</p>
+      <a class="cast-section__continue" href="#explorer">Enter the house <span aria-hidden="true">↓</span></a>
     </section>
 
     <section class="explorer" id="explorer" aria-labelledby="explorer-title" tabindex="-1" data-scene-explorer data-active-scene="house">
@@ -226,10 +247,6 @@
           <div>
             <dt>Social media</dt>
             <dd>URL pending</dd>
-          </div>
-          <div>
-            <dt>Cast portrait</dt>
-            <dd>Approved artwork pending</dd>
           </div>
           <div>
             <dt>Press kit</dt>

@@ -41,6 +41,9 @@ The folder can be published unchanged to GitHub Pages or any ordinary static web
 - The next section presents the official trailer within a CSS-illustrated retro television.
 - The YouTube iframe is not created or loaded until the television is selected.
 - Closing the trailer removes the iframe source and immediately stops playback.
+- A themed tabletop presents nine accessible playing cards for the cast and their film characters.
+- Selecting a card flips it in place; selecting it again returns to the cast profile.
+- Portraits and descriptions are explicit placeholders until approved material is supplied.
 - The Samasihat exterior follows in a responsive 16:9 stage.
 - Three thumbnails select the Sitting Room, Kitchen and Orchid Room.
 - Room changes use a short radial iris transition.
@@ -66,14 +69,14 @@ The layers use opacity, transforms and gradients. They do not alter hotspot posi
 
 ## Accessibility
 
-- Native buttons are used for every thumbnail, hotspot, trailer control and close control.
+- Native buttons are used for every cast card, thumbnail, hotspot, trailer control and close control.
 - All tap targets are at least 44 × 44 CSS pixels.
 - Focus moves into each open dialog.
 - Focus is trapped while a dialog is open and restored to the originating control when it closes.
 - Escape closes both the trailer and information panel.
 - Background content is inert while a dialog is open.
 - Visible `:focus-visible` styling is included.
-- `prefers-reduced-motion` disables the iris, grain movement, ring motion, television interference, room flicker, rain movement, dust drift and hotspot pulses.
+- `prefers-reduced-motion` disables the iris, card rotation, grain movement, ring motion, television interference, room flicker, rain movement, dust drift and hotspot pulses. Cast cards use an immediate face swap instead.
 - All main scenes include descriptive alternative text.
 - The trailer includes a direct YouTube link as a fallback.
 
@@ -95,7 +98,7 @@ The trailer uses YouTube's `youtube-nocookie.com` embed and loads only after an 
 
 ## Editing room copy and hotspots
 
-All scene copy, image paths, hotspot coordinates and trailer configuration are in:
+All cast entries, scene copy, image paths, hotspot coordinates and trailer configuration are in:
 
 ```text
 js/content-data.js
@@ -110,6 +113,22 @@ trailer: {
   embedUrl: 'https://www.youtube-nocookie.com/embed/9sgXasrieAE?rel=0&modestbranding=1'
 }
 ```
+
+Cast entries use this structure:
+
+```js
+{
+  id: 'qiu-qatina',
+  actorName: 'Qiu Qatina',
+  characterName: 'Mimi',
+  actorPortrait: null,
+  characterPortrait: null,
+  actorDescription: 'Cast portrait and profile coming soon.',
+  characterDescription: 'Character portrait and profile coming soon.'
+}
+```
+
+Replace `null` with a relative image path after approved illustrated portraits are added. The cards are generated automatically; no HTML changes are required.
 
 Coordinates use percentages:
 
@@ -134,9 +153,8 @@ The closing information section continues to identify the following as unavailab
 
 - Release date
 - Social media URL
-- Cast portrait
 - Press-kit download
 
 ## Browser support
 
-The project targets current versions of Chrome, Edge, Firefox and Safari. Native `<dialog>` elements are used for the trailer and information panel. No third-party scripts, web fonts, analytics or autoplaying media are included.
+The project targets current versions of Chrome, Edge, Firefox and Safari. Native `<dialog>` elements are used for the trailer and information panel; the cast cards use native buttons with `aria-pressed` state. No third-party scripts, web fonts, analytics or autoplaying media are included.
