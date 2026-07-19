@@ -37,7 +37,7 @@ The folder can be published unchanged to GitHub Pages or any ordinary static web
 
 ## Interaction model
 
-- The opening title sits over subtly animated CSS-generated concentric crimson rings.
+- The opening title sits over clearly perceptible, slowly drifting CSS-generated concentric crimson rings.
 - The next section presents the official trailer within a CSS-illustrated retro television.
 - The YouTube iframe is not created or loaded until the television is selected.
 - Closing the trailer removes the iframe source and immediately stops playback.
@@ -55,7 +55,7 @@ The folder can be published unchanged to GitHub Pages or any ordinary static web
 
 ## Scene atmosphere
 
-Atmosphere is created with lightweight CSS overlays rather than canvas or video:
+Atmosphere is created with lightweight but clearly visible CSS overlays and image-filter shifts rather than canvas or video:
 
 - Exterior: diagonal rain and an occasional restrained sky glow.
 - Sitting Room: warm lamp flicker and slowly drifting dust.
