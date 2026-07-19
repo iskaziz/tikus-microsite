@@ -1,0 +1,838 @@
+/* TIKUS logic mini-game ---------------------------------------------------- */
+
+:root {
+  --game-crimson: #8f0d1d;
+  --game-dark-red: #4e0710;
+  --game-black: #110e0f;
+  --game-ink: #211819;
+  --game-paper: #eadfca;
+  --game-paper-deep: #d6c5a8;
+  --game-grey: #8f8780;
+  --game-focus: #fff2bf;
+  --game-line: rgba(30, 17, 18, 0.58);
+}
+
+html.logic-game-is-open {
+  overflow: hidden;
+}
+
+.logic-game-dialog {
+  width: min(96vw, 88rem);
+  max-width: none;
+  height: min(94dvh, 62rem);
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: var(--game-paper);
+  background: var(--game-black);
+  border: 0.18rem solid rgba(234, 223, 202, 0.68);
+  border-radius: 0.35rem;
+  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.7);
+}
+
+.logic-game-dialog::backdrop {
+  background:
+    radial-gradient(circle at center, rgba(143, 13, 29, 0.24), transparent 48%),
+    rgba(8, 5, 6, 0.91);
+  backdrop-filter: blur(0.18rem);
+}
+
+.logic-game {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto auto;
+  height: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(17, 14, 15, 0.86), rgba(17, 14, 15, 0.96)),
+    repeating-linear-gradient(91deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 6px);
+}
+
+.logic-game__rings {
+  position: absolute;
+  z-index: -2;
+  inset: -45%;
+  opacity: 0.34;
+  background: repeating-radial-gradient(
+    circle at 53% 45%,
+    transparent 0 4.2rem,
+    rgba(143, 13, 29, 0.55) 4.3rem 7.2rem,
+    transparent 7.3rem 10.2rem,
+    rgba(78, 7, 16, 0.56) 10.3rem 13rem
+  );
+  transform: scale(1.03);
+  animation: logic-game-ring-breathe 16s ease-in-out infinite alternate;
+}
+
+.logic-game__grain {
+  position: absolute;
+  z-index: 20;
+  inset: -30%;
+  pointer-events: none;
+  opacity: 0.11;
+  background-image:
+    repeating-radial-gradient(circle at 17% 35%, rgba(255, 255, 255, 0.34) 0 0.04rem, transparent 0.05rem 0.17rem),
+    repeating-radial-gradient(circle at 73% 64%, rgba(0, 0, 0, 0.55) 0 0.035rem, transparent 0.04rem 0.14rem);
+  background-size: 0.65rem 0.65rem, 0.83rem 0.83rem;
+  animation: logic-game-grain 0.38s steps(2, end) infinite;
+}
+
+.logic-game__header,
+.logic-game__intro,
+.logic-game__body,
+.logic-game__tray,
+.logic-game__solved,
+.logic-game__footer {
+  position: relative;
+  z-index: 2;
+}
+
+.logic-game__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(0.9rem, 1.8vw, 1.45rem) clamp(1rem, 2.2vw, 2rem) 0.7rem;
+  border-bottom: 1px solid rgba(234, 223, 202, 0.2);
+}
+
+.logic-game__heading-group {
+  min-width: 0;
+}
+
+.logic-game__eyebrow,
+.logic-game__previous,
+.logic-game__room-label,
+.logic-game__object-icon,
+.logic-game__solved-stamp {
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.logic-game__eyebrow {
+  margin: 0 0 0.22rem;
+  color: #d89b91;
+  font: 700 clamp(0.67rem, 1vw, 0.8rem)/1.2 system-ui, sans-serif;
+}
+
+.logic-game__title {
+  margin: 0;
+  font: 700 clamp(1.5rem, 3vw, 3rem)/0.95 Georgia, 'Times New Roman', serif;
+  text-wrap: balance;
+}
+
+.logic-game__close,
+.logic-game__button,
+.logic-game__return,
+.logic-game__room,
+.logic-game__character,
+.logic-game__object {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.logic-game__close {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  color: var(--game-paper);
+  background: rgba(143, 13, 29, 0.36);
+  border: 1px solid rgba(234, 223, 202, 0.48);
+  border-radius: 50%;
+  font: 400 1.85rem/1 system-ui, sans-serif;
+}
+
+.logic-game__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem clamp(1rem, 2.2vw, 2rem);
+  background: rgba(78, 7, 16, 0.46);
+  border-bottom: 1px solid rgba(234, 223, 202, 0.16);
+}
+
+.logic-game__introduction,
+.logic-game__disclaimer,
+.logic-game__previous {
+  margin: 0;
+}
+
+.logic-game__introduction {
+  color: var(--game-paper);
+  font: 600 clamp(0.83rem, 1.2vw, 1rem)/1.45 system-ui, sans-serif;
+}
+
+.logic-game__disclaimer {
+  grid-column: 1 / -1;
+  color: rgba(234, 223, 202, 0.72);
+  font: 400 clamp(0.72rem, 1vw, 0.86rem)/1.45 system-ui, sans-serif;
+}
+
+.logic-game__previous {
+  align-self: center;
+  padding: 0.35rem 0.55rem;
+  color: var(--game-black);
+  background: var(--game-paper);
+  border-radius: 0.15rem;
+  font: 800 0.64rem/1.25 system-ui, sans-serif;
+  transform: rotate(-1.4deg);
+}
+
+.logic-game__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.48fr) minmax(16rem, 0.72fr);
+  gap: clamp(0.8rem, 1.5vw, 1.35rem);
+  min-height: 0;
+  padding: clamp(0.8rem, 1.6vw, 1.4rem) clamp(1rem, 2.2vw, 2rem) 0.8rem;
+}
+
+.logic-game__board-panel,
+.logic-game__clues {
+  min-height: 0;
+}
+
+.logic-game__board-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.logic-game__subheading-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.logic-game__subheading {
+  margin: 0 0 0.52rem;
+  color: var(--game-paper);
+  font: 700 clamp(0.8rem, 1.2vw, 1rem)/1.2 system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.logic-game__selection-status {
+  margin: 0 0 0.52rem;
+  color: rgba(234, 223, 202, 0.72);
+  font: 500 0.72rem/1.25 system-ui, sans-serif;
+  text-align: right;
+}
+
+.logic-game__board {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-rows: 1fr 0.9fr;
+  min-height: 18rem;
+  overflow: hidden;
+  background: #aa2030;
+  border: 0.4rem solid #241718;
+  outline: 1px solid rgba(234, 223, 202, 0.32);
+  box-shadow: inset 0 0 0 0.14rem rgba(234, 223, 202, 0.14), 0 0.9rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.logic-game__board::before,
+.logic-game__board::after {
+  position: absolute;
+  z-index: 5;
+  content: '';
+  pointer-events: none;
+  background: #241718;
+}
+
+.logic-game__board::before {
+  top: 0;
+  bottom: 0;
+  left: 54%;
+  width: 0.36rem;
+  transform: translateX(-50%);
+}
+
+.logic-game__board::after {
+  top: 53%;
+  right: 0;
+  left: 0;
+  height: 0.36rem;
+  transform: translateY(-50%);
+}
+
+.logic-game__room {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 2rem 0.65rem 0.65rem;
+  overflow: hidden;
+  color: var(--game-paper);
+  text-align: center;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 2.6rem, rgba(38, 23, 24, 0.12) 2.65rem 2.76rem),
+    linear-gradient(145deg, #a11a2b, #77101e);
+  border: 0;
+}
+
+.logic-game__room:nth-child(2) {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2rem, rgba(38, 23, 24, 0.11) 2.04rem 2.14rem),
+    linear-gradient(145deg, #8c1725, #64101a);
+}
+
+.logic-game__room:nth-child(3) {
+  background:
+    radial-gradient(circle at 18% 72%, rgba(234, 223, 202, 0.12) 0 1.7rem, transparent 1.75rem),
+    linear-gradient(145deg, #981727, #70101c);
+}
+
+.logic-game__room:nth-child(4) {
+  background:
+    repeating-linear-gradient(112deg, rgba(234, 223, 202, 0.08) 0 0.08rem, transparent 0.09rem 0.72rem),
+    linear-gradient(145deg, #5d111b, #2c1115);
+}
+
+.logic-game__room:hover {
+  filter: brightness(1.08);
+}
+
+.logic-game__room-label {
+  position: absolute;
+  z-index: 4;
+  top: 0.55rem;
+  left: 0.65rem;
+  padding: 0.2rem 0.32rem;
+  color: rgba(234, 223, 202, 0.88);
+  background: rgba(17, 14, 15, 0.46);
+  font: 800 clamp(0.58rem, 0.9vw, 0.74rem)/1.1 system-ui, sans-serif;
+}
+
+.logic-game__furniture {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.logic-game__room--sofa .logic-game__furniture {
+  right: 9%;
+  bottom: 11%;
+  width: 44%;
+  height: 25%;
+  background: #3b2021;
+  border: 0.18rem solid #e0bea7;
+  border-radius: 0.55rem 0.55rem 0.18rem 0.18rem;
+  box-shadow: inset 0 0 0 0.25rem #75232c;
+}
+
+.logic-game__room--counter .logic-game__furniture {
+  top: 25%;
+  right: 12%;
+  width: 24%;
+  height: 58%;
+  background: #c7a98d;
+  border: 0.2rem solid #3a2524;
+  box-shadow: inset 0 0 0 0.45rem #8b5d4c;
+}
+
+.logic-game__room--bed .logic-game__furniture {
+  right: 10%;
+  bottom: 12%;
+  width: 48%;
+  height: 45%;
+  background: #d9c9b1;
+  border: 0.2rem solid #3a2524;
+  border-radius: 0.25rem 0.25rem 0.65rem 0.65rem;
+  box-shadow: inset 0 0 0 0.65rem #8d3741;
+}
+
+.logic-game__room--steps .logic-game__furniture {
+  right: 12%;
+  bottom: 12%;
+  width: 55%;
+  height: 35%;
+  background: repeating-linear-gradient(0deg, #c3aa8e 0 0.55rem, #3c2927 0.58rem 0.72rem);
+  border: 0.17rem solid #2b1c1d;
+  transform: skewX(-8deg);
+}
+
+.logic-game__occupants {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  min-width: 5rem;
+  min-height: 4.5rem;
+}
+
+.logic-game__map-token {
+  display: grid;
+  place-items: center;
+  gap: 0.25rem;
+}
+
+.logic-game__map-token-mark {
+  display: grid;
+  place-items: center;
+  width: clamp(2.5rem, 5vw, 3.7rem);
+  aspect-ratio: 1;
+  color: var(--game-black);
+  background: var(--game-paper);
+  border: 0.18rem solid var(--game-black);
+  border-radius: 50%;
+  box-shadow: 0.16rem 0.2rem 0 var(--game-dark-red), 0 0.4rem 0.8rem rgba(0, 0, 0, 0.28);
+  font: 800 clamp(1rem, 2.5vw, 1.55rem)/1 Georgia, serif;
+}
+
+.logic-game__map-token-name {
+  padding: 0.15rem 0.32rem;
+  color: var(--game-paper);
+  background: rgba(17, 14, 15, 0.75);
+  font: 700 clamp(0.63rem, 1vw, 0.78rem)/1.2 system-ui, sans-serif;
+}
+
+.logic-game__empty-room {
+  color: rgba(234, 223, 202, 0.47);
+  font: 700 clamp(0.65rem, 1vw, 0.78rem)/1.2 system-ui, sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.logic-game__clues {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  padding: 0.85rem;
+  color: var(--game-ink);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 1.55rem, rgba(44, 31, 28, 0.08) 1.58rem 1.63rem),
+    var(--game-paper);
+  border: 0.18rem solid #3a2928;
+  box-shadow: 0.35rem 0.42rem 0 rgba(78, 7, 16, 0.65);
+  transform: rotate(0.35deg);
+}
+
+.logic-game__clues .logic-game__subheading {
+  color: var(--game-ink);
+}
+
+.logic-game__clue-list {
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.logic-game__clue {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+  padding: 0.43rem 0.1rem;
+  border-bottom: 1px dashed rgba(33, 24, 25, 0.3);
+  font: 600 clamp(0.72rem, 1vw, 0.88rem)/1.36 system-ui, sans-serif;
+}
+
+.logic-game__clue-number {
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  color: var(--game-paper);
+  background: var(--game-crimson);
+  border-radius: 50%;
+  font: 800 0.6rem/1 system-ui, sans-serif;
+}
+
+.logic-game__tray {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
+  gap: 1rem;
+  padding: 0.65rem clamp(1rem, 2.2vw, 2rem) 0.8rem;
+  border-top: 1px solid rgba(234, 223, 202, 0.15);
+}
+
+.logic-game__character-list,
+.logic-game__object-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.logic-game__character,
+.logic-game__object {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  min-height: 3.55rem;
+  padding: 0.5rem;
+  color: var(--game-paper);
+  text-align: left;
+  background: rgba(36, 23, 24, 0.88);
+  border: 1px solid rgba(234, 223, 202, 0.35);
+  border-radius: 0.18rem;
+}
+
+.logic-game__character:hover,
+.logic-game__object:hover {
+  background: rgba(78, 7, 16, 0.94);
+}
+
+.logic-game__character.is-selected,
+.logic-game__character[aria-pressed='true'] {
+  color: var(--game-black);
+  background: var(--game-paper);
+  border-color: var(--game-paper);
+  box-shadow: 0.18rem 0.22rem 0 var(--game-crimson);
+  transform: translateY(-0.08rem) rotate(-0.35deg);
+}
+
+.logic-game__object.is-assigned-to-selected {
+  border-color: var(--game-focus);
+  box-shadow: inset 0 0 0 0.12rem rgba(255, 242, 191, 0.55);
+}
+
+.logic-game__character-mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2.1rem;
+  aspect-ratio: 1;
+  color: var(--game-black);
+  background: var(--game-paper-deep);
+  border: 0.12rem solid currentColor;
+  border-radius: 50%;
+  font: 800 0.9rem/1 Georgia, serif;
+}
+
+.logic-game__character.is-selected .logic-game__character-mark,
+.logic-game__character[aria-pressed='true'] .logic-game__character-mark {
+  color: var(--game-paper);
+  background: var(--game-crimson);
+}
+
+.logic-game__character-details,
+.logic-game__object-details {
+  display: grid;
+  min-width: 0;
+}
+
+.logic-game__character-name,
+.logic-game__object-name {
+  overflow: hidden;
+  font: 800 clamp(0.68rem, 0.95vw, 0.8rem)/1.2 system-ui, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logic-game__character-assignment,
+.logic-game__object-owner {
+  overflow: hidden;
+  opacity: 0.68;
+  font: 500 clamp(0.56rem, 0.8vw, 0.68rem)/1.25 system-ui, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logic-game__object-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2.45rem;
+  min-height: 1.7rem;
+  padding: 0.2rem;
+  color: var(--game-black);
+  background: var(--game-paper-deep);
+  border: 0.11rem solid var(--game-black);
+  font: 900 0.5rem/1 system-ui, sans-serif;
+  transform: rotate(-1deg);
+}
+
+.logic-game__solved {
+  margin: 0.2rem clamp(1rem, 2.2vw, 2rem) 0.65rem;
+  padding: clamp(0.8rem, 1.4vw, 1.15rem);
+  color: var(--game-ink);
+  text-align: center;
+  background: var(--game-paper);
+  border: 0.22rem double var(--game-crimson);
+  box-shadow: 0.3rem 0.35rem 0 rgba(78, 7, 16, 0.8);
+}
+
+.logic-game__solved-stamp {
+  display: inline-block;
+  padding: 0.35rem 0.55rem;
+  color: var(--game-crimson);
+  border: 0.22rem solid currentColor;
+  font: 900 clamp(0.74rem, 1.3vw, 1rem)/1 system-ui, sans-serif;
+  transform: rotate(-3deg);
+}
+
+.logic-game__solved-title {
+  margin: 0.65rem 0 0.25rem;
+  font: 800 clamp(1rem, 1.8vw, 1.35rem)/1.1 Georgia, serif;
+}
+
+.logic-game__solved-copy {
+  max-width: 47rem;
+  margin: 0 auto 0.75rem;
+  font: 500 0.82rem/1.45 system-ui, sans-serif;
+}
+
+.logic-game__footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem clamp(1rem, 2.2vw, 2rem);
+  background: rgba(8, 6, 7, 0.92);
+  border-top: 1px solid rgba(234, 223, 202, 0.25);
+}
+
+.logic-game__status {
+  margin: 0;
+  color: rgba(234, 223, 202, 0.82);
+  font: 600 clamp(0.69rem, 1vw, 0.82rem)/1.35 system-ui, sans-serif;
+}
+
+.logic-game__controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.logic-game__button,
+.logic-game__return {
+  min-height: 2.75rem;
+  padding: 0.55rem 0.85rem;
+  color: var(--game-paper);
+  background: #2a1b1c;
+  border: 1px solid rgba(234, 223, 202, 0.42);
+  border-radius: 0.15rem;
+  font: 800 clamp(0.66rem, 1vw, 0.78rem)/1 system-ui, sans-serif;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.logic-game__button--primary,
+.logic-game__return {
+  background: var(--game-crimson);
+  border-color: var(--game-paper);
+  box-shadow: 0.17rem 0.2rem 0 var(--game-paper-deep);
+}
+
+.logic-game__button:disabled {
+  cursor: default;
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.logic-game button:focus-visible {
+  outline: 0.2rem solid var(--game-focus);
+  outline-offset: 0.15rem;
+}
+
+.logic-game.is-checking .logic-game__board {
+  animation: logic-game-wrong-check 0.32s ease-in-out 2;
+}
+
+.logic-game.is-solved .logic-game__rings {
+  opacity: 0.66;
+  animation: logic-game-solved-rings 0.85s ease-out both;
+}
+
+@keyframes logic-game-ring-breathe {
+  from { transform: scale(1.01) translate3d(-0.4%, 0.2%, 0); }
+  to { transform: scale(1.07) translate3d(0.4%, -0.25%, 0); }
+}
+
+@keyframes logic-game-grain {
+  0% { transform: translate3d(-1%, 0.6%, 0); }
+  50% { transform: translate3d(0.7%, -0.9%, 0); }
+  100% { transform: translate3d(0.2%, 1%, 0); }
+}
+
+@keyframes logic-game-wrong-check {
+  0%, 100% { transform: translateX(0); }
+  35% { transform: translateX(-0.25rem); }
+  70% { transform: translateX(0.25rem); }
+}
+
+@keyframes logic-game-solved-rings {
+  0% { transform: scale(0.78); opacity: 0; }
+  100% { transform: scale(1.08); opacity: 0.66; }
+}
+
+@media (max-width: 62rem) {
+  .logic-game-dialog {
+    width: calc(100vw - 1rem);
+    height: calc(100dvh - 1rem);
+  }
+
+  .logic-game {
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .logic-game__header {
+    position: sticky;
+    z-index: 12;
+    top: 0;
+    background: rgba(17, 14, 15, 0.96);
+  }
+
+  .logic-game__intro {
+    grid-template-columns: 1fr;
+  }
+
+  .logic-game__previous {
+    justify-self: start;
+  }
+
+  .logic-game__body {
+    grid-template-columns: 1fr;
+  }
+
+  .logic-game__board {
+    min-height: 25rem;
+    aspect-ratio: 16 / 11;
+  }
+
+  .logic-game__clues {
+    max-height: none;
+    transform: none;
+  }
+
+  .logic-game__clue-list {
+    overflow: visible;
+  }
+
+  .logic-game__tray {
+    grid-template-columns: 1fr;
+  }
+
+  .logic-game__footer {
+    position: sticky;
+    z-index: 12;
+    bottom: 0;
+    grid-template-columns: 1fr;
+    background: rgba(8, 6, 7, 0.97);
+  }
+
+  .logic-game__controls {
+    justify-content: stretch;
+  }
+
+  .logic-game__button {
+    flex: 1 1 7rem;
+  }
+}
+
+@media (max-width: 42rem) {
+  .logic-game-dialog {
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .logic-game__header,
+  .logic-game__intro,
+  .logic-game__body,
+  .logic-game__tray,
+  .logic-game__footer {
+    padding-right: max(0.85rem, env(safe-area-inset-right));
+    padding-left: max(0.85rem, env(safe-area-inset-left));
+  }
+
+  .logic-game__header {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+
+  .logic-game__body {
+    gap: 1rem;
+  }
+
+  .logic-game__subheading-row {
+    display: block;
+  }
+
+  .logic-game__selection-status {
+    text-align: left;
+  }
+
+  .logic-game__board {
+    min-height: 23rem;
+    aspect-ratio: 4 / 5;
+  }
+
+  .logic-game__character-list,
+  .logic-game__object-list {
+    display: flex;
+    margin-inline: -0.85rem;
+    padding: 0 0.85rem 0.35rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .logic-game__character,
+  .logic-game__object {
+    flex: 0 0 min(76vw, 14rem);
+    min-height: 4rem;
+    scroll-snap-align: start;
+  }
+
+  .logic-game__footer {
+    padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 25rem) {
+  .logic-game__board {
+    min-height: 21rem;
+  }
+
+  .logic-game__room {
+    padding-inline: 0.3rem;
+  }
+
+  .logic-game__room-label {
+    top: 0.35rem;
+    left: 0.35rem;
+  }
+
+  .logic-game__map-token-name {
+    max-width: 5.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logic-game__rings,
+  .logic-game__grain,
+  .logic-game.is-checking .logic-game__board,
+  .logic-game.is-solved .logic-game__rings {
+    animation: none !important;
+  }
+
+  .logic-game__room,
+  .logic-game__character,
+  .logic-game__object,
+  .logic-game__button,
+  .logic-game__return {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
