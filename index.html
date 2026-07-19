@@ -6,7 +6,6 @@
   <meta name="theme-color" content="#870b17">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Enter Samasihat Wellness Retreat in the official interactive microsite for TIKUS, a Feisk Productions film.">
-
   <title>TIKUS — Official Film Microsite</title>
 
   <link
@@ -16,6 +15,7 @@
     imagesrcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w"
     imagesizes="min(82vw, 74rem)"
     type="image/webp">
+
   <link
     rel="preload"
     as="image"
@@ -31,6 +31,7 @@
   <script defer src="js/modal-controller.js"></script>
   <script defer src="js/scene-controller.js"></script>
   <script defer src="js/app.js"></script>
+  <script defer src="js/tikus-logic-game.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#explorer">Skip to the house explorer</a>
@@ -43,7 +44,6 @@
 
       <div class="hero__content">
         <p class="eyebrow hero__eyebrow">Welcome to Samasihat</p>
-
         <h1 class="hero__title" id="hero-title">
           <picture>
             <source
@@ -61,7 +61,6 @@
               decoding="async">
           </picture>
         </h1>
-
         <p class="hero__headline">The road is gone.<br>The weekend has only just begun.</p>
         <p class="hero__support">A wellness retreat. A houseful of strangers. A murderer among them.</p>
         <p class="hero__credit">A Feisk Productions film</p>
@@ -103,6 +102,7 @@
             <span class="retro-tv__channel">CH 01</span>
           </div>
         </div>
+
         <div class="retro-tv__feet" aria-hidden="true">
           <span></span>
           <span></span>
@@ -183,6 +183,7 @@
             <span class="scene-ambient__weather"></span>
             <span class="scene-ambient__dust"></span>
           </div>
+
           <div class="scene-stage__vignette" aria-hidden="true"></div>
           <div class="hotspot-layer" data-hotspot-layer aria-label="Interactive scene points"></div>
           <div class="iris-transition" data-iris hidden aria-hidden="true"></div>
