@@ -384,7 +384,10 @@
 .return-button,
 .info-dialog__close,
 .trailer-dialog__close,
-.retro-tv__screen {
+.retro-tv__screen,
+.cast-card,
+.cast-card__inner,
+.cast-card__face {
   transition:
     color 150ms ease,
     background-color 150ms ease,
@@ -392,6 +395,10 @@
     filter 180ms ease,
     opacity 160ms ease,
     transform 160ms ease;
+}
+
+.cast-card__inner {
+  transition: transform 460ms cubic-bezier(.2, .75, .2, 1);
 }
 
 .info-dialog[open] .info-dialog__surface,
@@ -428,6 +435,31 @@
 
   .scene-stage picture img {
     filter: none !important;
+  }
+
+  .cast-card {
+    transform: none !important;
+  }
+
+  .cast-card__inner,
+  .cast-card.is-flipped .cast-card__inner,
+  .cast-card__back {
+    transform: none !important;
+  }
+
+  .cast-card__back {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .cast-card.is-flipped .cast-card__front {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .cast-card.is-flipped .cast-card__back {
+    visibility: visible;
+    opacity: 1;
   }
 
   .hotspot__dot::before,
