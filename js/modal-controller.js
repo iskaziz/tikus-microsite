@@ -1,20 +1,21 @@
-(function registerModalController(global) {
+(function registerModalControllers(global) {
   'use strict';
 
-  class ModalController {
-    constructor(dialog) {
+  class DialogControllerBase {
+    constructor(dialog, closeSelector) {
       if (!(dialog instanceof HTMLDialogElement)) {
-        throw new TypeError('ModalController requires a dialog element.');
+        throw new TypeError('Dialog controller requires a dialog element.');
       }
 
       this.dialog = dialog;
-      this.closeButton = dialog.querySelector('[data-dialog-close]');
-      this.eyebrow = dialog.querySelector('[data-dialog-eyebrow]');
-      this.title = dialog.querySelector('[data-dialog-title]');
-      this.body = dialog.querySelector('[data-dialog-body]');
+      this.closeButton = dialog.querySelector(closeSelector);
       this.trigger = null;
       this.inertRecords = [];
-      this.isClosing = false;
+      this.shouldRestoreFocus = true;
+
+      if (!(this.closeButton instanceof HTMLButtonElement)) {
+        throw new Error('Dialog close button was not found.');
+      }
 
       this.handleKeydown = this.handleKeydown.bind(this);
       this.handleCancel = this.handleCancel.bind(this);
@@ -28,16 +29,8 @@
       this.dialog.addEventListener('close', this.handleClose);
     }
 
-    open(content, trigger) {
-      if (!content || !content.title || !content.body) {
-        return;
-      }
-
+    show(trigger, focusTarget) {
       this.trigger = trigger instanceof HTMLElement ? trigger : document.activeElement;
-      this.eyebrow.textContent = content.eyebrow || '';
-      this.title.textContent = content.title;
-      this.body.textContent = content.body;
-
       this.setBackgroundInert(true);
       document.body.classList.add('has-open-dialog');
 
@@ -50,7 +43,8 @@
       }
 
       window.requestAnimationFrame(() => {
-        this.title.focus({ preventScroll: true });
+        const target = focusTarget instanceof HTMLElement ? focusTarget : this.closeButton;
+        target.focus({ preventScroll: true });
       });
     }
 
@@ -60,9 +54,7 @@
         return;
       }
 
-      this.isClosing = true;
       this.shouldRestoreFocus = restoreFocus;
-
       if (typeof this.dialog.close === 'function') {
         this.dialog.close();
       } else {
@@ -83,19 +75,21 @@
     }
 
     handleClose() {
+      this.beforeRestoreFocus();
       this.setBackgroundInert(false);
-      document.body.classList.remove('has-open-dialog');
+      document.body.classList.toggle('has-open-dialog', Boolean(document.querySelector('dialog[open]')));
 
       const restoreFocus = this.shouldRestoreFocus !== false;
       const trigger = this.trigger;
       this.trigger = null;
       this.shouldRestoreFocus = true;
-      this.isClosing = false;
 
       if (restoreFocus && trigger instanceof HTMLElement && document.contains(trigger)) {
         window.requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
       }
     }
+
+    beforeRestoreFocus() {}
 
     handleKeydown(event) {
       if (event.key !== 'Tab') {
@@ -126,6 +120,7 @@
       const selector = [
         'a[href]',
         'button:not([disabled])',
+        'iframe',
         'input:not([disabled])',
         'select:not([disabled])',
         'textarea:not([disabled])',
@@ -166,5 +161,65 @@
     }
   }
 
+  class ModalController extends DialogControllerBase {
+    constructor(dialog) {
+      super(dialog, '[data-dialog-close]');
+      this.eyebrow = dialog.querySelector('[data-dialog-eyebrow]');
+      this.title = dialog.querySelector('[data-dialog-title]');
+      this.body = dialog.querySelector('[data-dialog-body]');
+    }
+
+    open(content, trigger) {
+      if (!content || !content.title || !content.body) {
+        return;
+      }
+
+      this.eyebrow.textContent = content.eyebrow || '';
+      this.title.textContent = content.title;
+      this.body.textContent = content.body;
+      this.show(trigger, this.title);
+    }
+  }
+
+  class TrailerModalController extends DialogControllerBase {
+    constructor(dialog, config) {
+      super(dialog, '[data-trailer-close]');
+      this.config = config || {};
+      this.title = dialog.querySelector('#trailer-dialog-title');
+      this.frame = dialog.querySelector('[data-trailer-frame]');
+      this.externalLink = dialog.querySelector('[data-trailer-link]');
+      this.openButtons = Array.from(document.querySelectorAll('[data-trailer-open]'));
+
+      if (!(this.frame instanceof HTMLIFrameElement)) {
+        throw new Error('Trailer iframe was not found.');
+      }
+
+      this.openButtons.forEach((button) => {
+        button.addEventListener('click', () => this.open(button));
+      });
+
+      if (this.externalLink && this.config.watchUrl) {
+        this.externalLink.href = this.config.watchUrl;
+      }
+    }
+
+    open(trigger) {
+      if (!this.config.embedUrl) {
+        if (this.config.watchUrl) {
+          window.open(this.config.watchUrl, '_blank', 'noopener,noreferrer');
+        }
+        return;
+      }
+
+      this.frame.src = this.config.embedUrl;
+      this.show(trigger, this.closeButton);
+    }
+
+    beforeRestoreFocus() {
+      this.frame.removeAttribute('src');
+    }
+  }
+
   global.TikusModalController = ModalController;
+  global.TikusTrailerModalController = TrailerModalController;
 })(window);

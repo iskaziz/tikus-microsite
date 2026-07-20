@@ -927,6 +927,8 @@
           this.progress.solved = LEVELS.map((item) => item.id).filter((id) => this.progress.solved.includes(id));
         }
         this.persistProgress();
+        this.renderLevelTabs();
+        this.renderProgress();
         this.elements.result.dataset.tone = 'success';
         this.elements.result.textContent = level.id === 'level-3'
           ? 'Correct. You completed the final board and solved all three levels.'
@@ -953,14 +955,13 @@
 
       this.elements.board.classList.remove('is-wrong-check');
       this.elements.result.classList.remove('is-wrong-check');
-      window.requestAnimationFrame(() => {
-        this.elements.board.classList.add('is-wrong-check');
-        this.elements.result.classList.add('is-wrong-check');
-        window.setTimeout(() => {
-          this.elements.board && this.elements.board.classList.remove('is-wrong-check');
-          this.elements.result && this.elements.result.classList.remove('is-wrong-check');
-        }, 620);
-      });
+      void this.elements.board.offsetWidth;
+      this.elements.board.classList.add('is-wrong-check');
+      this.elements.result.classList.add('is-wrong-check');
+      window.setTimeout(() => {
+        this.elements.board && this.elements.board.classList.remove('is-wrong-check');
+        this.elements.result && this.elements.result.classList.remove('is-wrong-check');
+      }, 620);
     }
 
     showLevelSummary(level) {

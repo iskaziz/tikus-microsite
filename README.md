@@ -1,14 +1,16 @@
 # TIKUS — Official Film Microsite
 
-A fast, static, single-page house explorer for the Malaysian feature film **TIKUS**, produced by Feisk Productions.
+A static, single-page cinematic microsite for the Malaysian feature film **TIKUS**, produced by Feisk Productions.
 
-The public site uses only the approved spoiler-safe material. The screenplay and source PDFs are deliberately excluded from this package.
+The public package contains spoiler-safe promotional material only. The screenplay, production PDFs and source working archives are deliberately excluded.
 
 ## Run locally
 
-Open `index.html` directly in a modern browser. No server, build command, package manager or internet connection is required.
+Open `index.html` directly in a current browser. No server, build command, package manager or internet connection is required for the site and house explorer.
 
-The same folder can be published unchanged to GitHub Pages or any ordinary static web host.
+The official trailer is hosted by YouTube and is loaded only after the visitor selects the television. All other primary interactions work locally.
+
+The same folder can be uploaded unchanged to GitHub Pages or ordinary static hosting.
 
 ## Project structure
 
@@ -16,6 +18,9 @@ The same folder can be published unchanged to GitHub Pages or any ordinary stati
 /
   index.html
   README.md
+  ASSET-MANIFEST.md
+  MERGE-NOTES.md
+  VALIDATION.md
   /assets
     /images
       /title
@@ -26,63 +31,50 @@ The same folder can be published unchanged to GitHub Pages or any ordinary stati
   /css
     styles.css
     animations.css
+    game.css
   /js
     content-data.js
     app.js
     scene-controller.js
     modal-controller.js
+    tikus-logic-game.js
 ```
 
-## Interaction model
+## Main experience
 
-- The opening title sits over CSS-generated concentric crimson rings.
-- Scrolling reveals the Samasihat house exterior.
-- Three thumbnails select the Sitting Room, Kitchen and Orchid Room.
-- Room changes use a short radial iris transition.
-- Each room contains exactly three percentage-positioned hotspot buttons.
-- Hotspots open an accessible modal on desktop and a bottom sheet on mobile.
-- The current scene is preserved in the URL hash:
-  - `#house`
-  - `#sitting-room`
-  - `#kitchen`
-  - `#orchid-room`
-- Browser Back and Forward restore previous scene states.
+- CSS-generated concentric crimson rings and approved TIKUS title artwork.
+- Retro television presentation for the official trailer, without autoplay.
+- Nine keyboard-operable cast and character flip cards.
+- Responsive 16:9 house explorer using `object-fit: contain`.
+- Sitting Room, Kitchen and Orchid Room selection through three thumbnails.
+- Exactly three percentage-positioned hotspot buttons in every room.
+- Scene-specific light, rain, dust and print-texture treatments.
+- URL hash state for `#house`, `#sitting-room`, `#kitchen` and `#orchid-room`.
+- Accessible information dialogs with focus trapping, Escape handling and focus restoration.
 
-## Accessibility
+## Gelap di Samasihat
 
-- Native buttons are used for every thumbnail, hotspot and control.
-- All tap targets are at least 44 × 44 CSS pixels.
-- Focus moves into the information panel when it opens.
-- Focus is trapped while the panel is open and restored to the originating hotspot when it closes.
-- Escape closes the panel.
-- Background content is inert while the panel is open.
-- Visible `:focus-visible` styling is included.
-- `prefers-reduced-motion` disables the iris, grain motion, ring breathing and hotspot pulses.
-- All main scenes include descriptive alternative text.
+`Gelap di Samasihat` is an explicitly spoiler-safe, non-canonical deduction mini-game.
 
-## Image delivery
+`js/tikus-logic-game.js` replaces the Sitting Room `main-sofa` hotspot at runtime with the game hotspot. This keeps the room at exactly three hotspots without changing the scene controller’s underlying architecture.
 
-Only the title and house exterior are preloaded.
+The game includes:
 
-Main scenes include responsive 960 px and 1600 px derivatives in:
+- Three unlockable levels.
+- Character × Room and Character × Object grids for every level.
+- Blank, possible, ruled-out and confirmed cell states.
+- Automatic row and column elimination after confirming a match.
+- Keyboard-operable cells and trapped dialog focus.
+- A How to Play introduction, hints, resets and saved progress.
+- Wrong-answer feedback, solved-state ring flash and evidence summaries.
+- Mobile-contained horizontal grid scrolling.
+- `localStorage` progress under `tikus-logic-game-progress-v5`.
 
-- AVIF
-- WebP
-- Progressive JPEG fallback
+Keep the script order at the end of `index.html`: core application scripts first, followed by `js/tikus-logic-game.js`.
 
-Room thumbnails load lazily. Main room scenes are only swapped into the stage when selected, with a lightweight prefetch on thumbnail hover, focus or touch.
+## Editing content
 
-The scene stage declares its aspect ratio before images load to prevent layout shift. The image uses `object-fit: contain`, and JavaScript calculates the displayed image rectangle so percentage hotspots remain aligned if letterboxing occurs.
-
-## Editing room copy and hotspots
-
-All scene copy, image paths and hotspot coordinates are in:
-
-```text
-js/content-data.js
-```
-
-Coordinates use percentages:
+Room copy, image paths and percentage hotspot coordinates are stored in `js/content-data.js`.
 
 ```js
 {
@@ -97,35 +89,20 @@ Coordinates use percentages:
 }
 ```
 
-Do not add spoiler material to the deployed data file, HTML comments, alternative text or metadata.
+Do not place confidential or spoiler-sensitive material in deployed JavaScript, HTML comments, alt text, metadata or filenames.
 
-## Placeholder material
+## Accessibility
 
-The closing information section intentionally identifies the following as unavailable rather than inventing details:
+- Native buttons are used for thumbnails, hotspots, cast cards, grid cells and dialog controls.
+- Main controls have visible `:focus-visible` states and mobile-sized hit targets.
+- Dialogs trap focus, close with Escape and restore focus to their trigger.
+- Background sections become inert while a dialog is open.
+- Main scenes and thumbnails include useful alt text.
+- `prefers-reduced-motion: reduce` disables or simplifies continuous and transition animation.
+- Game state symbols are accompanied by text labels and accessible names.
 
-- Trailer URL
-- Release date
-- Social media URL
-- Cast portrait
-- Press-kit download
+## Image delivery
 
-Replace those labels only after approved production material is supplied.
+Only title and house artwork are preloaded. Room artwork and thumbnails load lazily or on interaction.
 
-## Browser support
-
-The project targets current versions of Chrome, Edge, Firefox and Safari. The native `<dialog>` element is used for the information panel. No third-party scripts, web fonts, analytics or autoplaying media are included.
-
-## Gelap di Samasihat logic game
-
-The Sitting Room sofa hotspot is replaced at runtime by `js/tikus-logic-game.js`, which opens a three-level, spoiler-safe and non-canonical deduction game. Its dedicated styles are in `css/game.css`.
-
-The game now includes:
-
-- Character × Room and Character × Object grids
-- saved progress through `localStorage`
-- a How to Play intro overlay
-- illustrated room and object header icons
-- silent red feedback for unsuccessful checks
-- a solved ring-flash and level-complete summary card
-
-Keep `js/tikus-logic-game.js` after the main application scripts in `index.html` because it patches the existing modal and Sitting Room hotspot at runtime.
+Main scenes include 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. The stage declares a 16:9 ratio before loading to avoid layout shift. See `ASSET-MANIFEST.md` for the complete inventory.

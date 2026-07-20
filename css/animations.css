@@ -1,9 +1,22 @@
 @keyframes ring-breathe {
   0%, 100% {
-    transform: scale(1.06) rotate(-0.15deg);
+    transform: translate3d(-1.2%, -0.65%, 0) scale(1.015) rotate(-0.55deg);
+    filter: brightness(0.92) saturate(0.95);
   }
   50% {
-    transform: scale(1.11) rotate(0.15deg);
+    transform: translate3d(1.05%, 0.75%, 0) scale(1.165) rotate(0.55deg);
+    filter: brightness(1.09) saturate(1.08);
+  }
+}
+
+@keyframes ring-parallax {
+  0%, 100% {
+    transform: translate3d(1.1%, -0.8%, 0) scale(0.985) rotate(0.35deg);
+    opacity: 0.19;
+  }
+  50% {
+    transform: translate3d(-1.1%, 0.9%, 0) scale(1.08) rotate(-0.35deg);
+    opacity: 0.36;
   }
 }
 
@@ -69,8 +82,208 @@
   }
 }
 
+@keyframes television-signal {
+  0%, 9%, 100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  10% {
+    opacity: 0.94;
+    transform: translate3d(0.07rem, 0, 0);
+  }
+  11% {
+    opacity: 1;
+    transform: translate3d(-0.04rem, 0, 0);
+  }
+  58% {
+    opacity: 0.98;
+  }
+  59% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+@keyframes television-roll {
+  from {
+    transform: translateY(-115%);
+  }
+  to {
+    transform: translateY(215%);
+  }
+}
+
+@keyframes dust-drift {
+  0% {
+    transform: translate3d(-3%, 3.5%, 0) scale(1.01);
+  }
+  50% {
+    transform: translate3d(2.8%, -3.2%, 0) scale(1.045);
+  }
+  100% {
+    transform: translate3d(-3%, 3.5%, 0) scale(1.01);
+  }
+}
+
+@keyframes dust-float-near {
+  0%, 100% {
+    transform: translate3d(0, 2.5%, 0);
+    opacity: 0.46;
+  }
+  50% {
+    transform: translate3d(2.2%, -3.5%, 0);
+    opacity: 0.82;
+  }
+}
+
+@keyframes dust-float-far {
+  0%, 100% {
+    transform: translate3d(1.5%, 0, 0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate3d(-2%, -4%, 0);
+    opacity: 0.58;
+  }
+}
+
+@keyframes rain-drift {
+  from {
+    background-position: 0 -5rem;
+  }
+  to {
+    background-position: 2.1rem 7rem;
+  }
+}
+
+@keyframes house-sky-flicker {
+  0%, 47%, 50%, 72%, 74%, 100% {
+    opacity: 0.14;
+  }
+  48% {
+    opacity: 0.36;
+  }
+  49% {
+    opacity: 0.2;
+  }
+  73% {
+    opacity: 0.27;
+  }
+}
+
+@keyframes sitting-light-flicker {
+  0%, 16%, 19%, 48%, 51%, 77%, 79%, 100% {
+    opacity: 0.38;
+  }
+  17% {
+    opacity: 0.19;
+  }
+  18% {
+    opacity: 0.47;
+  }
+  49% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.44;
+  }
+  78% {
+    opacity: 0.28;
+  }
+}
+
+@keyframes sitting-image-flicker {
+  0%, 16%, 19%, 48%, 51%, 77%, 79%, 100% {
+    filter: brightness(0.97) contrast(1.03) saturate(1.02);
+  }
+  17% {
+    filter: brightness(0.84) contrast(1.07) saturate(0.95);
+  }
+  18%, 50% {
+    filter: brightness(1.08) contrast(1.01) saturate(1.06);
+  }
+  49%, 78% {
+    filter: brightness(0.9) contrast(1.06) saturate(0.98);
+  }
+}
+
+@keyframes kitchen-light-flicker {
+  0%, 23%, 27%, 61%, 64%, 86%, 88%, 100% {
+    opacity: 0.35;
+  }
+  24% {
+    opacity: 0.16;
+  }
+  25% {
+    opacity: 0.46;
+  }
+  26% {
+    opacity: 0.24;
+  }
+  62% {
+    opacity: 0.48;
+  }
+  63%, 87% {
+    opacity: 0.22;
+  }
+}
+
+@keyframes kitchen-image-flicker {
+  0%, 23%, 27%, 61%, 64%, 86%, 88%, 100% {
+    filter: brightness(0.97) contrast(1.035) saturate(1.01);
+  }
+  24% {
+    filter: brightness(0.82) contrast(1.08) saturate(0.92);
+  }
+  25%, 62% {
+    filter: brightness(1.09) contrast(1.01) saturate(1.05);
+  }
+  26%, 63%, 87% {
+    filter: brightness(0.89) contrast(1.065) saturate(0.97);
+  }
+}
+
+@keyframes orchid-lamp-breathe {
+  0%, 100% {
+    opacity: 0.29;
+    filter: blur(0.12rem) brightness(0.95);
+  }
+  42% {
+    opacity: 0.49;
+    filter: blur(0.18rem) brightness(1.13);
+  }
+  58% {
+    opacity: 0.37;
+    filter: blur(0.14rem) brightness(1.02);
+  }
+}
+
+@keyframes orchid-image-breathe {
+  0%, 100% {
+    filter: brightness(0.94) contrast(1.035) saturate(1.01);
+  }
+  50% {
+    filter: brightness(1.055) contrast(1.015) saturate(1.06);
+  }
+}
+
 .hero__rings {
-  animation: ring-breathe 16s ease-in-out infinite;
+  transform-origin: 49.6% 49%;
+  animation: ring-breathe 10.5s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+.hero__rings::after {
+  content: "";
+  position: absolute;
+  inset: -4%;
+  opacity: 0.16;
+  background: repeating-radial-gradient(circle at 50.5% 49.5%, transparent 0 5vmin, rgba(9, 8, 8, 0.36) 5.2vmin 7.4vmin, transparent 7.6vmin 12vmin);
+  mix-blend-mode: multiply;
+  animation: ring-parallax 14s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .page-grain {
@@ -96,12 +309,85 @@
   animation-delay: calc(var(--hotspot-delay, 0ms) + 1.05s);
 }
 
+.retro-tv__screen-art {
+  animation: television-signal 11s steps(1, end) infinite;
+}
+
+.retro-tv__screen::before {
+  animation: television-signal 8s steps(1, end) infinite;
+}
+
+.retro-tv__screen-art::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18%;
+  top: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, var(--paper-bright), transparent);
+  mix-blend-mode: screen;
+  animation: television-roll 8.5s linear infinite;
+}
+
+.explorer[data-active-scene="house"] .scene-ambient__weather,
+.explorer[data-active-scene="kitchen"] .scene-ambient__weather {
+  animation: rain-drift 1.7s linear infinite;
+}
+
+.explorer[data-active-scene="house"] .scene-ambient__light {
+  animation: house-sky-flicker 10.5s steps(1, end) infinite;
+}
+
+.explorer[data-active-scene="sitting-room"] .scene-ambient__light {
+  animation: sitting-light-flicker 7.8s steps(1, end) infinite;
+}
+
+.explorer[data-active-scene="kitchen"] .scene-ambient__light {
+  animation: kitchen-light-flicker 7.2s steps(1, end) infinite;
+}
+
+.explorer[data-active-scene="orchid-room"] .scene-ambient__light {
+  animation: orchid-lamp-breathe 5.8s ease-in-out infinite;
+}
+
+.explorer:not([data-active-scene="house"]) .scene-ambient__dust {
+  animation: dust-drift 12.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.explorer:not([data-active-scene="house"]) .scene-ambient__dust::before {
+  animation: dust-float-near 8.5s ease-in-out infinite;
+}
+
+.explorer:not([data-active-scene="house"]) .scene-ambient__dust::after {
+  animation: dust-float-far 13s ease-in-out infinite reverse;
+}
+
+.explorer[data-active-scene="sitting-room"] .scene-stage picture img {
+  animation: sitting-image-flicker 7.8s steps(1, end) infinite;
+}
+
+.explorer[data-active-scene="kitchen"] .scene-stage picture img {
+  animation: kitchen-image-flicker 7.2s steps(1, end) infinite;
+}
+
+.explorer[data-active-scene="orchid-room"] .scene-stage picture img {
+  animation: orchid-image-breathe 5.8s ease-in-out infinite;
+}
+
 .hotspot__tooltip,
 .room-thumbnail,
 .room-thumbnail img,
 .room-thumbnail__image,
 .return-button,
-.info-dialog__close {
+.info-dialog__close,
+.trailer-dialog__close,
+.retro-tv__screen,
+.cast-card,
+.cast-card__inner,
+.cast-card__face {
   transition:
     color 150ms ease,
     background-color 150ms ease,
@@ -111,7 +397,12 @@
     transform 160ms ease;
 }
 
-.info-dialog[open] .info-dialog__surface {
+.cast-card__inner {
+  transition: transform 460ms cubic-bezier(.2, .75, .2, 1);
+}
+
+.info-dialog[open] .info-dialog__surface,
+.trailer-dialog[open] .trailer-dialog__surface {
   animation: dialog-rise 220ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
@@ -129,8 +420,46 @@
     transition-duration: 0.001ms !important;
   }
 
-  .page-grain {
+  .page-grain,
+  .hero__rings,
+  .hero__rings::after,
+  .retro-tv__screen-art,
+  .retro-tv__screen::before,
+  .retro-tv__screen-art::after,
+  .scene-ambient__light,
+  .scene-ambient__weather,
+  .scene-ambient__dust,
+  .scene-stage picture img {
     animation: none !important;
+  }
+
+  .scene-stage picture img {
+    filter: none !important;
+  }
+
+  .cast-card {
+    transform: none !important;
+  }
+
+  .cast-card__inner,
+  .cast-card.is-flipped .cast-card__inner,
+  .cast-card__back {
+    transform: none !important;
+  }
+
+  .cast-card__back {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .cast-card.is-flipped .cast-card__front {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .cast-card.is-flipped .cast-card__back {
+    visibility: visible;
+    opacity: 1;
   }
 
   .hotspot__dot::before,

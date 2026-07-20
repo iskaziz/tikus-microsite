@@ -24,11 +24,10 @@
       eyebrow: 'SAMASIHAT WELLNESS RETREAT',
       title: 'The House',
       introduction: 'Choose a room below to step inside.',
-      alt: 'A wide retro illustration of the isolated Samasihat bungalow at night, surrounded by dark trees and crimson sky.',
+      alt: 'A wide retro illustration of the isolated Samasihat bungalow at night, surrounded by dark trees and a crimson sky.',
       image: imageSet('samasihat-house-exterior'),
       hotspots: []
     },
-
     'sitting-room': {
       id: 'sitting-room',
       eyebrow: 'INSIDE SAMASIHAT',
@@ -69,7 +68,6 @@
         }
       ]
     },
-
     kitchen: {
       id: 'kitchen',
       eyebrow: 'INSIDE SAMASIHAT',
@@ -110,13 +108,12 @@
         }
       ]
     },
-
     'orchid-room': {
       id: 'orchid-room',
       eyebrow: 'INSIDE SAMASIHAT',
       title: 'Orchid Room',
       introduction: 'Close to the Sitting Room, the Orchid Room is a quieter remnant of the old family home. Its floral character recalls Mimi’s late grandmother, who cultivated orchids from seeds brought from her home area in Limbang.',
-      alt: 'A wide retro illustration of the Orchid Room, with a bed, floral artwork, an upright suitcase and warm bedside lamp.',
+      alt: 'A wide retro illustration of the Orchid Room, with a bed, floral artwork, an upright suitcase and a warm bedside lamp.',
       image: imageSet('samasihat-orchid-room'),
       hotspots: [
         {
@@ -153,11 +150,101 @@
     }
   };
 
-  global.TIKUS_CONTENT = Object.freeze({
-    site: {
-      title: 'TIKUS',
-      baseDocumentTitle: 'TIKUS — Official Film Microsite'
+  const cast = [
+    {
+      id: 'qiu-qatina',
+      actorName: 'Qiu Qatina',
+      characterName: 'Mimi',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
     },
+    {
+      id: 'nicholas-chin-y-mun',
+      actorName: 'Nicholas Chin Y Mun',
+      characterName: 'Jay',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'fattah-fawzy',
+      actorName: 'Fattah Fawzy',
+      characterName: 'Saladin',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'diana-ooi-kian-choo',
+      actorName: 'Diana Ooi Kian Choo',
+      characterName: 'Madam Boey',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'harris-andria',
+      actorName: 'Harris Andria',
+      characterName: 'Major Mansor',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'marsha-elsie-biddulph',
+      actorName: 'Marsha Elsie Biddulph',
+      characterName: 'Alayna',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'iskandar-zulkarnain-mumtaz-ahmad',
+      actorName: 'Iskandar Zulkarnain bin Mumtaz Ahmad',
+      characterName: 'Guy',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'haiccal-hazim',
+      actorName: 'Haiccal Hazim',
+      characterName: 'Inspektor Mislan',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    },
+    {
+      id: 'roshafiq',
+      actorName: 'Roshafiq',
+      characterName: 'Man',
+      actorPortrait: null,
+      characterPortrait: null,
+      actorDescription: 'Cast portrait and profile coming soon.',
+      characterDescription: 'Character portrait and profile coming soon.'
+    }
+  ];
+
+  global.TIKUS_CONTENT = Object.freeze({
+    site: Object.freeze({
+      title: 'TIKUS',
+      baseDocumentTitle: 'TIKUS — Official Film Microsite',
+      trailer: Object.freeze({
+        youtubeId: '9sgXasrieAE',
+        watchUrl: 'https://youtu.be/9sgXasrieAE',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/9sgXasrieAE?rel=0&modestbranding=1'
+      })
+    }),
+    cast: Object.freeze(cast.map((member) => Object.freeze(member))),
     sceneOrder: Object.freeze(['sitting-room', 'kitchen', 'orchid-room']),
     scenes: Object.freeze(scenes)
   });

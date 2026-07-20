@@ -3,17 +3,160 @@
 
   document.documentElement.classList.add('js');
 
+  function createPortraitPlaceholder(label, variant) {
+    const portrait = document.createElement('span');
+    portrait.className = `cast-card__portrait cast-card__portrait--${variant}`;
+    portrait.setAttribute('aria-label', `${label} portrait placeholder`);
+
+    const artwork = document.createElement('span');
+    artwork.className = 'cast-card__portrait-art';
+    artwork.setAttribute('aria-hidden', 'true');
+
+    const note = document.createElement('span');
+    note.className = 'cast-card__portrait-note';
+    note.textContent = 'Portrait coming soon';
+
+    portrait.append(artwork, note);
+    return portrait;
+  }
+
+  function createCardFace({ side, eyebrow, name, description, portrait, index }) {
+    const face = document.createElement('span');
+    face.className = `cast-card__face cast-card__${side}`;
+    face.setAttribute('aria-hidden', side === 'back' ? 'true' : 'false');
+
+    const cornerTop = document.createElement('span');
+    cornerTop.className = 'cast-card__corner cast-card__corner--top';
+    cornerTop.setAttribute('aria-hidden', 'true');
+    cornerTop.textContent = String(index + 1).padStart(2, '0');
+
+    const cornerBottom = document.createElement('span');
+    cornerBottom.className = 'cast-card__corner cast-card__corner--bottom';
+    cornerBottom.setAttribute('aria-hidden', 'true');
+    cornerBottom.textContent = side === 'front' ? 'T' : 'K';
+
+    const media = portrait
+      ? Object.assign(document.createElement('img'), {
+          className: 'cast-card__portrait',
+          src: portrait,
+          alt: '',
+          loading: 'lazy',
+          decoding: 'async'
+        })
+      : createPortraitPlaceholder(name, side === 'front' ? 'cast' : 'character');
+
+    const label = document.createElement('span');
+    label.className = 'cast-card__eyebrow';
+    label.textContent = eyebrow;
+
+    const heading = document.createElement('span');
+    heading.className = 'cast-card__name';
+    heading.textContent = name;
+
+    const copy = document.createElement('span');
+    copy.className = 'cast-card__description';
+    copy.textContent = description;
+
+    const flipHint = document.createElement('span');
+    flipHint.className = 'cast-card__flip-hint';
+    flipHint.textContent = side === 'front' ? 'Reveal character' : 'Return to cast';
+
+    face.append(cornerTop, cornerBottom, media, label, heading, copy, flipHint);
+    return face;
+  }
+
+  function initCastCards(cast) {
+    const grid = document.querySelector('[data-cast-grid]');
+    const status = document.querySelector('[data-cast-status]');
+    if (!grid || !Array.isArray(cast)) {
+      return;
+    }
+
+    const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9, -0.4];
+    const fragment = document.createDocumentFragment();
+
+    cast.forEach((member, index) => {
+      const card = document.createElement('button');
+      card.className = 'cast-card';
+      card.type = 'button';
+      card.dataset.castCard = member.id;
+      card.setAttribute('aria-pressed', 'false');
+      card.setAttribute('aria-label', `${member.actorName}. Flip to reveal the character.`);
+      card.style.setProperty('--card-tilt', `${tilts[index % tilts.length]}deg`);
+
+      const inner = document.createElement('span');
+      inner.className = 'cast-card__inner';
+
+      const front = createCardFace({
+        side: 'front',
+        eyebrow: 'Cast',
+        name: member.actorName,
+        description: member.actorDescription,
+        portrait: member.actorPortrait,
+        index
+      });
+
+      const back = createCardFace({
+        side: 'back',
+        eyebrow: 'Character',
+        name: member.characterName,
+        description: member.characterDescription,
+        portrait: member.characterPortrait,
+        index
+      });
+
+      inner.append(front, back);
+      card.append(inner);
+
+      card.addEventListener('click', () => {
+        const isFlipped = card.classList.toggle('is-flipped');
+        card.setAttribute('aria-pressed', String(isFlipped));
+        front.setAttribute('aria-hidden', String(isFlipped));
+        back.setAttribute('aria-hidden', String(!isFlipped));
+        card.setAttribute(
+          'aria-label',
+          isFlipped
+            ? `${member.actorName} plays ${member.characterName}. Flip to return to the cast profile.`
+            : `${member.actorName}. Flip to reveal the character.`
+        );
+
+        if (status) {
+          status.textContent = isFlipped
+            ? `${member.actorName} plays ${member.characterName}.`
+            : `Showing the cast profile for ${member.actorName}.`;
+        }
+      });
+
+      fragment.append(card);
+    });
+
+    grid.replaceChildren(fragment);
+  }
+
   function init() {
     const status = document.querySelector('[data-scene-status]');
 
     try {
-      if (!global.TIKUS_CONTENT || !global.TikusModalController || !global.TikusSceneController) {
+      if (
+        !global.TIKUS_CONTENT ||
+        !global.TikusModalController ||
+        !global.TikusTrailerModalController ||
+        !global.TikusSceneController
+      ) {
         throw new Error('Required TIKUS modules did not load.');
       }
 
-      const dialog = document.getElementById('hotspot-dialog');
+      initCastCards(global.TIKUS_CONTENT.cast);
+
+      const hotspotDialog = document.getElementById('hotspot-dialog');
+      const trailerDialog = document.getElementById('trailer-dialog');
       const explorerRoot = document.querySelector('[data-scene-explorer]');
-      const modal = new global.TikusModalController(dialog);
+
+      const modal = new global.TikusModalController(hotspotDialog);
+      const trailer = new global.TikusTrailerModalController(
+        trailerDialog,
+        global.TIKUS_CONTENT.site.trailer
+      );
       const scenes = new global.TikusSceneController({
         data: global.TIKUS_CONTENT,
         modal,
@@ -21,7 +164,7 @@
       });
 
       scenes.init();
-      global.TikusMicrosite = Object.freeze({ modal, scenes });
+      global.TikusMicrosite = Object.freeze({ modal, trailer, scenes });
     } catch (error) {
       console.error(error);
       if (status) {
