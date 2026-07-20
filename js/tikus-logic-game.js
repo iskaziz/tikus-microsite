@@ -1,7 +1,7 @@
 (function registerTikusLogicGame(global) {
   'use strict';
 
-  const STYLE_PATH = 'css/game.css';
+  const STYLE_PATH = 'css/game.css?v=mobile-v2';
   const STORAGE_KEY = 'tikus-logic-game-progress-v1';
   const HOTSPOT_ID = 'logic-game';
   const DEFAULT_PUZZLE_ID = 'blackout';
