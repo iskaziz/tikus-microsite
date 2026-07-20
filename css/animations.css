@@ -209,64 +209,18 @@
   }
 }
 
-@keyframes kitchen-light-flicker {
-  0%, 23%, 27%, 61%, 64%, 86%, 88%, 100% {
-    opacity: 0.35;
-  }
-  24% {
-    opacity: 0.16;
-  }
-  25% {
-    opacity: 0.46;
-  }
-  26% {
-    opacity: 0.24;
-  }
-  62% {
-    opacity: 0.48;
-  }
-  63%, 87% {
-    opacity: 0.22;
-  }
-}
 
-@keyframes kitchen-image-flicker {
-  0%, 23%, 27%, 61%, 64%, 86%, 88%, 100% {
-    filter: brightness(0.97) contrast(1.035) saturate(1.01);
-  }
-  24% {
-    filter: brightness(0.82) contrast(1.08) saturate(0.92);
-  }
-  25%, 62% {
-    filter: brightness(1.09) contrast(1.01) saturate(1.05);
-  }
-  26%, 63%, 87% {
-    filter: brightness(0.89) contrast(1.065) saturate(0.97);
-  }
-}
 
-@keyframes orchid-lamp-breathe {
-  0%, 100% {
-    opacity: 0.29;
-    filter: blur(0.12rem) brightness(0.95);
-  }
-  42% {
-    opacity: 0.49;
-    filter: blur(0.18rem) brightness(1.13);
-  }
-  58% {
-    opacity: 0.37;
-    filter: blur(0.14rem) brightness(1.02);
-  }
-}
 
-@keyframes orchid-image-breathe {
-  0%, 100% {
-    filter: brightness(0.94) contrast(1.035) saturate(1.01);
-  }
-  50% {
-    filter: brightness(1.055) contrast(1.015) saturate(1.06);
-  }
+
+
+
+
+
+
+@keyframes scene-entry-invite {
+  0%, 100% { transform: translateY(0); box-shadow: 0 0.65rem 1.35rem rgba(0, 0, 0, 0.42), inset 0 0 0 0.08rem rgba(150, 13, 26, 0.5); }
+  50% { transform: translateY(-0.2rem); box-shadow: 0 0.9rem 1.55rem rgba(0, 0, 0, 0.5), inset 0 0 0 0.08rem rgba(183, 22, 36, 0.78); }
 }
 
 .hero__rings {
@@ -332,9 +286,6 @@
 }
 
 .explorer[data-active-scene="house"] .scene-ambient__weather,
-.explorer[data-active-scene="kitchen"] .scene-ambient__weather {
-  animation: rain-drift 1.7s linear infinite;
-}
 
 .explorer[data-active-scene="house"] .scene-ambient__light {
   animation: house-sky-flicker 10.5s steps(1, end) infinite;
@@ -344,13 +295,7 @@
   animation: sitting-light-flicker 7.8s steps(1, end) infinite;
 }
 
-.explorer[data-active-scene="kitchen"] .scene-ambient__light {
-  animation: kitchen-light-flicker 7.2s steps(1, end) infinite;
-}
 
-.explorer[data-active-scene="orchid-room"] .scene-ambient__light {
-  animation: orchid-lamp-breathe 5.8s ease-in-out infinite;
-}
 
 .explorer:not([data-active-scene="house"]) .scene-ambient__dust {
   animation: dust-drift 12.5s ease-in-out infinite;
@@ -369,18 +314,19 @@
   animation: sitting-image-flicker 7.8s steps(1, end) infinite;
 }
 
-.explorer[data-active-scene="kitchen"] .scene-stage picture img {
-  animation: kitchen-image-flicker 7.2s steps(1, end) infinite;
+
+
+.scene-entry__label {
+  animation: scene-entry-invite 2.4s ease-in-out infinite;
 }
 
-.explorer[data-active-scene="orchid-room"] .scene-stage picture img {
-  animation: orchid-image-breathe 5.8s ease-in-out infinite;
-}
+
+
+
 
 .hotspot__tooltip,
-.room-thumbnail,
-.room-thumbnail img,
-.room-thumbnail__image,
+.scene-entry::before,
+.scene-entry__label,
 .return-button,
 .info-dialog__close,
 .trailer-dialog__close,
@@ -429,7 +375,8 @@
   .scene-ambient__light,
   .scene-ambient__weather,
   .scene-ambient__dust,
-  .scene-stage picture img {
+  .scene-stage picture img,
+  .scene-entry__label {
     animation: none !important;
   }
 

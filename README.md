@@ -26,7 +26,6 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
       /title
       /characters
       /scenes
-      /thumbnails
       /ui
     /audio
   /css
@@ -45,12 +44,12 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
-- Eight keyboard-operable cast and character flip cards, arranged as Hosts, Guests and The Inspector, with seven approved character portraits on the reverse sides.
+- Eight keyboard-operable cast and character flip cards, arranged as Hosts, Guests and The Inspector. Cards open on the character side, with seven approved character portraits.
 - Responsive 16:9 house explorer using `object-fit: contain`.
-- Sitting Room, Kitchen and Orchid Room selection through three thumbnails.
-- Exactly three percentage-positioned hotspot buttons in every room.
+- Select the house artwork to enter the Sitting Room, then use Return to House to leave it.
+- Exactly three percentage-positioned hotspot buttons in the Sitting Room.
 - Scene-specific light, rain, dust and print-texture treatments.
-- URL hash state for `#house`, `#sitting-room`, `#kitchen` and `#orchid-room`.
+- URL hash state for `#house` and `#sitting-room`.
 - Accessible information dialogs with focus trapping, Escape handling and focus restoration.
 
 ## Gelap di Samasihat
@@ -75,7 +74,7 @@ Keep the script order at the end of `index.html`: core application scripts first
 
 ## Editing content
 
-Room copy, image paths and percentage hotspot coordinates are stored in `js/content-data.js`.
+Scene labels, image paths and percentage hotspot coordinates are stored in `js/content-data.js`.
 
 ```js
 {
@@ -94,16 +93,16 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 
 ## Accessibility
 
-- Native buttons are used for thumbnails, hotspots, cast cards, grid cells and dialog controls.
+- Native buttons are used for the house entry target, Return to House, hotspots, cast cards, grid cells and dialog controls.
 - Main controls have visible `:focus-visible` states and mobile-sized hit targets.
 - Dialogs trap focus, close with Escape and restore focus to their trigger.
 - Background sections become inert while a dialog is open.
-- Main scenes and thumbnails include useful alt text.
+- Main scene artwork includes useful alt text, while every navigation control has a meaningful accessible name.
 - `prefers-reduced-motion: reduce` disables or simplifies continuous and transition animation.
 - Game state symbols are accompanied by text labels and accessible names.
 
 ## Image delivery
 
-Only title and house artwork are preloaded. Room artwork and thumbnails load lazily or on interaction.
+Only title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house entry control.
 
-Main scenes include 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. The stage declares a 16:9 ratio before loading to avoid layout shift. See `ASSET-MANIFEST.md` for the complete inventory.
+The house and Sitting Room include 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. The stage declares a 16:9 ratio before loading to avoid layout shift. See `ASSET-MANIFEST.md` for the complete inventory.

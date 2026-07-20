@@ -418,6 +418,72 @@ button:disabled {
   pointer-events: none;
 }
 
+
+.scene-navigation-layer {
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.scene-entry {
+  pointer-events: auto;
+}
+
+.scene-entry[hidden] {
+  display: none;
+}
+
+.scene-entry {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: clamp(0.65rem, 2.2vw, 1.6rem);
+  border: 0;
+  background: transparent;
+}
+
+.scene-entry::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 62%, transparent 0 18%, rgba(239, 228, 204, 0.08) 48%, rgba(0, 0, 0, 0.18) 100%);
+}
+
+.scene-entry:hover::before,
+.scene-entry:focus-visible::before {
+  opacity: 1;
+}
+
+.scene-entry:focus-visible {
+  outline-offset: -0.42rem;
+}
+
+.scene-entry__label {
+  position: relative;
+  padding: 0.68rem 0.9rem;
+  border: 0.12rem solid rgba(255, 244, 220, 0.85);
+  color: var(--paper-bright);
+  background: rgba(9, 8, 8, 0.86);
+  box-shadow: 0 0.65rem 1.35rem rgba(0, 0, 0, 0.42), inset 0 0 0 0.08rem rgba(150, 13, 26, 0.5);
+  font-family: var(--ui-font);
+  font-size: clamp(0.66rem, 0.59rem + 0.28vw, 0.82rem);
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.scene-entry__label::after {
+  content: "↓";
+  margin-left: 0.55rem;
+  color: var(--crimson-600);
+  font-size: 1.05em;
+}
+
 .hotspot {
   position: absolute;
   left: var(--hotspot-x);
@@ -505,15 +571,12 @@ button:disabled {
 
 .scene-caption {
   display: grid;
-  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
-  column-gap: clamp(1.25rem, 4vw, 4rem);
-  row-gap: 0.35rem;
+  gap: 0.35rem;
   align-items: start;
   padding: clamp(1.3rem, 2.5vw, 2.35rem) clamp(0.2rem, 1vw, 1rem) 0;
 }
 
 .scene-caption .eyebrow {
-  grid-column: 1;
   margin-top: 0.35rem;
 }
 
@@ -528,104 +591,7 @@ button:disabled {
   text-transform: uppercase;
 }
 
-.scene-caption > p:last-child {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  max-width: 53rem;
-  margin: 0;
-  color: var(--paper-dim);
-  text-wrap: pretty;
-}
 
-.room-navigation {
-  margin-top: clamp(2rem, 4vw, 3.5rem);
-}
-
-.thumbnail-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.75rem, 1.7vw, 1.5rem);
-}
-
-.room-thumbnail {
-  position: relative;
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  color: var(--paper-dim);
-  background: transparent;
-  text-align: left;
-}
-
-.room-thumbnail__image {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border: 0.14rem solid rgba(239, 228, 204, 0.38);
-  background: var(--ink-soft);
-  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.28);
-}
-
-.room-thumbnail__image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(135deg, rgba(150, 13, 26, 0.15), transparent 48%, rgba(0, 0, 0, 0.25));
-}
-
-.room-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.72) contrast(1.04) brightness(0.75);
-}
-
-.room-thumbnail__label {
-  display: block;
-  min-height: 2.75rem;
-  padding: 0.7rem 0.25rem 0;
-  font-family: var(--ui-font);
-  font-size: clamp(0.82rem, 0.76rem + 0.2vw, 0.96rem);
-  font-weight: 900;
-  letter-spacing: 0.09em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.room-thumbnail:hover,
-.room-thumbnail.is-active,
-.room-thumbnail[aria-pressed="true"] {
-  color: var(--paper-bright);
-}
-
-.room-thumbnail:hover .room-thumbnail__image,
-.room-thumbnail:focus-visible .room-thumbnail__image,
-.room-thumbnail.is-active .room-thumbnail__image {
-  border-color: var(--paper-bright);
-}
-
-.room-thumbnail:hover img,
-.room-thumbnail:focus-visible img,
-.room-thumbnail.is-active img {
-  filter: saturate(1) contrast(1.05) brightness(1);
-}
-
-.room-thumbnail.is-active .room-thumbnail__image::before {
-  content: "ACTIVE";
-  position: absolute;
-  z-index: 2;
-  top: 0.55rem;
-  right: 0.55rem;
-  padding: 0.3rem 0.45rem;
-  color: var(--paper-bright);
-  background: var(--crimson-700);
-  font-family: var(--ui-font);
-  font-size: 0.62rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-}
 
 
 .cast-section {
@@ -959,6 +925,10 @@ img.cast-card__portrait,
   line-height: 0.96;
   text-transform: uppercase;
   text-wrap: balance;
+}
+
+.cast-card__front .cast-card__name {
+  margin-top: 0;
 }
 
 .cast-card__description {
@@ -1573,36 +1543,10 @@ img.cast-card__portrait,
   opacity: 0.29;
 }
 
-.explorer[data-active-scene="kitchen"] .scene-ambient__light {
-  opacity: 0.36;
-  background:
-    radial-gradient(ellipse at 43% 7%, rgba(255, 232, 179, 0.74), transparent 31%),
-    radial-gradient(circle at 78% 43%, rgba(174, 220, 238, 0.34), transparent 20%),
-    linear-gradient(90deg, rgba(255, 205, 125, 0.09), transparent 46%);
-}
 
-.explorer[data-active-scene="kitchen"] .scene-ambient__weather {
-  left: 66%;
-  opacity: 0.24;
-  background: repeating-linear-gradient(103deg, transparent 0 1.03rem, rgba(220, 238, 244, 0.62) 1.08rem 1.16rem, transparent 1.21rem 2.2rem);
-  mix-blend-mode: screen;
-}
 
-.explorer[data-active-scene="kitchen"] .scene-ambient__dust {
-  opacity: 0.24;
-}
 
-.explorer[data-active-scene="orchid-room"] .scene-ambient__light {
-  opacity: 0.42;
-  background:
-    radial-gradient(circle at 80% 66%, rgba(255, 188, 91, 0.84), transparent 22%),
-    radial-gradient(circle at 28% 24%, rgba(255, 232, 202, 0.38), transparent 19%),
-    linear-gradient(110deg, transparent 34%, rgba(255, 244, 220, 0.13) 59%, transparent 79%);
-}
 
-.explorer[data-active-scene="orchid-room"] .scene-ambient__dust {
-  opacity: 0.34;
-}
 
 .explorer[data-active-scene]:not([data-active-scene="house"]) .scene-stage picture img {
   will-change: filter;
@@ -1809,36 +1753,11 @@ img.cast-card__portrait,
   }
 
   .scene-caption {
-    grid-template-columns: 1fr;
     gap: 0.45rem;
   }
 
-  .scene-caption .eyebrow,
-  .scene-caption h3,
-  .scene-caption > p:last-child {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  .scene-caption > p:last-child {
-    margin-top: 0.65rem;
-  }
-
-  .thumbnail-strip {
-    display: flex;
-    gap: 0.85rem;
-    margin-inline: calc(var(--page-gutter) * -1);
-    padding: 0.25rem var(--page-gutter) 1.25rem;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-padding-inline: var(--page-gutter);
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-  }
-
-  .room-thumbnail {
-    flex: 0 0 min(74vw, 22rem);
-    scroll-snap-align: start;
+  .scene-entry__label {
+    padding: 0.58rem 0.72rem;
   }
 
   .pending-grid {

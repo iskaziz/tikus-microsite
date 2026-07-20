@@ -17,7 +17,7 @@ Retained or restored:
 - Concentric-ring hero and approved title artwork.
 - Retro television trailer section and trailer dialog.
 - Eight cast and character flip cards, grouped as Hosts, Guests and The Inspector.
-- House explorer, room thumbnails and scene-atmosphere overlays.
+- House and Sitting Room explorer with scene-atmosphere overlays.
 - Existing information dialog and semantic page structure.
 
 Added or confirmed:
@@ -48,7 +48,7 @@ The core scene, modal, cast, trailer and atmospheric behavior remains separate f
 ## Integration invariants
 
 - Sitting Room renders `family-console`, `art-display` and `logic-game`: exactly three hotspots.
-- Kitchen and Orchid Room each remain at exactly three hotspots.
+- Kitchen and Orchid Room explorer scenes are removed.
 - Game progress uses `tikus-logic-game-progress-v5`.
 - The game is labelled spoiler-safe and non-canonical in both its hotspot panel and dialog.
 - All local paths are relative to the project root.
@@ -68,7 +68,7 @@ The supplied `tikus-character-portraits` archive was added as a targeted cast-ca
 
 - Mimi, Jay, Saladin, Madam Boey, Major Mansor, Alayna and Guy appear on the character-facing side of their existing cards.
 - Actor-facing sides remain unchanged because actor portraits were not supplied.
-- Inspektor Mislan and Man retain their existing character placeholders because no matching portrait was included.
+- Inspektor Mislan retains the existing character placeholder because no matching portrait was included.
 - Original 1024-pixel PNG files were converted to responsive 480-pixel and 720-pixel AVIF, WebP and progressive JPEG derivatives.
 - Portraits remain lazy-loaded and preserve the existing card keyboard, screen-reader and flip-state behavior.
 
@@ -79,3 +79,15 @@ The supplied `tikus-character-portraits` archive was added as a targeted cast-ca
 - Reorganised the cast cards into Hosts, Guests and The Inspector.
 - Applied the requested order: Que, Y Mun; Fattah, Diana, Harris, Marsha, Iski; Haiccal.
 - Removed Roshafiq and the ninth cast card.
+
+## House explorer and card-face amendment
+
+- Removed the Kitchen and Orchid Room explorer scenes, artwork derivatives and directional arrows.
+- The exterior artwork remains a full-frame keyboard-accessible entry button that opens the Sitting Room.
+- Return to House remains available from the Sitting Room.
+- Removed the descriptive paragraph beneath the scene artwork; only the scene label and title remain.
+- Added “Wellness Retreat” after “Samasihat” above the opening title artwork.
+- Cast cards now open on the character-facing side.
+- Character-facing cards use the singular role labels Host, Guest and Inspector.
+- Actor-facing cards show the cast name without a category label above it.
+- URL hash state is limited to `#house` and `#sitting-room`.

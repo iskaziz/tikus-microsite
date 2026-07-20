@@ -12,15 +12,15 @@ Validation was performed against the packaged project, without modifying the con
 - No base64 or `data:image` assets are present.
 - Game stylesheet and script are loaded by `index.html`.
 - Game script loads after the core application scripts.
-- Three room selector buttons are present.
-- Each room contains exactly three data-defined hotspots.
+- The thumbnail strip and directional room arrows are absent.
+- The Sitting Room contains exactly three data-defined hotspots.
 - Sitting Room runtime hotspots are `family-console`, `art-display` and `logic-game`.
 - Trailer, eight grouped cast cards and scene-atmosphere layers remain present.
 - Seven supplied character portraits render on the reverse sides of the correct cards.
 - Character portraits provide AVIF, WebP and JPEG sources at 480 and 720 pixels and remain lazy-loaded.
-- Actor-side cards and the two characters without supplied artwork retain accessible placeholders.
+- Actor-side cards and the one character without supplied artwork retain accessible placeholders.
 - Game dialog is injected without replacing the core modal controller.
-- Keyboard activation works for cast cards, room controls, hotspots and game grid cells.
+- Keyboard activation works for cast cards, house controls, hotspots and game grid cells.
 - Escape closes both the information dialog and game dialog.
 - Focus returns to the originating hotspot after either dialog closes.
 - Game cell state cycles blank → possible → ruled out → confirmed.
@@ -46,7 +46,7 @@ Results:
 - Both grids use contained `overflow-x: auto` wrappers.
 - Grid content remains horizontally scrollable on narrow screens.
 - The Sitting Room retains exactly three hotspots.
-- URL hash changes to `#sitting-room` and returns to the house state.
+- URL hash changes to `#sitting-room` and returns to the house state. Removed room hashes resolve safely to the house.
 - No JavaScript page errors, console errors or missing local asset requests were detected.
 
 ## Deployment note
@@ -78,3 +78,16 @@ Results:
 - Confirmed eight cards render across three labelled groups.
 - Confirmed guest order is Fattah, Diana, Harris, Marsha, Iski.
 - Confirmed Roshafiq is absent from HTML and JavaScript data.
+
+## House explorer and card-face amendment checks
+
+- Confirmed the hero eyebrow reads “Welcome to Samasihat Wellness Retreat”.
+- Confirmed only House and Sitting Room exist in the explorer scene data.
+- Confirmed Kitchen and Orchid Room artwork files and directional arrow controls are absent from the package.
+- Confirmed the scene caption contains no descriptive paragraph.
+- Confirmed the Sitting Room runtime hotspot set remains `family-console`, `art-display` and `logic-game`.
+- Confirmed all eight cards initialise on the character side with `aria-pressed="true"`.
+- Confirmed character faces display Host, Guest or Inspector.
+- Confirmed cast faces contain no category label above the actor name.
+- Confirmed reduced-motion mode shows the character side on initial render and preserves card toggling.
+- Confirmed no page-level horizontal overflow at 1440, 390 or 320 pixels.

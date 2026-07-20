@@ -120,7 +120,7 @@
       <header class="section-heading cast-section__heading">
         <p class="eyebrow">Cast &amp; characters</p>
         <h2 id="cast-title">The faces around the table</h2>
-        <p>Select a playing card to turn it over and reveal the film character.</p>
+        <p>The cards open on the character side. Select one to reveal the cast member.</p>
       </header>
 
       <div class="cast-table" role="group" aria-label="Illustrated tabletop with cast playing cards">
@@ -129,7 +129,7 @@
         <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-cast-status></p>
       </div>
 
-      <p class="cast-section__instruction">Select a card to flip it. Select it again to return to the cast profile.</p>
+      <p class="cast-section__instruction">Select a card to reveal the cast member. Select it again to return to the character.</p>
       <a class="cast-section__continue" href="#explorer">Enter the house <span aria-hidden="true">↓</span></a>
     </section>
 
@@ -148,10 +148,10 @@
             <span aria-hidden="true">←</span>
             Return to House
           </button>
-          <p class="scene-instruction">Choose a room, then select a pulsing point to uncover its story.</p>
+          <p class="scene-instruction" id="scene-instruction" data-scene-instruction>Select the house to enter the Sitting Room.</p>
         </div>
 
-        <div class="scene-stage" data-scene-stage aria-describedby="scene-introduction">
+        <div class="scene-stage" data-scene-stage aria-describedby="scene-instruction">
           <picture data-scene-picture>
             <source
               data-scene-source="avif"
@@ -182,48 +182,26 @@
           </div>
           <div class="scene-stage__vignette" aria-hidden="true"></div>
           <div class="hotspot-layer" data-hotspot-layer aria-label="Interactive scene points"></div>
+
+          <div class="scene-navigation-layer" data-scene-navigation-layer>
+            <button
+              class="scene-entry"
+              type="button"
+              data-scene-target="sitting-room"
+              data-visible-scene="house"
+              aria-label="Enter the house and open the Sitting Room">
+              <span class="scene-entry__label">Enter the house</span>
+            </button>
+
+          </div>
+
           <div class="iris-transition" data-iris hidden aria-hidden="true"></div>
         </div>
 
         <div class="scene-caption">
           <p class="eyebrow" data-scene-eyebrow>Samasihat Wellness Retreat</p>
           <h3 data-scene-title>The House</h3>
-          <p id="scene-introduction" data-scene-introduction>Choose a room below to step inside.</p>
         </div>
-
-        <nav class="room-navigation" aria-label="Choose a room">
-          <div class="thumbnail-strip">
-            <button class="room-thumbnail" type="button" data-scene-choice="sitting-room" aria-pressed="false">
-              <span class="room-thumbnail__image">
-                <picture>
-                  <source type="image/webp" srcset="assets/images/thumbnails/sitting-room-480.webp 480w, assets/images/thumbnails/sitting-room-720.webp 720w" sizes="(max-width: 40rem) 74vw, 22rem">
-                  <img src="assets/images/thumbnails/sitting-room-480.jpg" srcset="assets/images/thumbnails/sitting-room-480.jpg 480w, assets/images/thumbnails/sitting-room-720.jpg 720w" sizes="(max-width: 40rem) 74vw, 22rem" width="720" height="405" loading="lazy" decoding="async" alt="">
-                </picture>
-              </span>
-              <span class="room-thumbnail__label">Sitting Room</span>
-            </button>
-
-            <button class="room-thumbnail" type="button" data-scene-choice="kitchen" aria-pressed="false">
-              <span class="room-thumbnail__image">
-                <picture>
-                  <source type="image/webp" srcset="assets/images/thumbnails/kitchen-480.webp 480w, assets/images/thumbnails/kitchen-720.webp 720w" sizes="(max-width: 40rem) 74vw, 22rem">
-                  <img src="assets/images/thumbnails/kitchen-480.jpg" srcset="assets/images/thumbnails/kitchen-480.jpg 480w, assets/images/thumbnails/kitchen-720.jpg 720w" sizes="(max-width: 40rem) 74vw, 22rem" width="720" height="405" loading="lazy" decoding="async" alt="">
-                </picture>
-              </span>
-              <span class="room-thumbnail__label">Kitchen</span>
-            </button>
-
-            <button class="room-thumbnail" type="button" data-scene-choice="orchid-room" aria-pressed="false">
-              <span class="room-thumbnail__image">
-                <picture>
-                  <source type="image/webp" srcset="assets/images/thumbnails/orchid-room-480.webp 480w, assets/images/thumbnails/orchid-room-720.webp 720w" sizes="(max-width: 40rem) 74vw, 22rem">
-                  <img src="assets/images/thumbnails/orchid-room-480.jpg" srcset="assets/images/thumbnails/orchid-room-480.jpg 480w, assets/images/thumbnails/orchid-room-720.jpg 720w" sizes="(max-width: 40rem) 74vw, 22rem" width="720" height="405" loading="lazy" decoding="async" alt="">
-                </picture>
-              </span>
-              <span class="room-thumbnail__label">Orchid Room</span>
-            </button>
-          </div>
-        </nav>
 
         <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-scene-status></p>
       </div>

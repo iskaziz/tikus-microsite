@@ -16,12 +16,13 @@
       this.webpSource = root.querySelector('[data-scene-source="webp"]');
       this.image = root.querySelector('[data-scene-image]');
       this.hotspotLayer = root.querySelector('[data-hotspot-layer]');
+      this.navigationLayer = root.querySelector('[data-scene-navigation-layer]');
       this.iris = root.querySelector('[data-iris]');
       this.returnButton = root.querySelector('[data-return-house]');
-      this.thumbnailButtons = Array.from(root.querySelectorAll('[data-scene-choice]'));
+      this.sceneButtons = Array.from(root.querySelectorAll('[data-scene-target]'));
+      this.sceneInstruction = root.querySelector('[data-scene-instruction]');
       this.captionEyebrow = root.querySelector('[data-scene-eyebrow]');
       this.captionTitle = root.querySelector('[data-scene-title]');
-      this.captionIntro = root.querySelector('[data-scene-introduction]');
       this.liveRegion = root.querySelector('[data-scene-status]');
       this.explorer = document.getElementById('explorer');
 
@@ -36,12 +37,12 @@
       this.resizeObserver = null;
 
       this.handleHashChange = this.handleHashChange.bind(this);
-      this.syncHotspotBounds = this.syncHotspotBounds.bind(this);
+      this.syncInteractiveBounds = this.syncInteractiveBounds.bind(this);
     }
 
     init() {
-      this.thumbnailButtons.forEach((button) => {
-        const sceneId = button.dataset.sceneChoice;
+      this.sceneButtons.forEach((button) => {
+        const sceneId = button.dataset.sceneTarget;
         button.addEventListener('click', () => this.navigateTo(sceneId, { origin: button }));
 
         const warmScene = () => this.prefetchScene(sceneId);
@@ -54,12 +55,12 @@
         this.navigateTo('house', { origin: this.returnButton });
       });
 
-      this.image.addEventListener('load', this.syncHotspotBounds);
+      this.image.addEventListener('load', this.syncInteractiveBounds);
       window.addEventListener('hashchange', this.handleHashChange);
-      window.addEventListener('resize', this.syncHotspotBounds, { passive: true });
+      window.addEventListener('resize', this.syncInteractiveBounds, { passive: true });
 
       if ('ResizeObserver' in window) {
-        this.resizeObserver = new ResizeObserver(this.syncHotspotBounds);
+        this.resizeObserver = new ResizeObserver(this.syncInteractiveBounds);
         this.resizeObserver.observe(this.stage);
       }
 
@@ -188,14 +189,9 @@
 
       this.captionEyebrow.textContent = scene.eyebrow;
       this.captionTitle.textContent = scene.title;
-      this.captionIntro.textContent = scene.introduction;
+      this.sceneInstruction.textContent = scene.navigationHint || '';
       this.returnButton.hidden = sceneId === 'house';
-
-      this.thumbnailButtons.forEach((button) => {
-        const active = button.dataset.sceneChoice === sceneId;
-        button.setAttribute('aria-pressed', String(active));
-        button.classList.toggle('is-active', active);
-      });
+      this.updateSceneNavigation(sceneId);
 
       document.title = sceneId === 'house'
         ? this.data.site.baseDocumentTitle
@@ -206,14 +202,20 @@
       }
 
       this.renderHotspots(scene.hotspots);
-      this.syncHotspotBounds();
+      this.syncInteractiveBounds();
 
       if (announce) {
         const count = scene.hotspots.length;
         this.liveRegion.textContent = count > 0
-          ? `${scene.title} loaded. ${count} interactive hotspots available.`
-          : `${scene.title} exterior loaded.`;
+          ? `${scene.title} loaded. ${count} interactive hotspots available. ${scene.navigationHint || ''}`
+          : `${scene.title} exterior loaded. ${scene.navigationHint || ''}`;
       }
+    }
+
+    updateSceneNavigation(sceneId) {
+      this.sceneButtons.forEach((button) => {
+        button.hidden = button.dataset.visibleScene !== sceneId;
+      });
     }
 
     renderHotspots(hotspots) {
@@ -249,7 +251,7 @@
       this.hotspotLayer.append(fragment);
     }
 
-    syncHotspotBounds() {
+    syncInteractiveBounds() {
       const scene = this.data.scenes[this.state.sceneId];
       if (!scene || !this.stage.clientWidth || !this.stage.clientHeight) {
         return;
@@ -277,11 +279,13 @@
         top = (stageHeight - height) / 2;
       }
 
-      Object.assign(this.hotspotLayer.style, {
-        width: `${width}px`,
-        height: `${height}px`,
-        left: `${left}px`,
-        top: `${top}px`
+      [this.hotspotLayer, this.navigationLayer].forEach((layer) => {
+        Object.assign(layer.style, {
+          width: `${width}px`,
+          height: `${height}px`,
+          left: `${left}px`,
+          top: `${top}px`
+        });
       });
     }
 
@@ -321,7 +325,7 @@
     }
 
     setControlsDisabled(disabled) {
-      this.thumbnailButtons.forEach((button) => {
+      this.sceneButtons.forEach((button) => {
         button.disabled = disabled;
       });
       this.returnButton.disabled = disabled;

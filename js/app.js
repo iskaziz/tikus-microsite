@@ -85,9 +85,11 @@
       ? createPortraitMedia(portrait)
       : createPortraitPlaceholder(name, side === 'front' ? 'cast' : 'character');
 
-    const label = document.createElement('span');
-    label.className = 'cast-card__eyebrow';
-    label.textContent = eyebrow;
+    const label = eyebrow ? document.createElement('span') : null;
+    if (label) {
+      label.className = 'cast-card__eyebrow';
+      label.textContent = eyebrow;
+    }
 
     const heading = document.createElement('span');
     heading.className = 'cast-card__name';
@@ -99,9 +101,13 @@
 
     const flipHint = document.createElement('span');
     flipHint.className = 'cast-card__flip-hint';
-    flipHint.textContent = side === 'front' ? 'Reveal character' : 'Return to cast';
+    flipHint.textContent = side === 'front' ? 'Return to character' : 'Reveal cast';
 
-    face.append(cornerTop, cornerBottom, media, label, heading, copy, flipHint);
+    face.append(cornerTop, cornerBottom, media);
+    if (label) {
+      face.append(label);
+    }
+    face.append(heading, copy, flipHint);
     return face;
   }
 
@@ -113,9 +119,9 @@
     }
 
     const groups = [
-      { id: 'hosts', label: 'Hosts' },
-      { id: 'guests', label: 'Guests' },
-      { id: 'inspector', label: 'The Inspector' }
+      { id: 'hosts', label: 'Hosts', category: 'Host' },
+      { id: 'guests', label: 'Guests', category: 'Guest' },
+      { id: 'inspector', label: 'The Inspector', category: 'Inspector' }
     ];
     const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9];
     const fragment = document.createDocumentFragment();
@@ -145,11 +151,11 @@
         cardIndex += 1;
 
         const card = document.createElement('button');
-        card.className = 'cast-card';
+        card.className = 'cast-card is-flipped';
         card.type = 'button';
         card.dataset.castCard = member.id;
-        card.setAttribute('aria-pressed', 'false');
-        card.setAttribute('aria-label', `${member.actorName}. Flip to reveal the character.`);
+        card.setAttribute('aria-pressed', 'true');
+        card.setAttribute('aria-label', `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`);
         card.style.setProperty('--card-tilt', `${tilts[index % tilts.length]}deg`);
 
         const inner = document.createElement('span');
@@ -157,7 +163,7 @@
 
         const front = createCardFace({
           side: 'front',
-          eyebrow: group.label,
+          eyebrow: '',
           name: member.actorName,
           description: member.actorDescription,
           portrait: member.actorPortrait,
@@ -166,12 +172,15 @@
 
         const back = createCardFace({
           side: 'back',
-          eyebrow: 'Character',
+          eyebrow: group.category,
           name: member.characterName,
           description: member.characterDescription,
           portrait: member.characterPortrait,
           index
         });
+
+        front.setAttribute('aria-hidden', 'true');
+        back.setAttribute('aria-hidden', 'false');
 
         inner.append(front, back);
         card.append(inner);
@@ -184,14 +193,14 @@
           card.setAttribute(
             'aria-label',
             isFlipped
-              ? `${member.actorName} plays ${member.characterName}. Flip to return to the cast profile.`
-              : `${member.actorName}. Flip to reveal the character.`
+              ? `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`
+              : `${member.actorName} plays ${member.characterName}. Flip to return to the character.`
           );
 
           if (status) {
             status.textContent = isFlipped
-              ? `${member.actorName} plays ${member.characterName}.`
-              : `Showing the cast profile for ${member.actorName}.`;
+              ? `Showing the character profile for ${member.characterName}, played by ${member.actorName}.`
+              : `Showing the cast profile for ${member.actorName}, who plays ${member.characterName}.`;
           }
         });
 
