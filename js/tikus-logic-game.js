@@ -1,326 +1,428 @@
 (function registerTikusLogicGame(global) {
   'use strict';
 
-  const STYLE_PATH = 'css/game.css?v=mobile-v2';
-  const STORAGE_KEY = 'tikus-logic-game-progress-v1';
-  const HOTSPOT_ID = 'logic-game';
-  const DEFAULT_PUZZLE_ID = 'blackout';
+  const STORAGE_KEY = 'tikus-logic-game-progress-v5';
+  const MAX_PATCH_ATTEMPTS = 80;
+  const STATE_ORDER = ['blank', 'maybe', 'no', 'yes'];
+  const STATE_SYMBOLS = {
+    blank: '',
+    maybe: '○',
+    no: '×',
+    yes: '✓'
+  };
+  const STATE_NAMES = {
+    blank: 'unknown',
+    maybe: 'possible',
+    no: 'ruled out',
+    yes: 'confirmed'
+  };
 
-  const PUZZLES = Object.freeze({
-    blackout: Object.freeze({
-      id: 'blackout',
-      title: 'Gelap di Samasihat',
-      eyebrow: 'A TIKUS LOGIC PUZZLE',
-      introduction:
-        'The electricity has failed. Use the clues to determine where each person was and which object each person carried.',
-      disclaimer:
-        'This is a non-canonical puzzle inspired by the world of TIKUS. Its solution does not reveal the film’s murderer or ending.',
-      characters: Object.freeze([
-        Object.freeze({ id: 'mimi', name: 'Mimi', mark: 'M' }),
-        Object.freeze({ id: 'jay', name: 'Jay', mark: 'J' }),
-        Object.freeze({ id: 'saladin', name: 'Saladin', mark: 'S' }),
-        Object.freeze({ id: 'alayna', name: 'Alayna', mark: 'A' })
-      ]),
-      locations: Object.freeze([
-        Object.freeze({
-          id: 'sitting-room',
-          name: 'Sitting Room',
-          shortName: 'Sitting Room',
-          furnishing: 'sofa'
-        }),
-        Object.freeze({
-          id: 'kitchen',
-          name: 'Kitchen',
-          shortName: 'Kitchen',
-          furnishing: 'counter'
-        }),
-        Object.freeze({
-          id: 'orchid-room',
-          name: 'Orchid Room',
-          shortName: 'Orchid Room',
-          furnishing: 'bed'
-        }),
-        Object.freeze({
-          id: 'front-porch',
-          name: 'Front Porch',
-          shortName: 'Front Porch',
-          furnishing: 'steps'
-        })
-      ]),
-      objects: Object.freeze([
-        Object.freeze({ id: 'teacup', name: 'Teacup', shortLabel: 'CUP' }),
-        Object.freeze({ id: 'flashlight', name: 'Flashlight', shortLabel: 'LIGHT' }),
-        Object.freeze({ id: 'sketchbook', name: 'Sketchbook', shortLabel: 'BOOK' }),
-        Object.freeze({ id: 'headphones', name: 'Headphones', shortLabel: 'AUDIO' })
-      ]),
-      clues: Object.freeze([
-        'Jay carried the flashlight.',
-        'The person wearing the headphones was in the Orchid Room.',
-        'Saladin was in the Sitting Room.',
-        'The sketchbook was in the same room as Saladin.',
-        'Mimi was neither in the Sitting Room nor the Orchid Room.',
-        'Alayna was neither in the Kitchen nor on the Front Porch.',
-        'The teacup stayed indoors, but it was not in the Sitting Room.',
-        'The flashlight was the only object taken outside.'
-      ]),
-      solution: Object.freeze({
-        mimi: Object.freeze({ location: 'kitchen', object: 'teacup' }),
-        jay: Object.freeze({ location: 'front-porch', object: 'flashlight' }),
-        saladin: Object.freeze({ location: 'sitting-room', object: 'sketchbook' }),
-        alayna: Object.freeze({ location: 'orchid-room', object: 'headphones' })
-      })
-    })
-  });
+  const LEVELS = [
+    {
+      id: 'level-1',
+      label: 'Level 1',
+      shortTitle: 'Blackout',
+      title: 'Blackout in the Sitting Room',
+      description: 'Mark the deduction grids to work out where each person was and what they were carrying when the lights dipped.',
+      sceneNote: 'The sitting room becomes an investigation board lit by lamp flicker, drifting dust and the storm outside.',
+      sheetNotes: {
+        rooms: 'Track who was seen in each part of the house.',
+        objects: 'Track what each person was holding.'
+      },
+      characters: [
+        { id: 'mimi', name: 'Mimi', role: 'Retreat co-founder' },
+        { id: 'jay', name: 'Jay', role: 'Retreat co-founder' },
+        { id: 'madam-boey', name: 'Madam Boey', role: 'Guest' },
+        { id: 'guy', name: 'Guy', role: 'Traveller' }
+      ],
+      rooms: [
+        { id: 'sitting-room', name: 'Sitting Room' },
+        { id: 'kitchen', name: 'Kitchen' },
+        { id: 'orchid-room', name: 'Orchid Room' },
+        { id: 'veranda', name: 'Veranda' }
+      ],
+      objects: [
+        { id: 'lantern', name: 'Lantern' },
+        { id: 'guest-ledger', name: 'Guest ledger' },
+        { id: 'teacup', name: 'Teacup' },
+        { id: 'house-keys', name: 'House keys' }
+      ],
+      clues: [
+        'The person carrying the lantern was not in the Kitchen or on the Veranda.',
+        'Mimi was not in the Sitting Room, and she was checking neither the lantern nor the house keys.',
+        'Madam Boey stayed away from the Kitchen and was carrying the teacup.',
+        'Jay was closest to the rain and was holding the house keys.',
+        'The guest ledger was being reviewed in the same room where meals are prepared.'
+      ],
+      hints: [
+        'Jay can be fixed immediately: Veranda and house keys.',
+        'If the guest ledger is in the Kitchen, Mimi is the best fit because she has neither lantern nor house keys.',
+        'That leaves Guy with the lantern in the Sitting Room and Madam Boey with the teacup in the Orchid Room.'
+      ],
+      solution: {
+        mimi: { room: 'kitchen', object: 'guest-ledger' },
+        jay: { room: 'veranda', object: 'house-keys' },
+        'madam-boey': { room: 'orchid-room', object: 'teacup' },
+        guy: { room: 'sitting-room', object: 'lantern' }
+      }
+    },
+    {
+      id: 'level-2',
+      label: 'Level 2',
+      shortTitle: 'Back Door',
+      title: 'Rain at the Back Door',
+      description: 'Use the two deduction grids to map each person to the room and object tied to a noisy disturbance at the back of the house.',
+      sceneNote: 'The storm sharpens here: colder light, harder rain and a more urgent atmosphere across the board.',
+      sheetNotes: {
+        rooms: 'Place each person around the back-of-house spaces.',
+        objects: 'Match each person to the item they were seen with.'
+      },
+      characters: [
+        { id: 'saladin', name: 'Saladin', role: 'Guest' },
+        { id: 'alayna', name: 'Alayna', role: 'Guest' },
+        { id: 'major-mansor', name: 'Major Mansor', role: 'Guest' },
+        { id: 'inspektor-mislan', name: 'Inspektor Mislan', role: 'Police inspector' }
+      ],
+      rooms: [
+        { id: 'kitchen', name: 'Kitchen' },
+        { id: 'rear-corridor', name: 'Rear Corridor' },
+        { id: 'dining-end', name: 'Dining End' },
+        { id: 'store-nook', name: 'Store Nook' }
+      ],
+      objects: [
+        { id: 'torch', name: 'Torch' },
+        { id: 'umbrella', name: 'Umbrella' },
+        { id: 'radio', name: 'Radio' },
+        { id: 'parcel', name: 'Parcel' }
+      ],
+      clues: [
+        'The umbrella ended up nearest the rain, but not in the Rear Corridor.',
+        'Inspektor Mislan was not at the Dining End, and he kept the umbrella close.',
+        'The radio was not in the Kitchen or the Store Nook.',
+        'Major Mansor did not carry the parcel, and he stood somewhere more enclosed than Saladin.',
+        'Saladin was not in the Kitchen.'
+      ],
+      hints: [
+        'Because Inspektor Mislan keeps the umbrella and the umbrella is nearest the rain, try placing him in the Kitchen.',
+        'The radio can only fit the Dining End, which points cleanly to Alayna.',
+        'That leaves Major Mansor in the Store Nook with the torch, and Saladin in the Rear Corridor with the parcel.'
+      ],
+      solution: {
+        saladin: { room: 'rear-corridor', object: 'parcel' },
+        alayna: { room: 'dining-end', object: 'radio' },
+        'major-mansor': { room: 'store-nook', object: 'torch' },
+        'inspektor-mislan': { room: 'kitchen', object: 'umbrella' }
+      }
+    },
+    {
+      id: 'level-3',
+      label: 'Level 3',
+      shortTitle: 'After Midnight',
+      title: 'The Late-Night Call',
+      description: 'Complete the final pair of grids to reconstruct who was stationed where during a tense late-night moment and what each person had with them.',
+      sceneNote: 'Longer shadows, a quieter glow and the sense of a house holding its breath shape the final board.',
+      sheetNotes: {
+        rooms: 'Rebuild the late-night positions around the house.',
+        objects: 'Finish the final inventory of what each person carried.'
+      },
+      characters: [
+        { id: 'mimi', name: 'Mimi', role: 'Retreat co-founder' },
+        { id: 'jay', name: 'Jay', role: 'Retreat co-founder' },
+        { id: 'major-mansor', name: 'Major Mansor', role: 'Guest' },
+        { id: 'man', name: 'Man', role: 'A mysterious figure' }
+      ],
+      rooms: [
+        { id: 'front-steps', name: 'Front Steps' },
+        { id: 'reading-corner', name: 'Reading Corner' },
+        { id: 'pantry', name: 'Pantry' },
+        { id: 'orchid-room', name: 'Orchid Room' }
+      ],
+      objects: [
+        { id: 'matchbox', name: 'Matchbox' },
+        { id: 'thermos', name: 'Thermos' },
+        { id: 'envelope', name: 'Envelope' },
+        { id: 'raincoat', name: 'Raincoat' }
+      ],
+      clues: [
+        'The raincoat was taken to the Front Steps.',
+        'Mimi kept away from the Front Steps and was the only one handling paper.',
+        'The thermos was not near the Pantry or the Reading Corner.',
+        'Major Mansor was not in the Orchid Room and carried the matchbox.',
+        'The Man was not on the Front Steps.'
+      ],
+      hints: [
+        'The Front Steps and raincoat belong together, and Mimi cannot be there.',
+        'Mimi’s paper clue points directly to the envelope in the Reading Corner.',
+        'That leaves the thermos for the Man in the Orchid Room and the matchbox for Major Mansor in the Pantry.'
+      ],
+      solution: {
+        mimi: { room: 'reading-corner', object: 'envelope' },
+        jay: { room: 'front-steps', object: 'raincoat' },
+        'major-mansor': { room: 'pantry', object: 'matchbox' },
+        man: { room: 'orchid-room', object: 'thermos' }
+      }
+    }
+  ];
 
-  function injectStylesheet() {
-    if (document.querySelector(`link[href="${STYLE_PATH}"]`)) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = STYLE_PATH;
-    link.dataset.tikusGameStyles = 'true';
-    document.head.append(link);
-  }
-
-  function replaceSittingRoomHotspot() {
-    const content = global.TIKUS_CONTENT;
-    const room = content && content.scenes && content.scenes['sitting-room'];
-
-    if (!room || !Array.isArray(room.hotspots)) return false;
-
-    const existingIndex = room.hotspots.findIndex(
-      (hotspot) => hotspot && (hotspot.id === 'main-sofa' || hotspot.id === HOTSPOT_ID)
-    );
-
-    if (existingIndex < 0) return false;
-
-    room.hotspots[existingIndex] = {
-      id: HOTSPOT_ID,
-      type: 'game',
-      gameId: DEFAULT_PUZZLE_ID,
-      x: 72,
-      y: 68,
-      label: 'Play the Gelap di Samasihat logic puzzle',
-      subject: 'Logic puzzle',
-      eyebrow: 'INTERACTIVE CASE',
-      title: 'Gelap di Samasihat',
-      body:
-        'Reconstruct where four people were during a fictional blackout. This self-contained challenge is inspired by TIKUS but does not reveal the film’s mystery.'
-    };
-
-    return true;
-  }
-
-  function createElement(tagName, className, textContent) {
-    const element = document.createElement(tagName);
-    if (className) element.className = className;
-    if (typeof textContent === 'string') element.textContent = textContent;
-    return element;
-  }
-
-  function createGameDialog() {
-    const existing = document.getElementById('logic-game-dialog');
-    if (existing) return existing;
-
-    const dialog = createElement('dialog', 'logic-game-dialog');
-    dialog.id = 'logic-game-dialog';
-    dialog.setAttribute('aria-labelledby', 'logic-game-title');
-    dialog.setAttribute('aria-describedby', 'logic-game-introduction');
-
-    const shell = createElement('div', 'logic-game');
-    shell.dataset.gameRoot = '';
-
-    const rings = createElement('div', 'logic-game__rings');
-    rings.setAttribute('aria-hidden', 'true');
-
-    const grain = createElement('div', 'logic-game__grain');
-    grain.setAttribute('aria-hidden', 'true');
-
-    const header = createElement('header', 'logic-game__header');
-    const headingGroup = createElement('div', 'logic-game__heading-group');
-    const eyebrow = createElement('p', 'logic-game__eyebrow', 'A TIKUS LOGIC PUZZLE');
-    eyebrow.dataset.gameEyebrow = '';
-    const title = createElement('h2', 'logic-game__title', 'Gelap di Samasihat');
-    title.id = 'logic-game-title';
-    title.dataset.gameTitle = '';
-    headingGroup.append(eyebrow, title);
-
-    const closeButton = createElement('button', 'logic-game__close', '×');
-    closeButton.type = 'button';
-    closeButton.dataset.gameClose = '';
-    closeButton.setAttribute('aria-label', 'Close game and return to the Sitting Room');
-    header.append(headingGroup, closeButton);
-
-    const introBlock = createElement('div', 'logic-game__intro');
-    const introduction = createElement('p', 'logic-game__introduction');
-    introduction.id = 'logic-game-introduction';
-    introduction.dataset.gameIntroduction = '';
-    const disclaimer = createElement('p', 'logic-game__disclaimer');
-    disclaimer.dataset.gameDisclaimer = '';
-    const previousBadge = createElement('p', 'logic-game__previous');
-    previousBadge.dataset.gamePrevious = '';
-    previousBadge.hidden = true;
-    introBlock.append(introduction, disclaimer, previousBadge);
-
-    const body = createElement('div', 'logic-game__body');
-
-    const boardPanel = createElement('section', 'logic-game__board-panel');
-    boardPanel.setAttribute('aria-labelledby', 'logic-game-board-title');
-    const boardHeadingRow = createElement('div', 'logic-game__subheading-row');
-    const boardHeading = createElement('h3', 'logic-game__subheading', 'House plan');
-    boardHeading.id = 'logic-game-board-title';
-    const selectionStatus = createElement('p', 'logic-game__selection-status');
-    selectionStatus.dataset.gameSelectionStatus = '';
-    boardHeadingRow.append(boardHeading, selectionStatus);
-    const board = createElement('div', 'logic-game__board');
-    board.dataset.gameBoard = '';
-    board.setAttribute('aria-label', 'Top-down plan of Samasihat');
-    boardPanel.append(boardHeadingRow, board);
-
-    const cluePanel = createElement('aside', 'logic-game__clues');
-    cluePanel.setAttribute('aria-labelledby', 'logic-game-clues-title');
-    const clueHeading = createElement('h3', 'logic-game__subheading', 'Clues');
-    clueHeading.id = 'logic-game-clues-title';
-    const clueList = createElement('ol', 'logic-game__clue-list');
-    clueList.dataset.gameClues = '';
-    cluePanel.append(clueHeading, clueList);
-
-    body.append(boardPanel, cluePanel);
-
-    const tray = createElement('section', 'logic-game__tray');
-    tray.setAttribute('aria-label', 'Character and object controls');
-
-    const characterGroup = createElement('div', 'logic-game__tray-group');
-    const characterHeading = createElement('h3', 'logic-game__subheading', '1. Select a person');
-    const characterList = createElement('div', 'logic-game__character-list');
-    characterList.dataset.characterTray = '';
-    characterGroup.append(characterHeading, characterList);
-
-    const objectGroup = createElement('div', 'logic-game__tray-group');
-    const objectHeading = createElement('h3', 'logic-game__subheading', '2. Assign an object');
-    const objectList = createElement('div', 'logic-game__object-list');
-    objectList.dataset.objectTray = '';
-    objectGroup.append(objectHeading, objectList);
-
-    tray.append(characterGroup, objectGroup);
-
-    const solvedPanel = createElement('section', 'logic-game__solved');
-    solvedPanel.dataset.gameSolved = '';
-    solvedPanel.hidden = true;
-    solvedPanel.setAttribute('aria-labelledby', 'logic-game-solved-title');
-    const solvedStamp = createElement('span', 'logic-game__solved-stamp', 'CASE SOLVED');
-    solvedStamp.setAttribute('aria-hidden', 'true');
-    const solvedTitle = createElement('h3', 'logic-game__solved-title', 'The blackout has been reconstructed.');
-    solvedTitle.id = 'logic-game-solved-title';
-    const solvedCopy = createElement(
-      'p',
-      'logic-game__solved-copy',
-      'You placed every person and object correctly. The solution belongs only to this mini-game.'
-    );
-    const solvedClose = createElement('button', 'logic-game__return', 'Return to Sitting Room');
-    solvedClose.type = 'button';
-    solvedClose.dataset.gameClose = '';
-    solvedPanel.append(solvedStamp, solvedTitle, solvedCopy, solvedClose);
-
-    const footer = createElement('footer', 'logic-game__footer');
-    const status = createElement('p', 'logic-game__status', 'Select a person, then choose a room and an object.');
-    status.dataset.gameStatus = '';
-    status.setAttribute('aria-live', 'polite');
-    status.setAttribute('aria-atomic', 'true');
-
-    const controls = createElement('div', 'logic-game__controls');
-    const hintButton = createElement('button', 'logic-game__button logic-game__button--quiet', 'Hint');
-    hintButton.type = 'button';
-    hintButton.dataset.gameHint = '';
-    const resetButton = createElement('button', 'logic-game__button logic-game__button--quiet', 'Reset');
-    resetButton.type = 'button';
-    resetButton.dataset.gameReset = '';
-    const checkButton = createElement('button', 'logic-game__button logic-game__button--primary', 'Check solution');
-    checkButton.type = 'button';
-    checkButton.dataset.gameCheck = '';
-    controls.append(hintButton, resetButton, checkButton);
-    footer.append(status, controls);
-
-    shell.append(rings, grain, header, introBlock, body, tray, solvedPanel, footer);
-    dialog.append(shell);
-    document.body.append(dialog);
-
-    return dialog;
-  }
-
-  class LogicGameController {
-    constructor(dialog, puzzles) {
-      this.dialog = dialog;
-      this.puzzles = puzzles;
-      this.puzzle = null;
+  class TikusLogicGame {
+    constructor() {
+      this.dialog = null;
+      this.elements = {};
       this.trigger = null;
-      this.previousActiveElement = null;
-      this.selectedCharacterId = null;
-      this.assignments = {};
-      this.hintsUsed = 0;
-      this.isSolved = false;
-      this.previouslySolved = false;
-
-      this.root = dialog.querySelector('[data-game-root]');
-      this.title = dialog.querySelector('[data-game-title]');
-      this.eyebrow = dialog.querySelector('[data-game-eyebrow]');
-      this.introduction = dialog.querySelector('[data-game-introduction]');
-      this.disclaimer = dialog.querySelector('[data-game-disclaimer]');
-      this.previousBadge = dialog.querySelector('[data-game-previous]');
-      this.board = dialog.querySelector('[data-game-board]');
-      this.clueList = dialog.querySelector('[data-game-clues]');
-      this.characterTray = dialog.querySelector('[data-character-tray]');
-      this.objectTray = dialog.querySelector('[data-object-tray]');
-      this.selectionStatus = dialog.querySelector('[data-game-selection-status]');
-      this.status = dialog.querySelector('[data-game-status]');
-      this.solvedPanel = dialog.querySelector('[data-game-solved]');
-      this.hintButton = dialog.querySelector('[data-game-hint]');
-      this.resetButton = dialog.querySelector('[data-game-reset]');
-      this.checkButton = dialog.querySelector('[data-game-check]');
+      this.inertRecords = [];
+      this.currentIndex = 0;
+      this.progress = this.loadProgress();
+      this.isPatched = false;
 
       this.handleCancel = this.handleCancel.bind(this);
+      this.handleDialogClick = this.handleDialogClick.bind(this);
       this.handleKeydown = this.handleKeydown.bind(this);
     }
 
     init() {
-      this.dialog.addEventListener('cancel', this.handleCancel);
-      this.dialog.addEventListener('keydown', this.handleKeydown);
-      this.dialog.querySelectorAll('[data-game-close]').forEach((button) => {
-        button.addEventListener('click', () => this.close());
-      });
-      this.hintButton.addEventListener('click', () => this.useHint());
-      this.resetButton.addEventListener('click', () => this.reset());
-      this.checkButton.addEventListener('click', () => this.checkSolution());
+      this.patchHotspot();
+      this.injectDialog();
+      this.patchModalWhenReady();
     }
 
-    open(puzzleId, trigger) {
-      const puzzle = this.puzzles[puzzleId] || this.puzzles[DEFAULT_PUZZLE_ID];
-      if (!puzzle) return;
+    patchHotspot() {
+      const content = global.TIKUS_CONTENT;
+      const sittingRoom = content && content.scenes && content.scenes['sitting-room'];
+      if (!sittingRoom || !Array.isArray(sittingRoom.hotspots)) {
+        return;
+      }
 
-      this.puzzle = puzzle;
+      const hotspotIndex = sittingRoom.hotspots.findIndex((item) => item.id === 'main-sofa');
+      if (hotspotIndex === -1) {
+        return;
+      }
+
+      sittingRoom.hotspots[hotspotIndex] = {
+        id: 'logic-game',
+        x: 72,
+        y: 68,
+        label: 'Play the Gelap di Samasihat logic game',
+        subject: 'Logic game',
+        eyebrow: 'GELAP DI SAMASIHAT',
+        title: 'Play the logic game',
+        body: 'A spoiler-safe, non-canonical deduction board with three atmospheric levels.',
+        type: 'game'
+      };
+    }
+
+    injectDialog() {
+      const dialog = document.createElement('dialog');
+      dialog.className = 'game-dialog';
+      dialog.id = 'logic-game-dialog';
+      dialog.setAttribute('aria-labelledby', 'game-dialog-title');
+      dialog.innerHTML = `
+        <div class="game-dialog__surface" data-theme="level-1">
+          <div class="game-dialog__inner">
+            <div class="game-dialog__play-area" data-game-play-area>
+              <header class="game-dialog__header">
+                <div class="game-dialog__titleblock">
+                  <p class="game-dialog__kicker">Gelap di Samasihat</p>
+                  <h2 class="game-dialog__title" id="game-dialog-title">Blackout in the Sitting Room</h2>
+                  <p class="game-dialog__description" data-game-description></p>
+                  <p class="game-dialog__disclaimer">A spoiler-safe, non-canonical investigation game inspired by the world of TIKUS.</p>
+                </div>
+                <button class="game-dialog__close" type="button" data-game-close aria-label="Close logic game">×</button>
+              </header>
+
+              <nav class="game-level-tabs" aria-label="Logic game levels" data-game-level-tabs></nav>
+
+              <div class="game-progress">
+                <span data-game-progress-text>0 of 3 levels solved</span>
+                <div class="game-progress__meter" aria-hidden="true">
+                  <div class="game-progress__fill" data-game-progress-fill></div>
+                </div>
+              </div>
+
+              <div class="game-layout">
+                <section class="game-board" aria-labelledby="game-board-heading">
+                  <div class="game-board__toplight" aria-hidden="true"></div>
+                  <div class="game-board__rain" aria-hidden="true"></div>
+                  <div class="game-board__dust" aria-hidden="true"></div>
+                  <div class="game-board__inner">
+                    <div class="game-board__headline">
+                      <div>
+                        <h3 id="game-board-heading" data-game-board-title></h3>
+                        <p data-game-board-note></p>
+                      </div>
+                      <p data-game-board-objective></p>
+                    </div>
+                    <div class="game-board__sheets" data-game-sheets></div>
+                  </div>
+                </section>
+
+                <aside class="game-sidepanel">
+                  <section class="game-clue-panel" aria-labelledby="game-clues-heading">
+                    <h4 id="game-clues-heading">Clue cards</h4>
+                    <ol class="game-clue-list" data-game-clue-list></ol>
+                    <div class="game-clue-panel__hint" data-game-hint-box>No hint shown yet.</div>
+                  </section>
+
+                  <section class="game-status-panel" aria-labelledby="game-status-heading">
+                    <h4 id="game-status-heading">Case status</h4>
+                    <p>Mark each square by clicking it: blank, maybe, ruled out or confirmed.</p>
+                    <div class="game-status-panel__result" data-game-result data-tone="neutral">Complete both grids and check the board.</div>
+                    <div class="game-status-panel__stamp" data-game-stamp aria-hidden="true">Case noted</div>
+                  </section>
+
+                  <section class="game-legend-panel" aria-labelledby="game-legend-heading">
+                    <h4 id="game-legend-heading">Marking key</h4>
+                    <ul class="game-legend-list">
+                      <li><b>○</b><span>Possible match</span></li>
+                      <li><b>×</b><span>Ruled out</span></li>
+                      <li><b>✓</b><span>Confirmed match</span></li>
+                    </ul>
+                  </section>
+
+                  <section class="game-actions-panel" aria-labelledby="game-actions-heading">
+                    <h4 id="game-actions-heading">Board controls</h4>
+                    <p>Confirming a square automatically rules out the rest of its row and column in that grid.</p>
+                    <div class="game-actions">
+                      <button class="game-button" type="button" data-game-action="hint">Show next hint</button>
+                      <button class="game-button" type="button" data-game-action="reset">Reset level</button>
+                      <button class="game-button game-button--primary" type="button" data-game-action="check">Check board</button>
+                      <button class="game-button" type="button" data-game-action="next">Next level</button>
+                    </div>
+                  </section>
+                </aside>
+              </div>
+
+              <p class="game-dialog__footer">Tip: Tab into any square and press Enter or Space to cycle its state.</p>
+            </div>
+
+            <section class="game-intro" data-game-intro aria-labelledby="game-intro-title" aria-describedby="game-intro-body" hidden>
+              <div class="game-intro__card">
+                <p class="game-intro__eyebrow">How to play</p>
+                <h3 class="game-intro__title" id="game-intro-title">Read the clues. Mark the board. Solve the room.</h3>
+                <p class="game-intro__body" id="game-intro-body">This mini-game is a spoiler-safe deduction puzzle. You will use two paper grids to decide where each person was and what they were carrying.</p>
+                <div class="game-intro__notes">
+                  <article class="game-intro__note">
+                    <strong>1. Mark each square</strong>
+                    <p>Click or press Enter on a square to cycle it through blank, <b>○</b> possible, <b>×</b> ruled out and <b>✓</b> confirmed.</p>
+                  </article>
+                  <article class="game-intro__note">
+                    <strong>2. Use the clue cards</strong>
+                    <p>Every clue narrows the options. When a square is confirmed, the rest of that row and column in the same grid are ruled out automatically.</p>
+                  </article>
+                  <article class="game-intro__note">
+                    <strong>3. Check the case board</strong>
+                    <p>Each person needs one confirmed room and one confirmed object. When both grids are complete, use <b>Check board</b>.</p>
+                  </article>
+                </div>
+                <div class="game-intro__actions">
+                  <button class="game-intro__button game-intro__button--primary" type="button" data-game-intro-start>Start level</button>
+                  <button class="game-intro__button" type="button" data-game-intro-close>Close</button>
+                </div>
+              </div>
+            </section>
+
+            <div class="game-solve-flash" data-game-solve-flash aria-hidden="true">
+              <div class="game-solve-flash__rings"></div>
+              <div class="game-solve-flash__label">Case Closed</div>
+            </div>
+
+            <section class="game-level-summary" data-game-summary aria-labelledby="game-summary-title" aria-describedby="game-summary-body" hidden>
+              <div class="game-level-summary__card">
+                <p class="game-level-summary__eyebrow">Case board complete</p>
+                <h3 class="game-level-summary__title" id="game-summary-title" data-game-summary-title>Level complete</h3>
+                <p class="game-level-summary__body" id="game-summary-body" data-game-summary-body></p>
+                <ul class="game-level-summary__list" data-game-summary-list></ul>
+                <div class="game-level-summary__actions">
+                  <button class="game-level-summary__button game-level-summary__button--primary" type="button" data-game-summary-continue>Continue</button>
+                  <button class="game-level-summary__button" type="button" data-game-summary-review>Review board</button>
+                </div>
+              </div>
+            </section>
+
+            <p class="game-live-region" aria-live="polite" aria-atomic="true" data-game-live></p>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(dialog);
+      this.dialog = dialog;
+      this.elements.surface = dialog.querySelector('.game-dialog__surface');
+      this.elements.playArea = dialog.querySelector('[data-game-play-area]');
+      this.elements.intro = dialog.querySelector('[data-game-intro]');
+      this.elements.introStart = dialog.querySelector('[data-game-intro-start]');
+      this.elements.title = dialog.querySelector('#game-dialog-title');
+      this.elements.description = dialog.querySelector('[data-game-description]');
+      this.elements.levelTabs = dialog.querySelector('[data-game-level-tabs]');
+      this.elements.progressText = dialog.querySelector('[data-game-progress-text]');
+      this.elements.progressFill = dialog.querySelector('[data-game-progress-fill]');
+      this.elements.boardTitle = dialog.querySelector('[data-game-board-title]');
+      this.elements.boardNote = dialog.querySelector('[data-game-board-note]');
+      this.elements.boardObjective = dialog.querySelector('[data-game-board-objective]');
+      this.elements.sheets = dialog.querySelector('[data-game-sheets]');
+      this.elements.clueList = dialog.querySelector('[data-game-clue-list]');
+      this.elements.hintBox = dialog.querySelector('[data-game-hint-box]');
+      this.elements.result = dialog.querySelector('[data-game-result]');
+      this.elements.board = dialog.querySelector('.game-board');
+      this.elements.stamp = dialog.querySelector('[data-game-stamp]');
+      this.elements.solveFlash = dialog.querySelector('[data-game-solve-flash]');
+      this.elements.summary = dialog.querySelector('[data-game-summary]');
+      this.elements.summaryTitle = dialog.querySelector('[data-game-summary-title]');
+      this.elements.summaryBody = dialog.querySelector('[data-game-summary-body]');
+      this.elements.summaryList = dialog.querySelector('[data-game-summary-list]');
+      this.elements.summaryContinue = dialog.querySelector('[data-game-summary-continue]');
+      this.elements.live = dialog.querySelector('[data-game-live]');
+
+      dialog.addEventListener('cancel', this.handleCancel);
+      dialog.addEventListener('click', this.handleDialogClick);
+      dialog.addEventListener('keydown', this.handleKeydown);
+    }
+
+    patchModalWhenReady(attempt = 0) {
+      if (this.isPatched) {
+        return;
+      }
+
+      if (global.TikusMicrosite && global.TikusMicrosite.modal) {
+        const modal = global.TikusMicrosite.modal;
+        const originalOpen = modal.open.bind(modal);
+
+        modal.open = (content, trigger) => {
+          if (content && content.type === 'game') {
+            this.open(trigger);
+            return;
+          }
+          originalOpen(content, trigger);
+        };
+
+        this.isPatched = true;
+        return;
+      }
+
+      if (attempt < MAX_PATCH_ATTEMPTS) {
+        window.setTimeout(() => this.patchModalWhenReady(attempt + 1), 100);
+      }
+    }
+
+    open(trigger) {
       this.trigger = trigger || null;
-      this.previousActiveElement = document.activeElement;
-      this.previouslySolved = this.readProgress(puzzle.id).completed === true;
-      this.reset({ announce: false });
-      this.renderStaticContent();
-      this.render();
+      this.currentIndex = this.firstAvailableIndex();
+      this.renderCurrentLevel();
+      this.showIntro();
       this.setBackgroundInert(true);
+      document.body.classList.add('has-open-dialog');
 
       if (typeof this.dialog.showModal === 'function') {
         this.dialog.showModal();
       } else {
-        this.dialog.setAttribute('open', '');
+        this.dialog.setAttribute('open', 'open');
       }
 
-      document.documentElement.classList.add('logic-game-is-open');
-      window.requestAnimationFrame(() => {
-        const firstCharacter = this.characterTray.querySelector('button');
-        if (firstCharacter) firstCharacter.focus();
-      });
+      window.requestAnimationFrame(() => this.elements.introStart && this.elements.introStart.focus());
     }
 
     close() {
-      if (!this.dialog.open && !this.dialog.hasAttribute('open')) return;
+      if (!this.dialog.open) {
+        return;
+      }
 
       if (typeof this.dialog.close === 'function') {
         this.dialog.close();
@@ -328,15 +430,35 @@
         this.dialog.removeAttribute('open');
       }
 
-      document.documentElement.classList.remove('logic-game-is-open');
-      this.setBackgroundInert(false);
-
-      const focusTarget = this.trigger || this.previousActiveElement;
-      this.trigger = null;
-      this.previousActiveElement = null;
-      if (focusTarget && typeof focusTarget.focus === 'function') {
-        window.requestAnimationFrame(() => focusTarget.focus());
+      this.hideIntro();
+      this.hideLevelSummary({ restorePlayArea: false });
+      if (this.elements.solveFlash) {
+        this.elements.solveFlash.classList.remove('is-active');
       }
+      this.setBackgroundInert(false);
+      document.body.classList.remove('has-open-dialog');
+
+      const trigger = this.trigger;
+      this.trigger = null;
+      if (trigger instanceof HTMLElement && document.contains(trigger)) {
+        window.requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+      }
+    }
+
+    showIntro() {
+      this.elements.intro.hidden = false;
+      this.elements.playArea.inert = true;
+      this.elements.playArea.setAttribute('aria-hidden', 'true');
+      window.requestAnimationFrame(() => {
+        this.elements.intro.classList.add('is-visible');
+      });
+    }
+
+    hideIntro() {
+      this.elements.intro.classList.remove('is-visible');
+      this.elements.intro.hidden = true;
+      this.elements.playArea.inert = false;
+      this.elements.playArea.removeAttribute('aria-hidden');
     }
 
     handleCancel(event) {
@@ -344,454 +466,702 @@
       this.close();
     }
 
+    handleDialogClick(event) {
+      if (event.target === this.dialog) {
+        this.close();
+        return;
+      }
+
+      const introStart = event.target.closest('[data-game-intro-start]');
+      if (introStart) {
+        this.hideIntro();
+        const nextFocus = this.elements.levelTabs.querySelector('button:not(:disabled)') || this.dialog.querySelector('[data-grid-cell]');
+        if (nextFocus) {
+          nextFocus.focus();
+        }
+        return;
+      }
+
+      const introClose = event.target.closest('[data-game-intro-close]');
+      if (introClose) {
+        this.close();
+        return;
+      }
+
+      const summaryContinue = event.target.closest('[data-game-summary-continue]');
+      if (summaryContinue) {
+        this.continueFromSummary();
+        return;
+      }
+
+      const summaryReview = event.target.closest('[data-game-summary-review]');
+      if (summaryReview) {
+        this.reviewCompletedBoard();
+        return;
+      }
+
+      const cellButton = event.target.closest('[data-grid-cell]');
+      if (cellButton) {
+        this.cycleGridCell(cellButton);
+        return;
+      }
+
+      const levelButton = event.target.closest('[data-game-level]');
+      if (levelButton) {
+        const index = Number(levelButton.dataset.gameLevel);
+        if (!Number.isNaN(index) && this.isLevelUnlocked(index)) {
+          this.currentIndex = index;
+          this.renderCurrentLevel();
+        }
+        return;
+      }
+
+      const closeButton = event.target.closest('[data-game-close]');
+      if (closeButton) {
+        this.close();
+        return;
+      }
+
+      const actionButton = event.target.closest('[data-game-action]');
+      if (!actionButton) {
+        return;
+      }
+
+      switch (actionButton.dataset.gameAction) {
+        case 'hint':
+          this.showNextHint();
+          break;
+        case 'reset':
+          this.resetCurrentLevel();
+          break;
+        case 'check':
+          this.checkCurrentLevel();
+          break;
+        case 'next':
+          this.moveToNextLevel();
+          break;
+        default:
+          break;
+      }
+    }
+
     handleKeydown(event) {
-      if (event.key !== 'Tab') return;
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-grid-cell]')) {
+        event.preventDefault();
+        this.cycleGridCell(event.target);
+        return;
+      }
 
-      const focusable = Array.from(
-        this.dialog.querySelectorAll(
-          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )
-      ).filter((element) => !element.hidden && element.offsetParent !== null);
+      if (event.key === 'Tab') {
+        this.trapFocus(event);
+      }
+    }
 
-      if (!focusable.length) return;
+    cycleGridCell(button) {
+      const level = this.getCurrentLevel();
+      const gridType = button.dataset.gridType;
+      const rowId = button.dataset.rowId;
+      const columnId = button.dataset.columnId;
+      const boardState = this.getBoardState(level.id);
+      const gridState = boardState[gridType];
+      const currentState = gridState[rowId][columnId];
+      const nextState = STATE_ORDER[(STATE_ORDER.indexOf(currentState) + 1) % STATE_ORDER.length];
+
+      gridState[rowId][columnId] = nextState;
+
+      if (nextState === 'yes') {
+        Object.keys(gridState[rowId]).forEach((otherColumn) => {
+          if (otherColumn !== columnId) {
+            gridState[rowId][otherColumn] = 'no';
+          }
+        });
+
+        Object.keys(gridState).forEach((otherRow) => {
+          if (otherRow !== rowId) {
+            gridState[otherRow][columnId] = 'no';
+          }
+        });
+      }
+
+      this.persistProgress();
+      this.renderSheets(level, boardState);
+      this.updateResultForInteraction(nextState, rowId, columnId, gridType);
+      const refocus = this.dialog.querySelector(`[data-grid-type="${gridType}"][data-row-id="${rowId}"][data-column-id="${columnId}"]`);
+      if (refocus) {
+        refocus.focus();
+      }
+    }
+
+    updateResultForInteraction(nextState, rowId, columnId, gridType) {
+      const level = this.getCurrentLevel();
+      const collection = gridType === 'rooms' ? level.rooms : level.objects;
+      const item = collection.find((entry) => entry.id === columnId);
+      const character = level.characters.find((entry) => entry.id === rowId);
+      if (!item || !character) {
+        return;
+      }
+
+      this.elements.result.dataset.tone = 'neutral';
+      this.elements.result.textContent = `${character.name}: ${item.name} marked as ${STATE_NAMES[nextState]}.`;
+      this.announce(`${character.name}, ${item.name}, ${STATE_NAMES[nextState]}.`);
+    }
+
+    getCurrentLevel() {
+      return LEVELS[this.currentIndex];
+    }
+
+    loadProgress() {
+      try {
+        const parsed = JSON.parse(global.localStorage.getItem(STORAGE_KEY) || '{}');
+        return {
+          solved: Array.isArray(parsed.solved) ? parsed.solved : [],
+          boards: parsed.boards && typeof parsed.boards === 'object' ? parsed.boards : {},
+          hints: parsed.hints && typeof parsed.hints === 'object' ? parsed.hints : {}
+        };
+      } catch (error) {
+        return { solved: [], boards: {}, hints: {} };
+      }
+    }
+
+    persistProgress() {
+      try {
+        global.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.progress));
+      } catch (error) {
+        // Ignore storage errors.
+      }
+    }
+
+    firstAvailableIndex() {
+      const firstLocked = LEVELS.findIndex((_, index) => !this.isLevelUnlocked(index));
+      if (firstLocked === -1) {
+        return 0;
+      }
+      return Math.max(0, firstLocked - 1);
+    }
+
+    isLevelSolved(levelId) {
+      return this.progress.solved.includes(levelId);
+    }
+
+    isLevelUnlocked(index) {
+      if (index === 0) {
+        return true;
+      }
+      return this.isLevelSolved(LEVELS[index - 1].id);
+    }
+
+    createBlankGridState(level, entries, columns) {
+      return entries.reduce((entryAccumulator, entry) => {
+        entryAccumulator[entry.id] = columns.reduce((columnAccumulator, column) => {
+          columnAccumulator[column.id] = 'blank';
+          return columnAccumulator;
+        }, {});
+        return entryAccumulator;
+      }, {});
+    }
+
+    getBoardState(levelId) {
+      if (!this.progress.boards[levelId]) {
+        const level = LEVELS.find((item) => item.id === levelId);
+        this.progress.boards[levelId] = {
+          rooms: this.createBlankGridState(level, level.characters, level.rooms),
+          objects: this.createBlankGridState(level, level.characters, level.objects)
+        };
+      }
+      return this.progress.boards[levelId];
+    }
+
+    getHintIndex(levelId) {
+      return Number(this.progress.hints[levelId] || 0);
+    }
+
+    setHintIndex(levelId, nextIndex) {
+      this.progress.hints[levelId] = nextIndex;
+      this.persistProgress();
+    }
+
+    renderCurrentLevel() {
+      const level = this.getCurrentLevel();
+      const boardState = this.getBoardState(level.id);
+      this.elements.surface.dataset.theme = level.id;
+      this.elements.title.textContent = level.title;
+      this.elements.description.textContent = level.description;
+      this.elements.boardTitle.textContent = level.title;
+      this.elements.boardNote.textContent = level.sceneNote;
+      this.elements.boardObjective.textContent = `${level.characters.length} people · ${level.rooms.length} rooms · ${level.objects.length} objects`;
+      this.elements.hintBox.textContent = this.getHintIndex(level.id) > 0
+        ? level.hints[this.getHintIndex(level.id) - 1]
+        : 'No hint shown yet.';
+      this.elements.result.dataset.tone = this.isLevelSolved(level.id) ? 'success' : 'neutral';
+      this.elements.result.textContent = this.isLevelSolved(level.id)
+        ? 'Level already solved. Revisit the board or move to the next one.'
+        : 'Complete both grids and check the board.';
+      this.elements.stamp.textContent = this.isLevelSolved(level.id)
+        ? (level.id === 'level-3' ? 'House mapped' : 'Case closed')
+        : 'Case noted';
+      this.elements.stamp.classList.toggle('is-visible', this.isLevelSolved(level.id));
+      this.renderLevelTabs();
+      this.renderProgress();
+      this.renderClues(level);
+      this.renderSheets(level, boardState);
+    }
+
+    renderLevelTabs() {
+      const fragment = document.createDocumentFragment();
+      LEVELS.forEach((level, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'game-level-tab';
+        button.dataset.gameLevel = String(index);
+        button.disabled = !this.isLevelUnlocked(index);
+        if (index === this.currentIndex) {
+          button.classList.add('is-active');
+          button.setAttribute('aria-current', 'true');
+        }
+        if (this.isLevelSolved(level.id)) {
+          button.classList.add('is-solved');
+        }
+        button.innerHTML = `<strong>${level.label}</strong><small>${level.shortTitle}</small>`;
+        fragment.appendChild(button);
+      });
+      this.elements.levelTabs.replaceChildren(fragment);
+    }
+
+    renderProgress() {
+      const solvedCount = this.progress.solved.length;
+      this.elements.progressText.textContent = `${solvedCount} of ${LEVELS.length} levels solved`;
+      this.elements.progressFill.style.width = `${(solvedCount / LEVELS.length) * 100}%`;
+    }
+
+    renderClues(level) {
+      const fragment = document.createDocumentFragment();
+      level.clues.forEach((clue, index) => {
+        const item = document.createElement('li');
+        item.innerHTML = `<strong>Clue ${index + 1}</strong><span>${clue}</span>`;
+        fragment.appendChild(item);
+      });
+      this.elements.clueList.replaceChildren(fragment);
+    }
+
+    renderSheets(level, boardState) {
+      const roomSheet = this.createGridSheet({
+        gridType: 'rooms',
+        title: 'Character × Room',
+        subtitle: 'Who was where?',
+        note: level.sheetNotes.rooms,
+        rows: level.characters,
+        columns: level.rooms,
+        states: boardState.rooms
+      });
+
+      const objectSheet = this.createGridSheet({
+        gridType: 'objects',
+        title: 'Character × Object',
+        subtitle: 'Who carried what?',
+        note: level.sheetNotes.objects,
+        rows: level.characters,
+        columns: level.objects,
+        states: boardState.objects
+      });
+
+      this.elements.sheets.replaceChildren(roomSheet, objectSheet);
+    }
+
+    createGridSheet({ gridType, title, subtitle, note, rows, columns, states }) {
+      const sheet = document.createElement('section');
+      sheet.className = 'game-grid-sheet';
+
+      const table = document.createElement('table');
+      table.className = 'game-grid';
+      table.setAttribute('aria-label', `${title} deduction grid`);
+
+      const thead = document.createElement('thead');
+      const headRow = document.createElement('tr');
+      const corner = document.createElement('th');
+      corner.className = 'game-grid__corner';
+      corner.scope = 'col';
+      corner.textContent = 'Character';
+      headRow.appendChild(corner);
+
+      columns.forEach((column) => {
+        const header = document.createElement('th');
+        header.className = 'game-grid__column';
+        header.scope = 'col';
+        header.innerHTML = `
+          <span class="game-grid__column-inner">
+            <span class="game-grid__icon" data-icon="${column.id}" aria-hidden="true"></span>
+            <span class="game-grid__column-label">${column.name}</span>
+          </span>
+        `;
+        headRow.appendChild(header);
+      });
+      thead.appendChild(headRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      rows.forEach((row) => {
+        const tr = document.createElement('tr');
+        const rowHeader = document.createElement('th');
+        rowHeader.className = 'game-grid__row';
+        rowHeader.scope = 'row';
+        rowHeader.innerHTML = `<strong>${row.name}</strong><span>${row.role}</span>`;
+        tr.appendChild(rowHeader);
+
+        columns.forEach((column) => {
+          const td = document.createElement('td');
+          const state = states[row.id][column.id];
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'game-grid__cell-button';
+          button.dataset.gridCell = 'true';
+          button.dataset.gridType = gridType;
+          button.dataset.rowId = row.id;
+          button.dataset.columnId = column.id;
+          button.dataset.state = state;
+          button.setAttribute('aria-label', `${row.name} and ${column.name}: ${STATE_NAMES[state]}`);
+          button.textContent = STATE_SYMBOLS[state];
+          td.appendChild(button);
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+
+      sheet.innerHTML = `
+        <span class="game-grid-sheet__tape game-grid-sheet__tape--left" aria-hidden="true"></span>
+        <span class="game-grid-sheet__tape game-grid-sheet__tape--right" aria-hidden="true"></span>
+        <div class="game-grid-sheet__content">
+          <div class="game-grid-sheet__heading">
+            <h4>${title}</h4>
+            <p>${subtitle}</p>
+          </div>
+          <p class="game-grid-sheet__scribble">${note}</p>
+          <div class="game-grid-wrap"></div>
+          <div class="game-grid-sheet__legend">
+            <span><em>○</em>Possible</span>
+            <span><em>×</em>Ruled out</span>
+            <span><em>✓</em>Confirmed</span>
+          </div>
+        </div>
+      `;
+      sheet.querySelector('.game-grid-wrap').appendChild(table);
+      return sheet;
+    }
+
+    showNextHint() {
+      const level = this.getCurrentLevel();
+      const current = this.getHintIndex(level.id);
+      const next = Math.min(current + 1, level.hints.length);
+      this.setHintIndex(level.id, next);
+      this.elements.hintBox.textContent = level.hints[next - 1] || level.hints[level.hints.length - 1] || 'No hints available.';
+      this.announce(`Hint ${next} shown for ${level.label}.`);
+    }
+
+    resetCurrentLevel() {
+      const level = this.getCurrentLevel();
+      this.progress.boards[level.id] = {
+        rooms: this.createBlankGridState(level, level.characters, level.rooms),
+        objects: this.createBlankGridState(level, level.characters, level.objects)
+      };
+      this.progress.hints[level.id] = 0;
+      this.persistProgress();
+      this.elements.hintBox.textContent = 'No hint shown yet.';
+      this.elements.result.dataset.tone = 'neutral';
+      this.elements.result.textContent = 'Level reset. Start marking the grids again.';
+      this.elements.stamp.classList.remove('is-visible', 'is-bursting');
+      if (this.elements.solveFlash) {
+        this.elements.solveFlash.classList.remove('is-active');
+      }
+      this.renderSheets(level, this.progress.boards[level.id]);
+      this.announce(`${level.label} reset.`);
+    }
+
+    evaluateGrid(gridState, rows, solution, key) {
+      let fullyCorrect = true;
+      let correctMatches = 0;
+      let confirmedCount = 0;
+      const confirmedTargets = [];
+
+      rows.forEach((row) => {
+        const states = gridState[row.id];
+        const yesColumns = Object.keys(states).filter((columnId) => states[columnId] === 'yes');
+        confirmedCount += yesColumns.length;
+        yesColumns.forEach((columnId) => confirmedTargets.push(columnId));
+
+        if (yesColumns.length !== 1 || yesColumns[0] !== solution[row.id][key]) {
+          fullyCorrect = false;
+        } else {
+          correctMatches += 1;
+        }
+      });
+
+      if (new Set(confirmedTargets).size !== confirmedTargets.length) {
+        fullyCorrect = false;
+      }
+
+      return { fullyCorrect, correctMatches, confirmedCount };
+    }
+
+    checkCurrentLevel() {
+      const level = this.getCurrentLevel();
+      const boardState = this.getBoardState(level.id);
+      const roomResult = this.evaluateGrid(boardState.rooms, level.characters, level.solution, 'room');
+      const objectResult = this.evaluateGrid(boardState.objects, level.characters, level.solution, 'object');
+
+      if (roomResult.confirmedCount < level.characters.length || objectResult.confirmedCount < level.characters.length) {
+        this.elements.result.dataset.tone = 'warning';
+        this.elements.result.textContent = 'Each character needs one confirmed room and one confirmed object before the board can be checked.';
+        this.elements.stamp.classList.remove('is-visible', 'is-bursting');
+        if (this.elements.solveFlash) {
+          this.elements.solveFlash.classList.remove('is-active');
+        }
+        this.triggerWrongFeedback();
+        this.announce('Not enough confirmed squares to check the board.');
+        return;
+      }
+
+      if (roomResult.fullyCorrect && objectResult.fullyCorrect) {
+        if (!this.isLevelSolved(level.id)) {
+          this.progress.solved.push(level.id);
+          this.progress.solved = LEVELS.map((item) => item.id).filter((id) => this.progress.solved.includes(id));
+        }
+        this.persistProgress();
+        this.elements.result.dataset.tone = 'success';
+        this.elements.result.textContent = level.id === 'level-3'
+          ? 'Correct. You completed the final board and solved all three levels.'
+          : 'Correct. This board lines up perfectly. You can move to the next level.';
+        this.triggerSolvedTransition(level);
+        window.setTimeout(() => this.showLevelSummary(level), 680);
+        this.announce(`${level.label} solved.`);
+        return;
+      }
+
+      const totalCorrect = roomResult.correctMatches + objectResult.correctMatches;
+      const totalExpected = level.characters.length * 2;
+      this.elements.result.dataset.tone = 'warning';
+      this.elements.result.textContent = `Not quite. ${totalCorrect} of ${totalExpected} confirmed row matches are correct across both grids.`;
+      this.elements.stamp.classList.remove('is-visible', 'is-bursting');
+      this.triggerWrongFeedback();
+      this.announce(`${level.label} not solved yet.`);
+    }
+
+    triggerWrongFeedback() {
+      if (!this.elements.board || !this.elements.result) {
+        return;
+      }
+
+      this.elements.board.classList.remove('is-wrong-check');
+      this.elements.result.classList.remove('is-wrong-check');
+      window.requestAnimationFrame(() => {
+        this.elements.board.classList.add('is-wrong-check');
+        this.elements.result.classList.add('is-wrong-check');
+        window.setTimeout(() => {
+          this.elements.board && this.elements.board.classList.remove('is-wrong-check');
+          this.elements.result && this.elements.result.classList.remove('is-wrong-check');
+        }, 620);
+      });
+    }
+
+    showLevelSummary(level) {
+      if (!this.dialog.open) {
+        return;
+      }
+
+      if (!this.elements.summary) {
+        this.renderLevelTabs();
+        this.renderProgress();
+        return;
+      }
+
+      const nextLevel = LEVELS[this.currentIndex + 1] || null;
+      this.elements.summaryTitle.textContent = level.id === 'level-3'
+        ? 'All case boards complete'
+        : `${level.label} complete`;
+      this.elements.summaryBody.textContent = level.id === 'level-3'
+        ? 'The final non-canonical puzzle board has been resolved. Review the completed matches or close the game.'
+        : `The evidence now forms one consistent arrangement. Review the completed matches before ${nextLevel.label} becomes available.`;
+      this.elements.summaryContinue.textContent = nextLevel ? `Continue to ${nextLevel.label}` : 'Close game';
+
+      const fragment = document.createDocumentFragment();
+      level.characters.forEach((character) => {
+        const answer = level.solution[character.id];
+        const room = level.rooms.find((item) => item.id === answer.room);
+        const object = level.objects.find((item) => item.id === answer.object);
+        const item = document.createElement('li');
+        item.innerHTML = `
+          <strong>${character.name}</strong>
+          <span>${room ? room.name : answer.room}</span>
+          <em>${object ? object.name : answer.object}</em>
+        `;
+        fragment.appendChild(item);
+      });
+      this.elements.summaryList.replaceChildren(fragment);
+
+      this.elements.playArea.inert = true;
+      this.elements.playArea.setAttribute('aria-hidden', 'true');
+      this.elements.summary.hidden = false;
+      window.requestAnimationFrame(() => {
+        this.elements.summary.classList.add('is-visible');
+        this.elements.summaryContinue.focus();
+      });
+    }
+
+    hideLevelSummary(options = {}) {
+      const { restorePlayArea = true } = options;
+      if (!this.elements.summary) {
+        return;
+      }
+      this.elements.summary.classList.remove('is-visible');
+      this.elements.summary.hidden = true;
+      if (restorePlayArea) {
+        this.elements.playArea.inert = false;
+        this.elements.playArea.removeAttribute('aria-hidden');
+      }
+    }
+
+    continueFromSummary() {
+      const nextIndex = this.currentIndex + 1;
+      this.hideLevelSummary();
+      this.renderLevelTabs();
+      this.renderProgress();
+
+      if (nextIndex >= LEVELS.length) {
+        this.close();
+        return;
+      }
+
+      this.currentIndex = nextIndex;
+      this.renderCurrentLevel();
+      const firstCell = this.dialog.querySelector('[data-grid-cell]');
+      if (firstCell) {
+        firstCell.focus();
+      }
+      this.announce(`${LEVELS[this.currentIndex].label} loaded.`);
+    }
+
+    reviewCompletedBoard() {
+      this.hideLevelSummary();
+      this.renderLevelTabs();
+      this.renderProgress();
+      const checkButton = this.dialog.querySelector('[data-game-action="check"]');
+      if (checkButton) {
+        checkButton.focus();
+      }
+      this.announce('Completed board ready for review.');
+    }
+
+    moveToNextLevel() {
+      const nextIndex = Math.min(this.currentIndex + 1, LEVELS.length - 1);
+      if (!this.isLevelUnlocked(nextIndex)) {
+        this.elements.result.dataset.tone = 'warning';
+        this.elements.result.textContent = 'Solve the current level to unlock the next one.';
+        this.announce('Next level is still locked.');
+        return;
+      }
+      this.currentIndex = nextIndex;
+      this.renderCurrentLevel();
+      this.announce(`${LEVELS[this.currentIndex].label} loaded.`);
+    }
+
+    triggerSolvedTransition(level) {
+      const stampLabel = level.id === 'level-3' ? 'House mapped' : 'Case closed';
+      this.elements.stamp.textContent = stampLabel;
+      this.elements.stamp.classList.remove('is-visible', 'is-bursting');
+      if (this.elements.solveFlash) {
+        const flashLabel = this.elements.solveFlash.querySelector('.game-solve-flash__label');
+        if (flashLabel) {
+          flashLabel.textContent = stampLabel;
+        }
+        this.elements.solveFlash.classList.remove('is-active');
+      }
+
+      window.requestAnimationFrame(() => {
+        this.elements.stamp.classList.add('is-visible', 'is-bursting');
+        if (this.elements.solveFlash) {
+          this.elements.solveFlash.classList.add('is-active');
+          window.setTimeout(() => {
+            this.elements.solveFlash && this.elements.solveFlash.classList.remove('is-active');
+          }, 760);
+        }
+        window.setTimeout(() => {
+          this.elements.stamp && this.elements.stamp.classList.remove('is-bursting');
+        }, 820);
+      });
+    }
+
+    announce(message) {
+      this.elements.live.textContent = message;
+    }
+
+    trapFocus(event) {
+      const focusable = this.getFocusable();
+      if (focusable.length === 0) {
+        event.preventDefault();
+        this.dialog.focus();
+        return;
+      }
 
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
 
-      if (event.shiftKey && document.activeElement === first) {
+      if (event.shiftKey && (active === first || !this.dialog.contains(active))) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (!event.shiftKey && (active === last || !this.dialog.contains(active))) {
         event.preventDefault();
         first.focus();
       }
     }
 
-    setBackgroundInert(isInert) {
-      document.querySelectorAll('[data-dialog-inert]').forEach((element) => {
-        if ('inert' in element) {
-          element.inert = isInert;
-        } else if (isInert) {
+    getFocusable() {
+      const selector = [
+        'button:not([disabled])',
+        'a[href]',
+        '[tabindex]:not([tabindex="-1"])'
+      ].join(',');
+
+      return Array.from(this.dialog.querySelectorAll(selector)).filter((element) => {
+        if (element.hasAttribute('hidden')) {
+          return false;
+        }
+        if (element.closest('[inert]')) {
+          return false;
+        }
+        return element.getClientRects().length > 0;
+      });
+    }
+
+    setBackgroundInert(makeInert) {
+      const targets = document.querySelectorAll('[data-dialog-inert]');
+      if (makeInert) {
+        this.inertRecords = Array.from(targets).map((element) => ({
+          element,
+          inert: element.inert,
+          ariaHidden: element.getAttribute('aria-hidden')
+        }));
+
+        this.inertRecords.forEach(({ element }) => {
+          element.inert = true;
           element.setAttribute('aria-hidden', 'true');
-        } else {
-          element.removeAttribute('aria-hidden');
-        }
-      });
-    }
-
-    reset(options = {}) {
-      const { announce = true } = options;
-      if (!this.puzzle) return;
-
-      this.assignments = {};
-      this.puzzle.characters.forEach((character) => {
-        this.assignments[character.id] = { location: null, object: null };
-      });
-      this.selectedCharacterId = this.puzzle.characters[0].id;
-      this.hintsUsed = 0;
-      this.isSolved = false;
-      this.solvedPanel.hidden = true;
-      this.root.classList.remove('is-solved');
-      this.hintButton.disabled = false;
-      this.checkButton.disabled = false;
-
-      if (announce) {
-        this.setStatus('Puzzle reset. Select a person, then choose a room and an object.');
-        this.render();
-      }
-    }
-
-    renderStaticContent() {
-      const puzzle = this.puzzle;
-      this.title.textContent = puzzle.title;
-      this.eyebrow.textContent = puzzle.eyebrow;
-      this.introduction.textContent = puzzle.introduction;
-      this.disclaimer.textContent = puzzle.disclaimer;
-      this.previousBadge.hidden = !this.previouslySolved;
-      this.previousBadge.textContent = this.previouslySolved
-        ? 'Previously solved on this device. You can play again.'
-        : '';
-
-      const clueFragment = document.createDocumentFragment();
-      puzzle.clues.forEach((clue, index) => {
-        const item = createElement('li', 'logic-game__clue');
-        const number = createElement('span', 'logic-game__clue-number', String(index + 1).padStart(2, '0'));
-        number.setAttribute('aria-hidden', 'true');
-        const text = createElement('span', 'logic-game__clue-text', clue);
-        item.append(number, text);
-        clueFragment.append(item);
-      });
-      this.clueList.replaceChildren(clueFragment);
-    }
-
-    render() {
-      if (!this.puzzle) return;
-      this.renderBoard();
-      this.renderCharacters();
-      this.renderObjects();
-      this.renderSelectionStatus();
-    }
-
-    renderBoard() {
-      const fragment = document.createDocumentFragment();
-
-      this.puzzle.locations.forEach((location) => {
-        const occupant = this.puzzle.characters.find(
-          (character) => this.assignments[character.id].location === location.id
-        );
-
-        const room = createElement('button', `logic-game__room logic-game__room--${location.furnishing}`);
-        room.type = 'button';
-        room.dataset.locationId = location.id;
-        room.setAttribute(
-          'aria-label',
-          occupant
-            ? `${location.name}. ${occupant.name} is here. Place the selected person here.`
-            : `${location.name}. Empty. Place the selected person here.`
-        );
-
-        const roomLabel = createElement('span', 'logic-game__room-label', location.name);
-        const furniture = createElement('span', 'logic-game__furniture');
-        furniture.setAttribute('aria-hidden', 'true');
-        const occupants = createElement('span', 'logic-game__occupants');
-
-        if (occupant) {
-          const token = createElement('span', 'logic-game__map-token');
-          token.dataset.characterId = occupant.id;
-          const mark = createElement('span', 'logic-game__map-token-mark', occupant.mark);
-          const name = createElement('span', 'logic-game__map-token-name', occupant.name);
-          token.append(mark, name);
-          occupants.append(token);
-        } else {
-          occupants.append(createElement('span', 'logic-game__empty-room', 'Place person'));
-        }
-
-        room.append(roomLabel, furniture, occupants);
-        room.addEventListener('click', () => this.assignLocation(location.id));
-        fragment.append(room);
-      });
-
-      this.board.replaceChildren(fragment);
-    }
-
-    renderCharacters() {
-      const fragment = document.createDocumentFragment();
-
-      this.puzzle.characters.forEach((character) => {
-        const assignment = this.assignments[character.id];
-        const location = this.findLocation(assignment.location);
-        const object = this.findObject(assignment.object);
-        const isSelected = character.id === this.selectedCharacterId;
-
-        const button = createElement('button', 'logic-game__character');
-        button.type = 'button';
-        button.dataset.characterId = character.id;
-        button.setAttribute('aria-pressed', String(isSelected));
-        button.setAttribute(
-          'aria-label',
-          `${character.name}. ${location ? `In ${location.name}` : 'No room assigned'}. ${
-            object ? `Carrying ${object.name}` : 'No object assigned'
-          }. Select this person.`
-        );
-
-        if (isSelected) button.classList.add('is-selected');
-
-        const portrait = createElement('span', 'logic-game__character-mark', character.mark);
-        portrait.setAttribute('aria-hidden', 'true');
-        const details = createElement('span', 'logic-game__character-details');
-        const name = createElement('strong', 'logic-game__character-name', character.name);
-        const assignmentText = createElement(
-          'span',
-          'logic-game__character-assignment',
-          `${location ? location.shortName : 'Room —'} · ${object ? object.name : 'Object —'}`
-        );
-        details.append(name, assignmentText);
-        button.append(portrait, details);
-        button.addEventListener('click', () => this.selectCharacter(character.id));
-        fragment.append(button);
-      });
-
-      this.characterTray.replaceChildren(fragment);
-    }
-
-    renderObjects() {
-      const fragment = document.createDocumentFragment();
-
-      this.puzzle.objects.forEach((object) => {
-        const owner = this.puzzle.characters.find(
-          (character) => this.assignments[character.id].object === object.id
-        );
-
-        const button = createElement('button', 'logic-game__object');
-        button.type = 'button';
-        button.dataset.objectId = object.id;
-        button.setAttribute(
-          'aria-label',
-          owner
-            ? `${object.name}. Currently assigned to ${owner.name}. Assign it to the selected person.`
-            : `${object.name}. Unassigned. Assign it to the selected person.`
-        );
-
-        if (owner && owner.id === this.selectedCharacterId) {
-          button.classList.add('is-assigned-to-selected');
-        }
-
-        const icon = createElement('span', 'logic-game__object-icon', object.shortLabel);
-        icon.setAttribute('aria-hidden', 'true');
-        const details = createElement('span', 'logic-game__object-details');
-        const name = createElement('strong', 'logic-game__object-name', object.name);
-        const ownerText = createElement(
-          'span',
-          'logic-game__object-owner',
-          owner ? `With ${owner.name}` : 'Unassigned'
-        );
-        details.append(name, ownerText);
-        button.append(icon, details);
-        button.addEventListener('click', () => this.assignObject(object.id));
-        fragment.append(button);
-      });
-
-      this.objectTray.replaceChildren(fragment);
-    }
-
-    renderSelectionStatus() {
-      const character = this.findCharacter(this.selectedCharacterId);
-      const assignment = character ? this.assignments[character.id] : null;
-      const location = assignment ? this.findLocation(assignment.location) : null;
-      const object = assignment ? this.findObject(assignment.object) : null;
-
-      this.selectionStatus.textContent = character
-        ? `Selected: ${character.name} · ${location ? location.name : 'choose a room'} · ${
-            object ? object.name : 'choose an object'
-          }`
-        : '';
-    }
-
-    selectCharacter(characterId) {
-      if (this.isSolved || !this.findCharacter(characterId)) return;
-      this.selectedCharacterId = characterId;
-      const character = this.findCharacter(characterId);
-      this.setStatus(`${character.name} selected. Choose a room and an object.`);
-      this.render();
-    }
-
-    assignLocation(locationId) {
-      if (this.isSolved) return;
-      const character = this.findCharacter(this.selectedCharacterId);
-      const location = this.findLocation(locationId);
-      if (!character || !location) return;
-
-      const currentLocation = this.assignments[character.id].location;
-      const occupant = this.puzzle.characters.find(
-        (candidate) =>
-          candidate.id !== character.id && this.assignments[candidate.id].location === locationId
-      );
-
-      if (occupant) {
-        this.assignments[occupant.id].location = currentLocation;
-      }
-      this.assignments[character.id].location = locationId;
-
-      this.setStatus(
-        occupant
-          ? `${character.name} moved to the ${location.name}; ${occupant.name} was moved to the previous space.`
-          : `${character.name} placed in the ${location.name}.`
-      );
-      this.render();
-    }
-
-    assignObject(objectId) {
-      if (this.isSolved) return;
-      const character = this.findCharacter(this.selectedCharacterId);
-      const object = this.findObject(objectId);
-      if (!character || !object) return;
-
-      const currentObject = this.assignments[character.id].object;
-      const owner = this.puzzle.characters.find(
-        (candidate) =>
-          candidate.id !== character.id && this.assignments[candidate.id].object === objectId
-      );
-
-      if (owner) {
-        this.assignments[owner.id].object = currentObject;
-      }
-      this.assignments[character.id].object = objectId;
-
-      this.setStatus(
-        owner
-          ? `${object.name} assigned to ${character.name}; ${owner.name} received the previous object.`
-          : `${object.name} assigned to ${character.name}.`
-      );
-      this.render();
-    }
-
-    useHint() {
-      if (this.isSolved) return;
-
-      for (const character of this.puzzle.characters) {
-        const expected = this.puzzle.solution[character.id];
-        const actual = this.assignments[character.id];
-
-        if (actual.location !== expected.location) {
-          this.selectedCharacterId = character.id;
-          this.assignLocation(expected.location);
-          this.hintsUsed += 1;
-          this.setStatus(`Hint used: ${character.name} belongs in the ${this.findLocation(expected.location).name}.`);
-          return;
-        }
-
-        if (actual.object !== expected.object) {
-          this.selectedCharacterId = character.id;
-          this.assignObject(expected.object);
-          this.hintsUsed += 1;
-          this.setStatus(`Hint used: ${character.name} carried the ${this.findObject(expected.object).name}.`);
-          return;
-        }
-      }
-
-      this.setStatus('Every placement is correct. Check the solution.');
-    }
-
-    checkSolution() {
-      if (this.isSolved) return;
-
-      const totalFields = this.puzzle.characters.length * 2;
-      let filledFields = 0;
-      let correctFields = 0;
-
-      this.puzzle.characters.forEach((character) => {
-        const expected = this.puzzle.solution[character.id];
-        const actual = this.assignments[character.id];
-
-        if (actual.location) filledFields += 1;
-        if (actual.object) filledFields += 1;
-        if (actual.location === expected.location) correctFields += 1;
-        if (actual.object === expected.object) correctFields += 1;
-      });
-
-      if (filledFields < totalFields) {
-        this.setStatus(`Complete all ${totalFields} placements before checking the solution.`);
-        return;
-      }
-
-      if (correctFields !== totalFields) {
-        this.setStatus(`${correctFields} of ${totalFields} details are correct. Re-read the clues and try again.`);
-        this.root.classList.remove('is-checking');
-        void this.root.offsetWidth;
-        this.root.classList.add('is-checking');
-        return;
-      }
-
-      this.solve();
-    }
-
-    solve() {
-      this.isSolved = true;
-      this.solvedPanel.hidden = false;
-      this.root.classList.add('is-solved');
-      this.hintButton.disabled = true;
-      this.checkButton.disabled = true;
-      this.setStatus(`Case solved with ${this.hintsUsed} ${this.hintsUsed === 1 ? 'hint' : 'hints'} used.`);
-      this.writeProgress({
-        completed: true,
-        hintsUsed: this.hintsUsed,
-        completedAt: new Date().toISOString()
-      });
-      if (typeof this.solvedPanel.scrollIntoView === 'function') {
-        this.solvedPanel.scrollIntoView({
-          block: 'nearest',
-          behavior: this.prefersReducedMotion() ? 'auto' : 'smooth'
         });
-      }
-      const returnButton = this.solvedPanel.querySelector('[data-game-close]');
-      if (returnButton) returnButton.focus();
-    }
-
-    findCharacter(characterId) {
-      return this.puzzle.characters.find((character) => character.id === characterId) || null;
-    }
-
-    findLocation(locationId) {
-      return this.puzzle.locations.find((location) => location.id === locationId) || null;
-    }
-
-    findObject(objectId) {
-      return this.puzzle.objects.find((object) => object.id === objectId) || null;
-    }
-
-    setStatus(message) {
-      this.status.textContent = message;
-    }
-
-    prefersReducedMotion() {
-      return Boolean(
-        global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches
-      );
-    }
-
-    readAllProgress() {
-      try {
-        const raw = global.localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch (error) {
-        return {};
-      }
-    }
-
-    readProgress(puzzleId) {
-      const progress = this.readAllProgress();
-      return progress[puzzleId] || {};
-    }
-
-    writeProgress(record) {
-      try {
-        const progress = this.readAllProgress();
-        progress[this.puzzle.id] = record;
-        global.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-      } catch (error) {
-        // The game remains fully usable when storage is blocked.
-      }
-    }
-  }
-
-  function patchHotspotModal(game) {
-    const microsite = global.TikusMicrosite;
-    const modal = microsite && microsite.modal;
-    if (!modal || typeof modal.open !== 'function' || modal.__tikusGamePatched) return false;
-
-    const originalOpen = modal.open.bind(modal);
-    modal.open = function openTikusContent(content, trigger) {
-      if (content && content.type === 'game') {
-        game.open(content.gameId || DEFAULT_PUZZLE_ID, trigger);
         return;
       }
-      originalOpen(content, trigger);
-    };
-    modal.__tikusGamePatched = true;
-    return true;
-  }
 
-  function initialise() {
-    const dialog = createGameDialog();
-    const game = new LogicGameController(dialog, PUZZLES);
-    game.init();
-
-    if (!patchHotspotModal(game)) {
-      window.setTimeout(() => patchHotspotModal(game), 0);
+      this.inertRecords.forEach(({ element, inert, ariaHidden }) => {
+        element.inert = inert;
+        if (ariaHidden === null) {
+          element.removeAttribute('aria-hidden');
+        } else {
+          element.setAttribute('aria-hidden', ariaHidden);
+        }
+      });
+      this.inertRecords = [];
     }
-
-    global.TikusLogicGame = Object.freeze({
-      open: (puzzleId, trigger) => game.open(puzzleId || DEFAULT_PUZZLE_ID, trigger),
-      close: () => game.close()
-    });
   }
 
-  injectStylesheet();
-  replaceSittingRoomHotspot();
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialise, { once: true });
-  } else {
-    initialise();
-  }
+  const game = new TikusLogicGame();
+  game.init();
+  global.TikusLogicGame = game;
 })(window);
