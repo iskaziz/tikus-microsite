@@ -739,10 +739,37 @@ html.logic-game-is-open {
 
 @media (max-width: 42rem) {
   .logic-game-dialog {
-    width: 100vw;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
     height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    overflow: hidden;
     border: 0;
     border-radius: 0;
+  }
+
+  .logic-game {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+    scroll-padding-bottom: 1rem;
+  }
+
+  .logic-game__header,
+  .logic-game__intro,
+  .logic-game__body,
+  .logic-game__tray,
+  .logic-game__footer,
+  .logic-game__tray-group,
+  .logic-game__board-panel,
+  .logic-game__clues {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .logic-game__header,
@@ -767,55 +794,141 @@ html.logic-game-is-open {
   }
 
   .logic-game__selection-status {
+    max-width: 100%;
+    overflow-wrap: anywhere;
     text-align: left;
   }
 
   .logic-game__board {
-    min-height: 23rem;
-    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 10 / 11;
+  }
+
+  .logic-game__room {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 2.2rem 0.35rem 0.45rem;
+  }
+
+  .logic-game__room-label {
+    top: 0.4rem;
+    right: 0.4rem;
+    left: 0.4rem;
+    max-width: calc(100% - 0.8rem);
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .logic-game__occupants,
+  .logic-game__map-token {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .logic-game__map-token-name,
+  .logic-game__empty-room {
+    max-width: calc(100% - 0.5rem);
+    overflow-wrap: anywhere;
+    white-space: normal;
   }
 
   .logic-game__character-list,
   .logic-game__object-list {
-    display: flex;
-    margin-inline: -0.85rem;
-    padding: 0 0.85rem 0.35rem;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
   }
 
   .logic-game__character,
   .logic-game__object {
-    flex: 0 0 min(76vw, 14rem);
-    min-height: 4rem;
-    scroll-snap-align: start;
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 4.25rem;
+    padding: 0.55rem;
+  }
+
+  .logic-game__character-details,
+  .logic-game__object-details {
+    min-width: 0;
+  }
+
+  .logic-game__character-name,
+  .logic-game__object-name,
+  .logic-game__character-assignment,
+  .logic-game__object-owner {
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    white-space: normal;
   }
 
   .logic-game__footer {
-    padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
+    position: static;
+    padding-bottom: max(0.85rem, env(safe-area-inset-bottom));
+  }
+
+  .logic-game__controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .logic-game__button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .logic-game__button--primary {
+    grid-column: 1 / -1;
   }
 }
 
 @media (max-width: 25rem) {
   .logic-game__board {
-    min-height: 21rem;
+    min-height: 0;
+    aspect-ratio: 9 / 11;
   }
 
   .logic-game__room {
-    padding-inline: 0.3rem;
+    padding: 2.35rem 0.22rem 0.35rem;
   }
 
   .logic-game__room-label {
-    top: 0.35rem;
-    left: 0.35rem;
+    top: 0.3rem;
+    right: 0.25rem;
+    left: 0.25rem;
+    max-width: calc(100% - 0.5rem);
+    font-size: 0.54rem;
   }
 
-  .logic-game__map-token-name {
-    max-width: 5.2rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .logic-game__map-token-mark {
+    width: 2.25rem;
+  }
+
+  .logic-game__character,
+  .logic-game__object {
+    gap: 0.4rem;
+    padding: 0.45rem;
+  }
+}
+
+@media (max-width: 21rem) {
+  .logic-game__character-list,
+  .logic-game__object-list {
+    grid-template-columns: 1fr;
   }
 }
 
