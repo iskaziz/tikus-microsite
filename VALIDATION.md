@@ -16,6 +16,9 @@ Validation was performed against the packaged project, without modifying the con
 - Each room contains exactly three data-defined hotspots.
 - Sitting Room runtime hotspots are `family-console`, `art-display` and `logic-game`.
 - Trailer, nine cast cards and scene-atmosphere layers remain present.
+- Seven supplied character portraits render on the reverse sides of the correct cards.
+- Character portraits provide AVIF, WebP and JPEG sources at 480 and 720 pixels and remain lazy-loaded.
+- Actor-side cards and the two characters without supplied artwork retain accessible placeholders.
 - Game dialog is injected without replacing the core modal controller.
 - Keyboard activation works for cast cards, room controls, hotspots and game grid cells.
 - Escape closes both the information dialog and game dialog.
@@ -49,3 +52,21 @@ Results:
 ## Deployment note
 
 The official trailer requires a network connection because it is hosted by YouTube. It is not requested until the visitor deliberately opens the trailer dialog.
+
+
+## Character portrait layout checks
+
+The cast section was rendered in Chromium using the complete production DOM and locally routed assets at:
+
+- 1440 × 1100 desktop.
+- 360 × 800 mobile.
+- 390 × 844 mobile with reduced motion.
+
+Results:
+
+- All seven supplied portraits loaded from the AVIF source set without failed local requests.
+- Portrait frames remained visible and contained inside every flipped card.
+- Faces, hats and upper-body composition remained legible at desktop and mobile sizes.
+- The mobile cast strip remained horizontally scrollable without page-level overflow.
+- Native Enter-key card flipping, `aria-pressed` state and live-region announcements remained functional.
+- The Sitting Room still rendered exactly `family-console`, `art-display` and `logic-game` after the portrait integration.

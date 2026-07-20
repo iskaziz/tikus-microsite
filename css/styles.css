@@ -831,10 +831,18 @@ button:disabled {
   background: var(--ink-soft);
 }
 
-img.cast-card__portrait {
+img.cast-card__portrait,
+.cast-card__portrait--image img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
+  object-position: center;
+}
+
+.cast-card__portrait--image {
+  display: block;
+  background: var(--crimson-950);
 }
 
 .cast-card__portrait--cast {

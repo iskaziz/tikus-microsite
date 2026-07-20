@@ -18,6 +18,17 @@
     height: 941
   });
 
+  const characterPortraitSet = (filename, characterName) => ({
+    avif: `assets/images/characters/${filename}-480.avif 480w, assets/images/characters/${filename}-720.avif 720w`,
+    webp: `assets/images/characters/${filename}-480.webp 480w, assets/images/characters/${filename}-720.webp 720w`,
+    fallback: `assets/images/characters/${filename}-720.jpg`,
+    fallbackSrcset: `assets/images/characters/${filename}-480.jpg 480w, assets/images/characters/${filename}-720.jpg 720w`,
+    sizes: '(max-width: 48rem) min(72vw, 18rem), 16rem',
+    width: 720,
+    height: 720,
+    alt: `Illustrated portrait of ${characterName}`
+  });
+
   const scenes = {
     house: {
       id: 'house',
@@ -156,63 +167,63 @@
       actorName: 'Qiu Qatina',
       characterName: 'Mimi',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('mimi', 'Mimi'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'nicholas-chin-y-mun',
       actorName: 'Nicholas Chin Y Mun',
       characterName: 'Jay',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('jay', 'Jay'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'fattah-fawzy',
       actorName: 'Fattah Fawzy',
       characterName: 'Saladin',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('saladin', 'Saladin'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'diana-ooi-kian-choo',
       actorName: 'Diana Ooi Kian Choo',
       characterName: 'Madam Boey',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('madam-boey', 'Madam Boey'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'harris-andria',
       actorName: 'Harris Andria',
       characterName: 'Major Mansor',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('mejar-mansor', 'Major Mansor'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'marsha-elsie-biddulph',
       actorName: 'Marsha Elsie Biddulph',
       characterName: 'Alayna',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('alayna', 'Alayna'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'iskandar-zulkarnain-mumtaz-ahmad',
       actorName: 'Iskandar Zulkarnain bin Mumtaz Ahmad',
       characterName: 'Guy',
       actorPortrait: null,
-      characterPortrait: null,
+      characterPortrait: characterPortraitSet('guy', 'Guy'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      characterDescription: 'Character profile coming soon.'
     },
     {
       id: 'haiccal-hazim',

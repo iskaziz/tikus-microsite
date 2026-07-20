@@ -60,3 +60,14 @@ Two contained v5 behaviors were hardened during validation:
 
 - The level tabs and progress meter now refresh immediately when a level is solved, before the evidence summary appears.
 - Wrong-answer feedback now applies its visual state synchronously after a forced style reset, making the shake/pulse reliable across browsers while reduced-motion CSS still suppresses movement.
+
+
+## Character portrait integration
+
+The supplied `tikus-character-portraits` archive was added as a targeted cast-card update:
+
+- Mimi, Jay, Saladin, Madam Boey, Major Mansor, Alayna and Guy appear on the character-facing side of their existing cards.
+- Actor-facing sides remain unchanged because actor portraits were not supplied.
+- Inspektor Mislan and Man retain their existing character placeholders because no matching portrait was included.
+- Original 1024-pixel PNG files were converted to responsive 480-pixel and 720-pixel AVIF, WebP and progressive JPEG derivatives.
+- Portraits remain lazy-loaded and preserve the existing card keyboard, screen-reader and flip-state behavior.

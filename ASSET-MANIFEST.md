@@ -47,10 +47,28 @@ The packaged site uses responsive derivatives only. Original source documents, s
 | `assets/images/title/tikus-title-720.png` | `PNG` | `720 × 235` | `3.064:1` | `Yes` | `Responsive title artwork` |
 | `assets/images/title/tikus-title-720.webp` | `WEBP` | `720 × 235` | `3.064:1` | `Yes` | `Responsive title artwork` |
 
+
+## Character portraits
+
+Seven approved, opaque square portraits are included for the reverse sides of the Mimi, Jay, Saladin, Madam Boey, Major Mansor, Alayna and Guy cards.
+
+| Character | Base filename | Formats | Responsive dimensions | True transparency |
+|---|---|---|---:|---:|
+| Mimi | `mimi` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Jay | `jay` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Saladin | `saladin` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Madam Boey | `madam-boey` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Major Mansor | `mejar-mansor` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Alayna | `alayna` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Guy | `guy` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+
+The two remaining character cards retain their existing illustrated placeholders until approved artwork is supplied. Actor-side portraits also remain placeholders. Portraits are lazy-loaded and use AVIF first, WebP second and progressive JPEG as the fallback.
+
 ## Delivery recommendations
 
 - **Title:** WebP is preferred where supported; transparent PNG remains the fallback. Both title PNG files contain real alpha transparency.
 - **Main scenes:** AVIF is the preferred source, WebP is the secondary source and progressive JPEG is the fallback. Scene artwork is opaque and uses a 16:9 ratio.
+- **Character portraits:** AVIF is preferred, WebP is secondary and progressive JPEG is the fallback.
 - **Thumbnails:** WebP is preferred with JPEG fallback. Thumbnails are opaque and declare dimensions in the page markup.
 - **Preloading:** Only the title and house exterior are preloaded. Room images and thumbnails remain lazy or interaction-loaded.
 - **Cropping:** Main stage images use `object-fit: contain` so essential composition is not cropped on mobile.
@@ -58,5 +76,5 @@ The packaged site uses responsive derivatives only. Original source documents, s
 ## Source transparency findings
 
 - Approved title derivatives in `assets/images/title/` retain true transparency.
-- House and room source illustrations are RGB/opaque and do not require transparency.
+- House, room and character portrait source illustrations are RGB/opaque and do not require transparency.
 - No image is embedded as base64 data.

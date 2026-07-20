@@ -24,6 +24,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /assets
     /images
       /title
+      /characters
       /scenes
       /thumbnails
       /ui
@@ -44,7 +45,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
-- Nine keyboard-operable cast and character flip cards.
+- Nine keyboard-operable cast and character flip cards, with seven approved character portraits on the reverse sides.
 - Responsive 16:9 house explorer using `object-fit: contain`.
 - Sitting Room, Kitchen and Orchid Room selection through three thumbnails.
 - Exactly three percentage-positioned hotspot buttons in every room.
@@ -105,4 +106,4 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 
 Only title and house artwork are preloaded. Room artwork and thumbnails load lazily or on interaction.
 
-Main scenes include 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. The stage declares a 16:9 ratio before loading to avoid layout shift. See `ASSET-MANIFEST.md` for the complete inventory.
+Main scenes include 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. The stage declares a 16:9 ratio before loading to avoid layout shift. See `ASSET-MANIFEST.md` for the complete inventory.

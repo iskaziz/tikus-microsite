@@ -20,6 +20,52 @@
     return portrait;
   }
 
+  function createPortraitMedia(portrait) {
+    if (typeof portrait === 'string') {
+      return Object.assign(document.createElement('img'), {
+        className: 'cast-card__portrait',
+        src: portrait,
+        alt: '',
+        loading: 'lazy',
+        decoding: 'async'
+      });
+    }
+
+    const picture = document.createElement('picture');
+    picture.className = 'cast-card__portrait cast-card__portrait--image';
+
+    if (portrait.avif) {
+      const source = document.createElement('source');
+      source.type = 'image/avif';
+      source.srcset = portrait.avif;
+      source.sizes = portrait.sizes || '16rem';
+      picture.append(source);
+    }
+
+    if (portrait.webp) {
+      const source = document.createElement('source');
+      source.type = 'image/webp';
+      source.srcset = portrait.webp;
+      source.sizes = portrait.sizes || '16rem';
+      picture.append(source);
+    }
+
+    const image = document.createElement('img');
+    image.src = portrait.fallback;
+    if (portrait.fallbackSrcset) {
+      image.srcset = portrait.fallbackSrcset;
+      image.sizes = portrait.sizes || '16rem';
+    }
+    image.alt = portrait.alt || '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.width = portrait.width || 720;
+    image.height = portrait.height || 720;
+    picture.append(image);
+
+    return picture;
+  }
+
   function createCardFace({ side, eyebrow, name, description, portrait, index }) {
     const face = document.createElement('span');
     face.className = `cast-card__face cast-card__${side}`;
@@ -36,13 +82,7 @@
     cornerBottom.textContent = side === 'front' ? 'T' : 'K';
 
     const media = portrait
-      ? Object.assign(document.createElement('img'), {
-          className: 'cast-card__portrait',
-          src: portrait,
-          alt: '',
-          loading: 'lazy',
-          decoding: 'async'
-        })
+      ? createPortraitMedia(portrait)
       : createPortraitPlaceholder(name, side === 'front' ? 'cast' : 'character');
 
     const label = document.createElement('span');
