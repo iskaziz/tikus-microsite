@@ -163,8 +163,9 @@
 
   const cast = [
     {
-      id: 'qiu-qatina',
-      actorName: 'Qiu Qatina',
+      id: 'que',
+      group: 'hosts',
+      actorName: 'Que',
       characterName: 'Mimi',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('mimi', 'Mimi'),
@@ -172,8 +173,9 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'nicholas-chin-y-mun',
-      actorName: 'Nicholas Chin Y Mun',
+      id: 'y-mun',
+      group: 'hosts',
+      actorName: 'Y Mun',
       characterName: 'Jay',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('jay', 'Jay'),
@@ -181,8 +183,9 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'fattah-fawzy',
-      actorName: 'Fattah Fawzy',
+      id: 'fattah',
+      group: 'guests',
+      actorName: 'Fattah',
       characterName: 'Saladin',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('saladin', 'Saladin'),
@@ -190,8 +193,9 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'diana-ooi-kian-choo',
-      actorName: 'Diana Ooi Kian Choo',
+      id: 'diana',
+      group: 'guests',
+      actorName: 'Diana',
       characterName: 'Madam Boey',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('madam-boey', 'Madam Boey'),
@@ -199,8 +203,9 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'harris-andria',
-      actorName: 'Harris Andria',
+      id: 'harris',
+      group: 'guests',
+      actorName: 'Harris',
       characterName: 'Major Mansor',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('mejar-mansor', 'Major Mansor'),
@@ -208,8 +213,9 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'marsha-elsie-biddulph',
-      actorName: 'Marsha Elsie Biddulph',
+      id: 'marsha',
+      group: 'guests',
+      actorName: 'Marsha',
       characterName: 'Alayna',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('alayna', 'Alayna'),
@@ -217,8 +223,9 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'iskandar-zulkarnain-mumtaz-ahmad',
-      actorName: 'Iskandar Zulkarnain bin Mumtaz Ahmad',
+      id: 'iski',
+      group: 'guests',
+      actorName: 'Iski',
       characterName: 'Guy',
       actorPortrait: null,
       characterPortrait: characterPortraitSet('guy', 'Guy'),
@@ -226,18 +233,10 @@
       characterDescription: 'Character profile coming soon.'
     },
     {
-      id: 'haiccal-hazim',
-      actorName: 'Haiccal Hazim',
+      id: 'haiccal',
+      group: 'inspector',
+      actorName: 'Haiccal',
       characterName: 'Inspektor Mislan',
-      actorPortrait: null,
-      characterPortrait: null,
-      actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
-    },
-    {
-      id: 'roshafiq',
-      actorName: 'Roshafiq',
-      characterName: 'Man',
       actorPortrait: null,
       characterPortrait: null,
       actorDescription: 'Cast portrait and profile coming soon.',

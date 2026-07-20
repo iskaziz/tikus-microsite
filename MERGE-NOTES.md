@@ -16,7 +16,7 @@ Retained or restored:
 
 - Concentric-ring hero and approved title artwork.
 - Retro television trailer section and trailer dialog.
-- Nine cast and character flip cards.
+- Eight cast and character flip cards, grouped as Hosts, Guests and The Inspector.
 - House explorer, room thumbnails and scene-atmosphere overlays.
 - Existing information dialog and semantic page structure.
 
@@ -71,3 +71,11 @@ The supplied `tikus-character-portraits` archive was added as a targeted cast-ca
 - Inspektor Mislan and Man retain their existing character placeholders because no matching portrait was included.
 - Original 1024-pixel PNG files were converted to responsive 480-pixel and 720-pixel AVIF, WebP and progressive JPEG derivatives.
 - Portraits remain lazy-loaded and preserve the existing card keyboard, screen-reader and flip-state behavior.
+
+## Synopsis and cast grouping amendment
+
+- Replaced the explorer synopsis with the approved “EVERYONE IN THE HOUSE IS A SUSPECT” copy.
+- Removed “The road is gone” and “A wellness retreat” from the opening title copy.
+- Reorganised the cast cards into Hosts, Guests and The Inspector.
+- Applied the requested order: Que, Y Mun; Fattah, Diana, Harris, Marsha, Iski; Haiccal.
+- Removed Roshafiq and the ninth cast card.

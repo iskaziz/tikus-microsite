@@ -45,7 +45,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
-- Nine keyboard-operable cast and character flip cards, with seven approved character portraits on the reverse sides.
+- Eight keyboard-operable cast and character flip cards, arranged as Hosts, Guests and The Inspector, with seven approved character portraits on the reverse sides.
 - Responsive 16:9 house explorer using `object-fit: contain`.
 - Sitting Room, Kitchen and Orchid Room selection through three thumbnails.
 - Exactly three percentage-positioned hotspot buttons in every room.

@@ -705,13 +705,44 @@ button:disabled {
   box-shadow: 0 1rem 1.8rem rgba(0, 0, 0, 0.55);
 }
 
-.cast-grid {
+.cast-groups {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11.5rem, 1fr));
+  gap: clamp(2.25rem, 5vw, 4.5rem);
+}
+
+.cast-group {
+  min-width: 0;
+}
+
+.cast-group__heading {
+  width: fit-content;
+  margin: 0 auto clamp(1.15rem, 2.5vw, 1.8rem);
+  padding: 0.45rem 1rem 0.38rem;
+  border: 0.12rem solid var(--paper-bright);
+  color: var(--paper-bright);
+  background: var(--crimson-900);
+  box-shadow: 0.28rem 0.28rem 0 var(--ink);
+  font-family: var(--ui-font);
+  font-size: clamp(0.72rem, 0.64rem + 0.35vw, 0.95rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cast-group__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 13.5rem));
+  justify-content: center;
   gap: clamp(1.35rem, 2.8vw, 2.5rem);
   perspective: 90rem;
+}
+
+.cast-group[data-cast-group="guests"] .cast-group__grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr));
 }
 
 .cast-card {
@@ -1710,8 +1741,18 @@ img.cast-card__portrait,
     outline: 0;
   }
 
-  .cast-grid {
+  .cast-groups {
+    gap: 2.5rem;
+  }
+
+  .cast-group__heading {
+    margin-bottom: 0.65rem;
+  }
+
+  .cast-group__grid,
+  .cast-group[data-cast-group="guests"] .cast-group__grid {
     display: flex;
+    justify-content: flex-start;
     gap: 1.2rem;
     padding: 0.8rem var(--page-gutter) 1.5rem;
     overflow-x: auto;

@@ -15,7 +15,7 @@ Validation was performed against the packaged project, without modifying the con
 - Three room selector buttons are present.
 - Each room contains exactly three data-defined hotspots.
 - Sitting Room runtime hotspots are `family-console`, `art-display` and `logic-game`.
-- Trailer, nine cast cards and scene-atmosphere layers remain present.
+- Trailer, eight grouped cast cards and scene-atmosphere layers remain present.
 - Seven supplied character portraits render on the reverse sides of the correct cards.
 - Character portraits provide AVIF, WebP and JPEG sources at 480 and 720 pixels and remain lazy-loaded.
 - Actor-side cards and the two characters without supplied artwork retain accessible placeholders.
@@ -70,3 +70,11 @@ Results:
 - The mobile cast strip remained horizontally scrollable without page-level overflow.
 - Native Enter-key card flipping, `aria-pressed` state and live-region announcements remained functional.
 - The Sitting Room still rendered exactly `family-console`, `art-display` and `logic-game` after the portrait integration.
+
+## Synopsis and cast grouping amendment
+
+- Confirmed the approved synopsis appears once in the explorer heading.
+- Confirmed the opening title no longer contains “The road is gone” or “A wellness retreat”.
+- Confirmed eight cards render across three labelled groups.
+- Confirmed guest order is Fattah, Diana, Harris, Marsha, Iski.
+- Confirmed Roshafiq is absent from HTML and JavaScript data.

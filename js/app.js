@@ -106,71 +106,103 @@
   }
 
   function initCastCards(cast) {
-    const grid = document.querySelector('[data-cast-grid]');
+    const container = document.querySelector('[data-cast-grid]');
     const status = document.querySelector('[data-cast-status]');
-    if (!grid || !Array.isArray(cast)) {
+    if (!container || !Array.isArray(cast)) {
       return;
     }
 
-    const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9, -0.4];
+    const groups = [
+      { id: 'hosts', label: 'Hosts' },
+      { id: 'guests', label: 'Guests' },
+      { id: 'inspector', label: 'The Inspector' }
+    ];
+    const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9];
     const fragment = document.createDocumentFragment();
+    let cardIndex = 0;
 
-    cast.forEach((member, index) => {
-      const card = document.createElement('button');
-      card.className = 'cast-card';
-      card.type = 'button';
-      card.dataset.castCard = member.id;
-      card.setAttribute('aria-pressed', 'false');
-      card.setAttribute('aria-label', `${member.actorName}. Flip to reveal the character.`);
-      card.style.setProperty('--card-tilt', `${tilts[index % tilts.length]}deg`);
+    groups.forEach((group) => {
+      const members = cast.filter((member) => member.group === group.id);
+      if (!members.length) {
+        return;
+      }
 
-      const inner = document.createElement('span');
-      inner.className = 'cast-card__inner';
+      const section = document.createElement('section');
+      section.className = 'cast-group';
+      section.dataset.castGroup = group.id;
+      section.setAttribute('aria-labelledby', `cast-group-${group.id}`);
 
-      const front = createCardFace({
-        side: 'front',
-        eyebrow: 'Cast',
-        name: member.actorName,
-        description: member.actorDescription,
-        portrait: member.actorPortrait,
-        index
+      const heading = document.createElement('h3');
+      heading.className = 'cast-group__heading';
+      heading.id = `cast-group-${group.id}`;
+      heading.textContent = group.label;
+
+      const grid = document.createElement('div');
+      grid.className = 'cast-group__grid';
+
+      members.forEach((member) => {
+        const index = cardIndex;
+        cardIndex += 1;
+
+        const card = document.createElement('button');
+        card.className = 'cast-card';
+        card.type = 'button';
+        card.dataset.castCard = member.id;
+        card.setAttribute('aria-pressed', 'false');
+        card.setAttribute('aria-label', `${member.actorName}. Flip to reveal the character.`);
+        card.style.setProperty('--card-tilt', `${tilts[index % tilts.length]}deg`);
+
+        const inner = document.createElement('span');
+        inner.className = 'cast-card__inner';
+
+        const front = createCardFace({
+          side: 'front',
+          eyebrow: group.label,
+          name: member.actorName,
+          description: member.actorDescription,
+          portrait: member.actorPortrait,
+          index
+        });
+
+        const back = createCardFace({
+          side: 'back',
+          eyebrow: 'Character',
+          name: member.characterName,
+          description: member.characterDescription,
+          portrait: member.characterPortrait,
+          index
+        });
+
+        inner.append(front, back);
+        card.append(inner);
+
+        card.addEventListener('click', () => {
+          const isFlipped = card.classList.toggle('is-flipped');
+          card.setAttribute('aria-pressed', String(isFlipped));
+          front.setAttribute('aria-hidden', String(isFlipped));
+          back.setAttribute('aria-hidden', String(!isFlipped));
+          card.setAttribute(
+            'aria-label',
+            isFlipped
+              ? `${member.actorName} plays ${member.characterName}. Flip to return to the cast profile.`
+              : `${member.actorName}. Flip to reveal the character.`
+          );
+
+          if (status) {
+            status.textContent = isFlipped
+              ? `${member.actorName} plays ${member.characterName}.`
+              : `Showing the cast profile for ${member.actorName}.`;
+          }
+        });
+
+        grid.append(card);
       });
 
-      const back = createCardFace({
-        side: 'back',
-        eyebrow: 'Character',
-        name: member.characterName,
-        description: member.characterDescription,
-        portrait: member.characterPortrait,
-        index
-      });
-
-      inner.append(front, back);
-      card.append(inner);
-
-      card.addEventListener('click', () => {
-        const isFlipped = card.classList.toggle('is-flipped');
-        card.setAttribute('aria-pressed', String(isFlipped));
-        front.setAttribute('aria-hidden', String(isFlipped));
-        back.setAttribute('aria-hidden', String(!isFlipped));
-        card.setAttribute(
-          'aria-label',
-          isFlipped
-            ? `${member.actorName} plays ${member.characterName}. Flip to return to the cast profile.`
-            : `${member.actorName}. Flip to reveal the character.`
-        );
-
-        if (status) {
-          status.textContent = isFlipped
-            ? `${member.actorName} plays ${member.characterName}.`
-            : `Showing the cast profile for ${member.actorName}.`;
-        }
-      });
-
-      fragment.append(card);
+      section.append(heading, grid);
+      fragment.append(section);
     });
 
-    grid.replaceChildren(fragment);
+    container.replaceChildren(fragment);
   }
 
   function init() {
