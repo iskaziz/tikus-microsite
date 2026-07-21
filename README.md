@@ -1,108 +1,16 @@
-# TIKUS — Official Film Microsite
+# TIKUS Rush
 
-A static, single-page cinematic microsite for the Malaysian feature film **TIKUS**, produced by Feisk Productions.
+A spoiler-safe, top-down arcade mini-game for the TIKUS microsite.
 
-The public package contains spoiler-safe promotional material only. The screenplay, production PDFs and source working archives are deliberately excluded.
+The game uses DOM buttons and inline SVG mouse artwork rather than canvas, a framework, or external assets. It includes:
 
-## Run locally
+- 30-second rounds
+- grey and gold mouse scoring
+- responsive mouse speeds and target sizes
+- animated concentric red-ring arena
+- local best score
+- touch, pointer and keyboard controls
+- reduced-motion behaviour
+- native dialog focus handling and Escape-to-close
 
-Open `index.html` directly in a current browser. No server, build command, package manager or internet connection is required for the site and house explorer.
-
-The official trailer is hosted by YouTube and is loaded only after the visitor selects the television. All other primary interactions work locally.
-
-The same folder can be uploaded unchanged to GitHub Pages or ordinary static hosting.
-
-## Project structure
-
-```text
-/
-  index.html
-  README.md
-  ASSET-MANIFEST.md
-  MERGE-NOTES.md
-  VALIDATION.md
-  /assets
-    /images
-      /title
-      /characters
-      /scenes
-      /ui
-    /audio
-  /css
-    styles.css
-    animations.css
-    game.css
-  /js
-    content-data.js
-    app.js
-    scene-controller.js
-    modal-controller.js
-    tikus-logic-game.js
-```
-
-## Main experience
-
-- CSS-generated concentric crimson rings and approved TIKUS title artwork.
-- Retro television presentation for the official trailer, without autoplay.
-- Eight keyboard-operable cast and character flip cards, arranged as Hosts, Guests and The Inspector. Cards open on the character side, with seven approved character portraits.
-- Responsive 16:9 house explorer using `object-fit: contain`.
-- Select the house artwork to enter the Sitting Room, then use Return to House to leave it.
-- Exactly three percentage-positioned hotspot buttons in the Sitting Room.
-- Scene-specific light, rain, dust and print-texture treatments.
-- URL hash state for `#house` and `#sitting-room`.
-- Accessible information dialogs with focus trapping, Escape handling and focus restoration.
-
-## Gelap di Samasihat
-
-`Gelap di Samasihat` is an explicitly spoiler-safe, non-canonical deduction mini-game.
-
-`js/tikus-logic-game.js` replaces the Sitting Room `main-sofa` hotspot at runtime with the game hotspot. This keeps the room at exactly three hotspots without changing the scene controller’s underlying architecture.
-
-The game includes:
-
-- Three unlockable levels.
-- Character × Room and Character × Object grids for every level.
-- Blank, possible, ruled-out and confirmed cell states.
-- Automatic row and column elimination after confirming a match.
-- Keyboard-operable cells and trapped dialog focus.
-- A How to Play introduction, hints, resets and saved progress.
-- Wrong-answer feedback, solved-state ring flash and evidence summaries.
-- Mobile-contained horizontal grid scrolling.
-- `localStorage` progress under `tikus-logic-game-progress-v5`.
-
-Keep the script order at the end of `index.html`: core application scripts first, followed by `js/tikus-logic-game.js`.
-
-## Editing content
-
-Scene labels, image paths and percentage hotspot coordinates are stored in `js/content-data.js`.
-
-```js
-{
-  id: 'example-hotspot',
-  x: 42,
-  y: 58,
-  label: 'Explore the example object',
-  subject: 'Example object',
-  eyebrow: 'SECTION LABEL',
-  title: 'Panel title',
-  body: 'Panel text.'
-}
-```
-
-Do not place confidential or spoiler-sensitive material in deployed JavaScript, HTML comments, alt text, metadata or filenames.
-
-## Accessibility
-
-- Native buttons are used for the house entry target, Return to House, hotspots, cast cards, grid cells and dialog controls.
-- Main controls have visible `:focus-visible` states and mobile-sized hit targets.
-- Dialogs trap focus, close with Escape and restore focus to their trigger.
-- Background sections become inert while a dialog is open.
-- Main scene artwork includes useful alt text, while every navigation control has a meaningful accessible name.
-- `prefers-reduced-motion: reduce` disables or simplifies continuous and transition animation.
-- Game state symbols are accompanied by text labels and accessible names.
-
-## Image delivery
-
-Only title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house entry control.
-
-The house and Sitting Room include 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. The stage declares a 16:9 ratio before loading to avoid layout shift. See `ASSET-MANIFEST.md` for the complete inventory.
+See `UPLOAD-INSTRUCTIONS.md` for deployment.
