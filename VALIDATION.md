@@ -1,93 +1,65 @@
 # Validation report
 
-Validation was performed against the packaged project, without modifying the confidential screenplay or adding production facts.
+Validation was performed against the packaged project without adding spoiler-sensitive story material.
 
-## Passed checks
+## Static checks
 
-- All JavaScript files pass `node --check` syntax validation.
-- HTML parses successfully with unique IDs and no missing local references.
-- CSS parses without syntax errors.
-- All `<img>` elements include alt attributes.
-- All authored buttons declare `type="button"` where appropriate.
-- No base64 or `data:image` assets are present.
-- Game stylesheet and script are loaded by `index.html`.
-- Game script loads after the core application scripts.
-- The thumbnail strip and directional room arrows are absent.
-- The Sitting Room contains exactly three data-defined hotspots.
-- Sitting Room runtime hotspots are `family-console`, `art-display` and `logic-game`.
-- Trailer, eight grouped cast cards and scene-atmosphere layers remain present.
-- Seven supplied character portraits render on the reverse sides of the correct cards.
-- Character portraits provide AVIF, WebP and JPEG sources at 480 and 720 pixels and remain lazy-loaded.
-- Actor-side cards and the one character without supplied artwork retain accessible placeholders.
-- Game dialog is injected without replacing the core modal controller.
-- Keyboard activation works for cast cards, house controls, hotspots and game grid cells.
-- Escape closes both the information dialog and game dialog.
-- Focus returns to the originating hotspot after either dialog closes.
-- Game cell state cycles blank → possible → ruled out → confirmed.
-- Confirming a match rules out the remaining cells in its row and column.
-- Two deduction grids render per level.
-- Progress writes to `tikus-logic-game-progress-v5`.
-- Hint reveal, level reset and incomplete-board feedback operate correctly.
-- Solving each board unlocks the next level and updates the progress meter immediately.
-- All three solved summaries render four evidence matches and the final Continue action closes the completed game.
-- Normal-motion and reduced-motion DOM integration tests pass.
+- Every JavaScript file passes `node --check`.
+- HTML parses with unique IDs and no missing local stylesheet, script, image or source references.
+- CSS parses successfully.
+- No framework, build dependency, base64 asset, autoplay media or external animation library is present.
+- Core scripts load before both game modules and the shared arcade controller.
+- `js/tikus-logic-game.js` and the old monolithic game stylesheet are absent.
 
-## Chromium layout checks
+## Arcade integration checks
 
-An in-memory routed Chromium test was run at:
+- The Sitting Room contains exactly three runtime hotspots:
+  - `family-console`
+  - `art-display`
+  - `tikus-arcade`
+- The shared arcade hotspot opens one native dialog containing exactly two game choices.
+- Tikus Rush and Tikus Beat register as independent modules.
+- The scene controller routes only `type: "arcade-hub"` to the arcade controller.
+- The existing information modal remains unchanged and is not patched or wrapped by either game.
+- Background page regions become inert while the arcade is open.
+- Closing restores focus to the originating Sitting Room hotspot.
+- Escape/cancel handling and the dialog focus loop are implemented centrally.
 
-- 1440 × 1000 desktop.
-- 360 × 800 mobile.
-- 390 × 844 mobile with reduced motion.
+## Game checks
 
-Results:
+### Tikus Rush
 
-- No page-level horizontal overflow at any tested viewport.
-- Both grids use contained `overflow-x: auto` wrappers.
-- Grid content remains horizontally scrollable on narrow screens.
-- The Sitting Room retains exactly three hotspots.
-- URL hash changes to `#sitting-room` and returns to the house state. Removed room hashes resolve safely to the house.
-- No JavaScript page errors, console errors or missing local asset requests were detected.
+- Starts a 30-second round.
+- Spawns grey and gold mouse buttons.
+- Catching a grey mouse adds 2 points; catching a gold mouse adds 10 points.
+- Spawn frequency and travel speed increase over time.
+- Hit particles, floating scores, streak callouts, gold feedback and final-ten-second treatment are present.
+- Best score persists under `tikus-rush-best-v2`.
 
-## Deployment note
+### Tikus Beat
 
-The official trailer requires a network connection because it is hosted by YouTube. It is not requested until the visitor deliberately opens the trailer dialog.
+- Starts a 60-second round.
+- Renders five lanes and five touch/keyboard receptors.
+- Accepts `1–5` and `A/S/D/F/G` controls.
+- Notes progress to the hit line with perfect, good and miss windows.
+- Combo, tempo tiers, lane feedback, judgement callouts and final-frenzy treatment are present.
+- Best score persists under `tikus-beat-best-v2`.
 
+## Chromium integration checks
 
-## Character portrait layout checks
+An in-memory Chromium route was used because direct local navigation is blocked by the execution environment administrator policy.
 
-The cast section was rendered in Chromium using the complete production DOM and locally routed assets at:
+Tested at 1440 × 900 and 390 × 844:
 
-- 1440 × 1100 desktop.
-- 360 × 800 mobile.
-- 390 × 844 mobile with reduced motion.
+- Core microsite initialises.
+- House-to-Sitting-Room navigation initialises.
+- Exactly three Sitting Room hotspots render.
+- The arcade opens with Rush and Beat cards.
+- Rush starts, spawns mice and increments score after a catch.
+- Beat starts, renders five lanes and spawns falling notes.
+- Arcade close removes inert state and restores hotspot focus.
+- Mobile page-level horizontal overflow is zero.
+- The mobile dialog stays inside the viewport.
+- Reduced-motion media queries are present for the hub and both games.
 
-Results:
-
-- All seven supplied portraits loaded from the AVIF source set without failed local requests.
-- Portrait frames remained visible and contained inside every flipped card.
-- Faces, hats and upper-body composition remained legible at desktop and mobile sizes.
-- The mobile cast strip remained horizontally scrollable without page-level overflow.
-- Native Enter-key card flipping, `aria-pressed` state and live-region announcements remained functional.
-- The Sitting Room still rendered exactly `family-console`, `art-display` and `logic-game` after the portrait integration.
-
-## Synopsis and cast grouping amendment
-
-- Confirmed the approved synopsis appears once in the explorer heading.
-- Confirmed the opening title no longer contains “The road is gone” or “A wellness retreat”.
-- Confirmed eight cards render across three labelled groups.
-- Confirmed guest order is Fattah, Diana, Harris, Marsha, Iski.
-- Confirmed Roshafiq is absent from HTML and JavaScript data.
-
-## House explorer and card-face amendment checks
-
-- Confirmed the hero eyebrow reads “Welcome to Samasihat Wellness Retreat”.
-- Confirmed only House and Sitting Room exist in the explorer scene data.
-- Confirmed Kitchen and Orchid Room artwork files and directional arrow controls are absent from the package.
-- Confirmed the scene caption contains no descriptive paragraph.
-- Confirmed the Sitting Room runtime hotspot set remains `family-console`, `art-display` and `logic-game`.
-- Confirmed all eight cards initialise on the character side with `aria-pressed="true"`.
-- Confirmed character faces display Host, Guest or Inspector.
-- Confirmed cast faces contain no category label above the actor name.
-- Confirmed reduced-motion mode shows the character side on initial render and preserves card toggling.
-- Confirmed no page-level horizontal overflow at 1440, 390 or 320 pixels.
+The official trailer still requires a network connection and is requested only after deliberate activation.

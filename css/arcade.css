@@ -1,0 +1,529 @@
+:root {
+  --arcade-red: #a70f22;
+  --arcade-deep-red: #610713;
+  --arcade-black: #120d0e;
+  --arcade-paper: #efe1c4;
+  --arcade-cream: #fff2d6;
+  --arcade-muted: #a99d8f;
+}
+
+html.has-arcade-dialog {
+  overflow: hidden;
+}
+
+.tikus-arcade-dialog {
+  width: min(96vw, 78rem);
+  max-width: none;
+  max-height: min(94dvh, 60rem);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: var(--arcade-cream);
+  background: transparent;
+  border: 0;
+}
+
+.tikus-arcade-dialog::backdrop {
+  background:
+    radial-gradient(circle at 50% 46%, rgb(118 7 24 / 28%), transparent 42%),
+    rgb(8 5 6 / 88%);
+  backdrop-filter: blur(4px);
+}
+
+.tikus-arcade-dialog__surface {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: min(94dvh, 60rem);
+  overflow: hidden;
+  border: 1px solid rgb(255 230 190 / 18%);
+  border-radius: 0.35rem;
+  background:
+    linear-gradient(90deg, transparent 0 49.5%, rgb(255 255 255 / 2%) 50%, transparent 50.5%),
+    radial-gradient(circle at 50% 15%, rgb(183 17 42 / 22%), transparent 40%),
+    #100b0c;
+  box-shadow:
+    0 2rem 6rem rgb(0 0 0 / 65%),
+    inset 0 0 0 0.28rem rgb(0 0 0 / 32%);
+}
+
+.tikus-arcade-dialog__surface::before,
+.tikus-arcade-dialog__surface::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.tikus-arcade-dialog__surface::before {
+  inset: 0;
+  opacity: 0.1;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgb(255 255 255 / 7%) 4px),
+    radial-gradient(circle at 20% 10%, #fff 0 0.04rem, transparent 0.06rem),
+    radial-gradient(circle at 72% 33%, #fff 0 0.03rem, transparent 0.05rem);
+  background-size: auto, 8rem 7rem, 11rem 9rem;
+  mix-blend-mode: screen;
+}
+
+.tikus-arcade-dialog__surface::after {
+  inset: 0.55rem;
+  border: 1px solid rgb(245 224 190 / 9%);
+}
+
+.tikus-arcade-dialog__topbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.65rem;
+  padding: 0.75rem clamp(1rem, 2vw, 1.7rem);
+  border-bottom: 1px solid rgb(255 232 196 / 12%);
+  background: rgb(12 8 9 / 88%);
+}
+
+.tikus-arcade-dialog__brand {
+  min-width: 0;
+}
+
+.tikus-arcade-dialog__eyebrow,
+.tikus-arcade-dialog__title {
+  margin: 0;
+}
+
+.tikus-arcade-dialog__eyebrow {
+  color: #d6b986;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.tikus-arcade-dialog__title {
+  margin-top: 0.12rem;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.tikus-arcade-dialog__close {
+  position: relative;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  flex: 0 0 auto;
+  color: var(--arcade-cream);
+  font: inherit;
+  font-size: 2rem;
+  line-height: 1;
+  background: #65101b;
+  border: 1px solid rgb(255 238 207 / 24%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.tikus-arcade-dialog__close:hover {
+  transform: rotate(5deg) scale(1.06);
+  background: #8b1021;
+}
+
+.tikus-arcade-dialog__content {
+  position: relative;
+  z-index: 2;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.tikus-arcade-hub {
+  min-height: min(44rem, calc(94dvh - 4.65rem));
+  padding: clamp(1.2rem, 4vw, 3.5rem);
+  background:
+    radial-gradient(circle at 50% 120%, rgb(177 15 39 / 24%), transparent 48%),
+    linear-gradient(rgb(255 255 255 / 2%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 2%) 1px, transparent 1px);
+  background-size: auto, 2.2rem 2.2rem, 2.2rem 2.2rem;
+}
+
+.tikus-arcade-hub__intro {
+  max-width: 47rem;
+  margin: 0 auto clamp(1.35rem, 3vw, 2.5rem);
+  text-align: center;
+}
+
+.tikus-arcade-hub__kicker,
+.tikus-arcade-hub__headline,
+.tikus-arcade-hub__copy {
+  margin: 0;
+}
+
+.tikus-arcade-hub__kicker {
+  color: #e0b96f;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.19em;
+}
+
+.tikus-arcade-hub__headline {
+  margin-top: 0.45rem;
+  font-size: clamp(1.6rem, 4.4vw, 3.4rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.tikus-arcade-hub__copy {
+  max-width: 39rem;
+  margin: 0.8rem auto 0;
+  color: #c8b9a5;
+  line-height: 1.55;
+}
+
+.tikus-arcade-hub__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.4vw, 2rem);
+  max-width: 66rem;
+  margin: 0 auto;
+}
+
+.tikus-game-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(12rem, 0.9fr) auto;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  background: #191011;
+  border: 1px solid rgb(255 235 202 / 15%);
+  border-radius: 0.25rem;
+  box-shadow: 0 1.4rem 3rem rgb(0 0 0 / 34%);
+  cursor: pointer;
+  isolation: isolate;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.tikus-game-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 0.28rem rgb(0 0 0 / 24%);
+}
+
+.tikus-game-card:hover,
+.tikus-game-card:focus-visible {
+  transform: translateY(-0.35rem) rotate(calc((var(--game-card-index) - 0.5) * 0.5deg));
+  border-color: rgb(255 228 177 / 45%);
+  box-shadow: 0 1.8rem 4rem rgb(0 0 0 / 48%);
+}
+
+.tikus-game-card__visual {
+  position: relative;
+  display: block;
+  min-height: 12rem;
+  overflow: hidden;
+  background: #870b1b;
+}
+
+.tikus-game-card--mouse .tikus-game-card__visual {
+  background:
+    radial-gradient(circle at center, transparent 0 15%, rgb(12 7 8 / 45%) 16% 18%, transparent 19% 27%, rgb(12 7 8 / 48%) 28% 31%, transparent 32% 42%, rgb(12 7 8 / 53%) 43% 48%, transparent 49%),
+    #9d1023;
+}
+
+.tikus-game-card__rings {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 1.2rem, rgb(21 9 10 / 68%) 1.25rem 1.95rem, transparent 2rem 3rem);
+  animation: arcade-card-rings 9s linear infinite;
+}
+
+.tikus-game-card__mouse {
+  position: absolute;
+  width: 4.4rem;
+  aspect-ratio: 1.7;
+  border-radius: 52% 58% 46% 48%;
+  background: #b5afa5;
+  box-shadow: inset -0.5rem -0.35rem 0 #6e6963;
+}
+
+.tikus-game-card__mouse::before {
+  content: "";
+  position: absolute;
+  top: -0.7rem;
+  left: 0.7rem;
+  width: 1.45rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #706961;
+  box-shadow: inset 0 0 0 0.4rem #d3c9bb;
+}
+
+.tikus-game-card__mouse::after {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  right: -3rem;
+  width: 3.2rem;
+  height: 0.18rem;
+  border-radius: 100%;
+  background: #3e3433;
+  transform: rotate(8deg);
+  transform-origin: left center;
+}
+
+.tikus-game-card__mouse--one {
+  top: 34%;
+  left: 14%;
+  animation: arcade-mouse-one 3.6s ease-in-out infinite;
+}
+
+.tikus-game-card__mouse--two {
+  right: 16%;
+  bottom: 22%;
+  width: 3.5rem;
+  background: #d3a739;
+  box-shadow: inset -0.45rem -0.3rem 0 #8a5b18;
+  transform: scaleX(-1);
+  animation: arcade-mouse-two 3.1s ease-in-out infinite;
+}
+
+.tikus-game-card__spark {
+  position: absolute;
+  top: 17%;
+  right: 18%;
+  width: 1.35rem;
+  aspect-ratio: 1;
+  background: #ffe08c;
+  clip-path: polygon(50% 0, 61% 38%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 38%);
+  animation: arcade-spark 1.6s ease-in-out infinite;
+}
+
+.tikus-game-card--rhythm .tikus-game-card__visual {
+  background: linear-gradient(180deg, #190c12, #8e0d21 80%, #17090c);
+}
+
+.tikus-game-card__lanes {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 19%, rgb(255 235 196 / 19%) 20% 20.6%, transparent 21% 39%, rgb(255 235 196 / 19%) 40% 40.6%, transparent 41% 59%, rgb(255 235 196 / 19%) 60% 60.6%, transparent 61% 79%, rgb(255 235 196 / 19%) 80% 80.6%, transparent 81%),
+    repeating-linear-gradient(0deg, transparent 0 1.65rem, rgb(255 255 255 / 5%) 1.7rem 1.77rem);
+  transform: perspective(20rem) rotateX(5deg) scale(1.1);
+}
+
+.tikus-game-card__falling-shape {
+  position: absolute;
+  width: 2.4rem;
+  aspect-ratio: 1;
+  background: #f3ddaa;
+  box-shadow: 0 0 1.2rem #ffcf71;
+}
+
+.tikus-game-card__falling-shape--one {
+  left: 28%;
+  top: 12%;
+  border-radius: 50%;
+  animation: arcade-note-fall 2.4s linear infinite;
+}
+
+.tikus-game-card__falling-shape--two {
+  right: 26%;
+  top: -10%;
+  transform: rotate(45deg);
+  background: #1b0e11;
+  border: 0.35rem solid #f3ddaa;
+  animation: arcade-note-fall 2.05s 0.6s linear infinite;
+}
+
+.tikus-game-card__pulse {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18%;
+  height: 0.32rem;
+  background: #fff0c9;
+  box-shadow: 0 0 1.5rem #ffbd59;
+  animation: arcade-pulse-line 1.05s ease-in-out infinite;
+}
+
+.tikus-game-card__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 15.5rem;
+  padding: clamp(1rem, 2vw, 1.55rem);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 3%), transparent 40%),
+    #181112;
+}
+
+.tikus-game-card__eyebrow {
+  color: #d4ad69;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.tikus-game-card__title {
+  margin-top: 0.42rem;
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.tikus-game-card__description {
+  margin-top: 0.75rem;
+  color: #cbbdab;
+  line-height: 1.5;
+}
+
+.tikus-game-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.tikus-game-card__meta span {
+  padding: 0.3rem 0.5rem;
+  color: #e8d4b5;
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: #2c1b1d;
+  border: 1px solid rgb(255 237 205 / 11%);
+}
+
+.tikus-game-card__cta {
+  margin-top: 0.85rem;
+  color: #fff1d3;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes arcade-card-rings {
+  to { transform: rotate(360deg) scale(1.05); }
+}
+
+@keyframes arcade-mouse-one {
+  0%, 100% { transform: translate(0, 0) rotate(-4deg); }
+  50% { transform: translate(3.4rem, -0.8rem) rotate(4deg); }
+}
+
+@keyframes arcade-mouse-two {
+  0%, 100% { transform: scaleX(-1) translate(0, 0); }
+  50% { transform: scaleX(-1) translate(2.6rem, 0.65rem); }
+}
+
+@keyframes arcade-spark {
+  0%, 100% { opacity: 0.4; transform: scale(0.72) rotate(0); }
+  50% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+}
+
+@keyframes arcade-note-fall {
+  from { translate: 0 -3rem; }
+  to { translate: 0 17rem; }
+}
+
+@keyframes arcade-pulse-line {
+  0%, 100% { opacity: 0.65; transform: scaleX(0.96); }
+  50% { opacity: 1; transform: scaleX(1.03); }
+}
+
+@media (max-width: 48rem) {
+  .tikus-arcade-dialog {
+    width: calc(100vw - 0.7rem);
+    max-height: calc(100dvh - 0.7rem);
+  }
+
+  .tikus-arcade-dialog__surface {
+    max-height: calc(100dvh - 0.7rem);
+  }
+
+  .tikus-arcade-dialog__topbar {
+    min-height: 4rem;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .tikus-arcade-dialog__eyebrow {
+    font-size: 0.59rem;
+  }
+
+  .tikus-arcade-dialog__close {
+    width: 2.55rem;
+    height: 2.55rem;
+  }
+
+  .tikus-arcade-hub {
+    min-height: calc(100dvh - 4.7rem);
+    padding: 1.15rem 0.8rem 1.5rem;
+  }
+
+  .tikus-arcade-hub__copy {
+    font-size: 0.9rem;
+  }
+
+  .tikus-arcade-hub__grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .tikus-game-card {
+    grid-template-columns: minmax(7.5rem, 34%) 1fr;
+    grid-template-rows: 1fr;
+    min-height: 12.5rem;
+  }
+
+  .tikus-game-card__visual {
+    min-height: 100%;
+  }
+
+  .tikus-game-card__body {
+    min-height: 12.5rem;
+    padding: 1rem;
+  }
+
+  .tikus-game-card__description {
+    font-size: 0.86rem;
+    line-height: 1.38;
+  }
+
+  .tikus-game-card__meta {
+    gap: 0.3rem;
+    padding-top: 0.65rem;
+  }
+
+  .tikus-game-card__meta span:nth-child(2) {
+    display: none;
+  }
+
+  .tikus-game-card__mouse {
+    width: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tikus-game-card,
+  .tikus-arcade-dialog__close {
+    transition: none;
+  }
+
+  .tikus-game-card__rings,
+  .tikus-game-card__mouse,
+  .tikus-game-card__spark,
+  .tikus-game-card__falling-shape,
+  .tikus-game-card__pulse {
+    animation: none;
+  }
+}

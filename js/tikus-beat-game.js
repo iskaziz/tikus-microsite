@@ -1,0 +1,428 @@
+(function registerTikusBeat(global) {
+  'use strict';
+
+  const STORAGE_KEY = 'tikus-beat-best-v2';
+  const DURATION_SECONDS = 60;
+  const LANE_KEYS = [
+    ['1', 'a'],
+    ['2', 's'],
+    ['3', 'd'],
+    ['4', 'f'],
+    ['5', 'g']
+  ];
+  const SHAPES = ['circle', 'triangle', 'square', 'diamond', 'cross'];
+
+  function create(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (typeof text === 'string') element.textContent = text;
+    return element;
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function readBest() {
+    try {
+      return Math.max(0, Number.parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10) || 0);
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  function writeBest(score) {
+    try {
+      localStorage.setItem(STORAGE_KEY, String(score));
+    } catch (error) {
+      // Keep play functional if storage is unavailable.
+    }
+  }
+
+  function shapeMarkup(shape) {
+    return `<span class="beat-shape beat-shape--${shape}" aria-hidden="true"></span>`;
+  }
+
+  function mount(container, context = {}) {
+    const reducedMotion = Boolean(context.reducedMotion);
+    const onExit = typeof context.onExit === 'function' ? context.onExit : () => {};
+
+    let score = 0;
+    let best = readBest();
+    let combo = 0;
+    let maxCombo = 0;
+    let remaining = DURATION_SECONDS;
+    let running = false;
+    let startTime = 0;
+    let spawnTimer = 0;
+    let clockTimer = 0;
+    let noteId = 0;
+    let notes = new Map();
+    let judgements = { perfect: 0, good: 0, miss: 0 };
+    let lastTempoTier = 0;
+
+    const root = create('section', 'beat');
+    root.dataset.beatRoot = '';
+    root.tabIndex = -1;
+
+    const header = create('header', 'beat__header');
+    const heading = create('div', 'beat__heading');
+    heading.append(
+      create('p', 'beat__eyebrow', '60-SECOND RHYTHM'),
+      create('h2', 'beat__title', 'Tikus Beat')
+    );
+    const backButton = create('button', 'beat__back', '← Games');
+    backButton.type = 'button';
+    backButton.addEventListener('click', onExit);
+    header.append(heading, backButton);
+
+    const hud = create('div', 'beat__hud');
+    function hudItem(label, value, modifier = '') {
+      const item = create('div', `beat__hud-item ${modifier}`.trim());
+      const labelEl = create('span', 'beat__hud-label', label);
+      const valueEl = create('strong', 'beat__hud-value', value);
+      item.append(labelEl, valueEl);
+      return { item, value: valueEl };
+    }
+    const scoreHud = hudItem('Score', '0');
+    const comboHud = hudItem('Combo', '0', 'beat__hud-item--combo');
+    const timeHud = hudItem('Time', String(DURATION_SECONDS), 'beat__hud-item--time');
+    const tempoHud = hudItem('Tempo', 'Steady');
+    const bestHud = hudItem('Best', String(best));
+    hud.append(scoreHud.item, comboHud.item, timeHud.item, tempoHud.item, bestHud.item);
+
+    const stage = create('div', 'beat__stage');
+    stage.setAttribute('aria-label', 'Five-lane rhythm game');
+    const backdrop = create('div', 'beat__backdrop');
+    backdrop.setAttribute('aria-hidden', 'true');
+    const scanlines = create('div', 'beat__scanlines');
+    scanlines.setAttribute('aria-hidden', 'true');
+    const lightSweep = create('div', 'beat__light-sweep');
+    lightSweep.setAttribute('aria-hidden', 'true');
+    const lanes = create('div', 'beat__lanes');
+    const effects = create('div', 'beat__effects');
+    effects.setAttribute('aria-hidden', 'true');
+    const judgement = create('div', 'beat__judgement');
+    judgement.setAttribute('aria-live', 'polite');
+    judgement.setAttribute('aria-atomic', 'true');
+    const announcer = create('div', 'visually-hidden');
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+
+    const laneElements = [];
+    const receptorButtons = [];
+    SHAPES.forEach((shape, laneIndex) => {
+      const lane = create('div', 'beat__lane');
+      lane.dataset.lane = String(laneIndex);
+      const rail = create('div', 'beat__rail');
+      const notesLayer = create('div', 'beat__notes');
+      const hitZone = create('div', 'beat__hit-zone');
+      const receptor = create('button', 'beat__receptor');
+      receptor.type = 'button';
+      receptor.dataset.lane = String(laneIndex);
+      receptor.innerHTML = `${shapeMarkup(shape)}<span class="beat__key">${laneIndex + 1}<small>${LANE_KEYS[laneIndex][1].toUpperCase()}</small></span>`;
+      receptor.setAttribute('aria-label', `Lane ${laneIndex + 1}, ${shape}. Keys ${laneIndex + 1} or ${LANE_KEYS[laneIndex][1].toUpperCase()}`);
+      receptor.addEventListener('click', () => hitLane(laneIndex));
+      hitZone.append(receptor);
+      lane.append(rail, notesLayer, hitZone);
+      lanes.append(lane);
+      laneElements.push({ lane, notesLayer, receptor });
+      receptorButtons.push(receptor);
+    });
+
+    const intro = create('div', 'beat__overlay');
+    const introCard = create('div', 'beat__card');
+    introCard.append(
+      create('p', 'beat__card-kicker', 'FOLLOW THE FALLING SHAPES'),
+      create('p', 'beat__description', 'Tap the matching lane when a shape reaches the crimson hit line. The tempo accelerates throughout the minute.')
+    );
+    const keyGuide = create('div', 'beat__key-guide');
+    SHAPES.forEach((shape, index) => {
+      const item = create('div', 'beat__key-guide-item');
+      item.innerHTML = `${shapeMarkup(shape)}<span>${index + 1} / ${LANE_KEYS[index][1].toUpperCase()}</span>`;
+      keyGuide.append(item);
+    });
+    const startButton = create('button', 'beat__primary', 'Start the beat');
+    startButton.type = 'button';
+    introCard.append(keyGuide, startButton);
+    intro.append(introCard);
+
+    const result = create('div', 'beat__overlay beat__overlay--result');
+    result.hidden = true;
+    const resultCard = create('div', 'beat__card beat__card--result');
+    const resultKicker = create('p', 'beat__card-kicker', 'FINAL BEAT');
+    const resultTitle = create('h3', 'beat__result-title', 'The rhythm fades.');
+    const finalScore = create('p', 'beat__final-score', '0');
+    const breakdown = create('p', 'beat__breakdown');
+    const bestMessage = create('p', 'beat__best-message');
+    bestMessage.setAttribute('aria-live', 'polite');
+    const actions = create('div', 'beat__actions');
+    const replayButton = create('button', 'beat__primary', 'Play again');
+    replayButton.type = 'button';
+    const gamesButton = create('button', 'beat__secondary', 'Choose another game');
+    gamesButton.type = 'button';
+    gamesButton.addEventListener('click', onExit);
+    actions.append(replayButton, gamesButton);
+    resultCard.append(resultKicker, resultTitle, finalScore, breakdown, bestMessage, actions);
+    result.append(resultCard);
+
+    stage.append(backdrop, scanlines, lightSweep, lanes, effects, judgement, announcer, intro, result);
+    root.append(header, hud, stage);
+    container.replaceChildren(root);
+
+    function tempoLabel(progress) {
+      if (progress < 0.25) return 'Steady';
+      if (progress < 0.5) return 'Rising';
+      if (progress < 0.75) return 'Fast';
+      return 'Frenzy';
+    }
+
+    function updateHud() {
+      const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
+      scoreHud.value.textContent = String(score);
+      comboHud.value.textContent = String(combo);
+      timeHud.value.textContent = String(Math.max(0, Math.ceil(remaining)));
+      tempoHud.value.textContent = tempoLabel(progress);
+      bestHud.value.textContent = String(best);
+      root.style.setProperty('--beat-progress', String(progress));
+      root.classList.toggle('is-final', remaining <= 10 && running);
+      timeHud.item.classList.toggle('is-warning', remaining <= 10 && running);
+      comboHud.item.classList.toggle('is-hot', combo >= 10);
+    }
+
+    function showCallout(text, modifier = '') {
+      if (reducedMotion) return;
+      const callout = create('span', `beat__callout ${modifier}`.trim(), text);
+      effects.append(callout);
+      window.setTimeout(() => callout.remove(), 900);
+    }
+
+    function pulseLane(laneIndex, type) {
+      const { lane, receptor } = laneElements[laneIndex];
+      lane.classList.remove('is-hit', 'is-miss', 'is-perfect');
+      receptor.classList.remove('is-pressed');
+      void lane.offsetWidth;
+      lane.classList.add(type === 'miss' ? 'is-miss' : 'is-hit');
+      if (type === 'perfect') lane.classList.add('is-perfect');
+      receptor.classList.add('is-pressed');
+      window.setTimeout(() => {
+        lane.classList.remove('is-hit', 'is-miss', 'is-perfect');
+        receptor.classList.remove('is-pressed');
+      }, 260);
+    }
+
+    function setJudgement(text, type) {
+      judgement.textContent = text;
+      judgement.className = `beat__judgement beat__judgement--${type}`;
+      if (!reducedMotion) {
+        judgement.classList.remove('is-visible');
+        void judgement.offsetWidth;
+        judgement.classList.add('is-visible');
+      }
+    }
+
+    function removeNote(id) {
+      const note = notes.get(id);
+      if (!note) return;
+      window.clearTimeout(note.missTimer);
+      note.element.remove();
+      notes.delete(id);
+    }
+
+    function registerMiss(id) {
+      const note = notes.get(id);
+      if (!note || !running) return;
+      removeNote(id);
+      combo = 0;
+      judgements.miss += 1;
+      pulseLane(note.lane, 'miss');
+      setJudgement('MISS', 'miss');
+      updateHud();
+    }
+
+    function hitLane(laneIndex) {
+      if (!running) return;
+      const now = performance.now();
+      let closest = null;
+      notes.forEach((note) => {
+        if (note.lane !== laneIndex) return;
+        const distance = Math.abs(now - note.targetTime);
+        if (!closest || distance < closest.distance) closest = { note, distance };
+      });
+
+      if (!closest || closest.distance > 300) {
+        combo = 0;
+        judgements.miss += 1;
+        pulseLane(laneIndex, 'miss');
+        setJudgement('MISS', 'miss');
+        updateHud();
+        return;
+      }
+
+      const { note, distance } = closest;
+      removeNote(note.id);
+      let type = 'good';
+      let points = 70;
+      if (distance <= 105) {
+        type = 'perfect';
+        points = 100;
+        judgements.perfect += 1;
+      } else {
+        judgements.good += 1;
+      }
+      combo += 1;
+      maxCombo = Math.max(maxCombo, combo);
+      const comboBonus = Math.min(50, Math.floor(combo / 5) * 5);
+      score += points + comboBonus;
+      pulseLane(laneIndex, type);
+      setJudgement(type === 'perfect' ? 'PERFECT' : 'GOOD', type);
+      announcer.textContent = `${type}. Combo ${combo}. Score ${score}.`;
+      if (combo > 0 && combo % 10 === 0) {
+        showCallout(`${combo} COMBO`, 'beat__callout--combo');
+        root.classList.remove('is-combo-flash');
+        void root.offsetWidth;
+        root.classList.add('is-combo-flash');
+      }
+      updateHud();
+    }
+
+    function spawnNote() {
+      if (!running) return;
+      const elapsed = (performance.now() - startTime) / 1000;
+      const progress = clamp(elapsed / DURATION_SECONDS, 0, 1);
+      const lane = Math.floor(Math.random() * SHAPES.length);
+      const travel = reducedMotion ? 1750 : Math.max(1050, 2600 - progress * 1350);
+      const targetOffset = travel;
+      const id = ++noteId;
+      const element = create('button', `beat__note beat__note--${SHAPES[lane]}`);
+      element.type = 'button';
+      element.tabIndex = -1;
+      element.innerHTML = shapeMarkup(SHAPES[lane]);
+      element.setAttribute('aria-hidden', 'true');
+      element.style.setProperty('--note-duration', `${travel}ms`);
+      element.style.setProperty('--note-drift', `${(Math.random() - 0.5) * 10}px`);
+      element.style.setProperty('--note-travel', `${Math.max(220, stage.clientHeight * 0.82 + 80)}px`);
+      laneElements[lane].notesLayer.append(element);
+      const spawnTime = performance.now();
+      const targetTime = spawnTime + targetOffset;
+      const missTimer = window.setTimeout(() => registerMiss(id), targetOffset + 330);
+      notes.set(id, { id, lane, element, targetTime, missTimer });
+    }
+
+    function scheduleSpawn() {
+      if (!running) return;
+      const progress = clamp((performance.now() - startTime) / (DURATION_SECONDS * 1000), 0, 1);
+      const delay = Math.max(270, 760 - progress * 440);
+      spawnTimer = window.setTimeout(() => {
+        spawnNote();
+        if (progress > 0.6 && Math.random() < 0.17) {
+          window.setTimeout(() => running && spawnNote(), delay * 0.38);
+        }
+        scheduleSpawn();
+      }, delay);
+    }
+
+    function announceTempo(progress) {
+      const tier = Math.min(3, Math.floor(progress * 4));
+      if (tier <= lastTempoTier) return;
+      lastTempoTier = tier;
+      const labels = ['FASTER', 'DOUBLE TIME', 'FINAL FRENZY'];
+      showCallout(labels[tier - 1] || 'FASTER', 'beat__callout--tempo');
+      root.classList.remove('is-tempo-shift');
+      void root.offsetWidth;
+      root.classList.add('is-tempo-shift');
+    }
+
+    function finishGame() {
+      if (!running) return;
+      running = false;
+      remaining = 0;
+      window.clearTimeout(spawnTimer);
+      window.clearInterval(clockTimer);
+      Array.from(notes.keys()).forEach(removeNote);
+      const previousBest = best;
+      if (score > best) {
+        best = score;
+        writeBest(best);
+      }
+      finalScore.textContent = String(score);
+      breakdown.textContent = `${judgements.perfect} perfect · ${judgements.good} good · ${judgements.miss} miss · max combo ${maxCombo}`;
+      bestMessage.textContent = score > previousBest ? 'New rhythm record.' : `Best score: ${best}`;
+      result.hidden = false;
+      intro.hidden = true;
+      root.classList.add('is-finished');
+      updateHud();
+      replayButton.focus({ preventScroll: true });
+    }
+
+    function startGame() {
+      score = 0;
+      combo = 0;
+      maxCombo = 0;
+      remaining = DURATION_SECONDS;
+      judgements = { perfect: 0, good: 0, miss: 0 };
+      lastTempoTier = 0;
+      Array.from(notes.keys()).forEach(removeNote);
+      intro.hidden = true;
+      result.hidden = true;
+      root.classList.remove('is-finished', 'is-combo-flash', 'is-tempo-shift');
+      running = true;
+      startTime = performance.now();
+      updateHud();
+      spawnNote();
+      scheduleSpawn();
+      clockTimer = window.setInterval(() => {
+        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
+        const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
+        announceTempo(progress);
+        if (remaining <= 0) {
+          finishGame();
+          return;
+        }
+        updateHud();
+      }, 100);
+      root.focus({ preventScroll: true });
+    }
+
+    function handleKeydown(event) {
+      if (!running || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
+      const key = event.key.toLowerCase();
+      const lane = LANE_KEYS.findIndex((keys) => keys.includes(key));
+      if (lane < 0) return;
+      event.preventDefault();
+      hitLane(lane);
+    }
+
+    document.addEventListener('keydown', handleKeydown);
+    startButton.addEventListener('click', startGame);
+    replayButton.addEventListener('click', startGame);
+    updateHud();
+
+    return {
+      focus() {
+        startButton.focus({ preventScroll: true });
+      },
+      destroy() {
+        running = false;
+        window.clearTimeout(spawnTimer);
+        window.clearInterval(clockTimer);
+        Array.from(notes.keys()).forEach(removeNote);
+        document.removeEventListener('keydown', handleKeydown);
+        container.replaceChildren();
+      }
+    };
+  }
+
+  global.TikusGames = global.TikusGames || {};
+  global.TikusGames.beat = Object.freeze({
+    id: 'beat',
+    title: 'Tikus Beat',
+    eyebrow: '60-SECOND RHYTHM',
+    description: 'Match five falling shapes as the visual tempo climbs from steady pulse to final frenzy.',
+    duration: '60 sec',
+    controls: 'Tap lanes or use 1–5 / A–G',
+    accent: 'rhythm',
+    readBest,
+    mount
+  });
+})(window);

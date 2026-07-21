@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#870b17">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Enter Samasihat Wellness Retreat in the official interactive microsite for TIKUS, a Feisk Productions film.">
+
   <title>TIKUS — Official Film Microsite</title>
 
   <link
@@ -25,15 +26,17 @@
 
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/game.css">
-  <link rel="stylesheet" href="css/rhythm-game.css">
+  <link rel="stylesheet" href="css/arcade.css">
+  <link rel="stylesheet" href="css/tikus-rush.css">
+  <link rel="stylesheet" href="css/tikus-beat.css">
 
   <script defer src="js/content-data.js"></script>
   <script defer src="js/modal-controller.js"></script>
   <script defer src="js/scene-controller.js"></script>
   <script defer src="js/app.js"></script>
-  <script defer src="js/tikus-logic-game.js"></script>
-  <script defer src="js/tikus-rhythm-game.js"></script>
+  <script defer src="js/tikus-rush-game.js"></script>
+  <script defer src="js/tikus-beat-game.js"></script>
+  <script defer src="js/arcade-controller.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#explorer">Skip to the house explorer</a>
@@ -43,8 +46,10 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__rings" aria-hidden="true"></div>
       <div class="hero__shade" aria-hidden="true"></div>
+
       <div class="hero__content">
         <p class="eyebrow hero__eyebrow">Welcome to Samasihat Wellness Retreat</p>
+
         <h1 class="hero__title" id="hero-title">
           <picture>
             <source
@@ -62,10 +67,12 @@
               decoding="async">
           </picture>
         </h1>
+
         <p class="hero__headline">The weekend has only just begun.</p>
         <p class="hero__support">A houseful of strangers. A murderer among them.</p>
         <p class="hero__credit">A Feisk Productions film</p>
       </div>
+
       <a class="scroll-cue" href="#trailer" aria-label="Scroll to watch the trailer">
         <span>Watch the trailer</span>
         <span class="scroll-cue__mark" aria-hidden="true"></span>
@@ -74,6 +81,7 @@
 
     <section class="trailer-section" id="trailer" aria-labelledby="trailer-title">
       <div class="trailer-section__rings" aria-hidden="true"></div>
+
       <header class="section-heading trailer-section__heading">
         <p class="eyebrow">Now showing</p>
         <h2 id="trailer-title">Watch the trailer</h2>
@@ -90,6 +98,7 @@
             </span>
             <span class="visually-hidden">Play the official TIKUS trailer</span>
           </button>
+
           <div class="retro-tv__panel" aria-hidden="true">
             <span class="retro-tv__brand">TIKUS<br>VISION</span>
             <span class="retro-tv__knob retro-tv__knob--channel"></span>
@@ -98,33 +107,39 @@
             <span class="retro-tv__channel">CH 01</span>
           </div>
         </div>
+
         <div class="retro-tv__feet" aria-hidden="true">
           <span></span>
           <span></span>
         </div>
       </div>
+
       <p class="trailer-section__note">The video is hosted by YouTube. No video is loaded until the television is selected.</p>
       <a class="trailer-section__continue" href="#cast">Meet the cast <span aria-hidden="true">↓</span></a>
     </section>
 
     <section class="cast-section" id="cast" aria-labelledby="cast-title">
       <div class="cast-section__rings" aria-hidden="true"></div>
+
       <header class="section-heading cast-section__heading">
         <p class="eyebrow">Cast &amp; characters</p>
         <h2 id="cast-title">The faces around the table</h2>
         <p>The cards open on the character side. Select one to reveal the cast member.</p>
       </header>
+
       <div class="cast-table" role="group" aria-label="Illustrated tabletop with cast playing cards">
         <div class="cast-table__edge" aria-hidden="true"></div>
         <div class="cast-groups" data-cast-grid></div>
         <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-cast-status></p>
       </div>
+
       <p class="cast-section__instruction">Select a card to reveal the cast member. Select it again to return to the character.</p>
       <a class="cast-section__continue" href="#explorer">Enter the house <span aria-hidden="true">↓</span></a>
     </section>
 
     <section class="explorer" id="explorer" aria-labelledby="explorer-title" tabindex="-1" data-scene-explorer data-active-scene="house">
       <div class="explorer__rings" aria-hidden="true"></div>
+
       <header class="section-heading">
         <p class="eyebrow">Samasihat Wellness Retreat</p>
         <h2 id="explorer-title">EVERYONE IN THE HOUSE IS A SUSPECT</h2>
@@ -163,6 +178,7 @@
               fetchpriority="high"
               decoding="async">
           </picture>
+
           <div class="scene-ambient" aria-hidden="true">
             <span class="scene-ambient__light"></span>
             <span class="scene-ambient__weather"></span>
@@ -170,6 +186,7 @@
           </div>
           <div class="scene-stage__vignette" aria-hidden="true"></div>
           <div class="hotspot-layer" data-hotspot-layer aria-label="Interactive scene points"></div>
+
           <div class="scene-navigation-layer" data-scene-navigation-layer>
             <button
               class="scene-entry"
@@ -179,7 +196,9 @@
               aria-label="Enter the house and open the Sitting Room">
               <span class="scene-entry__label">Enter the house</span>
             </button>
+
           </div>
+
           <div class="iris-transition" data-iris hidden aria-hidden="true"></div>
         </div>
 
@@ -187,6 +206,7 @@
           <p class="eyebrow" data-scene-eyebrow>Samasihat Wellness Retreat</p>
           <h3 data-scene-title>The House</h3>
         </div>
+
         <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-scene-status></p>
       </div>
     </section>
@@ -197,6 +217,7 @@
           <p class="eyebrow">Film information</p>
           <h2 id="pending-title">More from TIKUS</h2>
         </header>
+
         <dl class="pending-grid">
           <div>
             <dt>Release date</dt>
@@ -232,6 +253,7 @@
           <span aria-hidden="true">×</span>
         </button>
       </header>
+
       <div class="trailer-dialog__player">
         <iframe
           data-trailer-frame
@@ -240,6 +262,7 @@
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen></iframe>
       </div>
+
       <p class="trailer-dialog__fallback">
         <a data-trailer-link href="https://youtu.be/9sgXasrieAE" target="_blank" rel="noopener noreferrer">Watch directly on YouTube</a>
       </p>

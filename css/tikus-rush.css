@@ -1,0 +1,500 @@
+.rush {
+  --rush-progress: 0;
+  min-height: min(49rem, calc(94dvh - 4.65rem));
+  color: #fff0d0;
+  background: #10090b;
+}
+
+.rush__header,
+.beat__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem clamp(0.8rem, 2vw, 1.4rem);
+  border-bottom: 1px solid rgb(255 234 198 / 10%);
+  background: #160e10;
+}
+
+.rush__heading p,
+.rush__heading h2 {
+  margin: 0;
+}
+
+.rush__eyebrow {
+  color: #d5ae67;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.rush__title {
+  margin-top: 0.12rem !important;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.rush__back,
+.beat__back {
+  min-height: 2.55rem;
+  padding: 0.55rem 0.8rem;
+  color: #f7dfb7;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #32191d;
+  border: 1px solid rgb(255 232 194 / 15%);
+  cursor: pointer;
+}
+
+.rush__hud {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: #4f0a14;
+  border-bottom: 1px solid rgb(255 230 190 / 13%);
+}
+
+.rush__hud-item {
+  display: grid;
+  place-items: center;
+  min-height: 4rem;
+  padding: 0.45rem;
+  background: #1a1012;
+}
+
+.rush__hud-label {
+  color: #a99a87;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rush__hud-value {
+  margin-top: 0.12rem;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rush__hud-item--time.is-warning {
+  color: #fff4da;
+  background: #791020;
+  animation: rush-time-warning 0.7s ease-in-out infinite alternate;
+}
+
+.rush__hud-item--combo .rush__hud-value {
+  color: #e3bd6d;
+}
+
+.rush__arena {
+  position: relative;
+  min-height: clamp(24rem, 64dvh, 43rem);
+  overflow: hidden;
+  outline: 0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 18%, rgb(18 8 10 / 40%) 19% 21%, transparent 22% 31%, rgb(18 8 10 / 48%) 32% 35%, transparent 36% 47%, rgb(18 8 10 / 55%) 48% 54%, transparent 55%),
+    linear-gradient(140deg, #ab1127, #730817 58%, #34060d);
+  isolation: isolate;
+}
+
+.rush__arena::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, transparent, rgb(255 229 186 / 8%), transparent),
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(0 0 0 / 9%) 5px);
+  transform: translateX(calc((var(--rush-progress) - 0.5) * 10%));
+}
+
+.rush__rings {
+  position: absolute;
+  inset: -35%;
+  z-index: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 2.5rem, rgb(10 5 6 / 45%) 2.6rem 4rem, transparent 4.1rem 6.2rem);
+  animation: rush-rings 24s linear infinite;
+}
+
+.rush__beams {
+  position: absolute;
+  inset: -40%;
+  z-index: 0;
+  opacity: calc(0.14 + var(--rush-progress) * 0.2);
+  background: conic-gradient(from 30deg, transparent 0 9%, rgb(255 225 174 / 13%) 10% 13%, transparent 14% 32%, rgb(255 225 174 / 9%) 33% 37%, transparent 38%);
+  animation: rush-beams 18s linear infinite reverse;
+}
+
+.rush__grain,
+.rush__dust {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.rush__grain {
+  opacity: 0.11;
+  background-image:
+    radial-gradient(circle at 20% 20%, #fff 0 0.04rem, transparent 0.06rem),
+    radial-gradient(circle at 70% 40%, #fff 0 0.035rem, transparent 0.055rem),
+    radial-gradient(circle at 40% 75%, #fff 0 0.03rem, transparent 0.05rem);
+  background-size: 5rem 4rem, 7rem 6rem, 9rem 8rem;
+  animation: rush-grain 0.55s steps(2) infinite;
+}
+
+.rush__dust {
+  opacity: 0.18;
+  background:
+    radial-gradient(circle at 10% 30%, #ffe4b0 0 0.08rem, transparent 0.11rem),
+    radial-gradient(circle at 50% 20%, #ffe4b0 0 0.06rem, transparent 0.09rem),
+    radial-gradient(circle at 82% 68%, #ffe4b0 0 0.07rem, transparent 0.1rem),
+    radial-gradient(circle at 33% 82%, #ffe4b0 0 0.05rem, transparent 0.08rem);
+  animation: rush-dust 9s ease-in-out infinite alternate;
+}
+
+.rush__mice,
+.rush__effects {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.rush__mouse {
+  position: absolute;
+  top: var(--mouse-top);
+  width: clamp(4.2rem, 8vw, 7.4rem);
+  height: auto;
+  padding: 0.4rem;
+  pointer-events: auto;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  filter: drop-shadow(0 0.75rem 0.45rem rgb(18 4 7 / 42%));
+  cursor: crosshair;
+  will-change: transform;
+  animation-duration: var(--mouse-duration);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.rush__mouse svg {
+  display: block;
+  width: 100%;
+}
+
+.rush__mouse--right {
+  left: -9rem;
+  animation-name: rush-mouse-right;
+}
+
+.rush__mouse--left {
+  right: -9rem;
+  animation-name: rush-mouse-left;
+}
+
+.rush__mouse--gold {
+  filter: drop-shadow(0 0 0.8rem rgb(255 217 102 / 75%)) drop-shadow(0 0.75rem 0.45rem rgb(18 4 7 / 42%));
+}
+
+.rush__mouse:focus-visible {
+  outline: 0.25rem solid #fff0c2;
+  outline-offset: 0.15rem;
+  border-radius: 50%;
+}
+
+.rush__burst {
+  position: absolute;
+  z-index: 9;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.rush__score-pop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff4d1;
+  font-size: 1.4rem;
+  text-shadow: 0 0.2rem 0 #5a0915, 0 0 1rem #ffce67;
+  transform: translate(-50%, -50%);
+  animation: rush-score-pop 0.8s ease-out forwards;
+}
+
+.rush__particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0.45rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f5db9b;
+  box-shadow: 0 0 0.7rem currentColor;
+  animation: rush-particle 0.7s ease-out forwards;
+  transform: rotate(var(--particle-angle)) translateX(0);
+}
+
+.rush__burst--gold .rush__particle {
+  color: #ffdb72;
+  background: #fff0a9;
+}
+
+.rush__callout {
+  position: absolute;
+  left: 50%;
+  top: 24%;
+  z-index: 10;
+  padding: 0.55rem 0.9rem;
+  color: #28070d;
+  font-size: clamp(1.25rem, 4vw, 2.6rem);
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  background: #f1d18e;
+  box-shadow: 0.4rem 0.4rem 0 #59101a;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  animation: rush-callout 0.9s ease-out forwards;
+}
+
+.rush__announcer {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  z-index: 8;
+  width: min(90%, 32rem);
+  overflow: hidden;
+  color: transparent;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.rush__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(15 7 9 / 68%);
+  backdrop-filter: blur(3px);
+}
+
+.rush__overlay[hidden] {
+  display: none;
+}
+
+.rush__card {
+  width: min(100%, 35rem);
+  padding: clamp(1.2rem, 4vw, 2.4rem);
+  color: #2b1714;
+  text-align: center;
+  background:
+    linear-gradient(110deg, rgb(255 255 255 / 32%), transparent 28%),
+    #ead8b5;
+  border: 1px solid #fff0c9;
+  box-shadow: 0.75rem 0.75rem 0 rgb(65 8 17 / 75%), 0 1.5rem 4rem rgb(0 0 0 / 50%);
+  transform: rotate(-0.7deg);
+}
+
+.rush__card-kicker,
+.rush__description,
+.rush__result-title,
+.rush__final-score,
+.rush__breakdown,
+.rush__best-message {
+  margin: 0;
+}
+
+.rush__card-kicker {
+  color: #901126;
+  font-size: 0.72rem;
+  font-weight: 1000;
+  letter-spacing: 0.17em;
+}
+
+.rush__description {
+  margin-top: 0.7rem;
+  line-height: 1.55;
+}
+
+.rush__rules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 1.2rem 0;
+}
+
+.rush__rule {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem;
+  text-align: left;
+  background: rgb(77 39 34 / 9%);
+  border: 1px dashed rgb(77 39 34 / 26%);
+}
+
+.rush__rule svg {
+  width: 100%;
+}
+
+.rush__primary,
+.rush__secondary,
+.beat__primary,
+.beat__secondary {
+  min-height: 3rem;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 1000;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.rush__primary,
+.beat__primary {
+  color: #fff0d4;
+  background: #8e1022;
+  border: 1px solid #610814;
+  box-shadow: 0.25rem 0.25rem 0 #341014;
+}
+
+.rush__secondary,
+.beat__secondary {
+  color: #3c251e;
+  background: transparent;
+  border: 1px solid rgb(60 37 30 / 45%);
+}
+
+.rush__result-title {
+  margin-top: 0.35rem;
+  font-size: clamp(1.45rem, 4vw, 2.5rem);
+}
+
+.rush__final-score {
+  margin-top: 0.6rem;
+  color: #8c0f20;
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 1000;
+  line-height: 0.9;
+}
+
+.rush__breakdown,
+.rush__best-message {
+  margin-top: 0.55rem;
+}
+
+.rush__best-message {
+  font-weight: 900;
+}
+
+.rush__actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 1.2rem;
+}
+
+.rush.is-gold-hit .rush__arena::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgb(255 231 145 / 50%), transparent 55%);
+  animation: rush-gold-flash 0.5s ease-out forwards;
+}
+
+.rush.is-final .rush__arena {
+  animation: rush-final-pulse 0.64s ease-in-out infinite alternate;
+}
+
+@keyframes rush-rings { to { transform: rotate(360deg) scale(1.04); } }
+@keyframes rush-beams { to { transform: rotate(360deg); } }
+@keyframes rush-grain { 0% { transform: translate(0, 0); } 50% { transform: translate(1.2%, -1%); } 100% { transform: translate(-1%, 1.1%); } }
+@keyframes rush-dust { to { transform: translate(1.2rem, -1rem); } }
+@keyframes rush-mouse-right { from { transform: translateX(0) translateY(0) scale(var(--mouse-scale)); } 50% { transform: translateX(calc(50vw + var(--mouse-wobble))) translateY(var(--mouse-wobble)) scale(var(--mouse-scale)) rotate(3deg); } to { transform: translateX(calc(100vw + 18rem)) translateY(0) scale(var(--mouse-scale)); } }
+@keyframes rush-mouse-left { from { transform: translateX(0) translateY(0) scaleX(-1) scale(var(--mouse-scale)); } 50% { transform: translateX(calc(-50vw + var(--mouse-wobble))) translateY(var(--mouse-wobble)) scaleX(-1) scale(var(--mouse-scale)) rotate(3deg); } to { transform: translateX(calc(-100vw - 18rem)) translateY(0) scaleX(-1) scale(var(--mouse-scale)); } }
+@keyframes rush-score-pop { from { opacity: 1; transform: translate(-50%, -50%) scale(0.7); } to { opacity: 0; transform: translate(-50%, -5rem) scale(1.3); } }
+@keyframes rush-particle { from { opacity: 1; transform: rotate(var(--particle-angle)) translateX(0) scale(1); } to { opacity: 0; transform: rotate(var(--particle-angle)) translateX(var(--particle-distance)) scale(0); } }
+@keyframes rush-callout { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(-8deg); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1.1) rotate(-2deg); } 100% { opacity: 0; transform: translate(-50%, -7rem) scale(0.95) rotate(2deg); } }
+@keyframes rush-gold-flash { to { opacity: 0; } }
+@keyframes rush-final-pulse { to { filter: saturate(1.35) brightness(1.1); } }
+@keyframes rush-time-warning { to { background: #a6162d; transform: scale(1.025); } }
+
+@media (max-width: 48rem) {
+  .rush {
+    min-height: calc(100dvh - 4rem);
+  }
+
+  .rush__header {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .rush__hud-item {
+    min-height: 3.35rem;
+    padding: 0.35rem;
+  }
+
+  .rush__hud-label {
+    font-size: 0.53rem;
+  }
+
+  .rush__hud-value {
+    font-size: 1.25rem;
+  }
+
+  .rush__arena {
+    min-height: calc(100dvh - 11.4rem);
+  }
+
+  .rush__rules {
+    gap: 0.35rem;
+  }
+
+  .rush__rule {
+    grid-template-columns: 3rem 1fr;
+    padding: 0.45rem;
+    font-size: 0.78rem;
+  }
+
+  .rush__actions {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rush__rings,
+  .rush__beams,
+  .rush__grain,
+  .rush__dust,
+  .rush__hud-item--time.is-warning,
+  .rush.is-final .rush__arena {
+    animation: none;
+  }
+
+  .rush__mouse {
+    animation-name: rush-mouse-reduced;
+  }
+
+  .rush__score-pop,
+  .rush__particle,
+  .rush__callout {
+    animation-duration: 0.01ms;
+  }
+}
+
+@keyframes rush-mouse-reduced {
+  from { opacity: 0; transform: translateX(35vw) scale(var(--mouse-scale)); }
+  10%, 85% { opacity: 1; }
+  to { opacity: 0; transform: translateX(35vw) scale(var(--mouse-scale)); }
+}

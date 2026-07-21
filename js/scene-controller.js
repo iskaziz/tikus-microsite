@@ -243,6 +243,10 @@
         button.append(dot, tooltip);
         button.addEventListener('click', () => {
           this.state.activeHotspotId = hotspot.id;
+          if (hotspot.type === 'arcade-hub' && global.TikusArcade?.open) {
+            global.TikusArcade.open(button);
+            return;
+          }
           this.modal.open(hotspot, button);
         });
         fragment.append(button);

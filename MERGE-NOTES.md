@@ -1,93 +1,71 @@
 # Merge notes
 
-## Sources compared
+## Source decision
 
-1. The public `main` branch of `iskaziz/tikus-microsite`.
-2. The feature-rich repository state identified in project history at commit `53244b5e3dc69561227a3b818cbb3692d35047fb`.
-3. The attached `TIKUS-grid-logic-game-update-v5` package.
+The current public `main` branch of `iskaziz/tikus-microsite` was reviewed as the source of truth for the two newly added arcade games.
 
-The public `main` branch contained an older, compact one-level game implementation and an `index.html` without the trailer, cast-card and scene-atmosphere markup described as required for the live microsite. The merge therefore retained the feature-rich structure and applied the v5 game as a targeted integration rather than replacing the whole site.
+The latest feature-rich microsite state was retained: approved title treatment, trailer television, grouped character-first cards, compact mobile spacing, House → Sitting Room explorer, atmospheric overlays and three percentage-positioned Sitting Room hotspots.
 
-## File decisions
+The two repository games were then consolidated rather than allowing each script to modify the scene and modal systems independently.
 
-### `index.html`
+## Shared arcade architecture
 
-Retained or restored:
+- One `tikus-arcade` hotspot replaces the former `main-sofa`/legacy game hotspot.
+- Any extra legacy Rush, Beat or logic-game hotspot is removed at registration time.
+- The Sitting Room remains exactly three hotspots: `family-console`, `art-display`, `tikus-arcade`.
+- `js/scene-controller.js` now routes only `type: "arcade-hub"` to the shared arcade controller.
+- Ordinary information hotspots continue to use the existing modal controller unchanged.
+- No game wraps or replaces `modal.open()`.
 
-- Concentric-ring hero and approved title artwork.
-- Retro television trailer section and trailer dialog.
-- Eight cast and character flip cards, grouped as Hosts, Guests and The Inspector.
-- House and Sitting Room explorer with scene-atmosphere overlays.
-- Existing information dialog and semantic page structure.
+## Files
 
-Added or confirmed:
+Added:
 
-- `css/game.css` after the core stylesheets.
-- `js/tikus-logic-game.js` after all core application scripts.
-- No autoplay parameters or base64 assets.
+- `js/arcade-controller.js`
+- `js/tikus-rush-game.js`
+- `js/tikus-beat-game.js`
+- `css/arcade.css`
+- `css/tikus-rush.css`
+- `css/tikus-beat.css`
 
-### `css/game.css`
+Removed:
 
-The v5 game stylesheet was adopted as the game source of truth. It contains the investigation-table presentation, evidence sheets, clue cards, icon drawings, mobile grid containment, feedback effects and reduced-motion overrides.
+- `js/tikus-logic-game.js`
+- `css/game.css`
 
-### `js/tikus-logic-game.js`
+The misleading logic-game filename is therefore no longer used for Tikus Rush.
 
-The v5 game script was adopted as the game source of truth. It patches only the Sitting Room `main-sofa` hotspot, injects its own dedicated dialog and delegates all other scene and information hotspots to the existing modal controller.
+## Dynamic visual update
 
-### Core files
+### Tikus Rush
 
-The core scene, modal, cast, trailer and atmospheric behavior remains separate from the game:
+- Progressive mouse speed and spawn frequency.
+- Occasional double waves later in the round.
+- Concentric-ring drift and rotating light beams.
+- Film grain and floating dust.
+- Hit particles and floating point values.
+- Gold-mouse flash treatment.
+- Streak callouts and final-ten-second intensity.
 
-- `js/content-data.js`
-- `js/app.js`
-- `js/scene-controller.js`
-- `js/modal-controller.js`
-- `css/styles.css`
-- `css/animations.css`
+### Tikus Beat
 
-## Integration invariants
+- Five animated vertical lanes and glowing receptors.
+- Progressive tempo tiers across the 60-second round.
+- Moving stage lights, scrolling lane rails and scanlines.
+- Perfect, good and miss judgement feedback.
+- Lane flashes, combo flashes and tempo callouts.
+- Final-frenzy intensity during the last ten seconds.
 
-- Sitting Room renders `family-console`, `art-display` and `logic-game`: exactly three hotspots.
-- Kitchen and Orchid Room explorer scenes are removed.
-- Game progress uses `tikus-logic-game-progress-v5`.
-- The game is labelled spoiler-safe and non-canonical in both its hotspot panel and dialog.
-- All local paths are relative to the project root.
-- Source PDFs and confidential screenplay material are not included.
+All major or continuous effects have reduced-motion alternatives.
 
-## Small integration fixes
+## Preserved microsite amendments
 
-Two contained v5 behaviors were hardened during validation:
-
-- The level tabs and progress meter now refresh immediately when a level is solved, before the evidence summary appears.
-- Wrong-answer feedback now applies its visual state synchronously after a forced style reset, making the shake/pulse reliable across browsers while reduced-motion CSS still suppresses movement.
-
-
-## Character portrait integration
-
-The supplied `tikus-character-portraits` archive was added as a targeted cast-card update:
-
-- Mimi, Jay, Saladin, Madam Boey, Major Mansor, Alayna and Guy appear on the character-facing side of their existing cards.
-- Actor-facing sides remain unchanged because actor portraits were not supplied.
-- Inspektor Mislan retains the existing character placeholder because no matching portrait was included.
-- Original 1024-pixel PNG files were converted to responsive 480-pixel and 720-pixel AVIF, WebP and progressive JPEG derivatives.
-- Portraits remain lazy-loaded and preserve the existing card keyboard, screen-reader and flip-state behavior.
-
-## Synopsis and cast grouping amendment
-
-- Replaced the explorer synopsis with the approved “EVERYONE IN THE HOUSE IS A SUSPECT” copy.
-- Removed “The road is gone” and “A wellness retreat” from the opening title copy.
-- Reorganised the cast cards into Hosts, Guests and The Inspector.
-- Applied the requested order: Que, Y Mun; Fattah, Diana, Harris, Marsha, Iski; Haiccal.
-- Removed Roshafiq and the ninth cast card.
-
-## House explorer and card-face amendment
-
-- Removed the Kitchen and Orchid Room explorer scenes, artwork derivatives and directional arrows.
-- The exterior artwork remains a full-frame keyboard-accessible entry button that opens the Sitting Room.
-- Return to House remains available from the Sitting Room.
-- Removed the descriptive paragraph beneath the scene artwork; only the scene label and title remain.
-- Added “Wellness Retreat” after “Samasihat” above the opening title artwork.
-- Cast cards now open on the character-facing side.
-- Character-facing cards use the singular role labels Host, Guest and Inspector.
-- Actor-facing cards show the cast name without a category label above it.
-- URL hash state is limited to `#house` and `#sitting-room`.
+- Hero eyebrow: “Welcome to Samasihat Wellness Retreat”.
+- Approved spoiler-safe synopsis.
+- Hosts: Que, Y Mun.
+- Guests: Fattah, Diana, Harris, Marsha, Iski.
+- The Inspector: Haiccal.
+- Character-facing cards visible first with Host, Guest or Inspector labels.
+- No category label above cast names.
+- Compact mobile cards and reduced section spacing.
+- Only House and Sitting Room remain in the explorer.

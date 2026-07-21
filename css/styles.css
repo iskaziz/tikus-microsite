@@ -1668,8 +1668,31 @@ img.cast-card__portrait,
 }
 
 @media (max-width: 48rem) {
+  .trailer-section {
+    padding: 3rem var(--page-gutter) 3.25rem;
+  }
+
   .cast-section {
-    padding-inline: 0;
+    padding: 3rem 0 3.25rem;
+  }
+
+  .explorer {
+    min-height: auto;
+    padding: 3rem var(--page-gutter) 3.5rem;
+  }
+
+  .pending-material {
+    padding-block: 3rem;
+  }
+
+  .section-heading,
+  .trailer-section__heading,
+  .cast-section__heading {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-heading > p:last-child {
+    margin-top: 0.9rem;
   }
 
   .cast-section__heading,
@@ -1680,13 +1703,13 @@ img.cast-card__portrait,
 
   .cast-table {
     width: 100%;
-    padding: 2.1rem 0 2.6rem;
+    padding: 1.35rem 0 1.75rem;
     border-inline: 0;
     outline: 0;
   }
 
   .cast-groups {
-    gap: 2.5rem;
+    gap: 1.55rem;
   }
 
   .cast-group__heading {
@@ -1697,8 +1720,8 @@ img.cast-card__portrait,
   .cast-group[data-cast-group="guests"] .cast-group__grid {
     display: flex;
     justify-content: flex-start;
-    gap: 1.2rem;
-    padding: 0.8rem var(--page-gutter) 1.5rem;
+    gap: 0.9rem;
+    padding: 0.55rem var(--page-gutter) 0.9rem;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scroll-padding-inline: var(--page-gutter);
@@ -1707,7 +1730,7 @@ img.cast-card__portrait,
   }
 
   .cast-card {
-    flex: 0 0 min(72vw, 18rem);
+    flex: 0 0 clamp(10.75rem, 56vw, 13.5rem);
     scroll-snap-align: center;
   }
 
@@ -1784,6 +1807,39 @@ img.cast-card__portrait,
 }
 
 @media (max-width: 35rem) {
+  .trailer-section,
+  .cast-section,
+  .explorer,
+  .pending-material {
+    padding-top: 2.5rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .section-heading,
+  .trailer-section__heading,
+  .cast-section__heading {
+    margin-bottom: 1.2rem;
+  }
+
+  .cast-card__face {
+    padding: 0.62rem;
+  }
+
+  .cast-card__portrait {
+    min-height: 5rem;
+    margin: 0.25rem 0 0.55rem;
+  }
+
+  .cast-card__description {
+    margin-top: 0.3rem;
+    line-height: 1.24;
+  }
+
+  .cast-card__flip-hint {
+    margin-top: 0.35rem;
+    padding-top: 0.3rem;
+  }
+
   .retro-tv__cabinet {
     grid-template-columns: 1fr;
   }
