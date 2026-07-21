@@ -64,19 +64,25 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 
 - 30-second mouse-catching challenge.
 - Grey mice score 2 points; gold mice score 10 points.
-- Progressive spawn speed and occasional double waves.
+- Slower, path-normalised movement with mice entering and leaving from all four edges.
+- Multi-turn routes create diagonal runs, reversals and unpredictable vertical movement.
+- Enlarged invisible tap areas and immediate `pointerdown` response for mouse and touch input.
+- Escaped mice only soften the streak instead of resetting it completely.
 - Score, best score and streak display.
 - Concentric-ring drift, moving light beams, dust, score bursts, gold flashes and final-ten-second intensity.
-- Pointer, touch and keyboard-accessible mouse buttons.
+- Native mouse buttons remain keyboard accessible.
 - Best score stored under `tikus-rush-best-v2`.
 
 ### Tikus Beat
 
 - 60-second five-lane visual rhythm challenge.
 - Placeholder shapes can later be replaced with approved film objects.
-- Tap lanes or use `1–5` / `A–G` keyboard controls.
-- Perfect, good and miss judgements, combo scoring and progressive tempo tiers.
-- Falling-note glow, lane flashes, judgement bursts, tempo callouts, stage lights and final frenzy treatment.
+- Tap lanes or use `1–5` / `A/S/D/F/G` keyboard controls.
+- Slower note travel and wider perfect/good judgement windows.
+- Pointer input is handled on `pointerdown`, with a short early-input buffer.
+- Empty taps are not penalised, and a missed note trims rather than erases the combo.
+- Judgement timing follows the note’s rendered animation rather than an independent spawn clock.
+- Falling-note glow, lane flashes, judgement bursts, tempo callouts, stage lights and final-ten-second treatment.
 - Best score stored under `tikus-beat-best-v2`.
 
 Both games are explicitly non-canonical and spoiler-safe.

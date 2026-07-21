@@ -69,3 +69,25 @@ All major or continuous effects have reduced-motion alternatives.
 - No category label above cast names.
 - Compact mobile cards and reduced section spacing.
 - Only House and Sitting Room remain in the explorer.
+
+## Forgiving gameplay tuning
+
+### Tikus Rush
+
+- Replaced predictable left-to-right/right-to-left passes with routes that may enter or leave from any edge.
+- Each mouse follows several random interior waypoints, allowing diagonal movement, reversals and vertical turns.
+- Keyframe offsets are calculated from cumulative path distance so long diagonal segments do not produce sudden speed spikes.
+- Overall mouse speed was reduced and capped; the active-mouse count prevents slower mice from overcrowding the arena.
+- Mouse buttons now use a larger hit area and react on `pointerdown` for faster touch and mouse response.
+- One escaped mouse reduces the streak by one rather than resetting it.
+
+### Tikus Beat
+
+- Increased note travel time and reduced spawn acceleration and double-note frequency.
+- Expanded the perfect and good windows and added late grace after the note reaches the line.
+- Added a short early-input buffer and removed penalties for empty lane taps.
+- Misses reduce the combo rather than clearing it.
+- Touch and mouse input now registers on `pointerdown`.
+- Judgement reads the CSS animation’s actual `currentTime`, keeping scoring aligned with the rendered note even if a browser delays animation frames.
+
+Existing best scores remain stored under the original v2 localStorage keys.

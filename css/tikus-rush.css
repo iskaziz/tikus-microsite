@@ -169,35 +169,51 @@
 
 .rush__mouse {
   position: absolute;
-  top: var(--mouse-top);
-  width: clamp(4.2rem, 8vw, 7.4rem);
+  top: 0;
+  left: 0;
+  width: clamp(5.25rem, 9vw, 8.5rem);
   height: auto;
-  padding: 0.4rem;
+  padding: 0.78rem;
   pointer-events: auto;
   color: inherit;
   background: transparent;
   border: 0;
   filter: drop-shadow(0 0.75rem 0.45rem rgb(18 4 7 / 42%));
-  cursor: crosshair;
-  will-change: transform;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.rush__mouse svg {
+  display: block;
+  width: 82%;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.rush__mouse--fallback-right,
+.rush__mouse--fallback-left {
+  top: var(--mouse-top);
   animation-duration: var(--mouse-duration);
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
 
-.rush__mouse svg {
-  display: block;
-  width: 100%;
-}
-
-.rush__mouse--right {
+.rush__mouse--fallback-right {
   left: -9rem;
   animation-name: rush-mouse-right;
 }
 
-.rush__mouse--left {
+.rush__mouse--fallback-left {
+  left: auto;
   right: -9rem;
   animation-name: rush-mouse-left;
+}
+
+.rush__mouse.is-caught {
+  pointer-events: none;
 }
 
 .rush__mouse--gold {
@@ -467,6 +483,11 @@
     font-size: 0.78rem;
   }
 
+  .rush__mouse {
+    width: clamp(5.4rem, 23vw, 7.1rem);
+    padding: 0.82rem;
+  }
+
   .rush__actions {
     flex-direction: column;
   }
@@ -482,9 +503,6 @@
     animation: none;
   }
 
-  .rush__mouse {
-    animation-name: rush-mouse-reduced;
-  }
 
   .rush__score-pop,
   .rush__particle,

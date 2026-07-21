@@ -3,6 +3,10 @@
 
   const STORAGE_KEY = 'tikus-beat-best-v2';
   const DURATION_SECONDS = 60;
+  const PERFECT_WINDOW_MS = 185;
+  const GOOD_WINDOW_MS = 470;
+  const INPUT_BUFFER_MS = 220;
+  const MISS_GRACE_MS = 170;
   const LANE_KEYS = [
     ['1', 'a'],
     ['2', 's'],
@@ -58,6 +62,7 @@
     let clockTimer = 0;
     let noteId = 0;
     let notes = new Map();
+    let bufferedInputs = new Map();
     let judgements = { perfect: 0, good: 0, miss: 0 };
     let lastTempoTier = 0;
 
@@ -87,7 +92,7 @@
     const scoreHud = hudItem('Score', '0');
     const comboHud = hudItem('Combo', '0', 'beat__hud-item--combo');
     const timeHud = hudItem('Time', String(DURATION_SECONDS), 'beat__hud-item--time');
-    const tempoHud = hudItem('Tempo', 'Steady');
+    const tempoHud = hudItem('Tempo', 'Easy');
     const bestHud = hudItem('Best', String(best));
     hud.append(scoreHud.item, comboHud.item, timeHud.item, tempoHud.item, bestHud.item);
 
@@ -110,7 +115,6 @@
     announcer.setAttribute('aria-atomic', 'true');
 
     const laneElements = [];
-    const receptorButtons = [];
     SHAPES.forEach((shape, laneIndex) => {
       const lane = create('div', 'beat__lane');
       lane.dataset.lane = String(laneIndex);
@@ -122,19 +126,26 @@
       receptor.dataset.lane = String(laneIndex);
       receptor.innerHTML = `${shapeMarkup(shape)}<span class="beat__key">${laneIndex + 1}<small>${LANE_KEYS[laneIndex][1].toUpperCase()}</small></span>`;
       receptor.setAttribute('aria-label', `Lane ${laneIndex + 1}, ${shape}. Keys ${laneIndex + 1} or ${LANE_KEYS[laneIndex][1].toUpperCase()}`);
-      receptor.addEventListener('click', () => hitLane(laneIndex));
+      receptor.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        event.preventDefault();
+        hitLane(laneIndex);
+      });
+      // Enter and Space activate the button through a synthetic click with detail 0.
+      receptor.addEventListener('click', (event) => {
+        if (event.detail === 0) hitLane(laneIndex);
+      });
       hitZone.append(receptor);
       lane.append(rail, notesLayer, hitZone);
       lanes.append(lane);
       laneElements.push({ lane, notesLayer, receptor });
-      receptorButtons.push(receptor);
     });
 
     const intro = create('div', 'beat__overlay');
     const introCard = create('div', 'beat__card');
     introCard.append(
       create('p', 'beat__card-kicker', 'FOLLOW THE FALLING SHAPES'),
-      create('p', 'beat__description', 'Tap the matching lane when a shape reaches the crimson hit line. The tempo accelerates throughout the minute.')
+      create('p', 'beat__description', 'Tap the matching lane as a shape reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.')
     );
     const keyGuide = create('div', 'beat__key-guide');
     SHAPES.forEach((shape, index) => {
@@ -171,10 +182,10 @@
     container.replaceChildren(root);
 
     function tempoLabel(progress) {
-      if (progress < 0.25) return 'Steady';
-      if (progress < 0.5) return 'Rising';
-      if (progress < 0.75) return 'Fast';
-      return 'Frenzy';
+      if (progress < 0.25) return 'Easy';
+      if (progress < 0.5) return 'Steady';
+      if (progress < 0.75) return 'Upbeat';
+      return 'Finale';
     }
 
     function updateHud() {
@@ -197,18 +208,22 @@
       window.setTimeout(() => callout.remove(), 900);
     }
 
-    function pulseLane(laneIndex, type) {
-      const { lane, receptor } = laneElements[laneIndex];
-      lane.classList.remove('is-hit', 'is-miss', 'is-perfect');
+    function pressReceptor(laneIndex) {
+      const receptor = laneElements[laneIndex].receptor;
       receptor.classList.remove('is-pressed');
+      void receptor.offsetWidth;
+      receptor.classList.add('is-pressed');
+      window.setTimeout(() => receptor.classList.remove('is-pressed'), 190);
+    }
+
+    function pulseLane(laneIndex, type) {
+      const { lane } = laneElements[laneIndex];
+      lane.classList.remove('is-hit', 'is-miss', 'is-perfect');
       void lane.offsetWidth;
       lane.classList.add(type === 'miss' ? 'is-miss' : 'is-hit');
       if (type === 'perfect') lane.classList.add('is-perfect');
-      receptor.classList.add('is-pressed');
-      window.setTimeout(() => {
-        lane.classList.remove('is-hit', 'is-miss', 'is-perfect');
-        receptor.classList.remove('is-pressed');
-      }, 260);
+      pressReceptor(laneIndex);
+      window.setTimeout(() => lane.classList.remove('is-hit', 'is-miss', 'is-perfect'), 260);
     }
 
     function setJudgement(text, type) {
@@ -233,37 +248,33 @@
       const note = notes.get(id);
       if (!note || !running) return;
       removeNote(id);
-      combo = 0;
+      // A miss trims the combo rather than erasing all progress.
+      combo = Math.max(0, combo - 3);
       judgements.miss += 1;
       pulseLane(note.lane, 'miss');
       setJudgement('MISS', 'miss');
       updateHud();
     }
 
-    function hitLane(laneIndex) {
-      if (!running) return;
-      const now = performance.now();
+    function closestNoteForLane(laneIndex) {
       let closest = null;
       notes.forEach((note) => {
         if (note.lane !== laneIndex) return;
-        const distance = Math.abs(now - note.targetTime);
+        const animation = note.animation || note.element.getAnimations()[0];
+        const currentTime = Number(animation?.currentTime) || 0;
+        const distance = Math.abs(note.travel - currentTime);
         if (!closest || distance < closest.distance) closest = { note, distance };
       });
+      return closest;
+    }
 
-      if (!closest || closest.distance > 300) {
-        combo = 0;
-        judgements.miss += 1;
-        pulseLane(laneIndex, 'miss');
-        setJudgement('MISS', 'miss');
-        updateHud();
-        return;
-      }
-
+    function scoreNote(laneIndex, closest) {
       const { note, distance } = closest;
+      bufferedInputs.delete(laneIndex);
       removeNote(note.id);
       let type = 'good';
-      let points = 70;
-      if (distance <= 105) {
+      let points = 80;
+      if (distance <= PERFECT_WINDOW_MS) {
         type = 'perfect';
         points = 100;
         judgements.perfect += 1;
@@ -286,12 +297,39 @@
       updateHud();
     }
 
+    function hitLane(laneIndex, fromBuffer = false) {
+      if (!running) return;
+      const now = performance.now();
+      const closest = closestNoteForLane(laneIndex);
+      if (closest && closest.distance <= GOOD_WINDOW_MS) {
+        scoreNote(laneIndex, closest);
+        return;
+      }
+
+      // Empty or slightly early taps are not punished. Keep them briefly as an input buffer.
+      pressReceptor(laneIndex);
+      if (!fromBuffer) bufferedInputs.set(laneIndex, now + INPUT_BUFFER_MS);
+    }
+
+    function resolveBufferedInputs() {
+      if (!running || bufferedInputs.size === 0) return;
+      const now = performance.now();
+      bufferedInputs.forEach((expiry, laneIndex) => {
+        if (expiry < now) {
+          bufferedInputs.delete(laneIndex);
+          return;
+        }
+        const closest = closestNoteForLane(laneIndex);
+        if (closest && closest.distance <= GOOD_WINDOW_MS) scoreNote(laneIndex, closest);
+      });
+    }
+
     function spawnNote() {
       if (!running) return;
       const elapsed = (performance.now() - startTime) / 1000;
       const progress = clamp(elapsed / DURATION_SECONDS, 0, 1);
       const lane = Math.floor(Math.random() * SHAPES.length);
-      const travel = reducedMotion ? 1750 : Math.max(1050, 2600 - progress * 1350);
+      const travel = reducedMotion ? 3350 : Math.max(2850, 3850 - progress * 900);
       const targetOffset = travel;
       const id = ++noteId;
       const element = create('button', `beat__note beat__note--${SHAPES[lane]}`);
@@ -300,23 +338,26 @@
       element.innerHTML = shapeMarkup(SHAPES[lane]);
       element.setAttribute('aria-hidden', 'true');
       element.style.setProperty('--note-duration', `${travel}ms`);
-      element.style.setProperty('--note-drift', `${(Math.random() - 0.5) * 10}px`);
-      element.style.setProperty('--note-travel', `${Math.max(220, stage.clientHeight * 0.82 + 80)}px`);
+      element.style.setProperty('--note-drift', `${(Math.random() - 0.5) * 12}px`);
+      element.style.setProperty('--note-travel', `${Math.max(220, stage.clientHeight * 0.80 + 80)}px`);
       laneElements[lane].notesLayer.append(element);
-      const spawnTime = performance.now();
-      const targetTime = spawnTime + targetOffset;
-      const missTimer = window.setTimeout(() => registerMiss(id), targetOffset + 330);
-      notes.set(id, { id, lane, element, targetTime, missTimer });
+      const animation = element.getAnimations()[0] || null;
+      notes.set(id, { id, lane, element, travel: targetOffset, animation, missTimer: 0 });
+      element.addEventListener('animationend', () => {
+        const note = notes.get(id);
+        if (!note || !running) return;
+        note.missTimer = window.setTimeout(() => registerMiss(id), GOOD_WINDOW_MS + MISS_GRACE_MS);
+      }, { once: true });
     }
 
     function scheduleSpawn() {
       if (!running) return;
       const progress = clamp((performance.now() - startTime) / (DURATION_SECONDS * 1000), 0, 1);
-      const delay = Math.max(270, 760 - progress * 440);
+      const delay = Math.max(690, 1120 - progress * 390);
       spawnTimer = window.setTimeout(() => {
         spawnNote();
-        if (progress > 0.6 && Math.random() < 0.17) {
-          window.setTimeout(() => running && spawnNote(), delay * 0.38);
+        if (progress > 0.78 && Math.random() < 0.08) {
+          window.setTimeout(() => running && spawnNote(), delay * 0.58);
         }
         scheduleSpawn();
       }, delay);
@@ -326,8 +367,8 @@
       const tier = Math.min(3, Math.floor(progress * 4));
       if (tier <= lastTempoTier) return;
       lastTempoTier = tier;
-      const labels = ['FASTER', 'DOUBLE TIME', 'FINAL FRENZY'];
-      showCallout(labels[tier - 1] || 'FASTER', 'beat__callout--tempo');
+      const labels = ['PICKING UP', 'UPBEAT', 'FINAL PUSH'];
+      showCallout(labels[tier - 1] || 'PICKING UP', 'beat__callout--tempo');
       root.classList.remove('is-tempo-shift');
       void root.offsetWidth;
       root.classList.add('is-tempo-shift');
@@ -339,6 +380,7 @@
       remaining = 0;
       window.clearTimeout(spawnTimer);
       window.clearInterval(clockTimer);
+      bufferedInputs.clear();
       Array.from(notes.keys()).forEach(removeNote);
       const previousBest = best;
       if (score > best) {
@@ -362,6 +404,7 @@
       remaining = DURATION_SECONDS;
       judgements = { perfect: 0, good: 0, miss: 0 };
       lastTempoTier = 0;
+      bufferedInputs.clear();
       Array.from(notes.keys()).forEach(removeNote);
       intro.hidden = true;
       result.hidden = true;
@@ -374,13 +417,14 @@
       clockTimer = window.setInterval(() => {
         remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
         const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
+        resolveBufferedInputs();
         announceTempo(progress);
         if (remaining <= 0) {
           finishGame();
           return;
         }
         updateHud();
-      }, 100);
+      }, 50);
       root.focus({ preventScroll: true });
     }
 
@@ -406,6 +450,7 @@
         running = false;
         window.clearTimeout(spawnTimer);
         window.clearInterval(clockTimer);
+        bufferedInputs.clear();
         Array.from(notes.keys()).forEach(removeNote);
         document.removeEventListener('keydown', handleKeydown);
         container.replaceChildren();
@@ -418,9 +463,9 @@
     id: 'beat',
     title: 'Tikus Beat',
     eyebrow: '60-SECOND RHYTHM',
-    description: 'Match five falling shapes as the visual tempo climbs from steady pulse to final frenzy.',
+    description: 'Match five falling shapes through a gentler, more forgiving rhythm curve.',
     duration: '60 sec',
-    controls: 'Tap lanes or use 1–5 / A–G',
+    controls: 'Tap lanes or use 1–5 / A/S/D/F/G',
     accent: 'rhythm',
     readBest,
     mount

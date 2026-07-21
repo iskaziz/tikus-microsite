@@ -5,7 +5,8 @@
   const DURATION_SECONDS = 30;
   const GREY_POINTS = 2;
   const GOLD_POINTS = 10;
-  const GOLD_CHANCE = 0.14;
+  const GOLD_CHANCE = 0.16;
+  const MAX_ACTIVE_MICE = 5;
 
   function create(tag, className, text) {
     const element = document.createElement(tag);
@@ -16,6 +17,10 @@
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
+  }
+
+  function randomBetween(min, max) {
+    return min + Math.random() * (max - min);
   }
 
   function readBest() {
@@ -61,6 +66,7 @@
     let remaining = DURATION_SECONDS;
     let running = false;
     let combo = 0;
+    let maxCombo = 0;
     let caughtGrey = 0;
     let caughtGold = 0;
     let spawnTimer = 0;
@@ -124,7 +130,7 @@
     const introCard = create('div', 'rush__card');
     introCard.append(
       create('p', 'rush__card-kicker', 'THE HOUSE IS CRAWLING'),
-      create('p', 'rush__description', 'Catch as many mice as possible before the timer reaches zero. The room gets faster and more chaotic as time runs out.')
+      create('p', 'rush__description', 'Catch as many mice as possible before time runs out. They dart in unpredictable directions, but the pace stays playful and forgiving.')
     );
     const rules = create('div', 'rush__rules');
     const greyRule = create('div', 'rush__rule');
@@ -189,11 +195,14 @@
 
     function removeMouse(id, escaped = false) {
       const record = activeMice.get(id);
-      if (!record) return;
+      if (!record || record.removing) return;
+      record.removing = true;
       window.clearTimeout(record.expiry);
+      record.animation?.cancel();
       activeMice.delete(id);
       if (escaped && running) {
-        combo = 0;
+        // A single escape only softens the streak instead of wiping it out.
+        combo = Math.max(0, combo - 1);
         updateHud();
       }
       record.button.remove();
@@ -202,7 +211,9 @@
     function catchMouse(id, event) {
       if (!running) return;
       const record = activeMice.get(id);
-      if (!record) return;
+      if (!record || record.caught) return;
+      record.caught = true;
+      record.button.classList.add('is-caught');
       const rect = arena.getBoundingClientRect();
       const mouseRect = record.button.getBoundingClientRect();
       const x = mouseRect.left - rect.left + mouseRect.width / 2;
@@ -210,6 +221,7 @@
       const points = record.type === 'gold' ? GOLD_POINTS : GREY_POINTS;
       score += points;
       combo += 1;
+      maxCombo = Math.max(maxCombo, combo);
       if (record.type === 'gold') {
         caughtGold += 1;
         root.classList.remove('is-gold-hit');
@@ -230,41 +242,138 @@
       event?.preventDefault();
     }
 
+    function edgePoint(edge, width, height, mouseSize) {
+      const pad = mouseSize * 0.8;
+      const safeX = () => randomBetween(0, Math.max(0, width - mouseSize));
+      const safeY = () => randomBetween(0, Math.max(0, height - mouseSize));
+      if (edge === 'left') return { x: -pad, y: safeY() };
+      if (edge === 'right') return { x: width + pad, y: safeY() };
+      if (edge === 'top') return { x: safeX(), y: -pad };
+      return { x: safeX(), y: height + pad };
+    }
+
+    function buildMousePath(width, height, mouseSize, scale) {
+      const edges = ['left', 'right', 'top', 'bottom'];
+      const startEdge = edges[Math.floor(Math.random() * edges.length)];
+      const possibleEnds = edges.filter((edge) => edge !== startEdge);
+      const endEdge = possibleEnds[Math.floor(Math.random() * possibleEnds.length)];
+      const start = edgePoint(startEdge, width, height, mouseSize);
+      const end = edgePoint(endEdge, width, height, mouseSize);
+      const safeWidth = Math.max(0, width - mouseSize);
+      const safeHeight = Math.max(0, height - mouseSize);
+      const points = [start];
+
+      // Independent interior points create turns, diagonal runs and occasional backtracking.
+      for (let index = 0; index < 4; index += 1) {
+        points.push({
+          x: randomBetween(0, safeWidth),
+          y: randomBetween(0, safeHeight)
+        });
+      }
+      points.push(end);
+
+      const distances = [0];
+      let pathLength = 0;
+      for (let index = 1; index < points.length; index += 1) {
+        pathLength += Math.hypot(points[index].x - points[index - 1].x, points[index].y - points[index - 1].y);
+        distances.push(pathLength);
+      }
+
+      const keyframes = points.map((point, index) => {
+        const previous = points[Math.max(0, index - 1)];
+        const next = points[Math.min(points.length - 1, index + 1)];
+        const facing = next.x >= previous.x ? 1 : -1;
+        const angle = clamp((next.y - previous.y) * 0.035, -8, 8);
+        return {
+          offset: pathLength > 0 ? distances[index] / pathLength : index / (points.length - 1),
+          transform: `translate3d(${point.x}px, ${point.y}px, 0) scaleX(${facing}) scale(${scale}) rotate(${angle}deg)`,
+          easing: index === points.length - 1 ? 'linear' : 'cubic-bezier(.45,.05,.55,.95)'
+        };
+      });
+      return { keyframes, pathLength };
+    }
+
+    function animateMouse(button, progress, scale) {
+      if (reducedMotion) {
+        const width = Math.max(1, arena.clientWidth - button.offsetWidth);
+        const height = Math.max(1, arena.clientHeight - button.offsetHeight);
+        const x = randomBetween(0, width);
+        const y = randomBetween(0, height);
+        const duration = 4800;
+        const animation = button.animate([
+          { opacity: 0, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})` },
+          { opacity: 1, offset: 0.12, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})` },
+          { opacity: 1, offset: 0.84, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})` },
+          { opacity: 0, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})` }
+        ], { duration, fill: 'forwards', easing: 'linear' });
+        return { animation, duration };
+      }
+
+      const path = buildMousePath(arena.clientWidth, arena.clientHeight, button.offsetWidth, scale);
+      const pixelsPerSecond = 215 + progress * 45;
+      const duration = clamp((path.pathLength / pixelsPerSecond) * 1000, 4800, 8200);
+      const animation = button.animate(path.keyframes, {
+        duration,
+        fill: 'forwards',
+        easing: 'linear'
+      });
+      return { animation, duration };
+    }
+
     function spawnMouse() {
-      if (!running) return;
+      if (!running || activeMice.size >= MAX_ACTIVE_MICE) return;
       const elapsed = (performance.now() - startTime) / 1000;
       const progress = clamp(elapsed / DURATION_SECONDS, 0, 1);
       const type = Math.random() < GOLD_CHANCE ? 'gold' : 'grey';
-      const direction = Math.random() > 0.5 ? 'right' : 'left';
-      const button = create('button', `rush__mouse rush__mouse--${type} rush__mouse--${direction}`);
+      const button = create('button', `rush__mouse rush__mouse--${type}`);
       button.type = 'button';
       button.innerHTML = mouseSvg(type);
       button.setAttribute('aria-label', `${type === 'gold' ? 'Gold' : 'Grey'} mouse, worth ${type === 'gold' ? GOLD_POINTS : GREY_POINTS} points`);
       const id = ++mouseId;
-      const top = 10 + Math.random() * 72;
-      const scale = 0.82 + Math.random() * 0.42;
-      const travel = reducedMotion ? 1600 : Math.max(1050, 2600 - progress * 1350 + Math.random() * 520);
-      button.style.setProperty('--mouse-top', `${top}%`);
-      button.style.setProperty('--mouse-scale', String(scale));
-      button.style.setProperty('--mouse-duration', `${travel}ms`);
-      button.style.setProperty('--mouse-wobble', `${(Math.random() - 0.5) * 28}px`);
-      button.addEventListener('click', (event) => catchMouse(id, event));
-      button.addEventListener('animationend', () => removeMouse(id, true), { once: true });
-      miceLayer.append(button);
-      const expiry = window.setTimeout(() => removeMouse(id, true), travel + 250);
-      activeMice.set(id, { button, type, expiry });
+      const scale = randomBetween(0.78, 1.12);
+      let travel = reducedMotion ? 4800 : 5600;
 
-      if (progress > 0.52 && Math.random() < 0.18) {
+      const handlePointer = (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        catchMouse(id, event);
+      };
+      button.addEventListener('pointerdown', handlePointer);
+      // Keyboard activation dispatches click with detail 0. Pointer clicks are already handled above.
+      button.addEventListener('click', (event) => {
+        if (event.detail === 0) catchMouse(id, event);
+      });
+      miceLayer.append(button);
+
+      let animation = null;
+      if (typeof button.animate === 'function') {
+        const motion = animateMouse(button, progress, scale);
+        animation = motion.animation;
+        travel = motion.duration;
+        animation.addEventListener('finish', () => removeMouse(id, true), { once: true });
+      } else {
+        const direction = Math.random() > 0.5 ? 'right' : 'left';
+        button.classList.add(`rush__mouse--fallback-${direction}`);
+        button.style.setProperty('--mouse-duration', `${travel}ms`);
+        button.style.setProperty('--mouse-scale', String(scale));
+        button.style.setProperty('--mouse-top', `${randomBetween(8, 78)}%`);
+        button.style.setProperty('--mouse-wobble', `${randomBetween(-90, 90)}px`);
+        button.addEventListener('animationend', () => removeMouse(id, true), { once: true });
+      }
+
+      const expiry = window.setTimeout(() => removeMouse(id, true), travel + 350);
+      activeMice.set(id, { button, type, expiry, animation, caught: false, removing: false });
+
+      if (progress > 0.72 && activeMice.size < MAX_ACTIVE_MICE - 1 && Math.random() < 0.08) {
         window.setTimeout(() => {
           if (running) spawnMouse();
-        }, 90 + Math.random() * 110);
+        }, randomBetween(180, 300));
       }
     }
 
     function scheduleSpawn() {
       if (!running) return;
       const progress = clamp((performance.now() - startTime) / (DURATION_SECONDS * 1000), 0, 1);
-      const delay = Math.max(210, 680 - progress * 390 + Math.random() * 180);
+      const delay = Math.max(620, 960 - progress * 270 + Math.random() * 210);
       spawnTimer = window.setTimeout(() => {
         spawnMouse();
         scheduleSpawn();
@@ -277,14 +386,14 @@
       remaining = 0;
       window.clearTimeout(spawnTimer);
       window.clearInterval(clockTimer);
-      activeMice.forEach((_, id) => removeMouse(id));
+      Array.from(activeMice.keys()).forEach((id) => removeMouse(id));
       const previousBest = best;
       if (score > best) {
         best = score;
         writeBest(best);
       }
       finalScore.textContent = String(score);
-      breakdown.textContent = `${caughtGrey} grey · ${caughtGold} gold · longest final streak ${combo}`;
+      breakdown.textContent = `${caughtGrey} grey · ${caughtGold} gold · best streak ${maxCombo}`;
       bestMessage.textContent = score > previousBest ? 'New house record.' : `Best score: ${best}`;
       result.hidden = false;
       intro.hidden = true;
@@ -297,9 +406,10 @@
       score = 0;
       remaining = DURATION_SECONDS;
       combo = 0;
+      maxCombo = 0;
       caughtGrey = 0;
       caughtGold = 0;
-      activeMice.forEach((_, id) => removeMouse(id));
+      Array.from(activeMice.keys()).forEach((id) => removeMouse(id));
       intro.hidden = true;
       result.hidden = true;
       root.classList.remove('is-finished', 'is-gold-hit');
@@ -331,7 +441,7 @@
         running = false;
         window.clearTimeout(spawnTimer);
         window.clearInterval(clockTimer);
-        activeMice.forEach((_, id) => removeMouse(id));
+        Array.from(activeMice.keys()).forEach((id) => removeMouse(id));
         container.replaceChildren();
       }
     };
@@ -342,7 +452,7 @@
     id: 'rush',
     title: 'Tikus Rush',
     eyebrow: '30-SECOND ARCADE',
-    description: 'Catch grey and gold mice as the room accelerates into a frantic final rush.',
+    description: 'Catch grey and gold mice as they dart along unpredictable paths at a playful pace.',
     duration: '30 sec',
     controls: 'Tap, click or keyboard',
     accent: 'mouse',

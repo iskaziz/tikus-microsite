@@ -1,65 +1,64 @@
 # Validation report
 
-Validation was performed against the packaged project without adding spoiler-sensitive story material.
+Validation was performed against the complete packaged project without adding spoiler-sensitive story material.
 
 ## Static checks
 
-- Every JavaScript file passes `node --check`.
-- HTML parses with unique IDs and no missing local stylesheet, script, image or source references.
-- CSS parses successfully.
-- No framework, build dependency, base64 asset, autoplay media or external animation library is present.
-- Core scripts load before both game modules and the shared arcade controller.
-- `js/tikus-logic-game.js` and the old monolithic game stylesheet are absent.
+- All 7 JavaScript files pass `node --check`.
+- All 5 stylesheets parse without CSS syntax errors.
+- `index.html` contains unique IDs and no missing local stylesheet, script, image or source references.
+- All 58 packaged assets resolve through relative paths.
+- No base64 asset, framework, build dependency, autoplay media or external animation library is present.
+- The obsolete `js/tikus-logic-game.js` file remains absent.
+- Existing best scores continue to use `tikus-rush-best-v2` and `tikus-beat-best-v2`.
 
-## Arcade integration checks
+## Shared arcade checks
 
-- The Sitting Room contains exactly three runtime hotspots:
-  - `family-console`
-  - `art-display`
-  - `tikus-arcade`
-- The shared arcade hotspot opens one native dialog containing exactly two game choices.
-- Tikus Rush and Tikus Beat register as independent modules.
-- The scene controller routes only `type: "arcade-hub"` to the arcade controller.
-- The existing information modal remains unchanged and is not patched or wrapped by either game.
-- Background page regions become inert while the arcade is open.
-- Closing restores focus to the originating Sitting Room hotspot.
-- Escape/cancel handling and the dialog focus loop are implemented centrally.
+- The Sitting Room renders exactly three runtime hotspots.
+- One shared TIKUS Arcade hotspot opens exactly two game choices.
+- Rush and Beat remain independent modules behind the shared arcade controller.
+- The core information modal is not wrapped or replaced.
+- Closing the arcade removes the inert page state and restores focus to its originating hotspot.
 
-## Game checks
+## Tikus Rush tuning checks
 
-### Tikus Rush
+- Mice may enter and leave through the left, right, top or bottom edge.
+- Routes include four random interior waypoints, producing diagonal movement, vertical turns and reversals.
+- Keyframe offsets are proportional to cumulative route distance, preventing long path segments from creating sudden speed spikes.
+- Movement is capped to a controlled range and no more than five mice remain active simultaneously.
+- Mouse buttons use enlarged hit areas and `pointerdown` input.
+- Score updates synchronously after pointer input.
+- Escaped mice reduce the streak by one rather than resetting it.
 
-- Starts a 30-second round.
-- Spawns grey and gold mouse buttons.
-- Catching a grey mouse adds 2 points; catching a gold mouse adds 10 points.
-- Spawn frequency and travel speed increase over time.
-- Hit particles, floating scores, streak callouts, gold feedback and final-ten-second treatment are present.
-- Best score persists under `tikus-rush-best-v2`.
+Chromium samples showed clear two-axis movement during the first second on both desktop and mobile while remaining below the former cross-screen sprint speed.
 
-### Tikus Beat
+## Tikus Beat tuning checks
 
-- Starts a 60-second round.
-- Renders five lanes and five touch/keyboard receptors.
-- Accepts `1–5` and `A/S/D/F/G` controls.
-- Notes progress to the hit line with perfect, good and miss windows.
-- Combo, tempo tiers, lane feedback, judgement callouts and final-frenzy treatment are present.
-- Best score persists under `tikus-beat-best-v2`.
+- Initial rendered note speed measured approximately 150–161 pixels per second across the tested viewports.
+- Travel time now decreases gently from approximately 3.85 seconds to 2.95 seconds rather than the former 2.6-to-1.25-second curve.
+- Spawn intervals remain between approximately 1.12 and 0.73 seconds, with rare double notes only late in the round.
+- Perfect and good windows are widened to 185 ms and 470 ms.
+- A 220 ms early-input buffer successfully converted a deliberately early pointer tap into a Good judgement.
+- Empty lane taps are not penalised.
+- A missed note reduces the combo by three rather than clearing it.
+- Judgement timing uses each note animation’s actual rendered `currentTime`.
+- Receptors respond on `pointerdown` for touch and mouse, while Enter/Space activation remains available through native button clicks.
 
-## Chromium integration checks
+## Chromium layout and interaction checks
 
 An in-memory Chromium route was used because direct local navigation is blocked by the execution environment administrator policy.
 
-Tested at 1440 × 900 and 390 × 844:
+Tested at:
 
-- Core microsite initialises.
-- House-to-Sitting-Room navigation initialises.
+- 1440 × 900 desktop
+- 390 × 844 mobile
+- 390 × 844 with `prefers-reduced-motion: reduce`
+
+Confirmed:
+
+- Core microsite and House → Sitting Room navigation initialise.
 - Exactly three Sitting Room hotspots render.
-- The arcade opens with Rush and Beat cards.
-- Rush starts, spawns mice and increments score after a catch.
-- Beat starts, renders five lanes and spawns falling notes.
-- Arcade close removes inert state and restores hotspot focus.
+- Rush opens, moves unpredictably in both axes and scores immediately after a pointer catch.
+- Beat opens, moves at the slower target speed and accepts a buffered early tap.
 - Mobile page-level horizontal overflow is zero.
-- The mobile dialog stays inside the viewport.
-- Reduced-motion media queries are present for the hub and both games.
-
-The official trailer still requires a network connection and is requested only after deliberate activation.
+- Reduced-motion game alternatives initialise without JavaScript errors.
