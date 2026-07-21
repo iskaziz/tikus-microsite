@@ -76,6 +76,8 @@
 }
 
 .beat__backdrop,
+.beat__pulse-field,
+.beat__orbit-field,
 .beat__scanlines,
 .beat__light-sweep {
   position: absolute;
@@ -98,6 +100,40 @@
   opacity: calc(0.15 + var(--beat-progress) * 0.28);
   background: conic-gradient(from 0deg at 50% 100%, transparent 0 10%, rgb(255 226 169 / 15%) 11% 14%, transparent 15% 31%, rgb(255 226 169 / 11%) 32% 35%, transparent 36% 100%);
   animation: beat-stage-lights 14s linear infinite;
+}
+
+
+.beat__pulse-field {
+  z-index: 1;
+  inset: -18%;
+  opacity: calc(0.18 + var(--beat-progress) * 0.22);
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 62%, transparent 0 2.2rem, rgb(255 224 166 / 13%) 2.3rem 2.52rem, transparent 2.62rem 4.65rem),
+    radial-gradient(circle at 50% 62%, rgb(170 15 40 / 22%), transparent 62%);
+  animation: beat-pulse-field 5.4s ease-in-out infinite alternate;
+}
+
+.beat__orbit-field {
+  z-index: 1;
+  inset: -42%;
+  opacity: calc(0.09 + var(--beat-progress) * 0.18);
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 18deg, transparent 0 12deg, rgb(255 232 184 / 14%) 13deg 15deg, transparent 16deg 36deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 23%, #000 28% 70%, transparent 76%);
+  mask: radial-gradient(circle, transparent 0 23%, #000 28% 70%, transparent 76%);
+  animation: beat-orbit 16s linear infinite;
+}
+
+.beat__backdrop::after {
+  content: "";
+  position: absolute;
+  inset: -30% -10%;
+  opacity: 0.24;
+  background:
+    linear-gradient(110deg, transparent 0 42%, rgb(255 224 166 / 12%) 46% 49%, transparent 53% 100%),
+    repeating-linear-gradient(90deg, transparent 0 4.5rem, rgb(120 7 28 / 18%) 4.6rem 7rem);
+  animation: beat-backdrop-drift 8s ease-in-out infinite alternate;
 }
 
 .beat__scanlines {
@@ -372,6 +408,56 @@
   color: #fff0d4;
 }
 
+
+.beat__shape-burst {
+  position: absolute;
+  width: clamp(2.7rem, 6vw, 4.8rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  animation: beat-shape-burst 0.72s cubic-bezier(.16,.74,.24,1) forwards;
+}
+
+.beat__shape-burst .beat-shape {
+  width: 100%;
+  color: #fff0a9;
+  filter: drop-shadow(0 0 1.2rem rgb(255 226 143 / 90%));
+}
+
+.beat__shape-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.42rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff1b5;
+  box-shadow: 0 0 0.8rem #ffcb61;
+  animation: beat-shape-particle 0.68s ease-out forwards;
+}
+
+.beat__combo-blast {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 4rem;
+  aspect-ratio: 1;
+  border: 0.35rem solid #fff0ad;
+  border-radius: 50%;
+  box-shadow: 0 0 2rem #ffb13f, inset 0 0 1.5rem #fff0ad;
+  transform: translate(-50%, -50%);
+  animation: beat-combo-blast 0.72s ease-out forwards;
+}
+
+.beat__callout--blast {
+  color: #fff4cf;
+  background: #9f1028;
+  box-shadow: 0.45rem 0.45rem 0 #f0d28f, 0 0 2rem rgb(255 204 90 / 48%);
+}
+
+.beat.is-shape-blast .beat__stage {
+  animation: beat-stage-blast 0.72s ease-out;
+}
+
 .beat__overlay {
   position: absolute;
   inset: 0;
@@ -493,6 +579,9 @@
 }
 
 @keyframes beat-stage-lights { to { transform: rotate(360deg); } }
+@keyframes beat-pulse-field { 0% { transform: translateY(1.5%) scale(0.96); } 100% { transform: translateY(-2%) scale(1.07); } }
+@keyframes beat-orbit { to { transform: rotate(360deg); } }
+@keyframes beat-backdrop-drift { 0% { transform: translate3d(-2%, 1%, 0) skewX(-2deg); } 100% { transform: translate3d(3%, -2%, 0) skewX(3deg); } }
 @keyframes beat-light-sweep { 0%, 15% { transform: translateX(0) skewX(-12deg); opacity: 0; } 50% { opacity: 1; } 85%, 100% { transform: translateX(350%) skewX(-12deg); opacity: 0; } }
 @keyframes beat-rail-scroll { to { background-position-y: 2.92rem; } }
 @keyframes beat-note-fall { from { transform: translate(-50%, 0) translateX(var(--note-drift)) rotate(-4deg); } to { transform: translate(-50%, var(--note-travel)) translateX(calc(var(--note-drift) * -1)) rotate(5deg); } }
@@ -503,6 +592,10 @@
 @keyframes beat-final-stage { to { filter: saturate(1.4) brightness(1.08); } }
 @keyframes beat-combo-flash { to { opacity: 0; } }
 @keyframes beat-tempo-shift { 35% { transform: perspective(60rem) rotateX(1.5deg) scale(1.015); } }
+@keyframes beat-shape-burst { 0% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); } 100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateX(var(--burst-distance)) scale(0.08); } }
+@keyframes beat-shape-particle { 0% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--particle-angle)) translateX(0) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--particle-angle)) translateX(var(--particle-distance)) scale(0); } }
+@keyframes beat-combo-blast { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.2); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(14); } }
+@keyframes beat-stage-blast { 0% { filter: brightness(1); } 22% { filter: brightness(1.55) saturate(1.4); } 100% { filter: brightness(1); } }
 
 @media (max-width: 48rem) {
   .beat {
@@ -572,6 +665,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .beat__backdrop::before,
+  .beat__backdrop::after,
+  .beat__pulse-field,
+  .beat__orbit-field,
   .beat__light-sweep,
   .beat__rail,
   .beat__hud-item--time.is-warning,
@@ -585,6 +681,9 @@
 
   .beat__judgement.is-visible,
   .beat__callout,
+  .beat__shape-burst,
+  .beat__shape-particle,
+  .beat__combo-blast,
   .beat__lane.is-hit::after,
   .beat__lane.is-miss::after {
     animation-duration: 0.01ms;

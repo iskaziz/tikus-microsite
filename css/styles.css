@@ -289,9 +289,9 @@ button:disabled {
 .explorer {
   position: relative;
   isolation: isolate;
-  min-height: 100svh;
+  min-height: auto;
   overflow: clip;
-  padding: clamp(4.5rem, 8vw, 8rem) var(--page-gutter) clamp(5rem, 9vw, 9rem);
+  padding: clamp(2.75rem, 4vw, 4.25rem) var(--page-gutter) clamp(3rem, 4.5vw, 4.75rem);
   background: linear-gradient(180deg, var(--ink) 0%, #130708 55%, var(--ink) 100%);
 }
 
@@ -306,7 +306,7 @@ button:disabled {
 
 .section-heading {
   width: min(100%, 61rem);
-  margin: 0 auto clamp(2.5rem, 5vw, 4.75rem);
+  margin: 0 auto clamp(1.35rem, 2.3vw, 2.2rem);
   text-align: center;
 }
 
@@ -325,7 +325,7 @@ button:disabled {
 
 .section-heading > p:last-child {
   max-width: 54rem;
-  margin: 1.4rem auto 0;
+  margin: 0.85rem auto 0;
   color: var(--paper-dim);
   text-wrap: pretty;
 }
@@ -598,7 +598,7 @@ button:disabled {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(4.5rem, 9vw, 8rem) var(--page-gutter);
+  padding: clamp(2.75rem, 4vw, 4.25rem) var(--page-gutter);
   border-top: 1px solid var(--line);
   background:
     radial-gradient(circle at 15% 22%, rgba(183, 22, 36, 0.23), transparent 25rem),
@@ -619,14 +619,14 @@ button:disabled {
 }
 
 .cast-section__heading {
-  margin-bottom: clamp(2.4rem, 5vw, 4.5rem);
+  margin-bottom: clamp(1.45rem, 3vw, 2.8rem);
 }
 
 .cast-table {
   position: relative;
   width: min(100%, 86rem);
   margin-inline: auto;
-  padding: clamp(2rem, 5vw, 4.5rem);
+  padding: clamp(1.35rem, 3vw, 2.8rem);
   border: 0.2rem solid #1e0d0d;
   outline: 0.1rem solid rgba(239, 228, 204, 0.18);
   background:
@@ -675,7 +675,7 @@ button:disabled {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(2.25rem, 5vw, 4.5rem);
+  gap: clamp(1.25rem, 2.6vw, 2.4rem);
 }
 
 .cast-group {
@@ -684,7 +684,7 @@ button:disabled {
 
 .cast-group__heading {
   width: fit-content;
-  margin: 0 auto clamp(1.15rem, 2.5vw, 1.8rem);
+  margin: 0 auto clamp(0.75rem, 1.6vw, 1.15rem);
   padding: 0.45rem 1rem 0.38rem;
   border: 0.12rem solid var(--paper-bright);
   color: var(--paper-bright);
@@ -957,7 +957,7 @@ img.cast-card__portrait,
 
 .cast-section__instruction {
   width: min(100%, 72rem);
-  margin: 1.8rem auto 0;
+  margin: 1rem auto 0;
   color: var(--grey);
   font-family: var(--ui-font);
   font-size: 0.68rem;
@@ -972,7 +972,7 @@ img.cast-card__portrait,
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin: 1.35rem auto 0;
+  margin: 0.85rem auto 0;
   color: var(--paper-bright);
   font-family: var(--ui-font);
   font-size: 0.76rem;
@@ -988,7 +988,7 @@ img.cast-card__portrait,
 
 .pending-material {
   position: relative;
-  padding: clamp(4rem, 8vw, 7rem) var(--page-gutter);
+  padding: clamp(2.5rem, 3.8vw, 3.9rem) var(--page-gutter);
   border-top: 1px solid var(--line);
   background:
     linear-gradient(90deg, transparent 0 45%, rgba(150, 13, 26, 0.11) 45% 55%, transparent 55%),
@@ -1001,7 +1001,7 @@ img.cast-card__portrait,
 }
 
 .pending-material header {
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.4rem;
 }
 
 .pending-material h2 {
@@ -1174,7 +1174,7 @@ img.cast-card__portrait,
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(4.5rem, 9vw, 8.5rem) var(--page-gutter) clamp(5rem, 10vw, 9rem);
+  padding: clamp(2.75rem, 4vw, 4.25rem) var(--page-gutter) clamp(3rem, 4.5vw, 4.75rem);
   border-top: 1px solid rgba(239, 228, 204, 0.12);
   border-bottom: 1px solid rgba(239, 228, 204, 0.12);
   background:
@@ -1204,12 +1204,12 @@ img.cast-card__portrait,
 }
 
 .trailer-section__heading {
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.6rem);
 }
 
 .trailer-section__note {
   max-width: 42rem;
-  margin: clamp(2.25rem, 4vw, 3.25rem) auto 0;
+  margin: clamp(1.2rem, 2.2vw, 1.8rem) auto 0;
   color: var(--grey);
   font-family: var(--ui-font);
   font-size: 0.72rem;
@@ -1669,30 +1669,30 @@ img.cast-card__portrait,
 
 @media (max-width: 48rem) {
   .trailer-section {
-    padding: 3rem var(--page-gutter) 3.25rem;
+    padding: 2rem var(--page-gutter) 2.25rem;
   }
 
   .cast-section {
-    padding: 3rem 0 3.25rem;
+    padding: 2rem 0 2.25rem;
   }
 
   .explorer {
     min-height: auto;
-    padding: 3rem var(--page-gutter) 3.5rem;
+    padding: 2rem var(--page-gutter) 2.35rem;
   }
 
   .pending-material {
-    padding-block: 3rem;
+    padding-block: 2rem;
   }
 
   .section-heading,
   .trailer-section__heading,
   .cast-section__heading {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .section-heading > p:last-child {
-    margin-top: 0.9rem;
+    margin-top: 0.65rem;
   }
 
   .cast-section__heading,
@@ -1703,25 +1703,25 @@ img.cast-card__portrait,
 
   .cast-table {
     width: 100%;
-    padding: 1.35rem 0 1.75rem;
+    padding: 0.95rem 0 1.15rem;
     border-inline: 0;
     outline: 0;
   }
 
   .cast-groups {
-    gap: 1.55rem;
+    gap: 0.95rem;
   }
 
   .cast-group__heading {
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.45rem;
   }
 
   .cast-group__grid,
   .cast-group[data-cast-group="guests"] .cast-group__grid {
     display: flex;
     justify-content: flex-start;
-    gap: 0.9rem;
-    padding: 0.55rem var(--page-gutter) 0.9rem;
+    gap: 0.65rem;
+    padding: 0.35rem var(--page-gutter) 0.55rem;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scroll-padding-inline: var(--page-gutter);
@@ -1730,7 +1730,7 @@ img.cast-card__portrait,
   }
 
   .cast-card {
-    flex: 0 0 clamp(10.75rem, 56vw, 13.5rem);
+    flex: 0 0 clamp(8.2rem, 40vw, 9.6rem);
     scroll-snap-align: center;
   }
 
@@ -1811,28 +1811,38 @@ img.cast-card__portrait,
   .cast-section,
   .explorer,
   .pending-material {
-    padding-top: 2.5rem;
-    padding-bottom: 2.75rem;
+    padding-top: 1.65rem;
+    padding-bottom: 1.9rem;
   }
 
   .section-heading,
   .trailer-section__heading,
   .cast-section__heading {
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
   }
 
   .cast-card__face {
-    padding: 0.62rem;
+    padding: 0.48rem;
   }
 
   .cast-card__portrait {
-    min-height: 5rem;
-    margin: 0.25rem 0 0.55rem;
+    min-height: 4rem;
+    margin: 0.2rem 0 0.42rem;
+  }
+
+  .cast-card__name {
+    font-size: clamp(0.82rem, 3.8vw, 1.02rem);
+  }
+
+  .cast-card__eyebrow {
+    font-size: 0.48rem;
+    letter-spacing: 0.14em;
   }
 
   .cast-card__description {
-    margin-top: 0.3rem;
-    line-height: 1.24;
+    margin-top: 0.24rem;
+    font-size: 0.54rem;
+    line-height: 1.2;
   }
 
   .cast-card__flip-hint {

@@ -23,7 +23,7 @@
     webp: `assets/images/characters/${filename}-480.webp 480w, assets/images/characters/${filename}-720.webp 720w`,
     fallback: `assets/images/characters/${filename}-720.jpg`,
     fallbackSrcset: `assets/images/characters/${filename}-480.jpg 480w, assets/images/characters/${filename}-720.jpg 720w`,
-    sizes: '(max-width: 48rem) min(72vw, 18rem), 16rem',
+    sizes: '(max-width: 48rem) min(44vw, 11rem), 16rem',
     width: 720,
     height: 720,
     alt: `Illustrated portrait of ${characterName}`

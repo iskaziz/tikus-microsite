@@ -20,19 +20,23 @@ Validation was performed against the complete packaged project without adding sp
 - The core information modal is not wrapped or replaced.
 - Closing the arcade removes the inert page state and restores focus to its originating hotspot.
 
-## Tikus Rush tuning checks
+## Tikus Rush motion and tuning checks
 
 - Mice may enter and leave through the left, right, top or bottom edge.
-- Routes include four random interior waypoints, producing diagonal movement, vertical turns and reversals.
-- Keyframe offsets are proportional to cumulative route distance, preventing long path segments from creating sudden speed spikes.
+- Five randomized route controls are sampled through a Catmull–Rom spline into approximately 54 animation keyframes.
+- Keyframe offsets are proportional to cumulative spline distance, preventing visible speed spikes across curves and long diagonals.
+- Continuous curved motion replaces the previous waypoint-to-waypoint direction changes.
 - Movement is capped to a controlled range and no more than five mice remain active simultaneously.
 - Mouse buttons use enlarged hit areas and `pointerdown` input.
 - Score updates synchronously after pointer input.
 - Escaped mice reduce the streak by one rather than resetting it.
 
-Chromium samples showed clear two-axis movement during the first second on both desktop and mobile while remaining below the former cross-screen sprint speed.
+Chromium samples showed smooth two-axis movement without waypoint snapping on both desktop and mobile while remaining below the former cross-screen sprint speed.
 
-## Tikus Beat tuning checks
+- The Rush background contains rotating radial/conic vortex layers.
+- All continuous vortex animation resolves to `none` under reduced motion.
+
+## Tikus Beat motion, blast and tuning checks
 
 - Initial rendered note speed measured approximately 150–161 pixels per second across the tested viewports.
 - Travel time now decreases gently from approximately 3.85 seconds to 2.95 seconds rather than the former 2.6-to-1.25-second curve.
@@ -43,6 +47,10 @@ Chromium samples showed clear two-axis movement during the first second on both 
 - A missed note reduces the combo by three rather than clearing it.
 - Judgement timing uses each note animation’s actual rendered `currentTime`.
 - Receptors respond on `pointerdown` for touch and mouse, while Enter/Space activation remains available through native button clicks.
+- Pulse-ring, orbit-light and drifting background layers animate independently during ordinary play.
+- Reaching a new 20-hit combo milestone removes every active note without registering misses.
+- A controlled browser test reached combo 20 with two active notes; both were cleared and the shockwave/particle treatment rendered.
+- Beat background animations resolve to `none` under reduced motion while the note-clearing mechanic remains functional.
 
 ## Chromium layout and interaction checks
 
@@ -61,4 +69,9 @@ Confirmed:
 - Rush opens, moves unpredictably in both axes and scores immediately after a pointer catch.
 - Beat opens, moves at the slower target speed and accepts a buffered early tap.
 - Mobile page-level horizontal overflow is zero.
+- Mobile card width is approximately 162 pixels at 390 pixels viewport width.
+- Cast group card counts are `[2, 6]`, with Haiccal placed after the five Guests in the second row.
+- Desktop card widths remain approximately 221–228 pixels.
+- Desktop major-section top padding is approximately 58 pixels; mobile section padding is approximately 26–30 pixels.
+- The explorer no longer reserves a full viewport height.
 - Reduced-motion game alternatives initialise without JavaScript errors.

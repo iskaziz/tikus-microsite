@@ -35,13 +35,13 @@ Removed:
 
 The misleading logic-game filename is therefore no longer used for Tikus Rush.
 
-## Dynamic visual update
+## Shared arcade visual treatment
 
 ### Tikus Rush
 
 - Progressive mouse speed and spawn frequency.
 - Occasional double waves later in the round.
-- Concentric-ring drift and rotating light beams.
+- Continuously rotating radial/conic vortex and moving light beams.
 - Film grain and floating dust.
 - Hit particles and floating point values.
 - Gold-mouse flash treatment.
@@ -51,9 +51,10 @@ The misleading logic-game filename is therefore no longer used for Tikus Rush.
 
 - Five animated vertical lanes and glowing receptors.
 - Progressive tempo tiers across the 60-second round.
-- Moving stage lights, scrolling lane rails and scanlines.
+- Pulse rings, orbital lighting, drifting stage layers, scrolling lane rails and scanlines.
 - Perfect, good and miss judgement feedback.
 - Lane flashes, combo flashes and tempo callouts.
+- Every new 20-hit combo milestone clears all visible shapes through a shockwave and particle blast without registering misses.
 - Final-frenzy intensity during the last ten seconds.
 
 All major or continuous effects have reduced-motion alternatives.
@@ -63,20 +64,19 @@ All major or continuous effects have reduced-motion alternatives.
 - Hero eyebrow: “Welcome to Samasihat Wellness Retreat”.
 - Approved spoiler-safe synopsis.
 - Hosts: Que, Y Mun.
-- Guests: Fattah, Diana, Harris, Marsha, Iski.
-- The Inspector: Haiccal.
+- Guests & The Inspector share one card row in this order: Fattah, Diana, Harris, Marsha, Iski, Haiccal.
 - Character-facing cards visible first with Host, Guest or Inspector labels.
 - No category label above cast names.
-- Compact mobile cards and reduced section spacing.
+- Smaller mobile cards and further-reduced section spacing on both mobile and desktop.
 - Only House and Sitting Room remain in the explorer.
 
 ## Forgiving gameplay tuning
 
 ### Tikus Rush
 
-- Replaced predictable left-to-right/right-to-left passes with routes that may enter or leave from any edge.
-- Each mouse follows several random interior waypoints, allowing diagonal movement, reversals and vertical turns.
-- Keyframe offsets are calculated from cumulative path distance so long diagonal segments do not produce sudden speed spikes.
+- Replaced predictable edge-to-edge passes with routes that may enter or leave from any edge.
+- Five route control points are sampled through a Catmull–Rom spline, producing natural curves, reversals and vertical turns instead of jerky waypoint changes.
+- Sample offsets are calculated from cumulative spline distance so speed remains consistent across curves and long diagonals.
 - Overall mouse speed was reduced and capped; the active-mouse count prevents slower mice from overcrowding the arena.
 - Mouse buttons now use a larger hit area and react on `pointerdown` for faster touch and mouse response.
 - One escaped mouse reduces the streak by one rather than resetting it.
@@ -91,3 +91,14 @@ All major or continuous effects have reduced-motion alternatives.
 - Judgement reads the CSS animation’s actual `currentTime`, keeping scoring aligned with the rendered note even if a browser delays animation frames.
 
 Existing best scores remain stored under the original v2 localStorage keys.
+
+
+## Natural motion, combo blast and compact layout
+
+- Rush now generates approximately 54 distance-normalised spline keyframes per mouse for smooth continuous motion.
+- Rush uses a layered radial/conic vortex that rotates behind the arena while retaining readable mouse contrast.
+- Beat adds independent pulse-ring, orbit-light and drifting backdrop layers.
+- At every new 20-hit combo milestone, Beat removes all active notes as a celebratory explosion; cleared notes do not reduce score or combo.
+- Mobile card width is approximately 162 pixels at a 390-pixel viewport, revealing more of the adjacent card as a scroll cue.
+- The Inspector card sits in the same horizontally scrolling row as the five Guests.
+- Desktop and mobile section padding, heading gaps and explorer spacing were reduced further.

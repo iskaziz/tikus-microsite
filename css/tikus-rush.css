@@ -118,8 +118,35 @@
   inset: -35%;
   z-index: 0;
   border-radius: 50%;
-  background: repeating-radial-gradient(circle, transparent 0 2.5rem, rgb(10 5 6 / 45%) 2.6rem 4rem, transparent 4.1rem 6.2rem);
-  animation: rush-rings 24s linear infinite;
+  overflow: hidden;
+  background:
+    repeating-conic-gradient(from 8deg, rgb(255 225 181 / 4%) 0 4deg, transparent 5deg 18deg),
+    repeating-radial-gradient(circle, transparent 0 2.5rem, rgb(10 5 6 / 45%) 2.6rem 4rem, transparent 4.1rem 6.2rem);
+  background-blend-mode: screen, normal;
+  transform-origin: 50% 50%;
+  animation: rush-rings 18s linear infinite;
+}
+
+.rush__rings::before {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  opacity: calc(0.16 + var(--rush-progress) * 0.12);
+  background: repeating-conic-gradient(from 0deg, transparent 0 10deg, rgb(255 235 198 / 18%) 11deg 13deg, transparent 14deg 30deg);
+  -webkit-mask: repeating-radial-gradient(circle, transparent 0 2rem, #000 2.15rem 2.85rem, transparent 3rem 4.9rem);
+  mask: repeating-radial-gradient(circle, transparent 0 2rem, #000 2.15rem 2.85rem, transparent 3rem 4.9rem);
+  animation: rush-vortex 9s linear infinite reverse;
+}
+
+.rush__rings::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: conic-gradient(from 45deg, transparent, rgb(255 228 178 / 15%), transparent 28%, rgb(59 4 12 / 30%), transparent 58%);
+  filter: blur(0.5rem);
+  animation: rush-vortex 12s linear infinite;
 }
 
 .rush__beams {
@@ -434,7 +461,8 @@
   animation: rush-final-pulse 0.64s ease-in-out infinite alternate;
 }
 
-@keyframes rush-rings { to { transform: rotate(360deg) scale(1.04); } }
+@keyframes rush-rings { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.045); } 100% { transform: rotate(360deg) scale(1); } }
+@keyframes rush-vortex { to { transform: rotate(360deg) scale(1.035); } }
 @keyframes rush-beams { to { transform: rotate(360deg); } }
 @keyframes rush-grain { 0% { transform: translate(0, 0); } 50% { transform: translate(1.2%, -1%); } 100% { transform: translate(-1%, 1.1%); } }
 @keyframes rush-dust { to { transform: translate(1.2rem, -1rem); } }
@@ -495,6 +523,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rush__rings,
+  .rush__rings::before,
+  .rush__rings::after,
   .rush__beams,
   .rush__grain,
   .rush__dust,

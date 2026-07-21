@@ -65,6 +65,7 @@
     let bufferedInputs = new Map();
     let judgements = { perfect: 0, good: 0, miss: 0 };
     let lastTempoTier = 0;
+    let blastMilestone = 0;
 
     const root = create('section', 'beat');
     root.dataset.beatRoot = '';
@@ -100,6 +101,10 @@
     stage.setAttribute('aria-label', 'Five-lane rhythm game');
     const backdrop = create('div', 'beat__backdrop');
     backdrop.setAttribute('aria-hidden', 'true');
+    const pulseField = create('div', 'beat__pulse-field');
+    pulseField.setAttribute('aria-hidden', 'true');
+    const orbitField = create('div', 'beat__orbit-field');
+    orbitField.setAttribute('aria-hidden', 'true');
     const scanlines = create('div', 'beat__scanlines');
     scanlines.setAttribute('aria-hidden', 'true');
     const lightSweep = create('div', 'beat__light-sweep');
@@ -177,7 +182,7 @@
     resultCard.append(resultKicker, resultTitle, finalScore, breakdown, bestMessage, actions);
     result.append(resultCard);
 
-    stage.append(backdrop, scanlines, lightSweep, lanes, effects, judgement, announcer, intro, result);
+    stage.append(backdrop, pulseField, orbitField, scanlines, lightSweep, lanes, effects, judgement, announcer, intro, result);
     root.append(header, hud, stage);
     container.replaceChildren(root);
 
@@ -244,6 +249,43 @@
       notes.delete(id);
     }
 
+    function createShapeExplosion(note, index, total) {
+      if (reducedMotion) return;
+      const stageRect = stage.getBoundingClientRect();
+      const noteRect = note.element.getBoundingClientRect();
+      const burst = create('span', 'beat__shape-burst');
+      burst.style.left = `${noteRect.left - stageRect.left + noteRect.width / 2}px`;
+      burst.style.top = `${noteRect.top - stageRect.top + noteRect.height / 2}px`;
+      burst.style.setProperty('--burst-angle', `${(index / Math.max(1, total)) * 360 + Math.random() * 30}deg`);
+      burst.style.setProperty('--burst-distance', `${44 + Math.random() * 70}px`);
+      burst.innerHTML = shapeMarkup(note.shape);
+      for (let particleIndex = 0; particleIndex < 6; particleIndex += 1) {
+        const particle = create('i', 'beat__shape-particle');
+        particle.style.setProperty('--particle-angle', `${particleIndex * 60 + Math.random() * 20}deg`);
+        particle.style.setProperty('--particle-distance', `${32 + Math.random() * 58}px`);
+        burst.append(particle);
+      }
+      effects.append(burst);
+      window.setTimeout(() => burst.remove(), 760);
+    }
+
+    function triggerComboBlast() {
+      const visibleNotes = Array.from(notes.values());
+      visibleNotes.forEach((note, index) => {
+        createShapeExplosion(note, index, visibleNotes.length);
+        removeNote(note.id);
+      });
+      const shockwave = create('span', 'beat__combo-blast');
+      effects.append(shockwave);
+      window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 760);
+      showCallout('20 HIT BLAST', 'beat__callout--blast');
+      root.classList.remove('is-shape-blast');
+      void root.offsetWidth;
+      root.classList.add('is-shape-blast');
+      window.setTimeout(() => root.classList.remove('is-shape-blast'), 760);
+      announcer.textContent = 'Twenty hit streak. Every visible shape cleared.';
+    }
+
     function registerMiss(id) {
       const note = notes.get(id);
       if (!note || !running) return;
@@ -294,6 +336,11 @@
         void root.offsetWidth;
         root.classList.add('is-combo-flash');
       }
+      const reachedBlast = Math.floor(combo / 20);
+      if (reachedBlast > blastMilestone) {
+        blastMilestone = reachedBlast;
+        triggerComboBlast();
+      }
       updateHud();
     }
 
@@ -342,7 +389,7 @@
       element.style.setProperty('--note-travel', `${Math.max(220, stage.clientHeight * 0.80 + 80)}px`);
       laneElements[lane].notesLayer.append(element);
       const animation = element.getAnimations()[0] || null;
-      notes.set(id, { id, lane, element, travel: targetOffset, animation, missTimer: 0 });
+      notes.set(id, { id, lane, shape: SHAPES[lane], element, travel: targetOffset, animation, missTimer: 0 });
       element.addEventListener('animationend', () => {
         const note = notes.get(id);
         if (!note || !running) return;
@@ -404,11 +451,12 @@
       remaining = DURATION_SECONDS;
       judgements = { perfect: 0, good: 0, miss: 0 };
       lastTempoTier = 0;
+      blastMilestone = 0;
       bufferedInputs.clear();
       Array.from(notes.keys()).forEach(removeNote);
       intro.hidden = true;
       result.hidden = true;
-      root.classList.remove('is-finished', 'is-combo-flash', 'is-tempo-shift');
+      root.classList.remove('is-finished', 'is-combo-flash', 'is-tempo-shift', 'is-shape-blast');
       running = true;
       startTime = performance.now();
       updateHud();

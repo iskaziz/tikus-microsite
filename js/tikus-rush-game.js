@@ -252,6 +252,15 @@
       return { x: safeX(), y: height + pad };
     }
 
+    function catmullRom(p0, p1, p2, p3, t) {
+      const t2 = t * t;
+      const t3 = t2 * t;
+      return {
+        x: 0.5 * ((2 * p1.x) + (-p0.x + p2.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 + (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
+        y: 0.5 * ((2 * p1.y) + (-p0.y + p2.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 + (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3)
+      };
+    }
+
     function buildMousePath(width, height, mouseSize, scale) {
       const edges = ['left', 'right', 'top', 'bottom'];
       const startEdge = edges[Math.floor(Math.random() * edges.length)];
@@ -259,37 +268,61 @@
       const endEdge = possibleEnds[Math.floor(Math.random() * possibleEnds.length)];
       const start = edgePoint(startEdge, width, height, mouseSize);
       const end = edgePoint(endEdge, width, height, mouseSize);
-      const safeWidth = Math.max(0, width - mouseSize);
-      const safeHeight = Math.max(0, height - mouseSize);
-      const points = [start];
+      const safeWidth = Math.max(1, width - mouseSize);
+      const safeHeight = Math.max(1, height - mouseSize);
 
-      // Independent interior points create turns, diagonal runs and occasional backtracking.
-      for (let index = 0; index < 4; index += 1) {
-        points.push({
-          x: randomBetween(0, safeWidth),
-          y: randomBetween(0, safeHeight)
-        });
+      // A few broad control points create an erratic route. Sampling a Catmull–Rom
+      // spline through them keeps every turn continuous instead of snapping at corners.
+      const controls = [
+        start,
+        { x: randomBetween(safeWidth * 0.08, safeWidth * 0.92), y: randomBetween(safeHeight * 0.08, safeHeight * 0.92) },
+        { x: randomBetween(safeWidth * 0.06, safeWidth * 0.94), y: randomBetween(safeHeight * 0.06, safeHeight * 0.94) },
+        { x: randomBetween(safeWidth * 0.08, safeWidth * 0.92), y: randomBetween(safeHeight * 0.08, safeHeight * 0.92) },
+        end
+      ];
+      const padded = [controls[0], ...controls, controls[controls.length - 1]];
+      const samples = [];
+      const samplesPerSegment = 14;
+
+      for (let segment = 0; segment < controls.length - 1; segment += 1) {
+        for (let step = 0; step < samplesPerSegment; step += 1) {
+          if (segment > 0 && step === 0) continue;
+          samples.push(catmullRom(
+            padded[segment],
+            padded[segment + 1],
+            padded[segment + 2],
+            padded[segment + 3],
+            step / samplesPerSegment
+          ));
+        }
       }
-      points.push(end);
+      samples.push(end);
 
       const distances = [0];
       let pathLength = 0;
-      for (let index = 1; index < points.length; index += 1) {
-        pathLength += Math.hypot(points[index].x - points[index - 1].x, points[index].y - points[index - 1].y);
+      for (let index = 1; index < samples.length; index += 1) {
+        pathLength += Math.hypot(samples[index].x - samples[index - 1].x, samples[index].y - samples[index - 1].y);
         distances.push(pathLength);
       }
 
-      const keyframes = points.map((point, index) => {
-        const previous = points[Math.max(0, index - 1)];
-        const next = points[Math.min(points.length - 1, index + 1)];
-        const facing = next.x >= previous.x ? 1 : -1;
-        const angle = clamp((next.y - previous.y) * 0.035, -8, 8);
+      const overallFacing = end.x >= start.x ? -1 : 1;
+      const keyframes = samples.map((point, index) => {
+        const previous = samples[Math.max(0, index - 1)];
+        const next = samples[Math.min(samples.length - 1, index + 1)];
+        const dx = next.x - previous.x;
+        const dy = next.y - previous.y;
+        const lean = clamp(Math.atan2(dy, Math.max(18, Math.abs(dx))) * 180 / Math.PI * 0.45, -18, 18);
+        const fade = index === 0 || index === samples.length - 1 ? 0 : 1;
         return {
-          offset: pathLength > 0 ? distances[index] / pathLength : index / (points.length - 1),
-          transform: `translate3d(${point.x}px, ${point.y}px, 0) scaleX(${facing}) scale(${scale}) rotate(${angle}deg)`,
-          easing: index === points.length - 1 ? 'linear' : 'cubic-bezier(.45,.05,.55,.95)'
+          offset: pathLength > 0 ? distances[index] / pathLength : index / Math.max(1, samples.length - 1),
+          opacity: fade,
+          transform: `translate3d(${point.x}px, ${point.y}px, 0) scaleX(${overallFacing}) scale(${scale}) rotate(${lean}deg)`
         };
       });
+      if (keyframes.length > 3) {
+        keyframes[1].opacity = 1;
+        keyframes[keyframes.length - 2].opacity = 1;
+      }
       return { keyframes, pathLength };
     }
 
@@ -310,8 +343,8 @@
       }
 
       const path = buildMousePath(arena.clientWidth, arena.clientHeight, button.offsetWidth, scale);
-      const pixelsPerSecond = 215 + progress * 45;
-      const duration = clamp((path.pathLength / pixelsPerSecond) * 1000, 4800, 8200);
+      const pixelsPerSecond = 172 + progress * 28;
+      const duration = clamp((path.pathLength / pixelsPerSecond) * 1000, 5600, 9800);
       const animation = button.animate(path.keyframes, {
         duration,
         fill: 'forwards',

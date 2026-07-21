@@ -119,16 +119,20 @@
     }
 
     const groups = [
-      { id: 'hosts', label: 'Hosts', category: 'Host' },
-      { id: 'guests', label: 'Guests', category: 'Guest' },
-      { id: 'inspector', label: 'The Inspector', category: 'Inspector' }
+      { id: 'hosts', label: 'Hosts', memberGroups: ['hosts'] },
+      { id: 'guests', label: 'Guests & The Inspector', memberGroups: ['guests', 'inspector'] }
     ];
+    const categoryLabels = {
+      hosts: 'Host',
+      guests: 'Guest',
+      inspector: 'Inspector'
+    };
     const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9];
     const fragment = document.createDocumentFragment();
     let cardIndex = 0;
 
     groups.forEach((group) => {
-      const members = cast.filter((member) => member.group === group.id);
+      const members = cast.filter((member) => group.memberGroups.includes(member.group));
       if (!members.length) {
         return;
       }
@@ -172,7 +176,7 @@
 
         const back = createCardFace({
           side: 'back',
-          eyebrow: group.category,
+          eyebrow: categoryLabels[member.group] || 'Character',
           name: member.characterName,
           description: member.characterDescription,
           portrait: member.characterPortrait,

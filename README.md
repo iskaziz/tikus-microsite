@@ -45,9 +45,10 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
-- Eight keyboard-operable cast and character flip cards, grouped as Hosts, Guests and The Inspector.
+- Eight keyboard-operable cast and character flip cards, grouped as Hosts and Guests & The Inspector.
 - Character cards open on the illustrated character side.
-- Compact horizontally scrolling cards and reduced section spacing on narrow screens.
+- Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.
+- Compact vertical spacing across the trailer, cast, explorer and final-information sections.
 - Responsive 16:9 House → Sitting Room explorer using `object-fit: contain`.
 - Exactly three percentage-positioned hotspot buttons in the Sitting Room.
 - Scene-specific light, rain, dust and print-texture treatments.
@@ -64,12 +65,12 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 
 - 30-second mouse-catching challenge.
 - Grey mice score 2 points; gold mice score 10 points.
-- Slower, path-normalised movement with mice entering and leaving from all four edges.
-- Multi-turn routes create diagonal runs, reversals and unpredictable vertical movement.
+- Smooth Catmull–Rom movement with mice entering and leaving from all four edges.
+- Continuous curved routes create diagonal runs, reversals and unpredictable vertical movement without waypoint snapping.
 - Enlarged invisible tap areas and immediate `pointerdown` response for mouse and touch input.
 - Escaped mice only soften the streak instead of resetting it completely.
 - Score, best score and streak display.
-- Concentric-ring drift, moving light beams, dust, score bursts, gold flashes and final-ten-second intensity.
+- A continuously rotating crimson vortex, moving light beams, dust, score bursts, gold flashes and final-ten-second intensity.
 - Native mouse buttons remain keyboard accessible.
 - Best score stored under `tikus-rush-best-v2`.
 
@@ -82,7 +83,8 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 - Pointer input is handled on `pointerdown`, with a short early-input buffer.
 - Empty taps are not penalised, and a missed note trims rather than erases the combo.
 - Judgement timing follows the note’s rendered animation rather than an independent spawn clock.
-- Falling-note glow, lane flashes, judgement bursts, tempo callouts, stage lights and final-ten-second treatment.
+- Animated pulse rings, orbital lighting, drifting stage layers, falling-note glow, lane flashes, judgement bursts, tempo callouts and final-ten-second treatment.
+- Every new 20-hit combo milestone triggers a visual blast that clears all visible shapes without counting them as misses.
 - Best score stored under `tikus-beat-best-v2`.
 
 Both games are explicitly non-canonical and spoiler-safe.
