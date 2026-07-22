@@ -326,7 +326,6 @@
   place-items: center;
   padding: 1rem;
   background: rgb(15 7 9 / 68%);
-  backdrop-filter: blur(3px);
 }
 
 .rush__overlay[hidden] {
@@ -602,7 +601,6 @@
 
 .rush__overlay {
   background: linear-gradient(rgb(15 7 9 / 86%), rgb(15 7 9 / 82%));
-  backdrop-filter: none;
 }
 
 .rush.is-final .rush__arena {

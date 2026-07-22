@@ -66,6 +66,8 @@
     let judgements = { perfect: 0, good: 0, miss: 0 };
     let lastTempoTier = 0;
     let blastMilestone = 0;
+    let isPaused = false;
+    let hiddenAt = 0;
 
     const root = create('section', 'beat');
     root.dataset.beatRoot = '';
@@ -400,7 +402,9 @@
       element.addEventListener('animationend', () => {
         const note = notes.get(id);
         if (!note || !running) return;
-        note.missTimer = window.setTimeout(() => registerMiss(id), GOOD_WINDOW_MS + MISS_GRACE_MS);
+        const missDelay = GOOD_WINDOW_MS + MISS_GRACE_MS;
+        note.missTimer = window.setTimeout(() => registerMiss(id), missDelay);
+        note.missTimerAt = performance.now() + missDelay;
       }, { once: true });
     }
 
@@ -411,7 +415,7 @@
       spawnTimer = window.setTimeout(() => {
         spawnNote();
         if (progress > 0.78 && Math.random() < 0.08) {
-          window.setTimeout(() => running && spawnNote(), delay * 0.58);
+          window.setTimeout(() => running && !isPaused && spawnNote(), delay * 0.58);
         }
         scheduleSpawn();
       }, delay);
@@ -432,9 +436,60 @@
       }
     }
 
+    function pauseForHidden() {
+      if (!running || isPaused) return;
+      isPaused = true;
+      hiddenAt = performance.now();
+      window.clearTimeout(spawnTimer);
+      window.clearInterval(clockTimer);
+      notes.forEach((note) => {
+        note.animation?.pause();
+        window.clearTimeout(note.missTimer);
+      });
+    }
+
+    function resumeFromHidden() {
+      if (!running || !isPaused) return;
+      isPaused = false;
+      const hiddenDuration = Math.max(0, performance.now() - hiddenAt);
+      startTime += hiddenDuration;
+      notes.forEach((note) => {
+        note.animation?.play();
+        if (note.missTimerAt) {
+          const remainingMiss = Math.max(50, note.missTimerAt - hiddenAt);
+          note.missTimerAt = performance.now() + remainingMiss;
+          note.missTimer = window.setTimeout(() => registerMiss(note.id), remainingMiss);
+        }
+      });
+      bufferedInputs.forEach((expiry, laneIndex) => {
+        bufferedInputs.set(laneIndex, expiry + hiddenDuration);
+      });
+      scheduleSpawn();
+      clockTimer = window.setInterval(() => {
+        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
+        const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
+        resolveBufferedInputs();
+        announceTempo(progress);
+        if (remaining <= 0) {
+          finishGame();
+          return;
+        }
+        updateHud();
+      }, 50);
+    }
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        pauseForHidden();
+      } else {
+        resumeFromHidden();
+      }
+    }
+
     function finishGame() {
       if (!running) return;
       running = false;
+      isPaused = false;
       remaining = 0;
       window.clearTimeout(spawnTimer);
       window.clearInterval(clockTimer);
@@ -469,6 +524,7 @@
       result.hidden = true;
       root.classList.remove('is-finished', 'is-combo-flash', 'is-tempo-shift', 'is-shape-blast');
       running = true;
+      isPaused = false;
       startTime = performance.now();
       updateHud();
       spawnNote();
@@ -497,6 +553,7 @@
     }
 
     document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     startButton.addEventListener('click', startGame);
     replayButton.addEventListener('click', startGame);
     updateHud();
@@ -507,11 +564,13 @@
       },
       destroy() {
         running = false;
+        isPaused = false;
         window.clearTimeout(spawnTimer);
         window.clearInterval(clockTimer);
         bufferedInputs.clear();
         Array.from(notes.keys()).forEach(removeNote);
         document.removeEventListener('keydown', handleKeydown);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
         container.replaceChildren();
       }
     };

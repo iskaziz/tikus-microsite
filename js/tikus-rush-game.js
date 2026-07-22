@@ -74,6 +74,8 @@
     let startTime = 0;
     let mouseId = 0;
     let activeMice = new Map();
+    let isPaused = false;
+    let hiddenAt = 0;
 
     const root = create('section', 'rush');
     root.dataset.rushRoot = '';
@@ -393,12 +395,22 @@
         button.addEventListener('animationend', () => removeMouse(id, true), { once: true });
       }
 
-      const expiry = window.setTimeout(() => removeMouse(id, true), travel + 350);
-      activeMice.set(id, { button, type, expiry, animation, caught: false, removing: false });
+      const expiryDelay = travel + 350;
+      const expiry = window.setTimeout(() => removeMouse(id, true), expiryDelay);
+      activeMice.set(id, {
+        id,
+        button,
+        type,
+        expiry,
+        expiryAt: performance.now() + expiryDelay,
+        animation,
+        caught: false,
+        removing: false
+      });
 
       if (progress > 0.72 && activeMice.size < MAX_ACTIVE_MICE - 1 && Math.random() < 0.08) {
         window.setTimeout(() => {
-          if (running) spawnMouse();
+          if (running && !isPaused) spawnMouse();
         }, randomBetween(180, 300));
       }
     }
@@ -413,9 +425,52 @@
       }, delay);
     }
 
+    function pauseForHidden() {
+      if (!running || isPaused) return;
+      isPaused = true;
+      hiddenAt = performance.now();
+      window.clearTimeout(spawnTimer);
+      window.clearInterval(clockTimer);
+      activeMice.forEach((record) => {
+        record.animation?.pause();
+        window.clearTimeout(record.expiry);
+      });
+    }
+
+    function resumeFromHidden() {
+      if (!running || !isPaused) return;
+      isPaused = false;
+      const hiddenDuration = Math.max(0, performance.now() - hiddenAt);
+      startTime += hiddenDuration;
+      activeMice.forEach((record) => {
+        record.animation?.play();
+        const remainingExpiry = Math.max(50, record.expiryAt - hiddenAt);
+        record.expiryAt = performance.now() + remainingExpiry;
+        record.expiry = window.setTimeout(() => removeMouse(record.id, true), remainingExpiry);
+      });
+      scheduleSpawn();
+      clockTimer = window.setInterval(() => {
+        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
+        if (remaining <= 0) {
+          finishGame();
+          return;
+        }
+        updateHud();
+      }, 100);
+    }
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        pauseForHidden();
+      } else {
+        resumeFromHidden();
+      }
+    }
+
     function finishGame() {
       if (!running) return;
       running = false;
+      isPaused = false;
       remaining = 0;
       window.clearTimeout(spawnTimer);
       window.clearInterval(clockTimer);
@@ -447,6 +502,7 @@
       result.hidden = true;
       root.classList.remove('is-finished', 'is-gold-hit');
       running = true;
+      isPaused = false;
       startTime = performance.now();
       updateHud();
       spawnMouse();
@@ -464,6 +520,7 @@
 
     startButton.addEventListener('click', startGame);
     replayButton.addEventListener('click', startGame);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     updateHud();
 
     return {
@@ -472,6 +529,8 @@
       },
       destroy() {
         running = false;
+        isPaused = false;
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
         window.clearTimeout(spawnTimer);
         window.clearInterval(clockTimer);
         Array.from(activeMice.keys()).forEach((id) => removeMouse(id));

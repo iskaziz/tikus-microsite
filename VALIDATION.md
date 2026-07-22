@@ -89,3 +89,51 @@ Confirmed:
 - Beat rendered-position judgement scored successfully in Chromium.
 - Reduced-motion mode disables decorative background animation while retaining gameplay motion and inputs.
 - No runtime errors were recorded during the interaction pass.
+
+## Repository audit and cleanup — 2026-07-22
+
+A full repository audit (file/dependency map, dead-code and stale-documentation
+check, static analysis) was performed against the current `main` branch.
+Confirmed findings were fixed on the `audit-cleanup-performance` branch; this
+section records what was checked and how.
+
+### Dead code and stale documentation
+
+- Confirmed via `grep` across `index.html`, every `js/*.js`, and every
+  `css/*.css` that `js/tikus-logic-game.js`, `js/tikus-rhythm-game.js`,
+  `css/game.css` and `css/rhythm-game.css` had zero references anywhere in
+  the live site before deletion. **Passed.**
+- Confirmed `preview.html` only referenced the dead files above and a fake
+  modal stub, never the real `arcade-controller.js`. **Passed.**
+- Cross-referenced every filename under `assets/images/` against literal and
+  template-constructed (`imageSet()`/`characterPortraitSet()`) paths in
+  `js/content-data.js`, plus every `.html`/`.css` file. `samasihat-kitchen-*`,
+  `samasihat-orchid-room-*`, and all of `assets/images/thumbnails/` had zero
+  matches. **Passed.**
+- `node --check` passes on all 7 live JavaScript files after every commit in
+  this pass. **Passed.**
+- Brace-count parity confirmed for `arcade.css`, `tikus-rush.css` and
+  `tikus-beat.css` after the CSS cleanup (open/close counts equal).
+  **Passed.**
+
+### Tab-visibility fix (`document.visibilitychange`)
+
+- Confirmed by code reading that the fix correctly pauses each active
+  mouse/note's Web Animation, clears the relevant per-object safety timer,
+  and stops the spawn/clock timers on hide; and resumes animations, reschedules
+  timers for their remaining duration, and re-bases `startTime` by the
+  hidden duration on show. **Passed (static/code review).**
+- Real-browser confirmation — switching tabs mid-round and confirming the
+  clock/mice/notes resume at the expected position rather than jumping or
+  freezing — was **not tested**. No headless browser tool was available in
+  this environment for this pass. Recommend a manual check before merging:
+  open either game, background the tab for several seconds mid-round,
+  return, and confirm the round continues rather than having silently timed
+  out or visibly jumped.
+
+### Not yet covered by this pass
+
+Responsive/viewport layout, accessibility (focus order, contrast, touch
+target sizing), and a full performance pass on `styles.css`/`animations.css`
+were out of scope for this cleanup pass and remain open per the audit's
+Phase 2 repair order.

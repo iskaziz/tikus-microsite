@@ -110,3 +110,51 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Removed full-stage filter animations and masked rotating layers.
 - Reduced Rush path keyframe density while retaining smooth curved motion.
 - Batched and reduced Tikus Beat 20-hit explosion particles.
+
+## Audit and cleanup pass — 2026-07-22
+
+A repository audit found that several files this document and `VALIDATION.md`
+already described as removed had, in fact, never been deleted from the repo,
+plus a set of scene/thumbnail images that were never referenced by any live
+code. This pass makes the repository match its own documentation.
+
+### Removed (confirmed unreferenced by `index.html`, any live script, or any
+current stylesheet)
+
+- `js/tikus-logic-game.js`, `css/game.css` — the pre-consolidation Tikus Rush
+  implementation. `VALIDATION.md` already asserted this file was absent; it
+  wasn't, until now.
+- `js/tikus-rhythm-game.js`, `css/rhythm-game.css` — the pre-consolidation
+  Tikus Beat implementation described in the now-archived
+  `RHYTHM-GAME-MANIFEST.md`. Undocumented in this file previously; this is
+  the first record of its removal.
+- `preview.html` — pointed at the two files above through a fake
+  `window.TikusMicrosite.modal` stub and did not exercise the real
+  `arcade-controller.js`. Not required for GitHub Pages deployment.
+- `assets/images/scenes/samasihat-kitchen-*`, `samasihat-orchid-room-*`, and
+  all of `assets/images/thumbnails/` — unreferenced anywhere in code or in
+  `ASSET-MANIFEST.md`/`ASSET-CONTENT-MANIFEST.md`. The explorer has only ever
+  used House and Sitting Room.
+
+### Archived
+
+- `UPLOAD-INSTRUCTIONS.md`, `RHYTHM-GAME-MANIFEST.md`,
+  `VALIDATION-RHYTHM-GAME.md` moved to `docs/history/`. Each describes an
+  earlier, incompatible integration stage (respectively: the original
+  logic-game replacement, and the pre-shared-arcade four-hotspot rhythm
+  integration). Kept for project history rather than deleted, but no longer
+  in the repository root where they could be mistaken for current guidance.
+
+### Fixed
+
+- Neither live game listened for `document.visibilitychange`. Backgrounding
+  the tab mid-round let the clock, spawn timers, and mouse/note animations
+  keep running on wall-clock time. `tikus-rush-game.js` and
+  `tikus-beat-game.js` now pause on hide and resume on show, re-basing
+  `startTime` and any pending per-object timers by the hidden duration.
+- `arcade.css`, `tikus-rush.css` and `tikus-beat.css` each carried a
+  `backdrop-filter`/`mix-blend-mode` declaration that a later rule for the
+  same selector already neutralised (`none`/`normal`), so the effective
+  computed style was already correct, but the contradiction was fragile.
+  Folded the final values into the base rules and removed the redundant
+  overrides. No visual change.

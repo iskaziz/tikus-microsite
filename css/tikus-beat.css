@@ -466,7 +466,6 @@
   place-items: center;
   padding: 1rem;
   background: rgb(11 6 8 / 72%);
-  backdrop-filter: blur(4px);
 }
 
 .beat__overlay[hidden] {
@@ -743,7 +742,6 @@
 
 .beat__overlay {
   background: linear-gradient(rgb(11 6 8 / 88%), rgb(11 6 8 / 84%));
-  backdrop-filter: none;
 }
 
 .beat.is-final .beat__stage,
