@@ -75,3 +75,17 @@ Confirmed:
 - Desktop major-section top padding is approximately 58 pixels; mobile section padding is approximately 26–30 pixels.
 - The explorer no longer reserves a full viewport height.
 - Reduced-motion game alternatives initialise without JavaScript errors.
+
+## Flicker and stutter regression — 2026-07-22
+
+- Arcade hub-to-game transition retains a populated content node; no empty black transition frame.
+- Chromium transition captures at 0 ms, 16 ms, 50 ms and 120 ms showed stable rendered game backgrounds for both Rush and Beat.
+- Removed forced-layout animation restarts from Beat input, lane feedback, judgement, combo and tempo effects.
+- Removed mobile-GPU-sensitive backdrop blur, mix-blend, full-stage filter flashes and masked rotating layers from the arcade games.
+- Rush now uses one continuous spinning background layer plus mouse motion.
+- Beat now uses two lightweight transform/opacity background layers plus falling notes.
+- Sitting Room runtime hotspot count remains exactly three.
+- Rush pointer input scored successfully in Chromium.
+- Beat rendered-position judgement scored successfully in Chromium.
+- Reduced-motion mode disables decorative background animation while retaining gameplay motion and inputs.
+- No runtime errors were recorded during the interaction pass.

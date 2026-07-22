@@ -689,3 +689,123 @@
     animation-duration: 0.01ms;
   }
 }
+
+/* Performance stability: avoid full-stage filters, masks and forced repaints. */
+.beat__stage {
+  contain: layout paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.beat__backdrop,
+.beat__pulse-field,
+.beat__scanlines,
+.beat__light-sweep,
+.beat__lanes,
+.beat__effects {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.beat__orbit-field {
+  display: none;
+}
+
+.beat__backdrop::after {
+  animation: none;
+  opacity: 0.14;
+}
+
+.beat__pulse-field {
+  inset: -10%;
+  opacity: calc(0.12 + var(--beat-progress) * 0.13);
+  animation-duration: 8.5s;
+}
+
+.beat__light-sweep {
+  opacity: 0.7;
+  animation-duration: 6.8s;
+}
+
+.beat__rail {
+  animation: none;
+  opacity: 0.25;
+}
+
+.beat-shape {
+  filter: none;
+}
+
+.beat__note {
+  contain: layout paint style;
+  backface-visibility: hidden;
+}
+
+.beat__overlay {
+  background: linear-gradient(rgb(11 6 8 / 88%), rgb(11 6 8 / 84%));
+  backdrop-filter: none;
+}
+
+.beat.is-final .beat__stage,
+.beat.is-shape-blast .beat__stage,
+.beat.is-tempo-shift .beat__lanes {
+  animation: none;
+  filter: none;
+}
+
+.beat__lane-feedback {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  animation: beat-lane-feedback 0.26s ease-out forwards;
+}
+
+.beat__lane-feedback--good {
+  background: linear-gradient(180deg, transparent, rgb(255 229 162 / 28%));
+}
+
+.beat__lane-feedback--perfect {
+  background: radial-gradient(circle at 50% 82%, rgb(255 247 204 / 58%), transparent 56%);
+}
+
+.beat__lane-feedback--miss {
+  background: rgb(129 8 29 / 24%);
+}
+
+.beat__combo-blast {
+  box-shadow: 0 0 1.1rem rgb(255 177 63 / 68%);
+  animation-duration: 0.62s;
+}
+
+.beat__shape-burst .beat-shape {
+  filter: none;
+}
+
+@keyframes beat-lane-feedback {
+  0% { opacity: 0; transform: translateY(0.8rem); }
+  28% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-0.4rem); }
+}
+
+/* Final low-overhead pass: retain two dynamic backdrop layers only. */
+.beat__backdrop::before {
+  animation: none;
+  transform: rotate(12deg) translateZ(0);
+  opacity: calc(0.1 + var(--beat-progress) * 0.12);
+}
+
+.beat__combo-flash-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 14;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 78%, rgb(255 237 173 / 38%), transparent 58%);
+  animation: beat-combo-flash-layer 0.4s ease-out forwards;
+}
+
+@keyframes beat-combo-flash-layer {
+  from { opacity: 1; transform: scale(0.96); }
+  to { opacity: 0; transform: scale(1.04); }
+}

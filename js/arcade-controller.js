@@ -177,7 +177,6 @@
       if (this.currentGame?.destroy) this.currentGame.destroy();
       this.dialog.dataset.arcadeView = gameId;
       this.surface.classList.add('is-playing');
-      this.content.replaceChildren();
       this.currentGame = game.mount(this.content, {
         reducedMotion: this.reducedMotion,
         onExit: () => {

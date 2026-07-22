@@ -546,3 +546,103 @@
   10%, 85% { opacity: 1; }
   to { opacity: 0; transform: translateX(35vw) scale(var(--mouse-scale)); }
 }
+
+/* Performance stability: keep gameplay on compositor-friendly layers. */
+.rush__arena {
+  contain: layout paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.rush__rings,
+.rush__beams,
+.rush__grain,
+.rush__dust,
+.rush__mice,
+.rush__effects {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.rush__rings {
+  inset: -22%;
+  overflow: visible;
+  background:
+    repeating-radial-gradient(circle, transparent 0 2.7rem, rgb(10 5 6 / 42%) 2.8rem 4.1rem, transparent 4.2rem 6.4rem),
+    conic-gradient(from 8deg, rgb(255 225 181 / 4%), transparent 18%, rgb(255 225 181 / 4%) 32%, transparent 52%);
+  background-blend-mode: normal;
+  animation-duration: 24s;
+}
+
+.rush__rings::before,
+.rush__rings::after {
+  display: none;
+}
+
+.rush__beams {
+  inset: -24%;
+  opacity: calc(0.1 + var(--rush-progress) * 0.12);
+  animation-duration: 28s;
+}
+
+.rush__grain {
+  opacity: 0.055;
+  animation: rush-grain-smooth 13s linear infinite alternate;
+}
+
+.rush__dust {
+  opacity: 0.12;
+  animation-duration: 14s;
+}
+
+.rush__mouse {
+  filter: none;
+  contain: layout paint style;
+}
+
+.rush__overlay {
+  background: linear-gradient(rgb(15 7 9 / 86%), rgb(15 7 9 / 82%));
+  backdrop-filter: none;
+}
+
+.rush.is-final .rush__arena {
+  animation: none;
+}
+
+.rush.is-final .rush__arena::before {
+  opacity: 0.78;
+}
+
+.rush__gold-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgb(255 231 145 / 42%), transparent 58%);
+  animation: rush-gold-flash 0.4s ease-out forwards;
+}
+
+@keyframes rush-grain-smooth {
+  from { transform: translate3d(-0.6%, -0.4%, 0); }
+  to { transform: translate3d(0.7%, 0.5%, 0); }
+}
+
+/* Final low-overhead pass: one animated background layer is enough. */
+.rush__beams,
+.rush__grain,
+.rush__dust {
+  animation: none;
+}
+
+.rush__beams {
+  opacity: 0.11;
+  transform: rotate(-12deg) translateZ(0);
+}
+
+.rush__grain {
+  opacity: 0.045;
+}
+
+.rush__dust {
+  opacity: 0.09;
+}

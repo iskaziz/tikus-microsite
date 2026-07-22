@@ -224,9 +224,9 @@
       maxCombo = Math.max(maxCombo, combo);
       if (record.type === 'gold') {
         caughtGold += 1;
-        root.classList.remove('is-gold-hit');
-        void root.offsetWidth;
-        root.classList.add('is-gold-hit');
+        const flash = create('span', 'rush__gold-flash');
+        effectsLayer.append(flash);
+        window.setTimeout(() => flash.remove(), 420);
       } else {
         caughtGrey += 1;
       }
@@ -282,7 +282,7 @@
       ];
       const padded = [controls[0], ...controls, controls[controls.length - 1]];
       const samples = [];
-      const samplesPerSegment = 14;
+      const samplesPerSegment = 9;
 
       for (let segment = 0; segment < controls.length - 1; segment += 1) {
         for (let step = 0; step < samplesPerSegment; step += 1) {

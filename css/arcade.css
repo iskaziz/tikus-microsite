@@ -527,3 +527,18 @@ html.has-arcade-dialog {
     animation: none;
   }
 }
+
+/* Performance stability: avoid mobile GPU backdrop/mix-blend flicker. */
+.tikus-arcade-dialog::backdrop {
+  backdrop-filter: none;
+}
+
+.tikus-arcade-dialog__surface::before {
+  mix-blend-mode: normal;
+  opacity: 0.055;
+}
+
+.tikus-arcade-dialog__surface,
+.tikus-arcade-dialog__content {
+  contain: layout paint style;
+}

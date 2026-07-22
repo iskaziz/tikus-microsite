@@ -215,30 +215,37 @@
 
     function pressReceptor(laneIndex) {
       const receptor = laneElements[laneIndex].receptor;
-      receptor.classList.remove('is-pressed');
-      void receptor.offsetWidth;
-      receptor.classList.add('is-pressed');
-      window.setTimeout(() => receptor.classList.remove('is-pressed'), 190);
+      receptor.getAnimations().forEach((animation) => animation.cancel());
+      if (reducedMotion || typeof receptor.animate !== 'function') return;
+      receptor.animate([
+        { transform: 'translateY(0) scale(1)' },
+        { transform: 'translateY(0.18rem) scale(0.95)', offset: 0.35 },
+        { transform: 'translateY(0) scale(1)' }
+      ], { duration: 160, easing: 'ease-out' });
     }
 
     function pulseLane(laneIndex, type) {
       const { lane } = laneElements[laneIndex];
-      lane.classList.remove('is-hit', 'is-miss', 'is-perfect');
-      void lane.offsetWidth;
-      lane.classList.add(type === 'miss' ? 'is-miss' : 'is-hit');
-      if (type === 'perfect') lane.classList.add('is-perfect');
+      const feedback = create('span', `beat__lane-feedback beat__lane-feedback--${type}`);
+      lane.append(feedback);
+      window.setTimeout(() => feedback.remove(), reducedMotion ? 80 : 280);
       pressReceptor(laneIndex);
-      window.setTimeout(() => lane.classList.remove('is-hit', 'is-miss', 'is-perfect'), 260);
     }
 
     function setJudgement(text, type) {
       judgement.textContent = text;
       judgement.className = `beat__judgement beat__judgement--${type}`;
-      if (!reducedMotion) {
-        judgement.classList.remove('is-visible');
-        void judgement.offsetWidth;
-        judgement.classList.add('is-visible');
+      judgement.getAnimations().forEach((animation) => animation.cancel());
+      if (reducedMotion || typeof judgement.animate !== 'function') {
+        judgement.style.opacity = '1';
+        window.setTimeout(() => { judgement.style.opacity = '0'; }, 120);
+        return;
       }
+      judgement.animate([
+        { opacity: 0, transform: 'translate(-50%, -50%) scale(0.72)' },
+        { opacity: 1, transform: 'translate(-50%, -50%) scale(1.06)', offset: 0.28 },
+        { opacity: 0, transform: 'translate(-50%, -5rem) scale(0.96)' }
+      ], { duration: 520, easing: 'ease-out' });
     }
 
     function removeNote(id) {
@@ -249,40 +256,38 @@
       notes.delete(id);
     }
 
-    function createShapeExplosion(note, index, total) {
+    function createShapeExplosion(note, index, total, stageRect, fragment) {
       if (reducedMotion) return;
-      const stageRect = stage.getBoundingClientRect();
       const noteRect = note.element.getBoundingClientRect();
       const burst = create('span', 'beat__shape-burst');
       burst.style.left = `${noteRect.left - stageRect.left + noteRect.width / 2}px`;
       burst.style.top = `${noteRect.top - stageRect.top + noteRect.height / 2}px`;
-      burst.style.setProperty('--burst-angle', `${(index / Math.max(1, total)) * 360 + Math.random() * 30}deg`);
-      burst.style.setProperty('--burst-distance', `${44 + Math.random() * 70}px`);
+      burst.style.setProperty('--burst-angle', `${(index / Math.max(1, total)) * 360 + Math.random() * 24}deg`);
+      burst.style.setProperty('--burst-distance', `${38 + Math.random() * 48}px`);
       burst.innerHTML = shapeMarkup(note.shape);
-      for (let particleIndex = 0; particleIndex < 6; particleIndex += 1) {
+      for (let particleIndex = 0; particleIndex < 3; particleIndex += 1) {
         const particle = create('i', 'beat__shape-particle');
-        particle.style.setProperty('--particle-angle', `${particleIndex * 60 + Math.random() * 20}deg`);
-        particle.style.setProperty('--particle-distance', `${32 + Math.random() * 58}px`);
+        particle.style.setProperty('--particle-angle', `${particleIndex * 120 + Math.random() * 18}deg`);
+        particle.style.setProperty('--particle-distance', `${26 + Math.random() * 38}px`);
         burst.append(particle);
       }
-      effects.append(burst);
-      window.setTimeout(() => burst.remove(), 760);
+      fragment.append(burst);
+      window.setTimeout(() => burst.remove(), 680);
     }
 
     function triggerComboBlast() {
       const visibleNotes = Array.from(notes.values());
+      const stageRect = stage.getBoundingClientRect();
+      const fragment = document.createDocumentFragment();
       visibleNotes.forEach((note, index) => {
-        createShapeExplosion(note, index, visibleNotes.length);
+        createShapeExplosion(note, index, visibleNotes.length, stageRect, fragment);
         removeNote(note.id);
       });
+      effects.append(fragment);
       const shockwave = create('span', 'beat__combo-blast');
       effects.append(shockwave);
-      window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 760);
+      window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 680);
       showCallout('20 HIT BLAST', 'beat__callout--blast');
-      root.classList.remove('is-shape-blast');
-      void root.offsetWidth;
-      root.classList.add('is-shape-blast');
-      window.setTimeout(() => root.classList.remove('is-shape-blast'), 760);
       announcer.textContent = 'Twenty hit streak. Every visible shape cleared.';
     }
 
@@ -332,9 +337,11 @@
       announcer.textContent = `${type}. Combo ${combo}. Score ${score}.`;
       if (combo > 0 && combo % 10 === 0) {
         showCallout(`${combo} COMBO`, 'beat__callout--combo');
-        root.classList.remove('is-combo-flash');
-        void root.offsetWidth;
-        root.classList.add('is-combo-flash');
+        if (!reducedMotion) {
+          const comboFlash = create('span', 'beat__combo-flash-layer');
+          effects.append(comboFlash);
+          window.setTimeout(() => comboFlash.remove(), 430);
+        }
       }
       const reachedBlast = Math.floor(combo / 20);
       if (reachedBlast > blastMilestone) {
@@ -416,9 +423,13 @@
       lastTempoTier = tier;
       const labels = ['PICKING UP', 'UPBEAT', 'FINAL PUSH'];
       showCallout(labels[tier - 1] || 'PICKING UP', 'beat__callout--tempo');
-      root.classList.remove('is-tempo-shift');
-      void root.offsetWidth;
-      root.classList.add('is-tempo-shift');
+      if (!reducedMotion && typeof lanes.animate === 'function') {
+        lanes.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.012)', offset: 0.35 },
+          { transform: 'scale(1)' }
+        ], { duration: 460, easing: 'ease-out' });
+      }
     }
 
     function finishGame() {

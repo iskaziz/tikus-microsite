@@ -102,3 +102,11 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Mobile card width is approximately 162 pixels at a 390-pixel viewport, revealing more of the adjacent card as a scroll cue.
 - The Inspector card sits in the same horizontally scrolling row as the five Guests.
 - Desktop and mobile section padding, heading gaps and explorer spacing were reduced further.
+
+## Flicker and stutter stability pass
+- Removed the blank content clear between arcade hub and game mount.
+- Removed backdrop blur and mix-blend layers that can flash black on mobile GPUs.
+- Replaced forced-layout animation resets with Web Animations/transient overlays.
+- Removed full-stage filter animations and masked rotating layers.
+- Reduced Rush path keyframe density while retaining smooth curved motion.
+- Batched and reduced Tikus Beat 20-hit explosion particles.
