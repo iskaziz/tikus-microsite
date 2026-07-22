@@ -265,46 +265,21 @@
   font-size: 0.48rem;
 }
 
-.beat-shape {
+.beat-weapon {
   position: relative;
+  display: grid;
+  place-items: center;
+  width: 68%;
+  height: 68%;
+  pointer-events: none;
+}
+
+.beat-weapon img {
   display: block;
-  width: 62%;
-  aspect-ratio: 1;
-  color: #f4d891;
-  background: currentColor;
-  filter: drop-shadow(0 0 0.45rem rgb(255 215 117 / 52%));
-}
-
-.beat-shape--circle {
-  border-radius: 50%;
-}
-
-.beat-shape--triangle {
-  clip-path: polygon(50% 3%, 98% 94%, 2% 94%);
-}
-
-.beat-shape--square {
-  border-radius: 0.08rem;
-}
-
-.beat-shape--diamond {
-  transform: rotate(45deg) scale(0.78);
-}
-
-.beat-shape--cross {
-  background: transparent;
-}
-
-.beat-shape--cross::before,
-.beat-shape--cross::after {
-  content: "";
-  position: absolute;
-  inset: 37% 0;
-  background: currentColor;
-}
-
-.beat-shape--cross::after {
-  transform: rotate(90deg);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .beat__note {
@@ -323,16 +298,14 @@
   animation: beat-note-fall var(--note-duration) linear forwards;
 }
 
-.beat__note .beat-shape {
+.beat__note .beat-weapon {
   width: 100%;
-  color: inherit;
-  box-shadow: 0 0 0 0.08rem rgb(255 244 213 / 34%);
+  height: 100%;
 }
 
-.beat__lane:nth-child(2) .beat__note { color: #e3b467; }
-.beat__lane:nth-child(3) .beat__note { color: #fff0c1; }
-.beat__lane:nth-child(4) .beat__note { color: #cfa95c; }
-.beat__lane:nth-child(5) .beat__note { color: #f3cb79; }
+.beat__note .beat-weapon img {
+  filter: drop-shadow(0 0 0.32rem rgb(255 213 122 / 32%));
+}
 
 .beat__lane.is-hit::after,
 .beat__lane.is-miss::after {
@@ -417,10 +390,13 @@
   animation: beat-shape-burst 0.72s cubic-bezier(.16,.74,.24,1) forwards;
 }
 
-.beat__shape-burst .beat-shape {
+.beat__shape-burst .beat-weapon {
   width: 100%;
-  color: #fff0a9;
-  filter: drop-shadow(0 0 1.2rem rgb(255 226 143 / 90%));
+  height: 100%;
+}
+
+.beat__shape-burst .beat-weapon img {
+  filter: brightness(1.15) drop-shadow(0 0 0.7rem rgb(255 226 143 / 62%));
 }
 
 .beat__shape-particle {
@@ -466,6 +442,7 @@
   place-items: center;
   padding: 1rem;
   background: rgb(11 6 8 / 72%);
+  backdrop-filter: blur(4px);
 }
 
 .beat__overlay[hidden] {
@@ -524,10 +501,9 @@
   border: 1px dashed rgb(80 42 35 / 24%);
 }
 
-.beat__key-guide-item .beat-shape {
-  width: 1.65rem;
-  color: #8f1022;
-  filter: none;
+.beat__key-guide-item .beat-weapon {
+  width: 2.15rem;
+  height: 2.15rem;
 }
 
 .beat__result-title {
@@ -731,10 +707,6 @@
   opacity: 0.25;
 }
 
-.beat-shape {
-  filter: none;
-}
-
 .beat__note {
   contain: layout paint style;
   backface-visibility: hidden;
@@ -742,6 +714,7 @@
 
 .beat__overlay {
   background: linear-gradient(rgb(11 6 8 / 88%), rgb(11 6 8 / 84%));
+  backdrop-filter: none;
 }
 
 .beat.is-final .beat__stage,
@@ -777,11 +750,7 @@
   animation-duration: 0.62s;
 }
 
-.beat__shape-burst .beat-shape {
-  filter: none;
-}
-
-@keyframes beat-lane-feedback {
+.beat__shape-burst @keyframes beat-lane-feedback {
   0% { opacity: 0; transform: translateY(0.8rem); }
   28% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-0.4rem); }
@@ -806,4 +775,22 @@
 @keyframes beat-combo-flash-layer {
   from { opacity: 1; transform: scale(0.96); }
   to { opacity: 0; transform: scale(1.04); }
+}
+
+/* Tikus Beat approved weapon icon treatment. */
+.beat-weapon img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+@media (max-width: 30rem) {
+  .beat__receptor .beat-weapon {
+    width: 74%;
+    height: 74%;
+  }
+
+  .beat__key-guide-item .beat-weapon {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
 }

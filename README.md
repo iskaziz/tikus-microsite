@@ -77,14 +77,14 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 ### Tikus Beat
 
 - 60-second five-lane visual rhythm challenge.
-- Placeholder shapes can later be replaced with approved film objects.
+- Five approved illustrated weapon-object icons replace the former geometric placeholders.
 - Tap lanes or use `1–5` / `A/S/D/F/G` keyboard controls.
 - Slower note travel and wider perfect/good judgement windows.
 - Pointer input is handled on `pointerdown`, with a short early-input buffer.
 - Empty taps are not penalised, and a missed note trims rather than erases the combo.
 - Judgement timing follows the note’s rendered animation rather than an independent spawn clock.
 - Animated pulse rings, orbital lighting, drifting stage layers, falling-note glow, lane flashes, judgement bursts, tempo callouts and final-ten-second treatment.
-- Every new 20-hit combo milestone triggers a visual blast that clears all visible shapes without counting them as misses.
+- Every new 20-hit combo milestone triggers a visual blast that clears all visible weapon icons without counting them as misses.
 - Best score stored under `tikus-beat-best-v2`.
 
 Both games are explicitly non-canonical and spoiler-safe.

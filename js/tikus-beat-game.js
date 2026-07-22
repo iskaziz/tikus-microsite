@@ -14,7 +14,13 @@
     ['4', 'f'],
     ['5', 'g']
   ];
-  const SHAPES = ['circle', 'triangle', 'square', 'diamond', 'cross'];
+  const WEAPONS = Object.freeze([
+    { id: 'object-1', label: 'Iron pipe', asset: 'lane-1' },
+    { id: 'object-2', label: 'Adjustable wrench', asset: 'lane-2' },
+    { id: 'object-3', label: 'Brass candlestick', asset: 'lane-3' },
+    { id: 'object-4', label: 'Kitchen knife', asset: 'lane-4' },
+    { id: 'object-5', label: 'Telephone cord', asset: 'lane-5' }
+  ]);
 
   function create(tag, className, text) {
     const element = document.createElement(tag);
@@ -43,8 +49,9 @@
     }
   }
 
-  function shapeMarkup(shape) {
-    return `<span class="beat-shape beat-shape--${shape}" aria-hidden="true"></span>`;
+  function weaponMarkup(weapon) {
+    const base = `assets/images/games/tikus-beat/${weapon.asset}`;
+    return `<picture class="beat-weapon" aria-hidden="true"><source type="image/webp" srcset="${base}-256.webp 1x, ${base}-512.webp 2x"><img src="${base}-256.png" srcset="${base}-512.png 2x" alt="" width="256" height="256" decoding="async"></picture>`;
   }
 
   function mount(container, context = {}) {
@@ -122,7 +129,7 @@
     announcer.setAttribute('aria-atomic', 'true');
 
     const laneElements = [];
-    SHAPES.forEach((shape, laneIndex) => {
+    WEAPONS.forEach((weapon, laneIndex) => {
       const lane = create('div', 'beat__lane');
       lane.dataset.lane = String(laneIndex);
       const rail = create('div', 'beat__rail');
@@ -131,8 +138,8 @@
       const receptor = create('button', 'beat__receptor');
       receptor.type = 'button';
       receptor.dataset.lane = String(laneIndex);
-      receptor.innerHTML = `${shapeMarkup(shape)}<span class="beat__key">${laneIndex + 1}<small>${LANE_KEYS[laneIndex][1].toUpperCase()}</small></span>`;
-      receptor.setAttribute('aria-label', `Lane ${laneIndex + 1}, ${shape}. Keys ${laneIndex + 1} or ${LANE_KEYS[laneIndex][1].toUpperCase()}`);
+      receptor.innerHTML = `${weaponMarkup(weapon)}<span class="beat__key">${laneIndex + 1}<small>${LANE_KEYS[laneIndex][1].toUpperCase()}</small></span>`;
+      receptor.setAttribute('aria-label', `Lane ${laneIndex + 1}, ${weapon.label}. Keys ${laneIndex + 1} or ${LANE_KEYS[laneIndex][1].toUpperCase()}`);
       receptor.addEventListener('pointerdown', (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
         event.preventDefault();
@@ -151,13 +158,13 @@
     const intro = create('div', 'beat__overlay');
     const introCard = create('div', 'beat__card');
     introCard.append(
-      create('p', 'beat__card-kicker', 'FOLLOW THE FALLING SHAPES'),
-      create('p', 'beat__description', 'Tap the matching lane as a shape reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.')
+      create('p', 'beat__card-kicker', 'FOLLOW THE FALLING OBJECTS'),
+      create('p', 'beat__description', 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.')
     );
     const keyGuide = create('div', 'beat__key-guide');
-    SHAPES.forEach((shape, index) => {
+    WEAPONS.forEach((weapon, index) => {
       const item = create('div', 'beat__key-guide-item');
-      item.innerHTML = `${shapeMarkup(shape)}<span>${index + 1} / ${LANE_KEYS[index][1].toUpperCase()}</span>`;
+      item.innerHTML = `${weaponMarkup(weapon)}<span>${index + 1} / ${LANE_KEYS[index][1].toUpperCase()}</span>`;
       keyGuide.append(item);
     });
     const startButton = create('button', 'beat__primary', 'Start the beat');
@@ -266,7 +273,7 @@
       burst.style.top = `${noteRect.top - stageRect.top + noteRect.height / 2}px`;
       burst.style.setProperty('--burst-angle', `${(index / Math.max(1, total)) * 360 + Math.random() * 24}deg`);
       burst.style.setProperty('--burst-distance', `${38 + Math.random() * 48}px`);
-      burst.innerHTML = shapeMarkup(note.shape);
+      burst.innerHTML = weaponMarkup(note.weapon);
       for (let particleIndex = 0; particleIndex < 3; particleIndex += 1) {
         const particle = create('i', 'beat__shape-particle');
         particle.style.setProperty('--particle-angle', `${particleIndex * 120 + Math.random() * 18}deg`);
@@ -290,7 +297,7 @@
       effects.append(shockwave);
       window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 680);
       showCallout('20 HIT BLAST', 'beat__callout--blast');
-      announcer.textContent = 'Twenty hit streak. Every visible shape cleared.';
+      announcer.textContent = 'Twenty hit streak. Every visible object cleared.';
     }
 
     function registerMiss(id) {
@@ -384,21 +391,22 @@
       if (!running) return;
       const elapsed = (performance.now() - startTime) / 1000;
       const progress = clamp(elapsed / DURATION_SECONDS, 0, 1);
-      const lane = Math.floor(Math.random() * SHAPES.length);
+      const lane = Math.floor(Math.random() * WEAPONS.length);
+      const weapon = WEAPONS[lane];
       const travel = reducedMotion ? 3350 : Math.max(2850, 3850 - progress * 900);
       const targetOffset = travel;
       const id = ++noteId;
-      const element = create('button', `beat__note beat__note--${SHAPES[lane]}`);
+      const element = create('button', `beat__note beat__note--${weapon.id}`);
       element.type = 'button';
       element.tabIndex = -1;
-      element.innerHTML = shapeMarkup(SHAPES[lane]);
+      element.innerHTML = weaponMarkup(weapon);
       element.setAttribute('aria-hidden', 'true');
       element.style.setProperty('--note-duration', `${travel}ms`);
       element.style.setProperty('--note-drift', `${(Math.random() - 0.5) * 12}px`);
       element.style.setProperty('--note-travel', `${Math.max(220, stage.clientHeight * 0.80 + 80)}px`);
       laneElements[lane].notesLayer.append(element);
       const animation = element.getAnimations()[0] || null;
-      notes.set(id, { id, lane, shape: SHAPES[lane], element, travel: targetOffset, animation, missTimer: 0 });
+      notes.set(id, { id, lane, weapon, element, travel: targetOffset, animation, missTimer: 0, missTimerAt: 0 });
       element.addEventListener('animationend', () => {
         const note = notes.get(id);
         if (!note || !running) return;
@@ -465,25 +473,24 @@
         bufferedInputs.set(laneIndex, expiry + hiddenDuration);
       });
       scheduleSpawn();
-      clockTimer = window.setInterval(() => {
-        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
-        const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
-        resolveBufferedInputs();
-        announceTempo(progress);
-        if (remaining <= 0) {
-          finishGame();
-          return;
-        }
-        updateHud();
-      }, 50);
+      clockTimer = window.setInterval(updateClock, 50);
     }
 
     function handleVisibilityChange() {
-      if (document.hidden) {
-        pauseForHidden();
-      } else {
-        resumeFromHidden();
+      if (document.hidden) pauseForHidden();
+      else resumeFromHidden();
+    }
+
+    function updateClock() {
+      remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
+      const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
+      resolveBufferedInputs();
+      announceTempo(progress);
+      if (remaining <= 0) {
+        finishGame();
+        return;
       }
+      updateHud();
     }
 
     function finishGame() {
@@ -529,17 +536,7 @@
       updateHud();
       spawnNote();
       scheduleSpawn();
-      clockTimer = window.setInterval(() => {
-        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
-        const progress = clamp(1 - remaining / DURATION_SECONDS, 0, 1);
-        resolveBufferedInputs();
-        announceTempo(progress);
-        if (remaining <= 0) {
-          finishGame();
-          return;
-        }
-        updateHud();
-      }, 50);
+      clockTimer = window.setInterval(updateClock, 50);
       root.focus({ preventScroll: true });
     }
 
@@ -581,7 +578,7 @@
     id: 'beat',
     title: 'Tikus Beat',
     eyebrow: '60-SECOND RHYTHM',
-    description: 'Match five falling shapes through a gentler, more forgiving rhythm curve.',
+    description: 'Match five falling objects through a gentler, more forgiving rhythm curve.',
     duration: '60 sec',
     controls: 'Tap lanes or use 1–5 / A/S/D/F/G',
     accent: 'rhythm',

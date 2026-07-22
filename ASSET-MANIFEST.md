@@ -40,6 +40,20 @@ Seven approved, opaque square portraits are included for the reverse sides of th
 
 The remaining Inspektor Mislan character card retains its existing illustrated placeholder until approved artwork is supplied. Actor-side portraits also remain placeholders. Portraits are lazy-loaded and use AVIF first, WebP second and progressive JPEG as the fallback.
 
+## Tikus Beat weapon icons
+
+Five approved transparent illustrations are delivered under `assets/images/games/tikus-beat/`. Public filenames are lane-based to keep the deployed package spoiler-conscious.
+
+| Lane | Formats | Responsive maximum dimensions | True transparency |
+|---:|---|---:|---:|
+| 1 | WebP, PNG | `256 × 184`, `512 × 368` | Yes |
+| 2 | WebP, PNG | `191 × 256`, `381 × 512` | Yes |
+| 3 | WebP, PNG | `172 × 256`, `344 × 512` | Yes |
+| 4 | WebP, PNG | `256 × 116`, `512 × 232` | Yes |
+| 5 | WebP, PNG | `256 × 222`, `512 × 443` | Yes |
+
+The icon artwork is loaded only when Tikus Beat is mounted. WebP is preferred through `<picture>`, with transparent PNG as the fallback.
+
 ## Delivery recommendations
 
 - **Title:** WebP is preferred where supported; transparent PNG remains the fallback. Both title PNG files contain real alpha transparency.

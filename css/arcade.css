@@ -27,6 +27,7 @@ html.has-arcade-dialog {
   background:
     radial-gradient(circle at 50% 46%, rgb(118 7 24 / 28%), transparent 42%),
     rgb(8 5 6 / 88%);
+  backdrop-filter: blur(4px);
 }
 
 .tikus-arcade-dialog__surface {
@@ -56,12 +57,13 @@ html.has-arcade-dialog {
 
 .tikus-arcade-dialog__surface::before {
   inset: 0;
-  opacity: 0.055;
+  opacity: 0.1;
   background-image:
     repeating-linear-gradient(0deg, transparent 0 3px, rgb(255 255 255 / 7%) 4px),
     radial-gradient(circle at 20% 10%, #fff 0 0.04rem, transparent 0.06rem),
     radial-gradient(circle at 72% 33%, #fff 0 0.03rem, transparent 0.05rem);
   background-size: auto, 8rem 7rem, 11rem 9rem;
+  mix-blend-mode: screen;
 }
 
 .tikus-arcade-dialog__surface::after {
@@ -526,7 +528,16 @@ html.has-arcade-dialog {
   }
 }
 
-/* Performance stability: avoid layout/paint work outside the dialog surface. */
+/* Performance stability: avoid mobile GPU backdrop/mix-blend flicker. */
+.tikus-arcade-dialog::backdrop {
+  backdrop-filter: none;
+}
+
+.tikus-arcade-dialog__surface::before {
+  mix-blend-mode: normal;
+  opacity: 0.055;
+}
+
 .tikus-arcade-dialog__surface,
 .tikus-arcade-dialog__content {
   contain: layout paint style;

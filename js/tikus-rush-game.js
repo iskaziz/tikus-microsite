@@ -397,16 +397,7 @@
 
       const expiryDelay = travel + 350;
       const expiry = window.setTimeout(() => removeMouse(id, true), expiryDelay);
-      activeMice.set(id, {
-        id,
-        button,
-        type,
-        expiry,
-        expiryAt: performance.now() + expiryDelay,
-        animation,
-        caught: false,
-        removing: false
-      });
+      activeMice.set(id, { id, button, type, expiry, expiryAt: performance.now() + expiryDelay, animation, caught: false, removing: false });
 
       if (progress > 0.72 && activeMice.size < MAX_ACTIVE_MICE - 1 && Math.random() < 0.08) {
         window.setTimeout(() => {
@@ -449,22 +440,21 @@
         record.expiry = window.setTimeout(() => removeMouse(record.id, true), remainingExpiry);
       });
       scheduleSpawn();
-      clockTimer = window.setInterval(() => {
-        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
-        if (remaining <= 0) {
-          finishGame();
-          return;
-        }
-        updateHud();
-      }, 100);
+      clockTimer = window.setInterval(updateClock, 100);
     }
 
     function handleVisibilityChange() {
-      if (document.hidden) {
-        pauseForHidden();
-      } else {
-        resumeFromHidden();
+      if (document.hidden) pauseForHidden();
+      else resumeFromHidden();
+    }
+
+    function updateClock() {
+      remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
+      if (remaining <= 0) {
+        finishGame();
+        return;
       }
+      updateHud();
     }
 
     function finishGame() {
@@ -507,14 +497,7 @@
       updateHud();
       spawnMouse();
       scheduleSpawn();
-      clockTimer = window.setInterval(() => {
-        remaining = DURATION_SECONDS - (performance.now() - startTime) / 1000;
-        if (remaining <= 0) {
-          finishGame();
-          return;
-        }
-        updateHud();
-      }, 100);
+      clockTimer = window.setInterval(updateClock, 100);
       arena.focus({ preventScroll: true });
     }
 
