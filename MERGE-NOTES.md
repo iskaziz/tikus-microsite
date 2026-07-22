@@ -119,3 +119,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Kept the assets lazy to the arcade dialog; none are preloaded with the main page.
 - Updated receptor labels, the introductory guide and the 20-hit blast to use the icon system.
 - Retained tab-visibility pause/resume handling from the cleaned repository game scripts.
+
+## Tikus Beat themed-stage and sound pass
+
+- Replaced the neon/orbital stage treatment with the microsite’s crimson, black and warm-paper concentric-ring language.
+- Reduced the backdrop to two low-overhead transform/opacity layers plus static print texture.
+- Added a lightweight beat-reactive radial pulse behind the lanes.
+- Added procedural Web Audio cues for Good and Perfect hits, five-hit combo milestones, 20-hit blasts and end-game results.
+- Added a persistent accessible Sound on/off control stored under `tikus-beat-sound-v1`.
+- Audio is created only after a user gesture and no audio file is preloaded or autoplayed.
+

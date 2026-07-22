@@ -98,3 +98,15 @@ Confirmed:
 - All source and derivative images contain true alpha transparency.
 - Icon assets are referenced by local relative paths; no base64 data is present.
 - Accessible lane labels retain the corresponding object name and keyboard controls.
+
+## Tikus Beat themed-stage and sound checks
+
+- JavaScript syntax passes `node --check`.
+- The replacement Beat stylesheet parses without CSS syntax errors and has balanced braces.
+- No `filter`, `backdrop-filter`, mask, blend-mode or base64 declarations were introduced in the Beat stylesheet.
+- Five weapon lanes, rendered-position judgement, forgiving timing and the 20-hit clear remain in the game script.
+- Sound uses a lazily created Web Audio context and starts only after the Start button or Sound control receives a user gesture.
+- Sound preference persists under `tikus-beat-sound-v1`; unsupported browsers receive a disabled, labelled control.
+- Reduced-motion rules stop the decorative ring animation while preserving note travel and input.
+- A full Chromium navigation pass could not be repeated in this environment because local and loopback navigation are blocked by administrator policy.
+

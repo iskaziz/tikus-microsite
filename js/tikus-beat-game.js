@@ -2,6 +2,7 @@
   'use strict';
 
   const STORAGE_KEY = 'tikus-beat-best-v2';
+  const SOUND_STORAGE_KEY = 'tikus-beat-sound-v1';
   const DURATION_SECONDS = 60;
   const PERFECT_WINDOW_MS = 185;
   const GOOD_WINDOW_MS = 470;
@@ -49,6 +50,136 @@
     }
   }
 
+  function readSoundPreference() {
+    try {
+      return localStorage.getItem(SOUND_STORAGE_KEY) !== 'off';
+    } catch (error) {
+      return true;
+    }
+  }
+
+  function writeSoundPreference(enabled) {
+    try {
+      localStorage.setItem(SOUND_STORAGE_KEY, enabled ? 'on' : 'off');
+    } catch (error) {
+      // Keep sound controls functional if storage is unavailable.
+    }
+  }
+
+  function createSoundEngine(initialEnabled) {
+    const AudioContextClass = global.AudioContext || global.webkitAudioContext;
+    const supported = typeof AudioContextClass === 'function';
+    const laneFrequencies = [196, 247, 294, 392, 494];
+    let enabled = Boolean(initialEnabled && supported);
+    let audioContext = null;
+    let masterGain = null;
+
+    function ensureContext() {
+      if (!enabled || !supported) return null;
+      if (!audioContext) {
+        audioContext = new AudioContextClass();
+        masterGain = audioContext.createGain();
+        masterGain.gain.value = 0.24;
+        masterGain.connect(audioContext.destination);
+      }
+      if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
+      return audioContext;
+    }
+
+    function tone(frequency, options = {}) {
+      const context = ensureContext();
+      if (!context || !masterGain) return;
+      const start = context.currentTime + Math.max(0, options.delay || 0);
+      const duration = Math.max(0.035, options.duration || 0.09);
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = options.type || 'triangle';
+      oscillator.frequency.setValueAtTime(Math.max(40, frequency), start);
+      if (options.endFrequency) {
+        oscillator.frequency.exponentialRampToValueAtTime(Math.max(40, options.endFrequency), start + duration);
+      }
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.001, options.gain || 0.11), start + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      oscillator.connect(gain);
+      gain.connect(masterGain);
+      oscillator.start(start);
+      oscillator.stop(start + duration + 0.02);
+    }
+
+    function hit(laneIndex, judgementType) {
+      if (!enabled) return;
+      const base = laneFrequencies[laneIndex] || 294;
+      if (judgementType === 'perfect') {
+        tone(base, { duration: 0.085, gain: 0.12, type: 'triangle', endFrequency: base * 1.06 });
+        tone(base * 2, { delay: 0.012, duration: 0.07, gain: 0.055, type: 'sine' });
+      } else {
+        tone(base * 0.92, { duration: 0.075, gain: 0.085, type: 'triangle', endFrequency: base });
+      }
+    }
+
+    function comboMilestone(comboCount) {
+      if (!enabled) return;
+      const strong = comboCount % 20 === 0;
+      const base = strong ? 330 : 294;
+      const steps = strong ? [1, 1.25, 1.5, 2] : [1, 1.25, 1.5];
+      steps.forEach((ratio, index) => {
+        tone(base * ratio, {
+          delay: index * 0.055,
+          duration: strong ? 0.14 : 0.1,
+          gain: strong ? 0.1 : 0.075,
+          type: index % 2 === 0 ? 'triangle' : 'sine'
+        });
+      });
+    }
+
+    function finish(isRecord) {
+      if (!enabled) return;
+      const notes = isRecord ? [294, 392, 494, 588] : [392, 330, 294, 247];
+      notes.forEach((frequency, index) => {
+        tone(frequency, {
+          delay: index * 0.12,
+          duration: 0.18,
+          gain: index === notes.length - 1 ? 0.12 : 0.085,
+          type: index % 2 === 0 ? 'triangle' : 'sine'
+        });
+      });
+    }
+
+    function preview() {
+      tone(392, { duration: 0.07, gain: 0.075, type: 'triangle' });
+      tone(494, { delay: 0.06, duration: 0.09, gain: 0.075, type: 'sine' });
+    }
+
+    return {
+      supported,
+      isEnabled() {
+        return enabled;
+      },
+      setEnabled(nextEnabled) {
+        enabled = Boolean(nextEnabled && supported);
+        if (enabled) ensureContext();
+        if (audioContext && masterGain) {
+          const now = audioContext.currentTime;
+          masterGain.gain.cancelScheduledValues(now);
+          masterGain.gain.setTargetAtTime(enabled ? 0.24 : 0.0001, now, 0.012);
+        }
+      },
+      unlock() {
+        ensureContext();
+      },
+      hit,
+      comboMilestone,
+      finish,
+      preview,
+      destroy() {
+        if (audioContext && audioContext.state !== 'closed') audioContext.close().catch(() => {});
+        audioContext = null;
+        masterGain = null;
+      }
+    };
+  }
+
   function weaponMarkup(weapon) {
     const base = `assets/images/games/tikus-beat/${weapon.asset}`;
     return `<picture class="beat-weapon" aria-hidden="true"><source type="image/webp" srcset="${base}-256.webp 1x, ${base}-512.webp 2x"><img src="${base}-256.png" srcset="${base}-512.png 2x" alt="" width="256" height="256" decoding="async"></picture>`;
@@ -57,6 +188,7 @@
   function mount(container, context = {}) {
     const reducedMotion = Boolean(context.reducedMotion);
     const onExit = typeof context.onExit === 'function' ? context.onExit : () => {};
+    const soundEngine = createSoundEngine(readSoundPreference());
 
     let score = 0;
     let best = readBest();
@@ -86,10 +218,33 @@
       create('p', 'beat__eyebrow', '60-SECOND RHYTHM'),
       create('h2', 'beat__title', 'Tikus Beat')
     );
+    const headerActions = create('div', 'beat__header-actions');
+    const soundButton = create('button', 'beat__sound');
+    soundButton.type = 'button';
     const backButton = create('button', 'beat__back', '← Games');
     backButton.type = 'button';
     backButton.addEventListener('click', onExit);
-    header.append(heading, backButton);
+
+    function updateSoundButton() {
+      const enabled = soundEngine.isEnabled();
+      soundButton.textContent = soundEngine.supported ? (enabled ? 'Sound on' : 'Sound off') : 'No sound';
+      soundButton.setAttribute('aria-pressed', String(enabled));
+      soundButton.setAttribute('aria-label', soundEngine.supported
+        ? `Turn Tikus Beat sound ${enabled ? 'off' : 'on'}`
+        : 'Tikus Beat sound is unavailable in this browser');
+      soundButton.disabled = !soundEngine.supported;
+    }
+
+    soundButton.addEventListener('click', () => {
+      const enabled = !soundEngine.isEnabled();
+      soundEngine.setEnabled(enabled);
+      writeSoundPreference(enabled);
+      updateSoundButton();
+      if (enabled) soundEngine.preview();
+    });
+    updateSoundButton();
+    headerActions.append(soundButton, backButton);
+    header.append(heading, headerActions);
 
     const hud = create('div', 'beat__hud');
     function hudItem(label, value, modifier = '') {
@@ -118,6 +273,8 @@
     scanlines.setAttribute('aria-hidden', 'true');
     const lightSweep = create('div', 'beat__light-sweep');
     lightSweep.setAttribute('aria-hidden', 'true');
+    const rhythmPulse = create('div', 'beat__rhythm-pulse');
+    rhythmPulse.setAttribute('aria-hidden', 'true');
     const lanes = create('div', 'beat__lanes');
     const effects = create('div', 'beat__effects');
     effects.setAttribute('aria-hidden', 'true');
@@ -159,7 +316,8 @@
     const introCard = create('div', 'beat__card');
     introCard.append(
       create('p', 'beat__card-kicker', 'FOLLOW THE FALLING OBJECTS'),
-      create('p', 'beat__description', 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.')
+      create('p', 'beat__description', 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.'),
+      create('p', 'beat__sound-note', soundEngine.supported ? 'Hit, combo and final-score sounds begin only after you press Start. Use the Sound control at any time.' : 'This browser does not provide the Web Audio features used by the optional sound effects.')
     );
     const keyGuide = create('div', 'beat__key-guide');
     WEAPONS.forEach((weapon, index) => {
@@ -191,7 +349,7 @@
     resultCard.append(resultKicker, resultTitle, finalScore, breakdown, bestMessage, actions);
     result.append(resultCard);
 
-    stage.append(backdrop, pulseField, orbitField, scanlines, lightSweep, lanes, effects, judgement, announcer, intro, result);
+    stage.append(backdrop, pulseField, rhythmPulse, orbitField, scanlines, lightSweep, lanes, effects, judgement, announcer, intro, result);
     root.append(header, hud, stage);
     container.replaceChildren(root);
 
@@ -255,6 +413,20 @@
         { opacity: 1, transform: 'translate(-50%, -50%) scale(1.06)', offset: 0.28 },
         { opacity: 0, transform: 'translate(-50%, -5rem) scale(0.96)' }
       ], { duration: 520, easing: 'ease-out' });
+    }
+
+    function pulseStage(strength = 'hit') {
+      if (reducedMotion || typeof rhythmPulse.animate !== 'function') return;
+      rhythmPulse.getAnimations().forEach((animation) => animation.cancel());
+      const strong = strength === 'combo';
+      rhythmPulse.animate([
+        { opacity: 0, transform: 'scale(0.9)' },
+        { opacity: strong ? 0.72 : 0.42, transform: strong ? 'scale(1.08)' : 'scale(1.025)', offset: 0.28 },
+        { opacity: 0, transform: strong ? 'scale(1.16)' : 'scale(1.065)' }
+      ], {
+        duration: strong ? 480 : 230,
+        easing: 'ease-out'
+      });
     }
 
     function removeNote(id) {
@@ -342,8 +514,11 @@
       const comboBonus = Math.min(50, Math.floor(combo / 5) * 5);
       score += points + comboBonus;
       pulseLane(laneIndex, type);
+      pulseStage(combo > 0 && combo % 5 === 0 ? 'combo' : 'hit');
+      soundEngine.hit(laneIndex, type);
       setJudgement(type === 'perfect' ? 'PERFECT' : 'GOOD', type);
       announcer.textContent = `${type}. Combo ${combo}. Score ${score}.`;
+      if (combo > 0 && combo % 5 === 0) soundEngine.comboMilestone(combo);
       if (combo > 0 && combo % 10 === 0) {
         showCallout(`${combo} COMBO`, 'beat__callout--combo');
         if (!reducedMotion) {
@@ -503,10 +678,12 @@
       bufferedInputs.clear();
       Array.from(notes.keys()).forEach(removeNote);
       const previousBest = best;
-      if (score > best) {
+      const isRecord = score > previousBest;
+      if (isRecord) {
         best = score;
         writeBest(best);
       }
+      soundEngine.finish(isRecord);
       finalScore.textContent = String(score);
       breakdown.textContent = `${judgements.perfect} perfect · ${judgements.good} good · ${judgements.miss} miss · max combo ${maxCombo}`;
       bestMessage.textContent = score > previousBest ? 'New rhythm record.' : `Best score: ${best}`;
@@ -518,6 +695,7 @@
     }
 
     function startGame() {
+      soundEngine.unlock();
       score = 0;
       combo = 0;
       maxCombo = 0;
@@ -568,6 +746,7 @@
         Array.from(notes.keys()).forEach(removeNote);
         document.removeEventListener('keydown', handleKeydown);
         document.removeEventListener('visibilitychange', handleVisibilityChange);
+        soundEngine.destroy();
         container.replaceChildren();
       }
     };

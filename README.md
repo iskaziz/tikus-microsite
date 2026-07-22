@@ -83,8 +83,10 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 - Pointer input is handled on `pointerdown`, with a short early-input buffer.
 - Empty taps are not penalised, and a missed note trims rather than erases the combo.
 - Judgement timing follows the note’s rendered animation rather than an independent spawn clock.
-- Animated pulse rings, orbital lighting, drifting stage layers, falling-note glow, lane flashes, judgement bursts, tempo callouts and final-ten-second treatment.
+- Site-matched concentric crimson rings, warm paper texture, black lanes, restrained print grain, beat-reactive pulses, lane flashes and tempo callouts.
 - Every new 20-hit combo milestone triggers a visual blast that clears all visible weapon icons without counting them as misses.
+- Procedural Web Audio effects play for every successful hit, five-hit combo milestones, 20-hit blasts and the final result.
+- A persistent Sound on/off control is available in the Beat header; audio begins only after a user presses Start or enables sound.
 - Best score stored under `tikus-beat-best-v2`.
 
 Both games are explicitly non-canonical and spoiler-safe.
