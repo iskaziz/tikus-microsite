@@ -43,39 +43,36 @@
       id: 'sitting-room',
       eyebrow: 'INSIDE SAMASIHAT',
       title: 'Sitting Room',
-      navigationHint: 'Select a pulsing point to uncover its story.',
+      navigationHint: 'Select a pulsing point to play a game.',
       alt: 'A straight-on retro illustration of the Samasihat Sitting Room, with sofas, inherited artwork, a cabinet and warm crimson lighting.',
       image: imageSet('samasihat-sitting-room'),
       hotspots: [
         {
-          id: 'family-console',
+          id: 'tikus-beat',
+          type: 'game',
+          gameId: 'beat',
           x: 16,
           y: 56,
-          label: 'Explore the family console',
-          subject: 'Family console',
-          eyebrow: 'THE OLD HOUSE',
-          title: 'Lived In, Not Staged',
-          body: 'This bungalow has passed through generations of the same family. Its age is not concealed: the room carries the objects, habits and irregularities of a home that existed long before anyone called it a wellness retreat.'
+          label: 'Play Tikus Beat at the family console',
+          subject: 'Tikus Beat'
         },
         {
-          id: 'art-display',
+          id: 'tikus-slider',
+          type: 'game',
+          gameId: 'slider',
           x: 59,
           y: 53,
-          label: 'Explore the inherited art display',
-          subject: 'Art display',
-          eyebrow: 'AN INHERITED COLLECTION',
-          title: 'Pictures With a Past',
-          body: 'The paintings are part of the house’s identity rather than decorative dressing. They give Samasihat the feeling of a place collected over time—personal, unmistakably Malaysian and never entirely neutral.'
+          label: 'Play Tikus Slider at the inherited painting',
+          subject: 'Tikus Slider'
         },
         {
-          id: 'main-sofa',
+          id: 'tikus-rush',
+          type: 'game',
+          gameId: 'rush',
           x: 72,
           y: 68,
-          label: 'Explore the main sofa',
-          subject: 'Main sofa',
-          eyebrow: 'FIRST IMPRESSIONS',
-          title: 'Everyone Takes a Seat',
-          body: 'Samasihat opens with a deliberately small first group of guests. In the Sitting Room, polite introductions quickly expose mismatched personalities, private irritations and the difficulty of sharing one house.'
+          label: 'Play Tikus Rush at the main sofa',
+          subject: 'Tikus Rush'
         }
       ]
     }

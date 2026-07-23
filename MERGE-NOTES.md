@@ -133,3 +133,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Start, Audio toggle, tab pause/resume, round finish and dialog destruction all manage the music and Web Audio context together.
 - Good/Perfect hits, five-hit combos, 20-hit blasts and end-game results have distinct procedural cues.
 
+
+## Direct three-game hotspot integration
+
+- Replaced the shared TIKUS Arcade hotspot with three direct Sitting Room game hotspots.
+- Family console opens Tikus Beat.
+- Inherited painting opens Tikus Slider.
+- Main sofa opens Tikus Rush.
+- Added `css/tikus-slider.css`, `js/tikus-slider-game.js` and responsive puzzle artwork under `assets/images/games/tikus-slider/`.
+- Reworked `js/arcade-controller.js` into a direct game dialog controller; no game-selection hub is rendered.
+- Preserved exactly three percentage-positioned hotspot buttons and focus restoration to the selected room hotspot.

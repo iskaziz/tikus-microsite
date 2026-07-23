@@ -86,7 +86,7 @@
       create('p', 'rush__eyebrow', '30-SECOND CHALLENGE'),
       create('h2', 'rush__title', 'Tikus Rush')
     );
-    const backButton = create('button', 'rush__back', '← Games');
+    const backButton = create('button', 'rush__back', '← Sitting Room');
     backButton.type = 'button';
     backButton.addEventListener('click', onExit);
     header.append(heading, backButton);
@@ -157,7 +157,7 @@
     const resultActions = create('div', 'rush__actions');
     const replayButton = create('button', 'rush__primary', 'Play again');
     replayButton.type = 'button';
-    const gamesButton = create('button', 'rush__secondary', 'Choose another game');
+    const gamesButton = create('button', 'rush__secondary', 'Return to Sitting Room');
     gamesButton.type = 'button';
     gamesButton.addEventListener('click', onExit);
     resultActions.append(replayButton, gamesButton);

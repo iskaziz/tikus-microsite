@@ -4,21 +4,22 @@ Validation was performed against the complete packaged project without adding sp
 
 ## Static checks
 
-- All 7 JavaScript files pass `node --check`.
-- All 5 stylesheets parse without CSS syntax errors.
+- All 8 JavaScript files pass `node --check`.
+- All 6 stylesheets parse without CSS syntax errors.
 - `index.html` contains unique IDs and no missing local stylesheet, script, image or source references.
-- All 80 packaged assets resolve through relative paths.
+- All 84 packaged assets resolve through relative paths.
 - No base64 asset, framework, build dependency, autoplay media or external animation library is present.
 - The obsolete `js/tikus-logic-game.js` file remains absent.
-- Existing best scores continue to use `tikus-rush-best-v2` and `tikus-beat-best-v2`.
+- Saved results continue to use `tikus-rush-best-v2`, `tikus-beat-best-v2` and `tikus-slider-best-v1`.
 
-## Shared arcade checks
+## Direct game-dialog checks
 
 - The Sitting Room renders exactly three runtime hotspots.
-- One shared TIKUS Arcade hotspot opens exactly two game choices.
-- Rush and Beat remain independent modules behind the shared arcade controller.
+- Each hotspot opens one unique game directly: Beat, Slider or Rush.
+- Rush, Slider and Beat remain independent modules behind the shared dialog controller.
+- No intermediate game-selection hub is rendered.
 - The core information modal is not wrapped or replaced.
-- Closing the arcade removes the inert page state and restores focus to its originating hotspot.
+- Closing a game removes the inert page state and restores focus to its originating hotspot.
 
 ## Tikus Rush motion and tuning checks
 
@@ -78,7 +79,7 @@ Confirmed:
 
 ## Flicker and stutter regression — 2026-07-22
 
-- Arcade hub-to-game transition retains a populated content node; no empty black transition frame.
+- Direct hotspot-to-game transitions retain a populated content node; no empty black transition frame.
 - Chromium transition captures at 0 ms, 16 ms, 50 ms and 120 ms showed stable rendered game backgrounds for both Rush and Beat.
 - Removed forced-layout animation restarts from Beat input, lane feedback, judgement, combo and tempo effects.
 - Removed mobile-GPU-sensitive backdrop blur, mix-blend, full-stage filter flashes and masked rotating layers from the arcade games.
@@ -113,3 +114,11 @@ Confirmed:
 - Audio preference persists under `tikus-beat-sound-v1`; unsupported browsers receive a disabled, labelled control.
 - Reduced-motion rules stop the decorative ring animation while preserving note travel, input and audio controls.
 
+
+## Tikus Slider and direct hotspot validation
+
+- Sitting Room contains exactly three hotspots and each routes to one unique game.
+- Tikus Beat, Tikus Slider and Tikus Rush mount directly without an intermediate game-selection screen.
+- Slider shuffle uses legal moves and is always solvable.
+- Pointer, keyboard-arrow, preview, reset, completion, visibility pause and focus-return behaviour were checked.
+- Puzzle artwork retains its 4:3 aspect ratio and is not cropped.

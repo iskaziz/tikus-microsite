@@ -60,11 +60,11 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
 - URL hash state for `#house` and `#sitting-room`.
 - Accessible information and arcade dialogs with focus trapping, Escape handling and focus restoration.
 
-## TIKUS Arcade
+## Sitting Room games
 
-The Sitting Room contains one shared **TIKUS Arcade** hotspot. It replaces the former `main-sofa` hotspot at runtime, preserving exactly three visible hotspots.
+The Sitting Room contains exactly three direct game hotspots. The family console opens Tikus Beat, the inherited painting opens Tikus Slider, and the main sofa opens Tikus Rush.
 
-The shared controller routes directly from `scene-controller.js`; it does not override or wrap the core information-modal controller.
+The shared game-dialog controller routes each hotspot directly from `scene-controller.js`. It does not override the core information-modal controller and does not render an intermediate game-selection screen.
 
 ### Tikus Rush
 
@@ -78,6 +78,16 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 - A continuously rotating crimson vortex, moving light beams, dust, score bursts, gold flashes and final-ten-second intensity.
 - Native mouse buttons remain keyboard accessible.
 - Best score stored under `tikus-rush-best-v2`.
+
+
+### Tikus Slider
+
+- 3 × 3 sliding painting puzzle.
+- Guaranteed-solvable shuffle generated through legal moves.
+- Pointer, touch and keyboard-arrow controls.
+- Hold-to-preview control, timer, move count and locally saved best result.
+- Responsive 4:3 artwork without cropping.
+- Best result stored under `tikus-slider-best-v1`.
 
 ### Tikus Beat
 
@@ -96,7 +106,7 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 - Audio pauses when the tab is hidden, resumes with the active round and never starts on page load.
 - Best score stored under `tikus-beat-best-v2`.
 
-Both games are explicitly non-canonical and spoiler-safe.
+All three games are explicitly non-canonical and spoiler-safe.
 
 ## Editing content
 

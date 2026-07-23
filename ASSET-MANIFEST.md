@@ -78,3 +78,12 @@ The audio control persists under `tikus-beat-sound-v1`. Neither file is embedded
 - Approved title derivatives in `assets/images/title/` retain true transparency.
 - House, Sitting Room and character portrait source illustrations are RGB/opaque and do not require transparency.
 - No image is embedded as base64 data.
+
+## Tikus Slider
+
+- `assets/images/games/tikus-slider/tikus-puzzle-painting-1024.webp`
+- `assets/images/games/tikus-slider/tikus-puzzle-painting-1024.jpg`
+- `assets/images/games/tikus-slider/tikus-puzzle-painting-1536.webp`
+- `assets/images/games/tikus-slider/tikus-puzzle-painting-1536.jpg`
+
+The supplied painting is an opaque 4:3 RGB image. Correctly named JPEG and WebP derivatives are lazy-loaded only when the Tikus Slider hotspot is opened.

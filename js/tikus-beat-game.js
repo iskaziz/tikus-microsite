@@ -409,7 +409,7 @@
     const headerActions = create('div', 'beat__header-actions');
     const soundButton = create('button', 'beat__sound');
     soundButton.type = 'button';
-    const backButton = create('button', 'beat__back', '← Games');
+    const backButton = create('button', 'beat__back', '← Sitting Room');
     backButton.type = 'button';
     backButton.addEventListener('click', onExit);
 
@@ -530,7 +530,7 @@
     const actions = create('div', 'beat__actions');
     const replayButton = create('button', 'beat__primary', 'Play again');
     replayButton.type = 'button';
-    const gamesButton = create('button', 'beat__secondary', 'Choose another game');
+    const gamesButton = create('button', 'beat__secondary', 'Return to Sitting Room');
     gamesButton.type = 'button';
     gamesButton.addEventListener('click', onExit);
     actions.append(replayButton, gamesButton);
