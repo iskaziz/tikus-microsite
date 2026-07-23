@@ -21,10 +21,15 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   ASSET-MANIFEST.md
   MERGE-NOTES.md
   VALIDATION.md
-  /assets/images
-    /title
-    /characters
-    /scenes
+  /assets
+    /images
+      /title
+      /characters
+      /scenes
+      /games/tikus-beat
+    /audio
+      tikus-beat-loop.opus
+      tikus-beat-loop.mp3
   /css
     styles.css
     animations.css
@@ -85,8 +90,10 @@ The shared controller routes directly from `scene-controller.js`; it does not ov
 - Judgement timing follows the note’s rendered animation rather than an independent spawn clock.
 - Site-matched concentric crimson rings, warm paper texture, black lanes, restrained print grain, beat-reactive pulses, lane flashes and tempo callouts.
 - Every new 20-hit combo milestone triggers a visual blast that clears all visible weapon icons without counting them as misses.
-- Procedural Web Audio effects play for every successful hit, five-hit combo milestones, 20-hit blasts and the final result.
-- A persistent Sound on/off control is available in the Beat header; audio begins only after a user presses Start or enables sound.
+- Procedural Web Audio effects play for every successful hit, five-hit combo milestone, 20-hit blast and final result.
+- A subtle 24-second mono music loop is lazy-loaded only after the player presses Start. Opus is preferred, with an MP3 fallback.
+- A persistent Audio on/off control is available in the Beat header; the setting applies to both music and sound effects and is stored locally.
+- Audio pauses when the tab is hidden, resumes with the active round and never starts on page load.
 - Best score stored under `tikus-beat-best-v2`.
 
 Both games are explicitly non-canonical and spoiler-safe.

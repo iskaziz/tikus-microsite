@@ -7,7 +7,7 @@ Validation was performed against the complete packaged project without adding sp
 - All 7 JavaScript files pass `node --check`.
 - All 5 stylesheets parse without CSS syntax errors.
 - `index.html` contains unique IDs and no missing local stylesheet, script, image or source references.
-- All 58 packaged assets resolve through relative paths.
+- All 80 packaged assets resolve through relative paths.
 - No base64 asset, framework, build dependency, autoplay media or external animation library is present.
 - The obsolete `js/tikus-logic-game.js` file remains absent.
 - Existing best scores continue to use `tikus-rush-best-v2` and `tikus-beat-best-v2`.
@@ -105,8 +105,11 @@ Confirmed:
 - The replacement Beat stylesheet parses without CSS syntax errors and has balanced braces.
 - No `filter`, `backdrop-filter`, mask, blend-mode or base64 declarations were introduced in the Beat stylesheet.
 - Five weapon lanes, rendered-position judgement, forgiving timing and the 20-hit clear remain in the game script.
-- Sound uses a lazily created Web Audio context and starts only after the Start button or Sound control receives a user gesture.
-- Sound preference persists under `tikus-beat-sound-v1`; unsupported browsers receive a disabled, labelled control.
-- Reduced-motion rules stop the decorative ring animation while preserving note travel and input.
-- A full Chromium navigation pass could not be repeated in this environment because local and loopback navigation are blocked by administrator policy.
+- Audio uses a lazily created Web Audio context plus a detached `HTMLAudioElement`; both are unlocked directly from the Start or Audio-button gesture.
+- Before Start, no music request is made. Pressing Start requested `assets/audio/tikus-beat-loop.opus` in Chromium; the MP3 remains a fallback.
+- Chromium interaction tests recorded one music `play()` call on Start, one `pause()` call when Audio was disabled and a second `play()` call when it was re-enabled.
+- A shortened-round browser regression generated procedural hit and final-score oscillators, loaded the loop, displayed the result screen and produced no page errors.
+- Opus and MP3 files were verified with `ffprobe` as mono, approximately 24 seconds long and 133 KB / 189 KB respectively.
+- Audio preference persists under `tikus-beat-sound-v1`; unsupported browsers receive a disabled, labelled control.
+- Reduced-motion rules stop the decorative ring animation while preserving note travel, input and audio controls.
 

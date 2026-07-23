@@ -54,6 +54,17 @@ Five approved transparent illustrations are delivered under `assets/images/games
 
 The icon artwork is loaded only when Tikus Beat is mounted. WebP is preferred through `<picture>`, with transparent PNG as the fallback.
 
+## Tikus Beat audio
+
+The game uses one original, lightweight 24-second mono music loop. It is not preloaded with the microsite and is requested only after the player deliberately starts Tikus Beat. Gameplay cues are generated procedurally with Web Audio and add no separate sound-effect files.
+
+| File | Codec | Duration | Channels | Approximate size | Delivery |
+|---|---|---:|---:|---:|---|
+| `assets/audio/tikus-beat-loop.opus` | Opus in Ogg | `24.01 sec` | Mono | `133 KB` | Preferred source |
+| `assets/audio/tikus-beat-loop.mp3` | MP3 | `24.03 sec` | Mono | `189 KB` | Broad fallback |
+
+The audio control persists under `tikus-beat-sound-v1`. Neither file is embedded as base64 or referenced from the opening page markup.
+
 ## Delivery recommendations
 
 - **Title:** WebP is preferred where supported; transparent PNG remains the fallback. Both title PNG files contain real alpha transparency.

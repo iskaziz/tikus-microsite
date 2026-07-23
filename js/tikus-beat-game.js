@@ -68,27 +68,153 @@
 
   function createSoundEngine(initialEnabled) {
     const AudioContextClass = global.AudioContext || global.webkitAudioContext;
-    const supported = typeof AudioContextClass === 'function';
+    const sfxSupported = typeof AudioContextClass === 'function';
+    const musicSupported = typeof global.Audio === 'function';
+    const supported = sfxSupported || musicSupported;
     const laneFrequencies = [196, 247, 294, 392, 494];
+    const musicSources = Object.freeze([
+      { src: 'assets/audio/tikus-beat-loop.opus', type: 'audio/ogg; codecs="opus"' },
+      { src: 'assets/audio/tikus-beat-loop.mp3', type: 'audio/mpeg' }
+    ]);
+    const MUSIC_VOLUME = 0.18;
+    const SFX_VOLUME = 0.30;
+
     let enabled = Boolean(initialEnabled && supported);
     let audioContext = null;
-    let masterGain = null;
+    let sfxGain = null;
+    let noiseBuffer = null;
+    let music = null;
+    let musicFadeFrame = 0;
+    let musicPauseTimer = 0;
 
     function ensureContext() {
-      if (!enabled || !supported) return null;
+      if (!enabled || !sfxSupported) return null;
       if (!audioContext) {
-        audioContext = new AudioContextClass();
-        masterGain = audioContext.createGain();
-        masterGain.gain.value = 0.24;
-        masterGain.connect(audioContext.destination);
+        audioContext = new AudioContextClass({ latencyHint: 'interactive' });
+        sfxGain = audioContext.createGain();
+        sfxGain.gain.value = SFX_VOLUME;
+        sfxGain.connect(audioContext.destination);
       }
-      if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
       return audioContext;
     }
 
-    function tone(frequency, options = {}) {
+    function resumeContext() {
       const context = ensureContext();
-      if (!context || !masterGain) return;
+      if (!context || context.state !== 'suspended') return Promise.resolve();
+      return context.resume().catch(() => {});
+    }
+
+    function ensureNoiseBuffer(context) {
+      if (noiseBuffer || !context) return noiseBuffer;
+      const length = Math.max(1, Math.floor(context.sampleRate * 0.12));
+      noiseBuffer = context.createBuffer(1, length, context.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let index = 0; index < length; index += 1) {
+        const envelope = Math.exp(-index / (length * 0.18));
+        data[index] = (Math.random() * 2 - 1) * envelope;
+      }
+      return noiseBuffer;
+    }
+
+    function chooseMusicSource(element) {
+      return musicSources.find((source) => element.canPlayType(source.type)) || musicSources[1];
+    }
+
+    function ensureMusic() {
+      if (!enabled || !musicSupported) return null;
+      if (!music) {
+        music = new global.Audio();
+        const source = chooseMusicSource(music);
+        music.preload = 'none';
+        music.loop = true;
+        music.playsInline = true;
+        music.volume = 0;
+        music.src = source.src;
+      }
+      return music;
+    }
+
+    function cancelMusicFade() {
+      if (musicFadeFrame) global.cancelAnimationFrame(musicFadeFrame);
+      musicFadeFrame = 0;
+      global.clearTimeout(musicPauseTimer);
+      musicPauseTimer = 0;
+    }
+
+    function fadeMusic(target, duration = 220) {
+      const element = music;
+      if (!element) return;
+      cancelMusicFade();
+      const from = element.volume;
+      const started = performance.now();
+      const step = (now) => {
+        const progress = Math.min(1, Math.max(0, (now - started) / Math.max(1, duration)));
+        element.volume = from + (target - from) * progress;
+        if (progress < 1) musicFadeFrame = global.requestAnimationFrame(step);
+        else musicFadeFrame = 0;
+      };
+      musicFadeFrame = global.requestAnimationFrame(step);
+    }
+
+    function playMusic({ restart = false } = {}) {
+      if (!enabled) return Promise.resolve(false);
+      const element = ensureMusic();
+      if (!element) return Promise.resolve(false);
+      cancelMusicFade();
+      if (restart) {
+        try {
+          element.currentTime = 0;
+        } catch (error) {
+          // Some browsers do not permit seeking before metadata is available.
+        }
+      }
+      element.volume = Math.min(element.volume, 0.03);
+      const playPromise = element.play();
+      if (!playPromise || typeof playPromise.then !== 'function') {
+        fadeMusic(MUSIC_VOLUME, 360);
+        return Promise.resolve(true);
+      }
+      return playPromise.then(() => {
+        fadeMusic(MUSIC_VOLUME, 360);
+        return true;
+      }).catch(() => false);
+    }
+
+    function pauseMusic({ reset = false, fade = true } = {}) {
+      if (!music) return;
+      const element = music;
+      const pauseNow = () => {
+        element.pause();
+        element.volume = 0;
+        if (reset) {
+          try {
+            element.currentTime = 0;
+          } catch (error) {
+            // Ignore seek failures before metadata is available.
+          }
+        }
+      };
+      cancelMusicFade();
+      if (!fade || element.paused) {
+        pauseNow();
+        return;
+      }
+      fadeMusic(0, 180);
+      musicPauseTimer = global.setTimeout(pauseNow, 200);
+    }
+
+    function unlock({ startMusic = false, restartMusic = false } = {}) {
+      if (!enabled) return Promise.resolve(false);
+      // Both resume() and play() are invoked directly from the user gesture.
+      const contextPromise = resumeContext();
+      const musicPromise = startMusic ? playMusic({ restart: restartMusic }) : Promise.resolve(true);
+      return Promise.allSettled([contextPromise, musicPromise]).then(() => true);
+    }
+
+    function tone(frequency, options = {}) {
+      if (!enabled) return;
+      const context = ensureContext();
+      if (!context || !sfxGain || context.state !== 'running') return;
       const start = context.currentTime + Math.max(0, options.delay || 0);
       const duration = Math.max(0.035, options.duration || 0.09);
       const oscillator = context.createOscillator();
@@ -99,56 +225,90 @@
         oscillator.frequency.exponentialRampToValueAtTime(Math.max(40, options.endFrequency), start + duration);
       }
       gain.gain.setValueAtTime(0.0001, start);
-      gain.gain.exponentialRampToValueAtTime(Math.max(0.001, options.gain || 0.11), start + 0.008);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.001, options.gain || 0.11), start + 0.007);
       gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
       oscillator.connect(gain);
-      gain.connect(masterGain);
+      gain.connect(sfxGain);
       oscillator.start(start);
       oscillator.stop(start + duration + 0.02);
+    }
+
+    function noiseBurst(options = {}) {
+      if (!enabled) return;
+      const context = ensureContext();
+      if (!context || !sfxGain || context.state !== 'running') return;
+      const buffer = ensureNoiseBuffer(context);
+      if (!buffer) return;
+      const start = context.currentTime + Math.max(0, options.delay || 0);
+      const duration = Math.max(0.025, options.duration || 0.065);
+      const source = context.createBufferSource();
+      const filter = context.createBiquadFilter();
+      const gain = context.createGain();
+      source.buffer = buffer;
+      filter.type = options.filterType || 'bandpass';
+      filter.frequency.value = options.frequency || 1250;
+      filter.Q.value = options.q || 0.8;
+      gain.gain.setValueAtTime(Math.max(0.001, options.gain || 0.045), start);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(sfxGain);
+      source.start(start);
+      source.stop(start + duration);
     }
 
     function hit(laneIndex, judgementType) {
       if (!enabled) return;
       const base = laneFrequencies[laneIndex] || 294;
+      noiseBurst({ frequency: 900 + laneIndex * 230, gain: judgementType === 'perfect' ? 0.055 : 0.038 });
       if (judgementType === 'perfect') {
-        tone(base, { duration: 0.085, gain: 0.12, type: 'triangle', endFrequency: base * 1.06 });
-        tone(base * 2, { delay: 0.012, duration: 0.07, gain: 0.055, type: 'sine' });
+        tone(base, { duration: 0.085, gain: 0.13, type: 'triangle', endFrequency: base * 1.08 });
+        tone(base * 2, { delay: 0.012, duration: 0.075, gain: 0.06, type: 'sine' });
       } else {
-        tone(base * 0.92, { duration: 0.075, gain: 0.085, type: 'triangle', endFrequency: base });
+        tone(base * 0.92, { duration: 0.078, gain: 0.095, type: 'triangle', endFrequency: base });
       }
     }
 
     function comboMilestone(comboCount) {
       if (!enabled) return;
-      const strong = comboCount % 20 === 0;
-      const base = strong ? 330 : 294;
-      const steps = strong ? [1, 1.25, 1.5, 2] : [1, 1.25, 1.5];
-      steps.forEach((ratio, index) => {
+      const base = 277 + Math.min(110, comboCount * 2.4);
+      [1, 1.25, 1.5].forEach((ratio, index) => {
         tone(base * ratio, {
           delay: index * 0.055,
-          duration: strong ? 0.14 : 0.1,
-          gain: strong ? 0.1 : 0.075,
+          duration: 0.105,
+          gain: 0.082,
           type: index % 2 === 0 ? 'triangle' : 'sine'
         });
       });
     }
 
+    function blast() {
+      if (!enabled) return;
+      noiseBurst({ frequency: 420, gain: 0.13, duration: 0.16, filterType: 'lowpass' });
+      tone(92, { duration: 0.24, gain: 0.16, type: 'sine', endFrequency: 48 });
+      [330, 440, 554, 660].forEach((frequency, index) => {
+        tone(frequency, { delay: 0.035 + index * 0.05, duration: 0.16, gain: 0.08, type: 'triangle' });
+      });
+    }
+
     function finish(isRecord) {
       if (!enabled) return;
+      pauseMusic({ reset: true, fade: true });
       const notes = isRecord ? [294, 392, 494, 588] : [392, 330, 294, 247];
       notes.forEach((frequency, index) => {
         tone(frequency, {
-          delay: index * 0.12,
-          duration: 0.18,
-          gain: index === notes.length - 1 ? 0.12 : 0.085,
+          delay: 0.16 + index * 0.12,
+          duration: 0.19,
+          gain: index === notes.length - 1 ? 0.13 : 0.09,
           type: index % 2 === 0 ? 'triangle' : 'sine'
         });
       });
     }
 
     function preview() {
-      tone(392, { duration: 0.07, gain: 0.075, type: 'triangle' });
-      tone(494, { delay: 0.06, duration: 0.09, gain: 0.075, type: 'sine' });
+      void unlock({ startMusic: false });
+      tone(392, { delay: 0.025, duration: 0.07, gain: 0.08, type: 'triangle' });
+      tone(494, { delay: 0.085, duration: 0.09, gain: 0.08, type: 'sine' });
     }
 
     return {
@@ -156,26 +316,54 @@
       isEnabled() {
         return enabled;
       },
-      setEnabled(nextEnabled) {
+      setEnabled(nextEnabled, shouldPlayMusic = false) {
         enabled = Boolean(nextEnabled && supported);
-        if (enabled) ensureContext();
-        if (audioContext && masterGain) {
-          const now = audioContext.currentTime;
-          masterGain.gain.cancelScheduledValues(now);
-          masterGain.gain.setTargetAtTime(enabled ? 0.24 : 0.0001, now, 0.012);
+        if (!enabled) {
+          pauseMusic({ reset: false, fade: true });
+          if (audioContext && sfxGain) {
+            const now = audioContext.currentTime;
+            sfxGain.gain.cancelScheduledValues(now);
+            sfxGain.gain.setTargetAtTime(0.0001, now, 0.012);
+          }
+          return;
         }
+        const context = ensureContext();
+        if (context && sfxGain) {
+          const now = context.currentTime;
+          sfxGain.gain.cancelScheduledValues(now);
+          sfxGain.gain.setTargetAtTime(SFX_VOLUME, now, 0.012);
+        }
+        void unlock({ startMusic: shouldPlayMusic, restartMusic: false });
       },
-      unlock() {
-        ensureContext();
+      startRound() {
+        return unlock({ startMusic: true, restartMusic: true });
+      },
+      pause() {
+        pauseMusic({ reset: false, fade: false });
+        if (audioContext && audioContext.state === 'running') audioContext.suspend().catch(() => {});
+      },
+      resume(shouldPlayMusic = false) {
+        if (!enabled) return;
+        void resumeContext();
+        if (shouldPlayMusic) void playMusic({ restart: false });
       },
       hit,
       comboMilestone,
+      blast,
       finish,
       preview,
       destroy() {
+        pauseMusic({ reset: true, fade: false });
+        cancelMusicFade();
+        if (music) {
+          music.removeAttribute('src');
+          music.load();
+        }
+        music = null;
         if (audioContext && audioContext.state !== 'closed') audioContext.close().catch(() => {});
         audioContext = null;
-        masterGain = null;
+        sfxGain = null;
+        noiseBuffer = null;
       }
     };
   }
@@ -227,17 +415,17 @@
 
     function updateSoundButton() {
       const enabled = soundEngine.isEnabled();
-      soundButton.textContent = soundEngine.supported ? (enabled ? 'Sound on' : 'Sound off') : 'No sound';
+      soundButton.textContent = soundEngine.supported ? (enabled ? 'Audio on' : 'Audio off') : 'No audio';
       soundButton.setAttribute('aria-pressed', String(enabled));
       soundButton.setAttribute('aria-label', soundEngine.supported
-        ? `Turn Tikus Beat sound ${enabled ? 'off' : 'on'}`
-        : 'Tikus Beat sound is unavailable in this browser');
+        ? `Turn Tikus Beat music and sound effects ${enabled ? 'off' : 'on'}`
+        : 'Tikus Beat audio is unavailable in this browser');
       soundButton.disabled = !soundEngine.supported;
     }
 
     soundButton.addEventListener('click', () => {
       const enabled = !soundEngine.isEnabled();
-      soundEngine.setEnabled(enabled);
+      soundEngine.setEnabled(enabled, running && !isPaused);
       writeSoundPreference(enabled);
       updateSoundButton();
       if (enabled) soundEngine.preview();
@@ -317,7 +505,7 @@
     introCard.append(
       create('p', 'beat__card-kicker', 'FOLLOW THE FALLING OBJECTS'),
       create('p', 'beat__description', 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.'),
-      create('p', 'beat__sound-note', soundEngine.supported ? 'Hit, combo and final-score sounds begin only after you press Start. Use the Sound control at any time.' : 'This browser does not provide the Web Audio features used by the optional sound effects.')
+      create('p', 'beat__sound-note', soundEngine.supported ? 'A lightweight music loop plus hit, combo and final-score sounds begin only after you press Start. Use the Audio control at any time.' : 'This browser does not provide the audio features used by Tikus Beat.')
     );
     const keyGuide = create('div', 'beat__key-guide');
     WEAPONS.forEach((weapon, index) => {
@@ -469,6 +657,7 @@
       effects.append(shockwave);
       window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 680);
       showCallout('20 HIT BLAST', 'beat__callout--blast');
+      soundEngine.blast();
       announcer.textContent = 'Twenty hit streak. Every visible object cleared.';
     }
 
@@ -518,7 +707,7 @@
       soundEngine.hit(laneIndex, type);
       setJudgement(type === 'perfect' ? 'PERFECT' : 'GOOD', type);
       announcer.textContent = `${type}. Combo ${combo}. Score ${score}.`;
-      if (combo > 0 && combo % 5 === 0) soundEngine.comboMilestone(combo);
+      if (combo > 0 && combo % 5 === 0 && combo % 20 !== 0) soundEngine.comboMilestone(combo);
       if (combo > 0 && combo % 10 === 0) {
         showCallout(`${combo} COMBO`, 'beat__callout--combo');
         if (!reducedMotion) {
@@ -625,6 +814,7 @@
       hiddenAt = performance.now();
       window.clearTimeout(spawnTimer);
       window.clearInterval(clockTimer);
+      soundEngine.pause();
       notes.forEach((note) => {
         note.animation?.pause();
         window.clearTimeout(note.missTimer);
@@ -634,6 +824,7 @@
     function resumeFromHidden() {
       if (!running || !isPaused) return;
       isPaused = false;
+      soundEngine.resume(true);
       const hiddenDuration = Math.max(0, performance.now() - hiddenAt);
       startTime += hiddenDuration;
       notes.forEach((note) => {
@@ -695,7 +886,7 @@
     }
 
     function startGame() {
-      soundEngine.unlock();
+      void soundEngine.startRound();
       score = 0;
       combo = 0;
       maxCombo = 0;

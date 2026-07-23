@@ -126,6 +126,10 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Reduced the backdrop to two low-overhead transform/opacity layers plus static print texture.
 - Added a lightweight beat-reactive radial pulse behind the lanes.
 - Added procedural Web Audio cues for Good and Perfect hits, five-hit combo milestones, 20-hit blasts and end-game results.
-- Added a persistent accessible Sound on/off control stored under `tikus-beat-sound-v1`.
-- Audio is created only after a user gesture and no audio file is preloaded or autoplayed.
+- Replaced the fragile sound-only implementation with one unified audio engine for procedural effects and background music.
+- Added an original 24-second mono loop in Opus with an MP3 fallback; total fallback assets are approximately 322 KB.
+- The loop uses `preload="none"` and is requested only when Start is pressed.
+- Added a persistent accessible Audio on/off control stored under `tikus-beat-sound-v1`.
+- Start, Audio toggle, tab pause/resume, round finish and dialog destruction all manage the music and Web Audio context together.
+- Good/Perfect hits, five-hit combos, 20-hit blasts and end-game results have distinct procedural cues.
 
