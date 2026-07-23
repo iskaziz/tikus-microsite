@@ -122,3 +122,14 @@ Confirmed:
 - Slider shuffle uses legal moves and is always solvable.
 - Pointer, keyboard-arrow, preview, reset, completion, visibility pause and focus-return behaviour were checked.
 - Puzzle artwork retains its 4:3 aspect ratio and is not cropped.
+
+## Mobile puzzle scroll-lock validation
+
+- Confirmed `.slider-game__stage-wrap`, `.slider-game__board` and `.slider-game__tile` use `touch-action: none`.
+- Confirmed the board uses `overscroll-behavior: none` and blocks text selection/touch callouts.
+- Confirmed the JavaScript fallback listener is non-passive and removed during game teardown.
+- JavaScript syntax passed for every project script.
+- CSS parsing passed for every stylesheet.
+- Local static asset references passed.
+- A live Chromium mobile navigation test was attempted but loopback navigation is blocked by the execution environment administrator; no browser-runtime claim is made from that blocked test.
+

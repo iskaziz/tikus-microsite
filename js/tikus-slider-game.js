@@ -327,6 +327,10 @@
       previewButton.setAttribute('aria-pressed', String(active));
     }
 
+    function preventBoardScroll(event) {
+      if (event.cancelable) event.preventDefault();
+    }
+
     function handleArrowKey(event) {
       const emptyIndex = cells.indexOf(EMPTY);
       const { row, col } = positionFor(emptyIndex);
@@ -372,6 +376,7 @@
     playAgainButton.addEventListener('click', shuffle);
     closeButton.addEventListener('click', onExit);
     board.addEventListener('keydown', handleArrowKey);
+    board.addEventListener('touchmove', preventBoardScroll, { passive: false });
     previewButton.addEventListener('pointerdown', startPreview);
     previewButton.addEventListener('keydown', startPreview);
     ['pointerup', 'pointercancel', 'pointerleave', 'keyup', 'blur'].forEach((type) => {
@@ -390,6 +395,7 @@
         playing = false;
         stopTimer();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
+        board.removeEventListener('touchmove', preventBoardScroll);
         container.replaceChildren();
       }
     };

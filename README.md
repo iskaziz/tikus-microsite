@@ -141,3 +141,8 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 Only the title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house-entry control.
 
 Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives.
+
+## Mobile puzzle interaction
+
+The Tikus Slider board captures touch gestures inside the framed puzzle area. Browser panning, text selection, overscroll chaining and touch callouts are disabled only on the board and its tiles, so the surrounding game controls and page remain normally scrollable. A non-passive `touchmove` fallback is included for older mobile Safari behavior.
+

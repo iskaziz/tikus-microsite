@@ -143,3 +143,11 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added `css/tikus-slider.css`, `js/tikus-slider-game.js` and responsive puzzle artwork under `assets/images/games/tikus-slider/`.
 - Reworked `js/arcade-controller.js` into a direct game dialog controller; no game-selection hub is rendered.
 - Preserved exactly three percentage-positioned hotspot buttons and focus restoration to the selected room hotspot.
+
+## Slider mobile scroll-lock amendment
+
+- Changed the puzzle frame, board and tiles from permissive touch handling to `touch-action: none`.
+- Added `overscroll-behavior: none`, disabled selection and suppressed the iOS touch callout inside the board.
+- Added a scoped non-passive `touchmove` fallback that calls `preventDefault()` only for gestures originating within the puzzle board.
+- Normal page scrolling remains available outside the puzzle frame.
+
