@@ -87,3 +87,8 @@ The audio control persists under `tikus-beat-sound-v1`. Neither file is embedded
 - `assets/images/games/tikus-slider/tikus-puzzle-painting-1536.jpg`
 
 The supplied painting is an opaque 4:3 RGB image. Correctly named JPEG and WebP derivatives are lazy-loaded only when the Tikus Slider hotspot is opened.
+
+## Bilingual interface
+
+The EN/BM feature adds no media assets. Translation strings and accessibility labels are stored in `js/language-controller.js`, and the selected language is saved locally under `tikus-language-v1`.
+

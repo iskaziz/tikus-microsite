@@ -133,3 +133,14 @@ Confirmed:
 - Local static asset references passed.
 - A live Chromium mobile navigation test was attempted but loopback navigation is blocked by the execution environment administrator; no browser-runtime claim is made from that blocked test.
 
+## Bilingual EN/BM validation
+
+- English loads as the default when no preference is stored.
+- The saved `tikus-language-v1` preference is applied before the first paint where available.
+- The EN/BM switch updates `<html lang>`, `aria-checked`, page metadata and visible copy without reloading.
+- Card faces retain their current flipped state when the language changes.
+- House/Sitting Room state and exactly three hotspot buttons are preserved while labels update immediately.
+- Tikus Rush, Tikus Beat and Tikus Slider launch with translated instructions, controls, live feedback and result text.
+- Escape closes each game dialog and restores focus to the originating hotspot in both languages.
+- Tested at 1440×900, 390×844 and 320×700, including reduced-motion mode and page-level horizontal-overflow checks.
+

@@ -26,25 +26,35 @@
     sizes: '(max-width: 48rem) min(44vw, 11rem), 16rem',
     width: 720,
     height: 720,
-    alt: `Illustrated portrait of ${characterName}`
+    alt: `Illustrated portrait of ${characterName}`,
+    altKey: 'cast.characterPortraitAlt',
+    altName: characterName
   });
 
   const scenes = {
     house: {
       id: 'house',
       eyebrow: 'SAMASIHAT WELLNESS RETREAT',
+      eyebrowKey: 'scene.house.eyebrow',
       title: 'The House',
+      titleKey: 'scene.house.title',
       navigationHint: 'Select the house to enter the Sitting Room.',
+      navigationHintKey: 'scene.house.hint',
       alt: 'A wide retro illustration of the isolated Samasihat bungalow at night, surrounded by dark trees and a crimson sky.',
+      altKey: 'scene.house.alt',
       image: imageSet('samasihat-house-exterior'),
       hotspots: []
     },
     'sitting-room': {
       id: 'sitting-room',
       eyebrow: 'INSIDE SAMASIHAT',
+      eyebrowKey: 'scene.sitting.eyebrow',
       title: 'Sitting Room',
+      titleKey: 'scene.sitting.title',
       navigationHint: 'Select a pulsing point to play a game.',
+      navigationHintKey: 'scene.sitting.hint',
       alt: 'A straight-on retro illustration of the Samasihat Sitting Room, with sofas, inherited artwork, a cabinet and warm crimson lighting.',
+      altKey: 'scene.sitting.alt',
       image: imageSet('samasihat-sitting-room'),
       hotspots: [
         {
@@ -54,6 +64,7 @@
           x: 16,
           y: 56,
           label: 'Play Tikus Beat at the family console',
+          labelKey: 'scene.hotspot.beat',
           subject: 'Tikus Beat'
         },
         {
@@ -63,6 +74,7 @@
           x: 59,
           y: 53,
           label: 'Play Tikus Slider at the inherited painting',
+          labelKey: 'scene.hotspot.slider',
           subject: 'Tikus Slider'
         },
         {
@@ -72,6 +84,7 @@
           x: 72,
           y: 68,
           label: 'Play Tikus Rush at the main sofa',
+          labelKey: 'scene.hotspot.rush',
           subject: 'Tikus Rush'
         }
       ]
@@ -87,7 +100,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('mimi', 'Mimi'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'y-mun',
@@ -97,7 +112,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('jay', 'Jay'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'fattah',
@@ -107,7 +124,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('saladin', 'Saladin'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'diana',
@@ -117,7 +136,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('madam-boey', 'Madam Boey'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'harris',
@@ -127,7 +148,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('mejar-mansor', 'Major Mansor'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'marsha',
@@ -137,7 +160,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('alayna', 'Alayna'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'iski',
@@ -147,7 +172,9 @@
       actorPortrait: null,
       characterPortrait: characterPortraitSet('guy', 'Guy'),
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character profile coming soon.',
+      characterDescriptionKey: 'cast.characterDescription'
     },
     {
       id: 'haiccal',
@@ -157,7 +184,9 @@
       actorPortrait: null,
       characterPortrait: null,
       actorDescription: 'Cast portrait and profile coming soon.',
-      characterDescription: 'Character portrait and profile coming soon.'
+      actorDescriptionKey: 'cast.actorDescription',
+      characterDescription: 'Character portrait and profile coming soon.',
+      characterDescriptionKey: 'cast.characterPortraitDescription'
     }
   ];
 
@@ -165,6 +194,7 @@
     site: Object.freeze({
       title: 'TIKUS',
       baseDocumentTitle: 'TIKUS — Official Film Microsite',
+      baseDocumentTitleKey: 'meta.title',
       trailer: Object.freeze({
         youtubeId: '9sgXasrieAE',
         watchUrl: 'https://youtu.be/9sgXasrieAE',

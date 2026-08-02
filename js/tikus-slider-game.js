@@ -6,6 +6,10 @@
   const EMPTY = 8;
   const SOLVED = Object.freeze([0, 1, 2, 3, 4, 5, 6, 7, EMPTY]);
 
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
+  }
+
   function create(tag, className, text) {
     const element = document.createElement(tag);
     if (className) element.className = className;
@@ -31,7 +35,7 @@
 
   function readBest() {
     const best = readBestRecord();
-    return best ? `${best.moves} moves` : '—';
+    return best ? t('slider.bestMoves', { moves: best.moves }, `${best.moves} moves`) : '—';
   }
 
   function writeBest(record) {
@@ -87,15 +91,15 @@
     const header = create('header', 'slider-game__header');
     const heading = create('div', 'slider-game__heading');
     heading.append(
-      create('p', 'slider-game__eyebrow', '3 × 3 PAINTING PUZZLE'),
+      create('p', 'slider-game__eyebrow', t('slider.eyebrow', {}, '3 × 3 PAINTING PUZZLE')),
       create('h2', 'slider-game__title', 'Tikus Slider')
     );
-    const backButton = create('button', 'slider-game__back', '← Sitting Room');
+    const backButton = create('button', 'slider-game__back', t('common.backSitting', {}, '← Sitting Room'));
     backButton.type = 'button';
     backButton.addEventListener('click', onExit);
     header.append(heading, backButton);
 
-    const intro = create('p', 'slider-game__intro', 'Restore the Samasihat painting. Select a tile beside the empty space, or focus the board and use the arrow keys.');
+    const intro = create('p', 'slider-game__intro', t('slider.intro', {}, 'Restore the Samasihat painting. Select a tile beside the empty space, or focus the board and use the arrow keys.'));
 
     const layout = create('div', 'slider-game__layout');
     const stageWrap = create('div', 'slider-game__stage-wrap');
@@ -103,46 +107,46 @@
     board.dataset.sliderBoard = '';
     board.tabIndex = 0;
     board.setAttribute('role', 'group');
-    board.setAttribute('aria-label', 'Three by three sliding picture puzzle');
+    board.setAttribute('aria-label', t('slider.boardAria', {}, 'Three by three sliding picture puzzle'));
     const frameShine = create('div', 'slider-game__frame-shine');
     frameShine.setAttribute('aria-hidden', 'true');
     stageWrap.append(board, frameShine);
 
     const controls = create('aside', 'slider-game__controls');
-    controls.setAttribute('aria-label', 'Puzzle controls');
+    controls.setAttribute('aria-label', t('slider.controlsAria', {}, 'Puzzle controls'));
 
     const stats = create('dl', 'slider-game__stats');
     const movesStat = create('div');
-    const movesTerm = create('dt', '', 'Moves');
+    const movesTerm = create('dt', '', t('slider.moves', {}, 'Moves'));
     const movesValue = create('dd', '', '0');
     movesStat.append(movesTerm, movesValue);
     const timeStat = create('div');
-    const timeTerm = create('dt', '', 'Time');
+    const timeTerm = create('dt', '', t('common.time', {}, 'Time'));
     const timeValue = create('dd', '', '00:00');
     timeStat.append(timeTerm, timeValue);
     const bestStat = create('div', 'slider-game__best-stat');
-    const bestTerm = create('dt', '', 'Best');
+    const bestTerm = create('dt', '', t('common.best', {}, 'Best'));
     const bestValue = create('dd', '', readBest());
     bestStat.append(bestTerm, bestValue);
     stats.append(movesStat, timeStat, bestStat);
 
     const actions = create('div', 'slider-game__actions');
-    const shuffleButton = create('button', 'slider-game__button slider-game__button--primary', 'Shuffle & Start');
+    const shuffleButton = create('button', 'slider-game__button slider-game__button--primary', t('slider.shuffle', {}, 'Shuffle & Start'));
     shuffleButton.type = 'button';
-    const previewButton = create('button', 'slider-game__button', 'Hold to Preview');
+    const previewButton = create('button', 'slider-game__button', t('slider.preview', {}, 'Hold to Preview'));
     previewButton.type = 'button';
     previewButton.setAttribute('aria-pressed', 'false');
-    const resetButton = create('button', 'slider-game__button', 'Reset');
+    const resetButton = create('button', 'slider-game__button', t('slider.reset', {}, 'Reset'));
     resetButton.type = 'button';
     actions.append(shuffleButton, previewButton, resetButton);
 
-    const status = create('p', 'slider-game__status', 'The painting is ready. Shuffle to begin.');
+    const status = create('p', 'slider-game__status', t('slider.ready', {}, 'The painting is ready. Shuffle to begin.'));
     status.setAttribute('aria-live', 'polite');
     status.setAttribute('aria-atomic', 'true');
 
     const help = create('details', 'slider-game__help');
-    const helpSummary = create('summary', '', 'How to play');
-    const helpText = create('p', '', 'Move a tile into the empty square until the full painting is restored. Arrow keys move the adjacent tile toward the empty square while the board is focused.');
+    const helpSummary = create('summary', '', t('slider.howTo', {}, 'How to play'));
+    const helpText = create('p', '', t('slider.help', {}, 'Move a tile into the empty square until the full painting is restored. Arrow keys move the adjacent tile toward the empty square while the board is focused.'));
     help.append(helpSummary, helpText);
     controls.append(stats, actions, status, help);
     layout.append(stageWrap, controls);
@@ -155,14 +159,14 @@
     const completionCard = create('div', 'slider-game__completion-card');
     const completionArt = create('div', 'slider-game__completion-art');
     completionArt.setAttribute('aria-hidden', 'true');
-    const completionKicker = create('p', 'slider-game__eyebrow', 'PAINTING RESTORED');
-    const completionTitle = create('h3', 'slider-game__completion-title', 'Puzzle Complete');
+    const completionKicker = create('p', 'slider-game__eyebrow', t('slider.restored', {}, 'PAINTING RESTORED'));
+    const completionTitle = create('h3', 'slider-game__completion-title', t('slider.complete', {}, 'Puzzle Complete'));
     completionTitle.id = 'slider-complete-title';
-    const completionResult = create('p', 'slider-game__completion-result', 'You solved it.');
+    const completionResult = create('p', 'slider-game__completion-result', t('slider.solved', {}, 'You solved it.'));
     const completionActions = create('div', 'slider-game__completion-actions');
-    const playAgainButton = create('button', 'slider-game__button slider-game__button--primary', 'Play Again');
+    const playAgainButton = create('button', 'slider-game__button slider-game__button--primary', t('slider.playAgain', {}, 'Play Again'));
     playAgainButton.type = 'button';
-    const closeButton = create('button', 'slider-game__button', 'Return to Sitting Room');
+    const closeButton = create('button', 'slider-game__button', t('common.returnSitting', {}, 'Return to Sitting Room'));
     closeButton.type = 'button';
     completionActions.append(playAgainButton, closeButton);
     completionCard.append(completionArt, completionKicker, completionTitle, completionResult, completionActions);
@@ -198,7 +202,7 @@
         tile.type = 'button';
         tile.dataset.tile = String(id);
         tile.style.backgroundPosition = backgroundFor(id);
-        tile.setAttribute('aria-label', `Painting tile ${id + 1}`);
+        tile.setAttribute('aria-label', t('slider.tileAria', { number: id + 1 }, `Painting tile ${id + 1}`));
         tile.addEventListener('pointerdown', (event) => {
           if (event.pointerType) {
             event.preventDefault();
@@ -246,7 +250,7 @@
       if (!silent) {
         if (!playing) {
           playing = true;
-          status.textContent = 'Puzzle in progress.';
+          status.textContent = t('slider.inProgress', {}, 'Puzzle in progress.');
           startTimer();
         }
         moves += 1;
@@ -285,7 +289,7 @@
       playing = true;
       pausedByVisibility = false;
       shuffledBoard();
-      status.textContent = 'Puzzle shuffled. Restore the painting.';
+      status.textContent = t('slider.shuffled', {}, 'Puzzle shuffled. Restore the painting.');
       render();
       startTimer();
       board.focus({ preventScroll: true });
@@ -299,7 +303,7 @@
       elapsed = 0;
       playing = false;
       pausedByVisibility = false;
-      status.textContent = 'The painting has been reset. Shuffle to begin.';
+      status.textContent = t('slider.resetStatus', {}, 'The painting has been reset. Shuffle to begin.');
       render();
       shuffleButton.focus({ preventScroll: true });
     }
@@ -309,8 +313,8 @@
       playing = false;
       const isBest = writeBest({ moves, time: elapsed });
       bestValue.textContent = readBest();
-      status.textContent = `Painting restored in ${moves} moves and ${formatTime(elapsed)}.`;
-      completionResult.textContent = `You restored the painting in ${moves} moves and ${formatTime(elapsed)}.${isBest ? ' New best result.' : ''}`;
+      status.textContent = t('slider.result', { moves, time: formatTime(elapsed) }, `Painting restored in ${moves} moves and ${formatTime(elapsed)}.`);
+      completionResult.textContent = t('slider.resultAnnounce', { moves, time: formatTime(elapsed), record: isBest ? t('slider.newBestSuffix', {}, ' New best result.') : '' }, `You restored the painting in ${moves} moves and ${formatTime(elapsed)}.${isBest ? ' New best result.' : ''}`);
       layout.setAttribute('inert', '');
       header.setAttribute('inert', '');
       intro.setAttribute('inert', '');
@@ -350,13 +354,13 @@
         if (playing && timerId) {
           pausedByVisibility = true;
           stopTimer();
-          status.textContent = 'Puzzle paused while this tab is hidden.';
+          status.textContent = t('slider.paused', {}, 'Puzzle paused while this tab is hidden.');
         }
         return;
       }
       if (pausedByVisibility && playing) {
         pausedByVisibility = false;
-        status.textContent = 'Puzzle resumed.';
+        status.textContent = t('slider.resumed', {}, 'Puzzle resumed.');
         startTimer();
       }
     }
@@ -405,10 +409,15 @@
   global.TikusGames.slider = Object.freeze({
     id: 'slider',
     title: 'Tikus Slider',
+    titleKey: 'game.slider.title',
     eyebrow: '3 × 3 PAINTING PUZZLE',
+    eyebrowKey: 'slider.eyebrow',
     description: 'Restore the Samasihat painting by sliding eight tiles into place.',
+    descriptionKey: 'slider.registryDescription',
     duration: 'Untimed',
+    durationKey: 'slider.duration',
     controls: 'Tap adjacent tiles or use arrow keys',
+    controlsKey: 'slider.controls',
     accent: 'puzzle',
     readBest,
     mount

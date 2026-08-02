@@ -8,6 +8,10 @@
   const GOLD_CHANCE = 0.16;
   const MAX_ACTIVE_MICE = 5;
 
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
+  }
+
   function create(tag, className, text) {
     const element = document.createElement(tag);
     if (className) element.className = className;
@@ -83,35 +87,35 @@
     const header = create('header', 'rush__header');
     const heading = create('div', 'rush__heading');
     heading.append(
-      create('p', 'rush__eyebrow', '30-SECOND CHALLENGE'),
+      create('p', 'rush__eyebrow', t('rush.challenge', {}, '30-SECOND CHALLENGE')),
       create('h2', 'rush__title', 'Tikus Rush')
     );
-    const backButton = create('button', 'rush__back', '← Sitting Room');
+    const backButton = create('button', 'rush__back', t('common.backSitting', {}, '← Sitting Room'));
     backButton.type = 'button';
     backButton.addEventListener('click', onExit);
     header.append(heading, backButton);
 
     const hud = create('div', 'rush__hud');
     const scorePanel = create('div', 'rush__hud-item');
-    const scoreLabel = create('span', 'rush__hud-label', 'Score');
+    const scoreLabel = create('span', 'rush__hud-label', t('common.score', {}, 'Score'));
     const scoreValue = create('strong', 'rush__hud-value', '0');
     scorePanel.append(scoreLabel, scoreValue);
     const timePanel = create('div', 'rush__hud-item rush__hud-item--time');
-    const timeLabel = create('span', 'rush__hud-label', 'Time');
+    const timeLabel = create('span', 'rush__hud-label', t('common.time', {}, 'Time'));
     const timeValue = create('strong', 'rush__hud-value', String(DURATION_SECONDS));
     timePanel.append(timeLabel, timeValue);
     const comboPanel = create('div', 'rush__hud-item rush__hud-item--combo');
-    const comboLabel = create('span', 'rush__hud-label', 'Streak');
+    const comboLabel = create('span', 'rush__hud-label', t('rush.streak', {}, 'Streak'));
     const comboValue = create('strong', 'rush__hud-value', '0');
     comboPanel.append(comboLabel, comboValue);
     const bestPanel = create('div', 'rush__hud-item');
-    const bestLabel = create('span', 'rush__hud-label', 'Best');
+    const bestLabel = create('span', 'rush__hud-label', t('common.best', {}, 'Best'));
     const bestValue = create('strong', 'rush__hud-value', String(best));
     bestPanel.append(bestLabel, bestValue);
     hud.append(scorePanel, timePanel, comboPanel, bestPanel);
 
     const arena = create('div', 'rush__arena');
-    arena.setAttribute('aria-label', 'Mouse-catching arena');
+    arena.setAttribute('aria-label', t('rush.arena', {}, 'Mouse-catching arena'));
     arena.tabIndex = -1;
     const rings = create('div', 'rush__rings');
     rings.setAttribute('aria-hidden', 'true');
@@ -131,16 +135,16 @@
     const intro = create('div', 'rush__overlay');
     const introCard = create('div', 'rush__card');
     introCard.append(
-      create('p', 'rush__card-kicker', 'THE HOUSE IS CRAWLING'),
-      create('p', 'rush__description', 'Catch as many mice as possible before time runs out. They dart in unpredictable directions, but the pace stays playful and forgiving.')
+      create('p', 'rush__card-kicker', t('rush.kicker', {}, 'THE HOUSE IS CRAWLING')),
+      create('p', 'rush__description', t('rush.description', {}, 'Catch as many mice as possible before time runs out. They dart in unpredictable directions, but the pace stays playful and forgiving.'))
     );
     const rules = create('div', 'rush__rules');
     const greyRule = create('div', 'rush__rule');
-    greyRule.innerHTML = `${mouseSvg('grey')}<span>Grey mouse <strong>+${GREY_POINTS}</strong></span>`;
+    greyRule.innerHTML = `${mouseSvg('grey')}<span>${t('rush.greyMouse', {}, 'Grey mouse')} <strong>+${GREY_POINTS}</strong></span>`;
     const goldRule = create('div', 'rush__rule rush__rule--gold');
-    goldRule.innerHTML = `${mouseSvg('gold')}<span>Gold mouse <strong>+${GOLD_POINTS}</strong></span>`;
+    goldRule.innerHTML = `${mouseSvg('gold')}<span>${t('rush.goldMouse', {}, 'Gold mouse')} <strong>+${GOLD_POINTS}</strong></span>`;
     rules.append(greyRule, goldRule);
-    const startButton = create('button', 'rush__primary', 'Start the rush');
+    const startButton = create('button', 'rush__primary', t('rush.start', {}, 'Start the rush'));
     startButton.type = 'button';
     introCard.append(rules, startButton);
     intro.append(introCard);
@@ -148,16 +152,16 @@
     const result = create('div', 'rush__overlay rush__overlay--result');
     result.hidden = true;
     const resultCard = create('div', 'rush__card rush__card--result');
-    const resultKicker = create('p', 'rush__card-kicker', 'TIME IS UP');
-    const resultTitle = create('h3', 'rush__result-title', 'The mice escaped.');
+    const resultKicker = create('p', 'rush__card-kicker', t('rush.timeUp', {}, 'TIME IS UP'));
+    const resultTitle = create('h3', 'rush__result-title', t('rush.escaped', {}, 'The mice escaped.'));
     const finalScore = create('p', 'rush__final-score', '0');
     const breakdown = create('p', 'rush__breakdown');
     const bestMessage = create('p', 'rush__best-message');
     bestMessage.setAttribute('aria-live', 'polite');
     const resultActions = create('div', 'rush__actions');
-    const replayButton = create('button', 'rush__primary', 'Play again');
+    const replayButton = create('button', 'rush__primary', t('common.playAgain', {}, 'Play again'));
     replayButton.type = 'button';
-    const gamesButton = create('button', 'rush__secondary', 'Return to Sitting Room');
+    const gamesButton = create('button', 'rush__secondary', t('common.returnSitting', {}, 'Return to Sitting Room'));
     gamesButton.type = 'button';
     gamesButton.addEventListener('click', onExit);
     resultActions.append(replayButton, gamesButton);
@@ -233,11 +237,11 @@
         caughtGrey += 1;
       }
       createBurst(x, y, record.type, points);
-      announcer.textContent = `${record.type === 'gold' ? 'Gold' : 'Grey'} mouse caught. ${points} points. Score ${score}.`;
+      announcer.textContent = t('rush.caught', { type: record.type === 'gold' ? t('rush.goldMouse', {}, 'Gold mouse') : t('rush.greyMouse', {}, 'Grey mouse'), points, score }, `${record.type === 'gold' ? 'Gold' : 'Grey'} mouse caught. ${points} points. Score ${score}.`);
       removeMouse(id);
       updateHud();
       if (combo > 0 && combo % 8 === 0) {
-        const callout = create('span', 'rush__callout', `${combo} STREAK`);
+        const callout = create('span', 'rush__callout', t('rush.streakCallout', { count: combo }, `${combo} STREAK`));
         effectsLayer.append(callout);
         window.setTimeout(() => callout.remove(), 900);
       }
@@ -363,7 +367,7 @@
       const button = create('button', `rush__mouse rush__mouse--${type}`);
       button.type = 'button';
       button.innerHTML = mouseSvg(type);
-      button.setAttribute('aria-label', `${type === 'gold' ? 'Gold' : 'Grey'} mouse, worth ${type === 'gold' ? GOLD_POINTS : GREY_POINTS} points`);
+      button.setAttribute('aria-label', t('rush.mouseAria', { type: type === 'gold' ? t('rush.goldMouse', {}, 'Gold mouse') : t('rush.greyMouse', {}, 'Grey mouse'), points: type === 'gold' ? GOLD_POINTS : GREY_POINTS }, `${type === 'gold' ? 'Gold' : 'Grey'} mouse, worth ${type === 'gold' ? GOLD_POINTS : GREY_POINTS} points`));
       const id = ++mouseId;
       const scale = randomBetween(0.78, 1.12);
       let travel = reducedMotion ? 4800 : 5600;
@@ -471,8 +475,8 @@
         writeBest(best);
       }
       finalScore.textContent = String(score);
-      breakdown.textContent = `${caughtGrey} grey · ${caughtGold} gold · best streak ${maxCombo}`;
-      bestMessage.textContent = score > previousBest ? 'New house record.' : `Best score: ${best}`;
+      breakdown.textContent = t('rush.breakdown', { grey: caughtGrey, gold: caughtGold, streak: maxCombo }, `${caughtGrey} grey · ${caughtGold} gold · best streak ${maxCombo}`);
+      bestMessage.textContent = score > previousBest ? t('rush.newRecord', {}, 'New house record.') : t('common.bestScore', { score: best }, `Best score: ${best}`);
       result.hidden = false;
       intro.hidden = true;
       root.classList.add('is-finished');
@@ -526,10 +530,15 @@
   global.TikusGames.rush = Object.freeze({
     id: 'rush',
     title: 'Tikus Rush',
+    titleKey: 'game.rush.title',
     eyebrow: '30-SECOND ARCADE',
+    eyebrowKey: 'rush.arcadeEyebrow',
     description: 'Catch grey and gold mice as they dart along unpredictable paths at a playful pace.',
+    descriptionKey: 'rush.registryDescription',
     duration: '30 sec',
+    durationKey: 'rush.duration',
     controls: 'Tap, click or keyboard',
+    controlsKey: 'rush.controls',
     accent: 'mouse',
     readBest,
     mount

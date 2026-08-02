@@ -3,10 +3,15 @@
 
   document.documentElement.classList.add('js');
 
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
+  }
+
+
   function createPortraitPlaceholder(label, variant) {
     const portrait = document.createElement('span');
     portrait.className = `cast-card__portrait cast-card__portrait--${variant}`;
-    portrait.setAttribute('aria-label', `${label} portrait placeholder`);
+    portrait.setAttribute('aria-label', t('cast.portraitPlaceholder', { name: label }, `${label} portrait placeholder`));
 
     const artwork = document.createElement('span');
     artwork.className = 'cast-card__portrait-art';
@@ -14,7 +19,7 @@
 
     const note = document.createElement('span');
     note.className = 'cast-card__portrait-note';
-    note.textContent = 'Portrait coming soon';
+    note.textContent = t('cast.portraitComing', {}, 'Portrait coming soon');
 
     portrait.append(artwork, note);
     return portrait;
@@ -56,7 +61,7 @@
       image.srcset = portrait.fallbackSrcset;
       image.sizes = portrait.sizes || '16rem';
     }
-    image.alt = portrait.alt || '';
+    image.alt = portrait.altKey ? t(portrait.altKey, { name: portrait.altName || '' }, portrait.alt || '') : (portrait.alt || '');
     image.loading = 'lazy';
     image.decoding = 'async';
     image.width = portrait.width || 720;
@@ -101,7 +106,7 @@
 
     const flipHint = document.createElement('span');
     flipHint.className = 'cast-card__flip-hint';
-    flipHint.textContent = side === 'front' ? 'Return to character' : 'Reveal cast';
+    flipHint.textContent = side === 'front' ? t('cast.returnCharacter', {}, 'Return to character') : t('cast.revealCast', {}, 'Reveal cast');
 
     face.append(cornerTop, cornerBottom, media);
     if (label) {
@@ -118,14 +123,19 @@
       return;
     }
 
+    const existingStates = new Map(Array.from(container.querySelectorAll('[data-cast-card]')).map((card) => [
+      card.dataset.castCard,
+      card.classList.contains('is-flipped')
+    ]));
+
     const groups = [
-      { id: 'hosts', label: 'Hosts', memberGroups: ['hosts'] },
-      { id: 'guests', label: 'Guests & The Inspector', memberGroups: ['guests', 'inspector'] }
+      { id: 'hosts', label: t('cast.hosts', {}, 'Hosts'), memberGroups: ['hosts'] },
+      { id: 'guests', label: t('cast.guestsInspector', {}, 'Guests & The Inspector'), memberGroups: ['guests', 'inspector'] }
     ];
     const categoryLabels = {
-      hosts: 'Host',
-      guests: 'Guest',
-      inspector: 'Inspector'
+      hosts: t('cast.host', {}, 'Host'),
+      guests: t('cast.guest', {}, 'Guest'),
+      inspector: t('cast.inspector', {}, 'Inspector')
     };
     const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9];
     const fragment = document.createDocumentFragment();
@@ -154,12 +164,15 @@
         const index = cardIndex;
         cardIndex += 1;
 
+        const initialFlipped = existingStates.has(member.id) ? existingStates.get(member.id) : true;
         const card = document.createElement('button');
-        card.className = 'cast-card is-flipped';
+        card.className = `cast-card${initialFlipped ? ' is-flipped' : ''}`;
         card.type = 'button';
         card.dataset.castCard = member.id;
-        card.setAttribute('aria-pressed', 'true');
-        card.setAttribute('aria-label', `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`);
+        card.setAttribute('aria-pressed', String(initialFlipped));
+        card.setAttribute('aria-label', initialFlipped
+          ? t('cast.characterAria', { character: member.characterName, actor: member.actorName }, `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`)
+          : t('cast.actorAria', { actor: member.actorName, character: member.characterName }, `${member.actorName} plays ${member.characterName}. Flip to return to the character.`));
         card.style.setProperty('--card-tilt', `${tilts[index % tilts.length]}deg`);
 
         const inner = document.createElement('span');
@@ -169,7 +182,7 @@
           side: 'front',
           eyebrow: '',
           name: member.actorName,
-          description: member.actorDescription,
+          description: member.actorDescriptionKey ? t(member.actorDescriptionKey, {}, member.actorDescription) : member.actorDescription,
           portrait: member.actorPortrait,
           index
         });
@@ -178,13 +191,13 @@
           side: 'back',
           eyebrow: categoryLabels[member.group] || 'Character',
           name: member.characterName,
-          description: member.characterDescription,
+          description: member.characterDescriptionKey ? t(member.characterDescriptionKey, {}, member.characterDescription) : member.characterDescription,
           portrait: member.characterPortrait,
           index
         });
 
-        front.setAttribute('aria-hidden', 'true');
-        back.setAttribute('aria-hidden', 'false');
+        front.setAttribute('aria-hidden', String(initialFlipped));
+        back.setAttribute('aria-hidden', String(!initialFlipped));
 
         inner.append(front, back);
         card.append(inner);
@@ -197,14 +210,14 @@
           card.setAttribute(
             'aria-label',
             isFlipped
-              ? `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`
-              : `${member.actorName} plays ${member.characterName}. Flip to return to the character.`
+              ? t('cast.characterAria', { character: member.characterName, actor: member.actorName }, `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`)
+              : t('cast.actorAria', { actor: member.actorName, character: member.characterName }, `${member.actorName} plays ${member.characterName}. Flip to return to the character.`)
           );
 
           if (status) {
             status.textContent = isFlipped
-              ? `Showing the character profile for ${member.characterName}, played by ${member.actorName}.`
-              : `Showing the cast profile for ${member.actorName}, who plays ${member.characterName}.`;
+              ? t('cast.characterStatus', { character: member.characterName, actor: member.actorName }, `Showing the character profile for ${member.characterName}, played by ${member.actorName}.`)
+              : t('cast.actorStatus', { actor: member.actorName, character: member.characterName }, `Showing the cast profile for ${member.actorName}, who plays ${member.characterName}.`);
           }
         });
 
@@ -232,6 +245,7 @@
       }
 
       initCastCards(global.TIKUS_CONTENT.cast);
+      global.TikusI18n?.subscribe(() => initCastCards(global.TIKUS_CONTENT.cast));
 
       const hotspotDialog = document.getElementById('hotspot-dialog');
       const trailerDialog = document.getElementById('trailer-dialog');
@@ -253,7 +267,7 @@
     } catch (error) {
       console.error(error);
       if (status) {
-        status.textContent = 'The house explorer could not be initialised. Please reload the page.';
+        status.textContent = t('app.explorerError', {}, 'The house explorer could not be initialised. Please reload the page.');
         status.classList.remove('visually-hidden');
       }
     }

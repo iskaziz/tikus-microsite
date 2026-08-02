@@ -1,286 +1,200 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#870b17">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Enter Samasihat Wellness Retreat in the official interactive microsite for TIKUS, a Feisk Productions film.">
-
-  <title>TIKUS — Official Film Microsite</title>
-
-  <link
-    rel="preload"
-    as="image"
-    href="assets/images/title/tikus-title-1200.webp"
-    imagesrcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w"
-    imagesizes="min(82vw, 74rem)"
-    type="image/webp">
-  <link
-    rel="preload"
-    as="image"
-    href="assets/images/scenes/samasihat-house-exterior-1600.avif"
-    imagesrcset="assets/images/scenes/samasihat-house-exterior-960.avif 960w, assets/images/scenes/samasihat-house-exterior-1600.avif 1600w"
-    imagesizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)"
-    type="image/avif">
-
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/arcade.css">
-  <link rel="stylesheet" href="css/tikus-rush.css">
-  <link rel="stylesheet" href="css/tikus-beat.css">
-  <link rel="stylesheet" href="css/tikus-slider.css">
-
-  <script defer src="js/content-data.js"></script>
-  <script defer src="js/modal-controller.js"></script>
-  <script defer src="js/scene-controller.js"></script>
-  <script defer src="js/app.js"></script>
-  <script defer src="js/tikus-rush-game.js"></script>
-  <script defer src="js/tikus-beat-game.js"></script>
-  <script defer src="js/tikus-slider-game.js"></script>
-  <script defer src="js/arcade-controller.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#870b17" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="Enter Samasihat Wellness Retreat in the official interactive microsite for TIKUS, a Feisk Productions film." data-i18n-content="meta.description" name="description"/>
+<title>TIKUS — Official Film Microsite</title>
+<link as="image" href="assets/images/title/tikus-title-1200.webp" imagesizes="min(82vw, 74rem)" imagesrcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w" rel="preload" type="image/webp"/>
+<link as="image" href="assets/images/scenes/samasihat-house-exterior-1600.avif" imagesizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)" imagesrcset="assets/images/scenes/samasihat-house-exterior-960.avif 960w, assets/images/scenes/samasihat-house-exterior-1600.avif 1600w" rel="preload" type="image/avif"/>
+<script>try{const l=localStorage.getItem('tikus-language-v1');if(l==='ms'||l==='en'){document.documentElement.lang=l;document.documentElement.dataset.language=l;}}catch(e){}</script><link href="css/styles.css" rel="stylesheet"/>
+<link href="css/animations.css" rel="stylesheet"/>
+<link href="css/arcade.css" rel="stylesheet"/>
+<link href="css/tikus-rush.css" rel="stylesheet"/>
+<link href="css/tikus-beat.css" rel="stylesheet"/>
+<link href="css/tikus-slider.css" rel="stylesheet"/>
+<script defer src="js/content-data.js"></script>
+<script defer src="js/language-controller.js"></script>
+<script defer src="js/modal-controller.js"></script>
+<script defer src="js/scene-controller.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/tikus-rush-game.js"></script>
+<script defer src="js/tikus-beat-game.js"></script>
+<script defer src="js/tikus-slider-game.js"></script>
+<script defer src="js/arcade-controller.js"></script>
 </head>
-<body>
-  <a class="skip-link" href="#explorer">Skip to the house explorer</a>
-  <div class="page-grain" aria-hidden="true"></div>
-
-  <main id="main-content" data-dialog-inert>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__rings" aria-hidden="true"></div>
-      <div class="hero__shade" aria-hidden="true"></div>
-
-      <div class="hero__content">
-        <p class="eyebrow hero__eyebrow">Welcome to Samasihat Wellness Retreat</p>
-
-        <h1 class="hero__title" id="hero-title">
-          <picture>
-            <source
-              type="image/webp"
-              srcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w"
-              sizes="min(82vw, 74rem)">
-            <img
-              src="assets/images/title/tikus-title-1200.png"
-              srcset="assets/images/title/tikus-title-720.png 720w, assets/images/title/tikus-title-1200.png 1200w"
-              sizes="min(82vw, 74rem)"
-              width="1200"
-              height="392"
-              alt="TIKUS"
-              fetchpriority="high"
-              decoding="async">
-          </picture>
-        </h1>
-
-        <p class="hero__headline">The weekend has only just begun.</p>
-        <p class="hero__support">A houseful of strangers. A murderer among them.</p>
-        <p class="hero__credit">A Feisk Productions film</p>
-      </div>
-
-      <a class="scroll-cue" href="#trailer" aria-label="Scroll to watch the trailer">
-        <span>Watch the trailer</span>
-        <span class="scroll-cue__mark" aria-hidden="true"></span>
-      </a>
-    </section>
-
-    <section class="trailer-section" id="trailer" aria-labelledby="trailer-title">
-      <div class="trailer-section__rings" aria-hidden="true"></div>
-
-      <header class="section-heading trailer-section__heading">
-        <p class="eyebrow">Now showing</p>
-        <h2 id="trailer-title">Watch the trailer</h2>
-        <p>Tune in to TIKUS through a television from another time. Playback begins only after you choose to watch.</p>
-      </header>
-
-      <div class="retro-tv" aria-label="Retro television trailer player">
-        <div class="retro-tv__cabinet">
-          <button class="retro-tv__screen" type="button" data-trailer-open aria-haspopup="dialog" aria-controls="trailer-dialog">
-            <span class="retro-tv__screen-art" aria-hidden="true">
-              <span class="retro-tv__signal">TIKUS</span>
-              <span class="retro-tv__play-mark"></span>
-              <span class="retro-tv__screen-label">Play official trailer</span>
-            </span>
-            <span class="visually-hidden">Play the official TIKUS trailer</span>
-          </button>
-
-          <div class="retro-tv__panel" aria-hidden="true">
-            <span class="retro-tv__brand">TIKUS<br>VISION</span>
-            <span class="retro-tv__knob retro-tv__knob--channel"></span>
-            <span class="retro-tv__knob retro-tv__knob--volume"></span>
-            <span class="retro-tv__speaker"></span>
-            <span class="retro-tv__channel">CH 01</span>
-          </div>
-        </div>
-
-        <div class="retro-tv__feet" aria-hidden="true">
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-
-      <p class="trailer-section__note">The video is hosted by YouTube. No video is loaded until the television is selected.</p>
-      <a class="trailer-section__continue" href="#cast">Meet the cast <span aria-hidden="true">↓</span></a>
-    </section>
-
-    <section class="cast-section" id="cast" aria-labelledby="cast-title">
-      <div class="cast-section__rings" aria-hidden="true"></div>
-
-      <header class="section-heading cast-section__heading">
-        <p class="eyebrow">Cast &amp; characters</p>
-        <h2 id="cast-title">The faces around the table</h2>
-        <p>The cards open on the character side. Select one to reveal the cast member.</p>
-      </header>
-
-      <div class="cast-table" role="group" aria-label="Illustrated tabletop with cast playing cards">
-        <div class="cast-table__edge" aria-hidden="true"></div>
-        <div class="cast-groups" data-cast-grid></div>
-        <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-cast-status></p>
-      </div>
-
-      <p class="cast-section__instruction">Select a card to reveal the cast member. Select it again to return to the character.</p>
-      <a class="cast-section__continue" href="#explorer">Enter the house <span aria-hidden="true">↓</span></a>
-    </section>
-
-    <section class="explorer" id="explorer" aria-labelledby="explorer-title" tabindex="-1" data-scene-explorer data-active-scene="house">
-      <div class="explorer__rings" aria-hidden="true"></div>
-
-      <header class="section-heading">
-        <p class="eyebrow">Samasihat Wellness Retreat</p>
-        <h2 id="explorer-title">EVERYONE IN THE HOUSE IS A SUSPECT</h2>
-        <p>Mimi &amp; Jay's dream wellness retreat becomes a horrible nightmare when a guest is brutally murdered. Cut off by floods and a fallen tree across the only access road, they face a chilling reality: the killer is among them, and everyone is a suspect.</p>
-      </header>
-
-      <div class="scene-explorer" aria-busy="false">
-        <div class="scene-toolbar">
-          <button class="return-button" type="button" data-return-house hidden>
-            <span aria-hidden="true">←</span>
-            Return to House
-          </button>
-          <p class="scene-instruction" id="scene-instruction" data-scene-instruction>Select the house to enter the Sitting Room.</p>
-        </div>
-
-        <div class="scene-stage" data-scene-stage aria-describedby="scene-instruction">
-          <picture data-scene-picture>
-            <source
-              data-scene-source="avif"
-              type="image/avif"
-              srcset="assets/images/scenes/samasihat-house-exterior-960.avif 960w, assets/images/scenes/samasihat-house-exterior-1600.avif 1600w"
-              sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)">
-            <source
-              data-scene-source="webp"
-              type="image/webp"
-              srcset="assets/images/scenes/samasihat-house-exterior-960.webp 960w, assets/images/scenes/samasihat-house-exterior-1600.webp 1600w"
-              sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)">
-            <img
-              data-scene-image
-              src="assets/images/scenes/samasihat-house-exterior-1600.jpg"
-              srcset="assets/images/scenes/samasihat-house-exterior-960.jpg 960w, assets/images/scenes/samasihat-house-exterior-1600.jpg 1600w"
-              sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)"
-              width="1672"
-              height="941"
-              alt="A wide retro illustration of the isolated Samasihat bungalow at night, surrounded by dark trees and a crimson sky."
-              fetchpriority="high"
-              decoding="async">
-          </picture>
-
-          <div class="scene-ambient" aria-hidden="true">
-            <span class="scene-ambient__light"></span>
-            <span class="scene-ambient__weather"></span>
-            <span class="scene-ambient__dust"></span>
-          </div>
-          <div class="scene-stage__vignette" aria-hidden="true"></div>
-          <div class="hotspot-layer" data-hotspot-layer aria-label="Interactive scene points"></div>
-
-          <div class="scene-navigation-layer" data-scene-navigation-layer>
-            <button
-              class="scene-entry"
-              type="button"
-              data-scene-target="sitting-room"
-              data-visible-scene="house"
-              aria-label="Enter the house and open the Sitting Room">
-              <span class="scene-entry__label">Enter the house</span>
-            </button>
-
-          </div>
-
-          <div class="iris-transition" data-iris hidden aria-hidden="true"></div>
-        </div>
-
-        <div class="scene-caption">
-          <p class="eyebrow" data-scene-eyebrow>Samasihat Wellness Retreat</p>
-          <h3 data-scene-title>The House</h3>
-        </div>
-
-        <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-scene-status></p>
-      </div>
-    </section>
-
-    <section class="pending-material" aria-labelledby="pending-title">
-      <div class="pending-material__inner">
-        <header>
-          <p class="eyebrow">Film information</p>
-          <h2 id="pending-title">More from TIKUS</h2>
-        </header>
-
-        <dl class="pending-grid">
-          <div>
-            <dt>Release date</dt>
-            <dd>To be announced</dd>
-          </div>
-          <div>
-            <dt>Social media</dt>
-            <dd>URL pending</dd>
-          </div>
-          <div>
-            <dt>Press kit</dt>
-            <dd>Download pending</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" data-dialog-inert>
-    <p><strong>TIKUS</strong> · A Feisk Productions film</p>
-    <a href="#main-content">Back to top</a>
-  </footer>
-
-  <dialog class="trailer-dialog" id="trailer-dialog" aria-labelledby="trailer-dialog-title" aria-describedby="trailer-dialog-description">
-    <article class="trailer-dialog__surface">
-      <header class="trailer-dialog__header">
-        <div>
-          <p class="eyebrow">Official trailer</p>
-          <h2 id="trailer-dialog-title" tabindex="-1">TIKUS</h2>
-          <p class="visually-hidden" id="trailer-dialog-description">YouTube video player for the official TIKUS trailer.</p>
-        </div>
-        <button class="trailer-dialog__close" type="button" data-trailer-close aria-label="Close trailer">
-          <span aria-hidden="true">×</span>
-        </button>
-      </header>
-
-      <div class="trailer-dialog__player">
-        <iframe
-          data-trailer-frame
-          title="Official TIKUS trailer"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
-
-      <p class="trailer-dialog__fallback">
-        <a data-trailer-link href="https://youtu.be/9sgXasrieAE" target="_blank" rel="noopener noreferrer">Watch directly on YouTube</a>
-      </p>
-    </article>
-  </dialog>
-
-  <dialog class="info-dialog" id="hotspot-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-body">
-    <article class="info-dialog__surface">
-      <button class="info-dialog__close" type="button" data-dialog-close aria-label="Close information panel">
-        <span aria-hidden="true">×</span>
-      </button>
-      <p class="eyebrow" data-dialog-eyebrow></p>
-      <h2 id="dialog-title" data-dialog-title tabindex="-1"></h2>
-      <p id="dialog-body" data-dialog-body></p>
-      <p class="info-dialog__hint">Press Escape to close.</p>
-    </article>
-  </dialog>
+<body><button aria-checked="false" aria-label="Language: English. Switch to Bahasa Malaysia." class="language-switch" data-dialog-inert="" data-language-toggle="" role="switch" type="button"><span aria-hidden="true" class="language-switch__option" data-language-option="en">EN</span><span aria-hidden="true" class="language-switch__option" data-language-option="ms">BM</span></button>
+<a class="skip-link" data-i18n="site.skipExplorer" href="#explorer">Skip to the house explorer</a>
+<div aria-hidden="true" class="page-grain"></div>
+<main data-dialog-inert="" id="main-content">
+<section aria-labelledby="hero-title" class="hero">
+<div aria-hidden="true" class="hero__rings"></div>
+<div aria-hidden="true" class="hero__shade"></div>
+<div class="hero__content">
+<p class="eyebrow hero__eyebrow" data-i18n="hero.welcome">Welcome to Samasihat Wellness Retreat</p>
+<h1 class="hero__title" id="hero-title">
+<picture>
+<source sizes="min(82vw, 74rem)" srcset="assets/images/title/tikus-title-720.webp 720w, assets/images/title/tikus-title-1200.webp 1200w" type="image/webp"/>
+<img alt="TIKUS" decoding="async" fetchpriority="high" height="392" sizes="min(82vw, 74rem)" src="assets/images/title/tikus-title-1200.png" srcset="assets/images/title/tikus-title-720.png 720w, assets/images/title/tikus-title-1200.png 1200w" width="1200"/>
+</picture>
+</h1>
+<p class="hero__headline" data-i18n="hero.headline">The weekend has only just begun.</p>
+<p class="hero__support" data-i18n="hero.support">A houseful of strangers. A murderer among them.</p>
+<p class="hero__credit" data-i18n="site.feiskFilm">A Feisk Productions film</p>
+</div>
+<a aria-label="Scroll to watch the trailer" class="scroll-cue" data-i18n-aria-label="hero.scrollTrailer" href="#trailer">
+<span data-i18n="hero.watchTrailer">Watch the trailer</span>
+<span aria-hidden="true" class="scroll-cue__mark"></span>
+</a>
+</section>
+<section aria-labelledby="trailer-title" class="trailer-section" id="trailer">
+<div aria-hidden="true" class="trailer-section__rings"></div>
+<header class="section-heading trailer-section__heading">
+<p class="eyebrow" data-i18n="trailer.nowShowing">Now showing</p>
+<h2 data-i18n="trailer.heading" id="trailer-title">Watch the trailer</h2>
+<p data-i18n="trailer.description">Tune in to TIKUS through a television from another time. Playback begins only after you choose to watch.</p>
+</header>
+<div aria-label="Retro television trailer player" class="retro-tv" data-i18n-aria-label="trailer.playerLabel">
+<div class="retro-tv__cabinet">
+<button aria-controls="trailer-dialog" aria-haspopup="dialog" class="retro-tv__screen" data-trailer-open="" type="button">
+<span aria-hidden="true" class="retro-tv__screen-art">
+<span class="retro-tv__signal">TIKUS</span>
+<span class="retro-tv__play-mark"></span>
+<span class="retro-tv__screen-label" data-i18n="trailer.playOfficial">Play official trailer</span>
+</span>
+<span class="visually-hidden" data-i18n="trailer.playOfficialAria">Play the official TIKUS trailer</span>
+</button>
+<div aria-hidden="true" class="retro-tv__panel">
+<span class="retro-tv__brand">TIKUS<br/>VISION</span>
+<span class="retro-tv__knob retro-tv__knob--channel"></span>
+<span class="retro-tv__knob retro-tv__knob--volume"></span>
+<span class="retro-tv__speaker"></span>
+<span class="retro-tv__channel">CH 01</span>
+</div>
+</div>
+<div aria-hidden="true" class="retro-tv__feet">
+<span></span>
+<span></span>
+</div>
+</div>
+<p class="trailer-section__note" data-i18n="trailer.note">The video is hosted by YouTube. No video is loaded until the television is selected.</p>
+<a class="trailer-section__continue" href="#cast"><span data-i18n="trailer.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
+</section>
+<section aria-labelledby="cast-title" class="cast-section" id="cast">
+<div aria-hidden="true" class="cast-section__rings"></div>
+<header class="section-heading cast-section__heading">
+<p class="eyebrow" data-i18n="cast.eyebrow">Cast &amp; characters</p>
+<h2 data-i18n="cast.heading" id="cast-title">The faces around the table</h2>
+<p data-i18n="cast.intro">The cards open on the character side. Select one to reveal the cast member.</p>
+</header>
+<div aria-label="Illustrated tabletop with cast playing cards" class="cast-table" data-i18n-aria-label="cast.tableLabel" role="group">
+<div aria-hidden="true" class="cast-table__edge"></div>
+<div class="cast-groups" data-cast-grid=""></div>
+<p aria-atomic="true" aria-live="polite" class="visually-hidden" data-cast-status=""></p>
+</div>
+<p class="cast-section__instruction" data-i18n="cast.instruction">Select a card to reveal the cast member. Select it again to return to the character.</p>
+<a class="cast-section__continue" href="#explorer"><span data-i18n="cast.enterHouse">Enter the house</span><span aria-hidden="true">↓</span></a>
+</section>
+<section aria-labelledby="explorer-title" class="explorer" data-active-scene="house" data-scene-explorer="" id="explorer" tabindex="-1">
+<div aria-hidden="true" class="explorer__rings"></div>
+<header class="section-heading">
+<p class="eyebrow" data-i18n="explorer.eyebrow">Samasihat Wellness Retreat</p>
+<h2 data-i18n="explorer.heading" id="explorer-title">EVERYONE IN THE HOUSE IS A SUSPECT</h2>
+<p data-i18n="explorer.synopsis">Mimi &amp; Jay's dream wellness retreat becomes a horrible nightmare when a guest is brutally murdered. Cut off by floods and a fallen tree across the only access road, they face a chilling reality: the killer is among them, and everyone is a suspect.</p>
+</header>
+<div aria-busy="false" class="scene-explorer">
+<div class="scene-toolbar">
+<button class="return-button" data-return-house hidden type="button"><span aria-hidden="true">←</span>
+<span data-i18n="explorer.returnHouse">Return to House</span></button>
+<p class="scene-instruction" data-i18n="explorer.instructionHouse" data-scene-instruction="" id="scene-instruction">Select the house to enter the Sitting Room.</p>
+</div>
+<div aria-describedby="scene-instruction" class="scene-stage" data-scene-stage="">
+<picture data-scene-picture="">
+<source data-scene-source="avif" sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)" srcset="assets/images/scenes/samasihat-house-exterior-960.avif 960w, assets/images/scenes/samasihat-house-exterior-1600.avif 1600w" type="image/avif"/>
+<source data-scene-source="webp" sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)" srcset="assets/images/scenes/samasihat-house-exterior-960.webp 960w, assets/images/scenes/samasihat-house-exterior-1600.webp 1600w" type="image/webp"/>
+<img alt="A wide retro illustration of the isolated Samasihat bungalow at night, surrounded by dark trees and a crimson sky." data-i18n-alt="scene.house.alt" data-scene-image="" decoding="async" fetchpriority="high" height="941" sizes="(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)" src="assets/images/scenes/samasihat-house-exterior-1600.jpg" srcset="assets/images/scenes/samasihat-house-exterior-960.jpg 960w, assets/images/scenes/samasihat-house-exterior-1600.jpg 1600w" width="1672"/>
+</picture>
+<div aria-hidden="true" class="scene-ambient">
+<span class="scene-ambient__light"></span>
+<span class="scene-ambient__weather"></span>
+<span class="scene-ambient__dust"></span>
+</div>
+<div aria-hidden="true" class="scene-stage__vignette"></div>
+<div aria-label="Interactive scene points" class="hotspot-layer" data-hotspot-layer="" data-i18n-aria-label="explorer.hotspotLayer"></div>
+<div class="scene-navigation-layer" data-scene-navigation-layer="">
+<button aria-label="Enter the house and open the Sitting Room" class="scene-entry" data-i18n-aria-label="explorer.entryAria" data-scene-target="sitting-room" data-visible-scene="house" type="button">
+<span class="scene-entry__label" data-i18n="explorer.enterHouse">Enter the house</span>
+</button>
+</div>
+<div aria-hidden="true" class="iris-transition" data-iris="" hidden=""></div>
+</div>
+<div class="scene-caption">
+<p class="eyebrow" data-i18n="scene.house.eyebrow" data-scene-eyebrow="">Samasihat Wellness Retreat</p>
+<h3 data-i18n="scene.house.title" data-scene-title="">The House</h3>
+</div>
+<p aria-atomic="true" aria-live="polite" class="visually-hidden" data-scene-status=""></p>
+</div>
+</section>
+<section aria-labelledby="pending-title" class="pending-material">
+<div class="pending-material__inner">
+<header>
+<p class="eyebrow" data-i18n="film.eyebrow">Film information</p>
+<h2 data-i18n="film.heading" id="pending-title">More from TIKUS</h2>
+</header>
+<dl class="pending-grid">
+<div>
+<dt data-i18n="film.releaseDate">Release date</dt>
+<dd data-i18n="film.toBeAnnounced">To be announced</dd>
+</div>
+<div>
+<dt data-i18n="film.socialMedia">Social media</dt>
+<dd data-i18n="film.urlPending">URL pending</dd>
+</div>
+<div>
+<dt data-i18n="film.pressKit">Press kit</dt>
+<dd data-i18n="film.downloadPending">Download pending</dd>
+</div>
+</dl>
+</div>
+</section>
+</main>
+<footer class="site-footer" data-dialog-inert="">
+<p><strong>TIKUS</strong> · <span data-i18n="site.feiskFilm">A Feisk Productions film</span></p>
+<a data-i18n="footer.backTop" href="#main-content">Back to top</a>
+</footer>
+<dialog aria-describedby="trailer-dialog-description" aria-labelledby="trailer-dialog-title" class="trailer-dialog" id="trailer-dialog">
+<article class="trailer-dialog__surface">
+<header class="trailer-dialog__header">
+<div>
+<p class="eyebrow" data-i18n="trailer.official">Official trailer</p>
+<h2 id="trailer-dialog-title" tabindex="-1">TIKUS</h2>
+<p class="visually-hidden" data-i18n="trailer.dialogDescription" id="trailer-dialog-description">YouTube video player for the official TIKUS trailer.</p>
+</div>
+<button aria-label="Close trailer" class="trailer-dialog__close" data-i18n-aria-label="trailer.close" data-trailer-close="" type="button">
+<span aria-hidden="true">×</span>
+</button>
+</header>
+<div class="trailer-dialog__player">
+<iframe allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" data-i18n-title="trailer.frameTitle" data-trailer-frame="" referrerpolicy="strict-origin-when-cross-origin" title="Official TIKUS trailer"></iframe>
+</div>
+<p class="trailer-dialog__fallback">
+<a data-i18n="trailer.watchYoutube" data-trailer-link="" href="https://youtu.be/9sgXasrieAE" rel="noopener noreferrer" target="_blank">Watch directly on YouTube</a>
+</p>
+</article>
+</dialog>
+<dialog aria-describedby="dialog-body" aria-labelledby="dialog-title" class="info-dialog" id="hotspot-dialog">
+<article class="info-dialog__surface">
+<button aria-label="Close information panel" class="info-dialog__close" data-dialog-close="" data-i18n-aria-label="dialog.closeInfo" type="button">
+<span aria-hidden="true">×</span>
+</button>
+<p class="eyebrow" data-dialog-eyebrow=""></p>
+<h2 data-dialog-title="" id="dialog-title" tabindex="-1"></h2>
+<p data-dialog-body="" id="dialog-body"></p>
+<p class="info-dialog__hint" data-i18n="dialog.escapeClose">Press Escape to close.</p>
+</article>
+</dialog>
 </body>
 </html>

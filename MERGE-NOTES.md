@@ -151,3 +151,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added a scoped non-passive `touchmove` fallback that calls `preventDefault()` only for gestures originating within the puzzle board.
 - Normal page scrolling remains available outside the puzzle frame.
 
+## English / Bahasa Malaysia language setting
+
+- Added `js/language-controller.js` with English and Bahasa Malaysia dictionaries.
+- Added a fixed top-right EN/BM switch using a native button with `role="switch"`.
+- English remains the default; the selected language is stored under `tikus-language-v1`.
+- Static page copy, scene labels, cast-card content, dialog controls and all three game interfaces update immediately without a reload.
+- Dynamic ARIA labels, live-region announcements, image alternatives, metadata and the document title are translated.
+- Scene/hash state, card flip state, saved game progress and audio preferences are preserved when the language changes.
+- No duplicate HTML pages, external translation service or additional media assets were introduced.
+

@@ -2,6 +2,10 @@
   'use strict';
 
   const REQUIRED_GAMES = Object.freeze(['beat', 'slider', 'rush']);
+
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
+  }
   const focusableSelector = [
     'a[href]',
     'button:not([disabled])',
@@ -54,20 +58,20 @@
       const surface = create('article', 'tikus-arcade-dialog__surface');
       const topbar = create('header', 'tikus-arcade-dialog__topbar');
       const brand = create('div', 'tikus-arcade-dialog__brand');
-      const eyebrow = create('p', 'tikus-arcade-dialog__eyebrow', 'SAMASIHAT AFTER DARK');
-      const title = create('h2', 'tikus-arcade-dialog__title', 'TIKUS Game');
+      const eyebrow = create('p', 'tikus-arcade-dialog__eyebrow', t('dialog.gameEyebrow', {}, 'SAMASIHAT AFTER DARK'));
+      const title = create('h2', 'tikus-arcade-dialog__title', t('dialog.gameTitle', {}, 'TIKUS Game'));
       title.id = 'tikus-game-dialog-title';
       brand.append(eyebrow, title);
 
       const closeButton = create('button', 'tikus-arcade-dialog__close', '×');
       closeButton.type = 'button';
-      closeButton.setAttribute('aria-label', 'Close game and return to the Sitting Room');
+      closeButton.setAttribute('aria-label', t('dialog.gameClose', {}, 'Close game and return to the Sitting Room'));
       closeButton.addEventListener('click', () => this.close());
       topbar.append(brand, closeButton);
 
       const content = create('div', 'tikus-arcade-dialog__content');
       content.dataset.arcadeContent = '';
-      const description = create('p', 'visually-hidden', 'A spoiler-safe, non-canonical TIKUS game.');
+      const description = create('p', 'visually-hidden', t('dialog.gameDescription', {}, 'A spoiler-safe, non-canonical TIKUS game.'));
       description.id = 'tikus-game-dialog-description';
       surface.append(topbar, content, description);
       dialog.append(surface);
@@ -84,12 +88,20 @@
       dialog.addEventListener('cancel', this.handleCancel);
       dialog.addEventListener('click', this.handleBackdropClick);
       dialog.addEventListener('close', this.handleClose);
+      this.unsubscribeLanguage = global.TikusI18n?.subscribe(() => {
+        closeButton.setAttribute('aria-label', t('dialog.gameClose', {}, 'Close game and return to the Sitting Room'));
+        description.textContent = t('dialog.gameDescription', {}, 'A spoiler-safe, non-canonical TIKUS game.');
+        if (!this.currentGame) {
+          eyebrow.textContent = t('dialog.gameEyebrow', {}, 'SAMASIHAT AFTER DARK');
+          title.textContent = t('dialog.gameTitle', {}, 'TIKUS Game');
+        }
+      }) || null;
     }
 
     launch(gameId) {
       const game = global.TikusGames?.[gameId];
       if (!game) {
-        this.content.replaceChildren(create('p', 'tikus-game-error', 'This game is temporarily unavailable.'));
+        this.content.replaceChildren(create('p', 'tikus-game-error', t('dialog.gameUnavailable', {}, 'This game is temporarily unavailable.')));
         return false;
       }
 
@@ -97,8 +109,8 @@
       this.currentGame = null;
       this.dialog.dataset.arcadeView = gameId;
       this.surface.classList.add('is-playing');
-      this.brandEyebrow.textContent = game.eyebrow || 'SAMASIHAT AFTER DARK';
-      this.brandTitle.textContent = game.title;
+      this.brandEyebrow.textContent = game.eyebrowKey ? t(game.eyebrowKey, {}, game.eyebrow || 'SAMASIHAT AFTER DARK') : (game.eyebrow || t('dialog.gameEyebrow', {}, 'SAMASIHAT AFTER DARK'));
+      this.brandTitle.textContent = game.titleKey ? t(game.titleKey, {}, game.title) : game.title;
       this.currentGame = game.mount(this.content, {
         reducedMotion: this.reducedMotion,
         onExit: () => this.close()

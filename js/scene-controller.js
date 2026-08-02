@@ -3,6 +3,14 @@
 
   const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
+  }
+
+  function localised(value, key, variables = {}) {
+    return key ? t(key, variables, value || '') : (value || '');
+  }
+
   class SceneController {
     constructor(options) {
       const { data, modal, root } = options;
@@ -38,6 +46,7 @@
 
       this.handleHashChange = this.handleHashChange.bind(this);
       this.syncInteractiveBounds = this.syncInteractiveBounds.bind(this);
+      this.handleLanguageChange = this.handleLanguageChange.bind(this);
     }
 
     init() {
@@ -63,6 +72,8 @@
         this.resizeObserver = new ResizeObserver(this.syncInteractiveBounds);
         this.resizeObserver.observe(this.stage);
       }
+
+      this.unsubscribeLanguage = global.TikusI18n?.subscribe(this.handleLanguageChange) || null;
 
       const initialSceneId = this.sceneIdFromHash(window.location.hash);
       this.applyScene(initialSceneId, { announce: false, waitForImage: false });
@@ -182,20 +193,23 @@
       this.image.srcset = `${scene.image.fallback.small} 960w, ${scene.image.fallback.large} 1600w`;
       this.image.sizes = '(max-width: 62rem) calc(100vw - 2rem), min(88vw, 100rem)';
       this.image.src = scene.image.fallback.large;
-      this.image.alt = scene.alt;
+      this.image.alt = localised(scene.alt, scene.altKey);
       this.image.width = scene.image.width;
       this.image.height = scene.image.height;
       this.image.fetchPriority = sceneId === 'house' ? 'high' : 'auto';
 
-      this.captionEyebrow.textContent = scene.eyebrow;
-      this.captionTitle.textContent = scene.title;
-      this.sceneInstruction.textContent = scene.navigationHint || '';
+      const sceneEyebrow = localised(scene.eyebrow, scene.eyebrowKey);
+      const sceneTitle = localised(scene.title, scene.titleKey);
+      const sceneHint = localised(scene.navigationHint, scene.navigationHintKey);
+      this.captionEyebrow.textContent = sceneEyebrow;
+      this.captionTitle.textContent = sceneTitle;
+      this.sceneInstruction.textContent = sceneHint;
       this.returnButton.hidden = sceneId === 'house';
       this.updateSceneNavigation(sceneId);
 
       document.title = sceneId === 'house'
-        ? this.data.site.baseDocumentTitle
-        : `${scene.title} | ${this.data.site.title}`;
+        ? localised(this.data.site.baseDocumentTitle, this.data.site.baseDocumentTitleKey)
+        : `${sceneTitle} | ${this.data.site.title}`;
 
       if (waitForImage) {
         await this.waitForCurrentImage();
@@ -207,9 +221,27 @@
       if (announce) {
         const count = scene.hotspots.length;
         this.liveRegion.textContent = count > 0
-          ? `${scene.title} loaded. ${count} interactive hotspots available. ${scene.navigationHint || ''}`
-          : `${scene.title} exterior loaded. ${scene.navigationHint || ''}`;
+          ? t('scene.loadedHotspots', { title: sceneTitle, count, hint: sceneHint }, `${sceneTitle} loaded. ${count} interactive hotspots available. ${sceneHint}`)
+          : t('scene.loadedExterior', { title: sceneTitle, hint: sceneHint }, `${sceneTitle} exterior loaded. ${sceneHint}`);
       }
+    }
+
+    handleLanguageChange() {
+      const scene = this.data.scenes[this.state.sceneId];
+      if (!scene) return;
+      const sceneEyebrow = localised(scene.eyebrow, scene.eyebrowKey);
+      const sceneTitle = localised(scene.title, scene.titleKey);
+      const sceneHint = localised(scene.navigationHint, scene.navigationHintKey);
+      this.captionEyebrow.textContent = sceneEyebrow;
+      this.captionTitle.textContent = sceneTitle;
+      this.sceneInstruction.textContent = sceneHint;
+      this.image.alt = localised(scene.alt, scene.altKey);
+      document.title = this.state.sceneId === 'house'
+        ? localised(this.data.site.baseDocumentTitle, this.data.site.baseDocumentTitleKey)
+        : `${sceneTitle} | ${this.data.site.title}`;
+      this.hotspotLayer.replaceChildren();
+      this.renderHotspots(scene.hotspots);
+      this.syncInteractiveBounds();
     }
 
     updateSceneNavigation(sceneId) {
@@ -228,7 +260,7 @@
         button.dataset.hotspotId = hotspot.id;
         button.style.setProperty('--hotspot-x', `${hotspot.x}%`);
         button.style.setProperty('--hotspot-y', `${hotspot.y}%`);
-        button.setAttribute('aria-label', hotspot.label);
+        button.setAttribute('aria-label', localised(hotspot.label, hotspot.labelKey));
         button.style.setProperty('--hotspot-delay', `${index * 120}ms`);
 
         const dot = document.createElement('span');

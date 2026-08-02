@@ -16,12 +16,20 @@
     ['5', 'g']
   ];
   const WEAPONS = Object.freeze([
-    { id: 'object-1', label: 'Iron pipe', asset: 'lane-1' },
-    { id: 'object-2', label: 'Adjustable wrench', asset: 'lane-2' },
-    { id: 'object-3', label: 'Brass candlestick', asset: 'lane-3' },
-    { id: 'object-4', label: 'Kitchen knife', asset: 'lane-4' },
-    { id: 'object-5', label: 'Telephone cord', asset: 'lane-5' }
+    { id: 'object-1', label: 'Iron pipe', labelKey: 'beat.weapon.pipe', asset: 'lane-1' },
+    { id: 'object-2', label: 'Adjustable wrench', labelKey: 'beat.weapon.wrench', asset: 'lane-2' },
+    { id: 'object-3', label: 'Brass candlestick', labelKey: 'beat.weapon.candlestick', asset: 'lane-3' },
+    { id: 'object-4', label: 'Kitchen knife', labelKey: 'beat.weapon.knife', asset: 'lane-4' },
+    { id: 'object-5', label: 'Telephone cord', labelKey: 'beat.weapon.cord', asset: 'lane-5' }
   ]);
+
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
+  }
+
+  function weaponLabel(weapon) {
+    return t(weapon.labelKey, {}, weapon.label);
+  }
 
   function create(tag, className, text) {
     const element = document.createElement(tag);
@@ -403,23 +411,23 @@
     const header = create('header', 'beat__header');
     const heading = create('div', 'beat__heading');
     heading.append(
-      create('p', 'beat__eyebrow', '60-SECOND RHYTHM'),
+      create('p', 'beat__eyebrow', t('beat.eyebrow', {}, '60-SECOND RHYTHM')),
       create('h2', 'beat__title', 'Tikus Beat')
     );
     const headerActions = create('div', 'beat__header-actions');
     const soundButton = create('button', 'beat__sound');
     soundButton.type = 'button';
-    const backButton = create('button', 'beat__back', '← Sitting Room');
+    const backButton = create('button', 'beat__back', t('common.backSitting', {}, '← Sitting Room'));
     backButton.type = 'button';
     backButton.addEventListener('click', onExit);
 
     function updateSoundButton() {
       const enabled = soundEngine.isEnabled();
-      soundButton.textContent = soundEngine.supported ? (enabled ? 'Audio on' : 'Audio off') : 'No audio';
+      soundButton.textContent = soundEngine.supported ? (enabled ? t('beat.audioOn', {}, 'Audio on') : t('beat.audioOff', {}, 'Audio off')) : t('beat.noAudio', {}, 'No audio');
       soundButton.setAttribute('aria-pressed', String(enabled));
       soundButton.setAttribute('aria-label', soundEngine.supported
-        ? `Turn Tikus Beat music and sound effects ${enabled ? 'off' : 'on'}`
-        : 'Tikus Beat audio is unavailable in this browser');
+        ? t('beat.audioToggle', { state: enabled ? t('beat.stateOff', {}, 'off') : t('beat.stateOn', {}, 'on') }, `Turn Tikus Beat music and sound effects ${enabled ? 'off' : 'on'}`)
+        : t('beat.audioUnavailable', {}, 'Tikus Beat audio is unavailable in this browser'));
       soundButton.disabled = !soundEngine.supported;
     }
 
@@ -442,15 +450,15 @@
       item.append(labelEl, valueEl);
       return { item, value: valueEl };
     }
-    const scoreHud = hudItem('Score', '0');
-    const comboHud = hudItem('Combo', '0', 'beat__hud-item--combo');
-    const timeHud = hudItem('Time', String(DURATION_SECONDS), 'beat__hud-item--time');
-    const tempoHud = hudItem('Tempo', 'Easy');
-    const bestHud = hudItem('Best', String(best));
+    const scoreHud = hudItem(t('common.score', {}, 'Score'), '0');
+    const comboHud = hudItem(t('beat.combo', {}, 'Combo'), '0', 'beat__hud-item--combo');
+    const timeHud = hudItem(t('common.time', {}, 'Time'), String(DURATION_SECONDS), 'beat__hud-item--time');
+    const tempoHud = hudItem(t('beat.tempo', {}, 'Tempo'), t('beat.tempoEasy', {}, 'Easy'));
+    const bestHud = hudItem(t('common.best', {}, 'Best'), String(best));
     hud.append(scoreHud.item, comboHud.item, timeHud.item, tempoHud.item, bestHud.item);
 
     const stage = create('div', 'beat__stage');
-    stage.setAttribute('aria-label', 'Five-lane rhythm game');
+    stage.setAttribute('aria-label', t('beat.stageAria', {}, 'Five-lane rhythm game'));
     const backdrop = create('div', 'beat__backdrop');
     backdrop.setAttribute('aria-hidden', 'true');
     const pulseField = create('div', 'beat__pulse-field');
@@ -484,7 +492,7 @@
       receptor.type = 'button';
       receptor.dataset.lane = String(laneIndex);
       receptor.innerHTML = `${weaponMarkup(weapon)}<span class="beat__key">${laneIndex + 1}<small>${LANE_KEYS[laneIndex][1].toUpperCase()}</small></span>`;
-      receptor.setAttribute('aria-label', `Lane ${laneIndex + 1}, ${weapon.label}. Keys ${laneIndex + 1} or ${LANE_KEYS[laneIndex][1].toUpperCase()}`);
+      receptor.setAttribute('aria-label', t('beat.laneAria', { lane: laneIndex + 1, weapon: weaponLabel(weapon), number: laneIndex + 1, letter: LANE_KEYS[laneIndex][1].toUpperCase() }, `Lane ${laneIndex + 1}, ${weapon.label}. Keys ${laneIndex + 1} or ${LANE_KEYS[laneIndex][1].toUpperCase()}`));
       receptor.addEventListener('pointerdown', (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
         event.preventDefault();
@@ -503,9 +511,9 @@
     const intro = create('div', 'beat__overlay');
     const introCard = create('div', 'beat__card');
     introCard.append(
-      create('p', 'beat__card-kicker', 'FOLLOW THE FALLING OBJECTS'),
-      create('p', 'beat__description', 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.'),
-      create('p', 'beat__sound-note', soundEngine.supported ? 'A lightweight music loop plus hit, combo and final-score sounds begin only after you press Start. Use the Audio control at any time.' : 'This browser does not provide the audio features used by Tikus Beat.')
+      create('p', 'beat__card-kicker', t('beat.follow', {}, 'FOLLOW THE FALLING OBJECTS')),
+      create('p', 'beat__description', t('beat.description', {}, 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.')),
+      create('p', 'beat__sound-note', soundEngine.supported ? t('beat.soundNote', {}, 'A lightweight music loop plus hit, combo and final-score sounds begin only after you press Start. Use the Audio control at any time.') : t('beat.soundUnsupported', {}, 'This browser does not provide the audio features used by Tikus Beat.'))
     );
     const keyGuide = create('div', 'beat__key-guide');
     WEAPONS.forEach((weapon, index) => {
@@ -513,7 +521,7 @@
       item.innerHTML = `${weaponMarkup(weapon)}<span>${index + 1} / ${LANE_KEYS[index][1].toUpperCase()}</span>`;
       keyGuide.append(item);
     });
-    const startButton = create('button', 'beat__primary', 'Start the beat');
+    const startButton = create('button', 'beat__primary', t('beat.start', {}, 'Start the beat'));
     startButton.type = 'button';
     introCard.append(keyGuide, startButton);
     intro.append(introCard);
@@ -521,16 +529,16 @@
     const result = create('div', 'beat__overlay beat__overlay--result');
     result.hidden = true;
     const resultCard = create('div', 'beat__card beat__card--result');
-    const resultKicker = create('p', 'beat__card-kicker', 'FINAL BEAT');
-    const resultTitle = create('h3', 'beat__result-title', 'The rhythm fades.');
+    const resultKicker = create('p', 'beat__card-kicker', t('beat.final', {}, 'FINAL BEAT'));
+    const resultTitle = create('h3', 'beat__result-title', t('beat.fades', {}, 'The rhythm fades.'));
     const finalScore = create('p', 'beat__final-score', '0');
     const breakdown = create('p', 'beat__breakdown');
     const bestMessage = create('p', 'beat__best-message');
     bestMessage.setAttribute('aria-live', 'polite');
     const actions = create('div', 'beat__actions');
-    const replayButton = create('button', 'beat__primary', 'Play again');
+    const replayButton = create('button', 'beat__primary', t('common.playAgain', {}, 'Play again'));
     replayButton.type = 'button';
-    const gamesButton = create('button', 'beat__secondary', 'Return to Sitting Room');
+    const gamesButton = create('button', 'beat__secondary', t('common.returnSitting', {}, 'Return to Sitting Room'));
     gamesButton.type = 'button';
     gamesButton.addEventListener('click', onExit);
     actions.append(replayButton, gamesButton);
@@ -542,10 +550,10 @@
     container.replaceChildren(root);
 
     function tempoLabel(progress) {
-      if (progress < 0.25) return 'Easy';
-      if (progress < 0.5) return 'Steady';
-      if (progress < 0.75) return 'Upbeat';
-      return 'Finale';
+      if (progress < 0.25) return t('beat.tempoEasy', {}, 'Easy');
+      if (progress < 0.5) return t('beat.tempoSteady', {}, 'Steady');
+      if (progress < 0.75) return t('beat.tempoUpbeat', {}, 'Upbeat');
+      return t('beat.tempoFinale', {}, 'Finale');
     }
 
     function updateHud() {
@@ -656,9 +664,9 @@
       const shockwave = create('span', 'beat__combo-blast');
       effects.append(shockwave);
       window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 680);
-      showCallout('20 HIT BLAST', 'beat__callout--blast');
+      showCallout(t('beat.blast', {}, '20 HIT BLAST'), 'beat__callout--blast');
       soundEngine.blast();
-      announcer.textContent = 'Twenty hit streak. Every visible object cleared.';
+      announcer.textContent = t('beat.blastAnnounce', {}, 'Twenty hit streak. Every visible object cleared.');
     }
 
     function registerMiss(id) {
@@ -669,7 +677,7 @@
       combo = Math.max(0, combo - 3);
       judgements.miss += 1;
       pulseLane(note.lane, 'miss');
-      setJudgement('MISS', 'miss');
+      setJudgement(t('beat.miss', {}, 'MISS'), 'miss');
       updateHud();
     }
 
@@ -705,11 +713,11 @@
       pulseLane(laneIndex, type);
       pulseStage(combo > 0 && combo % 5 === 0 ? 'combo' : 'hit');
       soundEngine.hit(laneIndex, type);
-      setJudgement(type === 'perfect' ? 'PERFECT' : 'GOOD', type);
-      announcer.textContent = `${type}. Combo ${combo}. Score ${score}.`;
+      setJudgement(type === 'perfect' ? t('beat.perfect', {}, 'PERFECT') : t('beat.good', {}, 'GOOD'), type);
+      announcer.textContent = t('beat.hitAnnounce', { type: type === 'perfect' ? t('beat.perfect', {}, 'Perfect') : t('beat.good', {}, 'Good'), combo, score }, `${type}. Combo ${combo}. Score ${score}.`);
       if (combo > 0 && combo % 5 === 0 && combo % 20 !== 0) soundEngine.comboMilestone(combo);
       if (combo > 0 && combo % 10 === 0) {
-        showCallout(`${combo} COMBO`, 'beat__callout--combo');
+        showCallout(t('beat.comboCallout', { combo }, `${combo} COMBO`), 'beat__callout--combo');
         if (!reducedMotion) {
           const comboFlash = create('span', 'beat__combo-flash-layer');
           effects.append(comboFlash);
@@ -797,8 +805,8 @@
       const tier = Math.min(3, Math.floor(progress * 4));
       if (tier <= lastTempoTier) return;
       lastTempoTier = tier;
-      const labels = ['PICKING UP', 'UPBEAT', 'FINAL PUSH'];
-      showCallout(labels[tier - 1] || 'PICKING UP', 'beat__callout--tempo');
+      const labels = [t('beat.pickingUp', {}, 'PICKING UP'), t('beat.upbeat', {}, 'UPBEAT'), t('beat.finalPush', {}, 'FINAL PUSH')];
+      showCallout(labels[tier - 1] || t('beat.pickingUp', {}, 'PICKING UP'), 'beat__callout--tempo');
       if (!reducedMotion && typeof lanes.animate === 'function') {
         lanes.animate([
           { transform: 'scale(1)' },
@@ -876,8 +884,8 @@
       }
       soundEngine.finish(isRecord);
       finalScore.textContent = String(score);
-      breakdown.textContent = `${judgements.perfect} perfect · ${judgements.good} good · ${judgements.miss} miss · max combo ${maxCombo}`;
-      bestMessage.textContent = score > previousBest ? 'New rhythm record.' : `Best score: ${best}`;
+      breakdown.textContent = t('beat.breakdown', { perfect: judgements.perfect, good: judgements.good, miss: judgements.miss, combo: maxCombo }, `${judgements.perfect} perfect · ${judgements.good} good · ${judgements.miss} miss · max combo ${maxCombo}`);
+      bestMessage.textContent = score > previousBest ? t('beat.newRecord', {}, 'New rhythm record.') : t('common.bestScore', { score: best }, `Best score: ${best}`);
       result.hidden = false;
       intro.hidden = true;
       root.classList.add('is-finished');
@@ -947,10 +955,15 @@
   global.TikusGames.beat = Object.freeze({
     id: 'beat',
     title: 'Tikus Beat',
+    titleKey: 'game.beat.title',
     eyebrow: '60-SECOND RHYTHM',
+    eyebrowKey: 'beat.eyebrow',
     description: 'Match five falling objects through a gentler, more forgiving rhythm curve.',
+    descriptionKey: 'beat.registryDescription',
     duration: '60 sec',
+    durationKey: 'beat.duration',
     controls: 'Tap lanes or use 1–5 / A/S/D/F/G',
+    controlsKey: 'beat.controls',
     accent: 'rhythm',
     readBest,
     mount

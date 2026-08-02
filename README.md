@@ -8,7 +8,7 @@ The deployed package contains spoiler-safe promotional material only. No screenp
 
 Open `index.html` directly in a current browser. No server, build command, package manager or framework is required.
 
-The official trailer is loaded from YouTube only after the visitor deliberately opens it. The house explorer, cast cards and both arcade games work locally.
+The official trailer is loaded from YouTube only after the visitor deliberately opens it. The house explorer, cast cards and all three games work locally.
 
 The same folder can be uploaded unchanged to GitHub Pages or ordinary static hosting.
 
@@ -27,6 +27,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
       /characters
       /scenes
       /games/tikus-beat
+      /games/tikus-slider
     /audio
       tikus-beat-loop.opus
       tikus-beat-loop.mp3
@@ -36,15 +37,33 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
     arcade.css
     tikus-rush.css
     tikus-beat.css
+    tikus-slider.css
   /js
     content-data.js
+    language-controller.js
     app.js
     scene-controller.js
     modal-controller.js
     tikus-rush-game.js
     tikus-beat-game.js
+    tikus-slider-game.js
     arcade-controller.js
 ```
+
+
+## English / Bahasa Malaysia
+
+A compact EN/BM switch is fixed to the top-right corner. English is the default language and the visitor's choice is saved under `tikus-language-v1`. The switch updates the current page immediately without reloading or navigating to a duplicate page.
+
+The shared `js/language-controller.js` translates:
+
+- Main headings, synopsis, trailer controls and final-information content.
+- Cast groups, card instructions, descriptions and accessible flip-card announcements.
+- House and Sitting Room names, image alternatives, hotspot labels and scene status messages.
+- Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
+- Dialog labels, close controls, document title and metadata.
+
+`<html lang>` and the language-switch `aria-checked` state update with the active language. Proper names, game names and approved title artwork remain unchanged.
 
 ## Main experience
 

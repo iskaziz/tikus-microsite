@@ -1944,3 +1944,92 @@ img.cast-card__portrait,
     bottom: 0.45rem;
   }
 }
+
+/* Language switch ------------------------------------------------------- */
+.language-switch {
+  position: fixed;
+  z-index: 1200;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(0.75rem, env(safe-area-inset-right));
+  width: 6.1rem;
+  min-height: 2.65rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0.22rem;
+  border: 0.125rem solid rgba(255, 244, 220, 0.72);
+  border-radius: 999px;
+  color: var(--paper-bright);
+  background: rgba(9, 8, 8, 0.88);
+  box-shadow: 0 0.45rem 1.4rem rgba(0, 0, 0, 0.38), inset 0 0 0 1px rgba(183, 22, 36, 0.45);
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  isolation: isolate;
+}
+
+.language-switch::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0.22rem;
+  bottom: 0.22rem;
+  left: 0.22rem;
+  width: calc(50% - 0.22rem);
+  border-radius: 999px;
+  background: var(--crimson-600);
+  box-shadow: inset 0 0 0 1px rgba(255, 244, 220, 0.28);
+  transform: translateX(0);
+  transition: transform 180ms ease;
+}
+
+html[data-language="ms"] .language-switch::before {
+  transform: translateX(100%);
+}
+
+.language-switch__option {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 2rem;
+  opacity: 0.62;
+  transition: opacity 160ms ease;
+}
+
+html[data-language="en"] .language-switch__option[data-language-option="en"],
+html[data-language="ms"] .language-switch__option[data-language-option="ms"] {
+  opacity: 1;
+}
+
+.language-switch:hover {
+  border-color: var(--paper-bright);
+}
+
+html.has-arcade-dialog .language-switch,
+body.has-open-dialog .language-switch {
+  visibility: hidden;
+}
+
+@media (max-width: 35rem) {
+  .language-switch {
+    top: max(0.55rem, env(safe-area-inset-top));
+    right: max(0.55rem, env(safe-area-inset-right));
+    width: 5.5rem;
+    min-height: 2.4rem;
+    font-size: 0.67rem;
+  }
+
+  .language-switch__option {
+    min-height: 1.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .language-switch::before,
+  .language-switch__option {
+    transition: none;
+  }
+}
