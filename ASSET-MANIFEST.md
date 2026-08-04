@@ -119,3 +119,8 @@ The complete gallery derivative set is approximately 2.05 MiB, but it is not dow
 | `assets/images/poster/tikus-official-poster-670.jpg` | `JPG` | `670 × 992` | `0.675:1` | `No` | `Poster fallback` |
 
 The uploaded official poster contains no alpha transparency. The section uses `object-fit: contain` and does not crop the artwork.
+
+## Where to Watch map
+
+The cinema finder adds no raster or external map assets. The Malaysia map is a small inline schematic SVG in `index.html`, with state markers and venue panels driven by `js/cinema-data.js` and `js/cinema-controller.js`. Google Maps is only opened after a visitor deliberately selects an external directions link.
+

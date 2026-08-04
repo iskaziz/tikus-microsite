@@ -2893,3 +2893,542 @@ body.has-open-dialog .language-switch {
     grid-template-columns: 1fr;
   }
 }
+
+/* --------------------------------------------------------------------------
+   WHERE TO WATCH — stylised Malaysia cinema map
+   -------------------------------------------------------------------------- */
+.cinema-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(2.75rem, 5vw, 5.25rem) var(--page-gutter);
+  background:
+    radial-gradient(circle at 88% 15%, rgba(183, 22, 36, 0.16), transparent 30rem),
+    linear-gradient(180deg, #0b0909 0%, #120c0d 58%, #090808 100%);
+}
+
+.cinema-section__rings {
+  position: absolute;
+  z-index: -1;
+  width: min(72vw, 64rem);
+  aspect-ratio: 1;
+  right: -24rem;
+  top: -22rem;
+  opacity: 0.16;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 2.8rem, rgba(183, 22, 36, 0.52) 2.9rem 3.8rem);
+  transform: rotate(-8deg);
+}
+
+.cinema-section__heading {
+  max-width: 58rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.cinema-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.45rem, 1.3vw, 0.9rem);
+  width: min(62rem, 100%);
+  margin: clamp(1.35rem, 2.5vw, 2rem) auto clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.cinema-stats > div {
+  min-width: 0;
+  padding: clamp(0.8rem, 1.6vw, 1.15rem) 0.65rem;
+  border: 1px solid rgba(239, 228, 204, 0.22);
+  background: rgba(9, 8, 8, 0.72);
+  text-align: center;
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.16);
+}
+
+.cinema-stats strong,
+.cinema-stats span {
+  display: block;
+}
+
+.cinema-stats strong {
+  color: var(--paper-bright);
+  font-family: var(--header-font);
+  font-size: clamp(1.55rem, 2.5vw, 2.35rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.cinema-stats span {
+  margin-top: 0.35rem;
+  color: var(--paper-dim);
+  font-family: var(--ui-font);
+  font-size: clamp(0.62rem, 0.58rem + 0.1vw, 0.74rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cinema-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
+  gap: clamp(1rem, 2.4vw, 2.2rem);
+  width: min(84rem, 100%);
+  margin-inline: auto;
+  align-items: start;
+}
+
+.cinema-map-card,
+.cinema-panel {
+  border: 1px solid rgba(239, 228, 204, 0.24);
+  box-shadow: var(--shadow);
+}
+
+.cinema-map-card {
+  padding: clamp(0.8rem, 1.5vw, 1.15rem);
+  background:
+    repeating-linear-gradient(0deg, rgba(9,8,8,0.035) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 30% 18%, rgba(255,255,255,0.18), transparent 20rem),
+    #d8ccb4;
+  color: var(--ink);
+}
+
+.cinema-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 860 / 460;
+  overflow: hidden;
+  border: 1px solid rgba(9, 8, 8, 0.44);
+  background:
+    linear-gradient(rgba(9,8,8,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(9,8,8,0.035) 1px, transparent 1px),
+    rgba(239, 228, 204, 0.62);
+  background-size: 2rem 2rem;
+}
+
+.cinema-map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(150,13,26,0.18), transparent 10rem),
+    radial-gradient(circle at 80% 70%, rgba(9,8,8,0.12), transparent 14rem);
+}
+
+.cinema-map__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0.35rem 0.4rem 0 rgba(9, 8, 8, 0.13));
+}
+
+.cinema-map__shape {
+  fill: rgba(44, 40, 34, 0.24);
+  stroke: rgba(9, 8, 8, 0.72);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  transition: fill 160ms ease, stroke 160ms ease, opacity 160ms ease;
+}
+
+.cinema-map__shape.has-cinemas {
+  fill: rgba(150, 13, 26, 0.54);
+}
+
+.cinema-map__shape.is-selected {
+  fill: var(--crimson-700);
+  stroke: var(--ink);
+  stroke-width: 4;
+}
+
+.cinema-map__shape.is-inactive {
+  fill: rgba(9, 8, 8, 0.13);
+  stroke-dasharray: 4 5;
+}
+
+.cinema-map__territory,
+.cinema-map__island {
+  stroke-width: 2;
+}
+
+.cinema-map__labels {
+  fill: rgba(9, 8, 8, 0.52);
+  font-family: var(--ui-font);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.cinema-map__markers {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+}
+
+.cinema-map__marker {
+  position: absolute;
+  display: grid;
+  width: clamp(1.65rem, 3.1vw, 2.3rem);
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 0;
+  border: 0.125rem solid var(--ink);
+  border-radius: 50%;
+  color: var(--paper-bright);
+  background: var(--crimson-800);
+  box-shadow: 0 0.2rem 0 rgba(9,8,8,0.4), 0 0 0 0.13rem rgba(239,228,204,0.76);
+  font-family: var(--ui-font);
+  font-size: clamp(0.68rem, 1.35vw, 0.86rem);
+  font-weight: 900;
+  transform: translate(-50%, -50%);
+  transition: transform 130ms ease, background 130ms ease, box-shadow 130ms ease;
+}
+
+.cinema-map__marker::after {
+  content: attr(data-label);
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: calc(100% + 0.4rem);
+  width: max-content;
+  max-width: 9rem;
+  padding: 0.28rem 0.42rem;
+  border: 1px solid var(--ink);
+  color: var(--paper-bright);
+  background: var(--ink);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 0.2rem);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.cinema-map__marker:hover::after,
+.cinema-map__marker:focus-visible::after,
+.cinema-map__marker.is-active::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.cinema-map__marker:hover,
+.cinema-map__marker:focus-visible,
+.cinema-map__marker.is-active {
+  z-index: 5;
+  background: var(--ink);
+  box-shadow: 0 0.2rem 0 rgba(9,8,8,0.4), 0 0 0 0.18rem var(--crimson-600);
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.cinema-map__note {
+  margin: 0.75rem 0 0.6rem;
+  color: rgba(9, 8, 8, 0.72);
+  font-family: var(--ui-font);
+  font-size: 0.73rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.cinema-state-chips {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.2rem 0 0.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--crimson-700) rgba(9,8,8,0.12);
+}
+
+.cinema-state-chip {
+  flex: 0 0 auto;
+  padding: 0.52rem 0.72rem;
+  border: 1px solid rgba(9,8,8,0.35);
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(255,244,220,0.34);
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.cinema-state-chip:hover,
+.cinema-state-chip.is-active {
+  color: var(--paper-bright);
+  background: var(--crimson-800);
+  border-color: var(--ink);
+}
+
+.cinema-panel {
+  position: sticky;
+  top: 5.25rem;
+  max-height: min(72vh, 47rem);
+  overflow: auto;
+  padding: clamp(1rem, 2vw, 1.4rem);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 5px),
+    rgba(13, 10, 10, 0.96);
+}
+
+.cinema-panel__header {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+  justify-content: space-between;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(239,228,204,0.2);
+}
+
+.cinema-panel__header .eyebrow { margin-bottom: 0.35rem; }
+
+.cinema-panel__header h3 {
+  margin: 0;
+  color: var(--paper-bright);
+  font-family: var(--header-font);
+  font-size: clamp(1.7rem, 2.5vw, 2.55rem);
+  letter-spacing: 0.025em;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.cinema-panel__count {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(239,228,204,0.25);
+  color: var(--paper-dim);
+  font-family: var(--ui-font);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cinema-panel__intro {
+  margin: 1rem 0;
+  color: var(--paper-dim);
+  font-size: 0.95rem;
+}
+
+.cinema-state-index {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.cinema-state-index__button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  min-height: 2.75rem;
+  padding: 0.58rem 0.7rem;
+  border: 1px solid rgba(239,228,204,0.18);
+  color: var(--paper);
+  background: rgba(239,228,204,0.035);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.cinema-state-index__button strong {
+  display: grid;
+  flex: 0 0 1.65rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--paper-bright);
+  background: var(--crimson-800);
+  font-size: 0.72rem;
+}
+
+.cinema-state-index__button:hover,
+.cinema-state-index__button.is-active {
+  border-color: var(--crimson-600);
+  background: rgba(150,13,26,0.16);
+}
+
+.cinema-card-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.cinema-card {
+  position: relative;
+  padding: 0.85rem 0.9rem 0.9rem;
+  border: 1px solid rgba(239,228,204,0.18);
+  background: rgba(239,228,204,0.035);
+}
+
+.cinema-card h4 {
+  margin: 0.3rem 0 0.55rem;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: clamp(1rem, 0.95rem + 0.15vw, 1.12rem);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.cinema-card__chain {
+  display: inline-block;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid rgba(239,228,204,0.3);
+  color: var(--paper-dim);
+  font-family: var(--ui-font);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cinema-card__chain--gsc { border-color: rgba(183,22,36,0.72); }
+.cinema-card__chain--tgv { border-color: rgba(239,228,204,0.48); }
+.cinema-card__chain--independent { border-style: dashed; }
+
+.cinema-card__address-label {
+  display: block;
+  margin-bottom: 0.08rem;
+  color: var(--grey);
+  font-family: var(--ui-font);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cinema-card__address {
+  margin: 0;
+  color: var(--paper-dim);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.cinema-card__maps {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.68rem;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-decoration-thickness: 0.08rem;
+  text-underline-offset: 0.2rem;
+  text-transform: uppercase;
+}
+
+.cinema-card__maps::after { content: '↗'; }
+.cinema-card__maps:hover { color: #fff; }
+
+.cinema-panel__disclaimer {
+  margin: 1rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(239,228,204,0.14);
+  color: var(--grey);
+  font-family: var(--ui-font);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.cinema-section__continue {
+  display: flex;
+  width: max-content;
+  gap: 0.7rem;
+  align-items: center;
+  margin: clamp(1.5rem, 2.5vw, 2.2rem) auto 0;
+  color: var(--paper-dim);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.cinema-section__continue:hover { color: var(--paper-bright); }
+
+@media (max-width: 68rem) {
+  .cinema-layout {
+    grid-template-columns: 1fr;
+    width: min(58rem, 100%);
+  }
+  .cinema-panel {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 48rem) {
+  .cinema-section {
+    padding-block: 2.35rem;
+  }
+  .cinema-stats {
+    grid-template-columns: repeat(4, minmax(4.3rem, 1fr));
+    gap: 0.35rem;
+    overflow-x: auto;
+  }
+  .cinema-stats > div {
+    min-width: 4.3rem;
+    padding-inline: 0.35rem;
+  }
+  .cinema-map-card {
+    padding: 0.55rem;
+  }
+  .cinema-map {
+    min-height: 14rem;
+  }
+  .cinema-map__marker {
+    width: 1.75rem;
+    font-size: 0.67rem;
+  }
+  .cinema-map__marker::after {
+    display: none;
+  }
+  .cinema-map__note {
+    font-size: 0.67rem;
+  }
+  .cinema-state-chips {
+    margin-inline: -0.1rem;
+    padding-bottom: 0.4rem;
+  }
+  .cinema-state-chip {
+    min-height: 2.55rem;
+    padding: 0.52rem 0.7rem;
+    font-size: 0.69rem;
+  }
+  .cinema-panel {
+    padding: 0.9rem;
+  }
+  .cinema-state-index {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+  }
+  .cinema-state-index__button {
+    min-height: 2.85rem;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.7rem;
+  }
+  .cinema-card__maps {
+    min-height: 2.6rem;
+    align-items: center;
+  }
+}
+
+@media (max-width: 23rem) {
+  .cinema-map { min-height: 12.5rem; }
+  .cinema-state-index { grid-template-columns: 1fr; }
+  .cinema-panel__header { gap: 0.55rem; }
+  .cinema-panel__header h3 { font-size: 1.55rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinema-map__shape,
+  .cinema-map__marker,
+  .cinema-map__marker::after {
+    transition: none !important;
+  }
+}

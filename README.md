@@ -43,6 +43,8 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /js
     content-data.js
     language-controller.js
+    cinema-data.js
+    cinema-controller.js
     gallery-controller.js
     app.js
     scene-controller.js
@@ -60,7 +62,7 @@ A compact EN/BM switch is fixed to the top-right corner. English is the default 
 
 The shared `js/language-controller.js` translates:
 
-- Main headings, synopsis, trailer controls, First Look gallery and film-summary content.
+- Main headings, synopsis, trailer controls, First Look gallery, film-summary content and cinema finder.
 - Cast groups, card instructions, descriptions and accessible flip-card announcements.
 - House and Sitting Room names, image alternatives, hotspot labels and scene status messages.
 - Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
@@ -74,6 +76,7 @@ The shared `js/language-controller.js` translates:
 - Retro television presentation for the official trailer, without autoplay.
 - Responsive First Look film-still gallery with a large 16:9 featured frame, horizontal thumbnail filmstrip, swipe/arrow navigation and fullscreen viewer.
 - IMDb-inspired film-summary section with the official poster, approved synopsis, principal credits, full supplied cast list and release date, styled in the TIKUS visual language.
+- Stylised Malaysia **Where to Watch / Lokasi Tayangan** map covering the 22 confirmed cinema locations, with state selection, addresses and external directions links. The map is schematic and uses no third-party map library or embedded map tiles.
 - Eight keyboard-operable cast and character flip cards, grouped as Hosts and Guests & The Inspector.
 - Character cards open on the illustrated character side.
 - Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.

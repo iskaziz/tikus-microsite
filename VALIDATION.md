@@ -169,3 +169,16 @@ Confirmed:
 
 - Final static validation passed with 226 matching EN/BM translation keys, 22 unique HTML IDs, three direct Sitting Room game hotspots, balanced CSS braces and no missing local references/base64 media.
 - A final headless Chromium screenshot attempt was made for the new section, but the browser process did not complete within the execution timeout; no visual-runtime claim is made from that attempt.
+
+## v14 cinema-map validation
+
+- Confirmed 22 cinema records in `js/cinema-data.js`: 13 GSC, 6 TGV and 3 independent venues.
+- Confirmed the state grouping matches the supplied release-list table; states/territories with no listed venue remain visually inactive on the schematic map.
+- Verified all new local JS/CSS references exist and all JavaScript files pass `node --check`.
+- Parsed all stylesheets with `tinycss2` with no CSS parse errors.
+- Confirmed unique HTML IDs and no missing `data-i18n` keys referenced by the page.
+- The map uses numbered markers plus state buttons, so venue availability is not communicated through colour alone.
+- Mobile state controls are horizontally scrollable, cinema directions links retain touch-sized targets, and the results panel becomes non-sticky below 68rem.
+- `prefers-reduced-motion` removes map-selection transitions.
+- A headless Chromium visual pass was attempted in the execution environment but the process did not complete; no visual-runtime claim is made from that blocked pass.
+

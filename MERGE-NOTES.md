@@ -182,3 +182,15 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added the theatrical date shown on the approved poster: 3 September 2026.
 - Removed the obsolete placeholder `More from TIKUS` / TBA information block to avoid contradictory release information.
 - Existing cast cards remain unchanged; the summary list reflects the complete cast list supplied for this section.
+
+## v14 — Where to Watch cinema map
+
+- Added a bilingual `Where to Watch / Lokasi Tayangan` section between the film summary and interactive cast cards.
+- Cinema names and state groupings come from the supplied TIKUS cinema release list: 22 venues total, comprising 13 GSC, 6 TGV and 3 independent/Paragon locations.
+- Added `js/cinema-data.js` for venue/state data and `js/cinema-controller.js` for map selection and panel rendering.
+- Added a lightweight poster-style schematic Malaysia map with numbered state markers. No Google Maps embed, map tiles, mapping library or runtime geolocation is used.
+- State chips provide an accessible fallback for small states and mobile users; the default panel is a compact state index rather than a 22-card wall.
+- Venue cards display the release-list cinema name, verified current address and an external Google Maps search link.
+- Addresses were checked against current official GSC, TGV, Paragon Cinemas or IOI City Mall listings on 4 August 2026. Release schedules may change, so the public section includes a confirmation disclaimer.
+- Added full English/Bahasa Malaysia copy and live language refresh for dynamic state/panel content.
+

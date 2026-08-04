@@ -18,6 +18,8 @@
 <link href="css/tikus-slider.css" rel="stylesheet"/>
 <script defer src="js/content-data.js"></script>
 <script defer src="js/language-controller.js"></script>
+<script defer src="js/cinema-data.js"></script>
+<script defer src="js/cinema-controller.js"></script>
 <script defer src="js/gallery-controller.js"></script>
 <script defer src="js/modal-controller.js"></script>
 <script defer src="js/scene-controller.js"></script>
@@ -203,7 +205,72 @@
 </div>
 </div>
 </div>
-<a class="film-summary-section__continue" href="#cast"><span data-i18n="summary.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
+<a class="film-summary-section__continue" href="#cinemas"><span data-i18n="summary.whereToWatch">Where to watch</span><span aria-hidden="true">↓</span></a>
+</section>
+<section aria-labelledby="cinema-title" class="cinema-section" data-cinema-section="" id="cinemas">
+<div aria-hidden="true" class="cinema-section__rings"></div>
+<header class="section-heading cinema-section__heading">
+<p class="eyebrow" data-i18n="cinema.eyebrow">Where to watch</p>
+<h2 data-i18n="cinema.heading" id="cinema-title">22 cinemas nationwide</h2>
+<p data-i18n="cinema.intro">Select a state on the map to see participating cinemas, addresses and directions.</p>
+</header>
+<div class="cinema-stats" aria-label="Cinema release network" data-i18n-aria-label="cinema.statsLabel">
+<div><strong>22</strong><span data-i18n="cinema.cinemas">Cinemas</span></div>
+<div><strong>13</strong><span>GSC</span></div>
+<div><strong>6</strong><span>TGV</span></div>
+<div><strong>3</strong><span data-i18n="cinema.independent">Independent</span></div>
+</div>
+<div class="cinema-layout">
+<div class="cinema-map-card">
+<div class="cinema-map" role="group" aria-label="Stylised map of Malaysia showing states with TIKUS screenings" data-i18n-aria-label="cinema.mapLabel">
+<svg aria-hidden="true" class="cinema-map__svg" viewBox="0 0 860 460" xmlns="http://www.w3.org/2000/svg">
+<g class="cinema-map__peninsula">
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="perlis" points="120,25 160,20 170,45 130,50"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="kedah" points="115,50 170,45 175,95 125,110 100,90"/>
+<circle class="cinema-map__shape cinema-map__island has-cinemas" data-cinema-shape="penang" cx="90" cy="105" r="12"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="perak" points="125,110 175,95 190,165 160,225 120,210 105,160"/>
+<polygon class="cinema-map__shape is-inactive" points="175,45 235,55 245,115 190,165 175,95"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="terengganu" points="235,55 270,75 275,150 245,195 190,165 245,115"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="pahang" points="190,165 245,195 235,270 175,285 160,225"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="selangor" points="120,210 160,225 175,285 145,310 110,280 100,240"/>
+<circle class="cinema-map__shape cinema-map__territory has-cinemas" data-cinema-shape="kuala-lumpur" cx="140" cy="255" r="9"/>
+<circle class="cinema-map__shape cinema-map__territory has-cinemas" data-cinema-shape="putrajaya" cx="151" cy="294" r="7"/>
+<polygon class="cinema-map__shape is-inactive" points="145,310 175,285 210,315 200,350 155,345"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="melaka" points="130,345 155,345 200,350 180,375 145,370"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="johor" points="180,375 200,350 235,365 250,410 225,440 175,430 145,370"/>
+</g>
+<g class="cinema-map__borneo">
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="sarawak" points="470,210 530,165 620,145 690,175 670,245 610,270 550,255 500,280 455,255"/>
+<polygon class="cinema-map__shape has-cinemas" data-cinema-shape="sabah" points="620,145 705,110 790,125 825,175 800,215 720,235 670,245 690,175"/>
+<circle class="cinema-map__shape cinema-map__island is-inactive" cx="690" cy="125" r="7"/>
+</g>
+<g class="cinema-map__labels">
+<text x="205" y="26">PENINSULAR</text>
+<text x="616" y="92">BORNEO</text>
+<text x="198" y="92">KELANTAN</text>
+<text x="185" y="326">N. SEMBILAN</text>
+<text x="699" y="120">LABUAN</text>
+</g>
+</svg>
+<div class="cinema-map__markers" data-cinema-map-markers=""></div>
+</div>
+<p class="cinema-map__note" data-i18n="cinema.mapNote">Stylised map — not to scale. Select a numbered state marker or use the state buttons below.</p>
+<div class="cinema-state-chips" data-cinema-state-chips="" aria-label="Cinema states" data-i18n-aria-label="cinema.statesLabel"></div>
+</div>
+<aside class="cinema-panel" aria-live="polite" aria-atomic="false">
+<header class="cinema-panel__header">
+<div>
+<p class="eyebrow" data-i18n="cinema.locations">Cinema locations</p>
+<h3 data-cinema-panel-title="" tabindex="-1">22 cinemas nationwide</h3>
+</div>
+<span class="cinema-panel__count" data-cinema-panel-count=""></span>
+</header>
+<div data-cinema-panel-body=""></div>
+<p class="cinema-panel__disclaimer" data-i18n="cinema.disclaimer">Cinema locations are based on the TIKUS release list. Addresses were checked against current cinema or mall listings; schedules can change, so confirm before travelling.</p>
+<p aria-live="polite" class="visually-hidden" data-cinema-status=""></p>
+</aside>
+</div>
+<a class="cinema-section__continue" href="#cast"><span data-i18n="cinema.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
 </section>
 <section aria-labelledby="cast-title" class="cast-section" id="cast">
 <div aria-hidden="true" class="cast-section__rings"></div>
