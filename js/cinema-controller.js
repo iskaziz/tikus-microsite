@@ -5,7 +5,7 @@
   if (!data) return;
 
   const stateById = new Map(data.states.map((state) => [state.id, state]));
-  let selectedState = 'all';
+  let selectedState = '';
 
   function i18n() { return global.TikusI18n; }
   function language() { return i18n()?.language === 'ms' ? 'ms' : 'en'; }
@@ -15,37 +15,6 @@
   function mapsUrl(cinema) {
     const query = encodeURIComponent(`${cinema.name}, ${cinema.address}, Malaysia`);
     return `https://www.google.com/maps/search/?api=1&query=${query}`;
-  }
-
-  function createStateIndexButton(state) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'cinema-state-index__button';
-    button.dataset.cinemaStateSelect = state.id;
-    button.innerHTML = `<span>${stateName(state)}</span><strong>${data.stateCounts[state.id] || 0}</strong>`;
-    button.setAttribute('aria-label', t('cinema.stateButtonAria', { state: stateName(state), count: data.stateCounts[state.id] || 0 }, stateName(state)));
-    return button;
-  }
-
-  function renderAll(panel, heading, count) {
-    heading.textContent = t('cinema.allHeading', { count: data.total }, `${data.total} cinemas nationwide`);
-    count.textContent = t('cinema.statesCount', { count: data.states.length }, `${data.states.length} areas`);
-
-    const intro = document.createElement('p');
-    intro.className = 'cinema-panel__intro';
-    intro.textContent = t('cinema.allIntro', {}, 'Choose a state to see cinema names, addresses and directions.');
-    panel.appendChild(intro);
-
-    const index = document.createElement('div');
-    index.className = 'cinema-state-index';
-    index.setAttribute('role', 'list');
-    data.states.forEach((state) => {
-      const item = document.createElement('div');
-      item.setAttribute('role', 'listitem');
-      item.appendChild(createStateIndexButton(state));
-      index.appendChild(item);
-    });
-    panel.appendChild(index);
   }
 
   function createCinemaCard(cinema) {
@@ -79,9 +48,32 @@
     return article;
   }
 
-  function renderState(panel, heading, count, stateId) {
+  function renderPrompt(root) {
+    const panel = root.querySelector('[data-cinema-panel-body]');
+    const heading = root.querySelector('[data-cinema-panel-title]');
+    const count = root.querySelector('[data-cinema-panel-count]');
+    if (!panel || !heading || !count) return;
+
+    panel.replaceChildren();
+    heading.textContent = t('cinema.promptHeading', {}, 'Choose a state');
+    count.textContent = '';
+
+    const intro = document.createElement('p');
+    intro.className = 'cinema-panel__intro';
+    intro.textContent = t('cinema.promptIntro', {}, 'Use the state selector to find participating cinemas near you.');
+    panel.appendChild(intro);
+  }
+
+  function renderState(root, stateId) {
+    const panel = root.querySelector('[data-cinema-panel-body]');
+    const heading = root.querySelector('[data-cinema-panel-title]');
+    const count = root.querySelector('[data-cinema-panel-count]');
+    const status = root.querySelector('[data-cinema-status]');
     const state = stateById.get(stateId);
+    if (!panel || !heading || !count || !state) return;
+
     const venues = data.cinemas.filter((cinema) => cinema.state === stateId);
+    panel.replaceChildren();
     heading.textContent = stateName(state);
     count.textContent = countLabel(venues.length);
 
@@ -89,106 +81,61 @@
     list.className = 'cinema-card-list';
     venues.forEach((cinema) => list.appendChild(createCinemaCard(cinema)));
     panel.appendChild(list);
-  }
-
-  function renderPanel(root) {
-    const panel = root.querySelector('[data-cinema-panel-body]');
-    const heading = root.querySelector('[data-cinema-panel-title]');
-    const count = root.querySelector('[data-cinema-panel-count]');
-    const status = root.querySelector('[data-cinema-status]');
-    if (!panel || !heading || !count) return;
-
-    panel.replaceChildren();
-    if (selectedState === 'all') renderAll(panel, heading, count);
-    else renderState(panel, heading, count, selectedState);
 
     if (status) {
-      const label = selectedState === 'all'
-        ? t('cinema.allHeading', { count: data.total }, `${data.total} cinemas nationwide`)
-        : `${stateName(stateById.get(selectedState))}: ${count.textContent}`;
-      status.textContent = t('cinema.selectionStatus', { selection: label }, label);
+      const selection = `${stateName(state)}: ${countLabel(venues.length)}`;
+      status.textContent = t('cinema.selectionStatus', { selection }, `${selection} selected.`);
     }
   }
 
-  function updateSelection(root) {
-    root.querySelectorAll('[data-cinema-state-select]').forEach((button) => {
-      const active = button.dataset.cinemaStateSelect === selectedState;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
+  function buildSelect(root) {
+    const select = root.querySelector('[data-cinema-state-select]');
+    if (!select) return;
+
+    select.replaceChildren();
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = t('cinema.selectorPlaceholder', {}, 'Choose a state');
+    select.appendChild(placeholder);
+
+    data.states.forEach((state) => {
+      const option = document.createElement('option');
+      option.value = state.id;
+      const count = data.stateCounts[state.id] || 0;
+      option.textContent = `${stateName(state)} — ${countLabel(count)}`;
+      select.appendChild(option);
     });
-    root.querySelectorAll('[data-cinema-shape]').forEach((shape) => {
-      shape.classList.toggle('is-selected', shape.dataset.cinemaShape === selectedState);
-    });
+
+    select.value = selectedState;
   }
 
   function selectState(root, stateId, options = {}) {
-    if (stateId !== 'all' && !stateById.has(stateId)) return;
+    if (stateId && !stateById.has(stateId)) return;
     selectedState = stateId;
-    renderPanel(root);
-    updateSelection(root);
-    if (options.focusPanel) root.querySelector('[data-cinema-panel-title]')?.focus({ preventScroll: true });
-  }
 
-  function buildMapMarkers(root) {
-    const layer = root.querySelector('[data-cinema-map-markers]');
-    if (!layer) return;
-    layer.replaceChildren();
-    data.states.forEach((state) => {
-      const count = data.stateCounts[state.id] || 0;
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'cinema-map__marker';
-      button.dataset.cinemaStateSelect = state.id;
-      button.style.left = `${state.marker.x}%`;
-      button.style.top = `${state.marker.y}%`;
-      button.dataset.label = stateName(state);
-      button.innerHTML = `<span aria-hidden="true">${count}</span>`;
-      button.setAttribute('aria-label', t('cinema.stateButtonAria', { state: stateName(state), count }, `${stateName(state)}, ${count} cinemas`));
-      layer.appendChild(button);
-    });
-  }
+    if (!selectedState) renderPrompt(root);
+    else renderState(root, selectedState);
 
-  function buildStateChips(root) {
-    const list = root.querySelector('[data-cinema-state-chips]');
-    if (!list) return;
-    list.replaceChildren();
-
-    const all = document.createElement('button');
-    all.type = 'button';
-    all.className = 'cinema-state-chip';
-    all.dataset.cinemaStateSelect = 'all';
-    all.textContent = t('cinema.all', {}, 'All locations');
-    list.appendChild(all);
-
-    data.states.forEach((state) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'cinema-state-chip';
-      button.dataset.cinemaStateSelect = state.id;
-      button.textContent = `${stateName(state)} · ${data.stateCounts[state.id] || 0}`;
-      list.appendChild(button);
-    });
+    const select = root.querySelector('[data-cinema-state-select]');
+    if (select && select.value !== selectedState) select.value = selectedState;
+    if (options.focusPanel && selectedState) root.querySelector('[data-cinema-panel-title]')?.focus({ preventScroll: true });
   }
 
   function refreshDynamicLanguage(root) {
-    buildMapMarkers(root);
-    buildStateChips(root);
-    renderPanel(root);
-    updateSelection(root);
+    buildSelect(root);
+    selectState(root, selectedState);
   }
 
   function init() {
     const root = document.querySelector('[data-cinema-section]');
     if (!root) return;
 
-    buildMapMarkers(root);
-    buildStateChips(root);
-    selectState(root, 'all');
+    buildSelect(root);
+    selectState(root, '');
 
-    root.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-cinema-state-select]');
-      if (!button || !root.contains(button)) return;
-      selectState(root, button.dataset.cinemaStateSelect, { focusPanel: button.classList.contains('cinema-state-index__button') });
+    root.querySelector('[data-cinema-state-select]')?.addEventListener('change', (event) => {
+      selectState(root, event.currentTarget.value, { focusPanel: Boolean(event.currentTarget.value) });
     });
 
     i18n()?.subscribe(() => refreshDynamicLanguage(root));

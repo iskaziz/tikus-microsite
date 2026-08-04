@@ -194,3 +194,12 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Addresses were checked against current official GSC, TGV, Paragon Cinemas or IOI City Mall listings on 4 August 2026. Release schedules may change, so the public section includes a confirmation disclaimer.
 - Added full English/Bahasa Malaysia copy and live language refresh for dynamic state/panel content.
 
+
+
+## v15 — compact cinema state finder
+
+- Replaced the stylised Malaysia map with a simpler state dropdown and cinema-results panel.
+- Moved `Where to Watch / Lokasi Tayangan` to the bottom of the page after the House / Games explorer.
+- Kept all 22 venue records, verified addresses, chain counts and external Maps links.
+- Preserved the bilingual EN/BM language system and keyboard-accessible native `<select>` control.
+- Removed map-only SVG, markers, chips and interaction code.

@@ -2,19 +2,19 @@
   'use strict';
 
   const states = [
-    { id: 'johor', name: { en: 'Johor', ms: 'Johor' }, marker: { x: 24.7, y: 86.7 } },
-    { id: 'kedah', name: { en: 'Kedah', ms: 'Kedah' }, marker: { x: 16.3, y: 15.9 } },
-    { id: 'kuala-lumpur', name: { en: 'Kuala Lumpur', ms: 'Kuala Lumpur' }, marker: { x: 16.8, y: 55.7 } },
-    { id: 'melaka', name: { en: 'Melaka', ms: 'Melaka' }, marker: { x: 18.6, y: 78.4 } },
-    { id: 'pahang', name: { en: 'Pahang', ms: 'Pahang' }, marker: { x: 24.4, y: 47.8 } },
-    { id: 'perak', name: { en: 'Perak', ms: 'Perak' }, marker: { x: 16.9, y: 34.7 } },
-    { id: 'perlis', name: { en: 'Perlis', ms: 'Perlis' }, marker: { x: 16.9, y: 7.6 } },
-    { id: 'penang', name: { en: 'Penang', ms: 'Pulau Pinang' }, marker: { x: 10.5, y: 22.8 } },
-    { id: 'putrajaya', name: { en: 'Putrajaya', ms: 'Putrajaya' }, marker: { x: 18.0, y: 64.3 } },
-    { id: 'sabah', name: { en: 'Sabah', ms: 'Sabah' }, marker: { x: 84.6, y: 36.3 } },
-    { id: 'sarawak', name: { en: 'Sarawak', ms: 'Sarawak' }, marker: { x: 65.5, y: 50.8 } },
-    { id: 'selangor', name: { en: 'Selangor', ms: 'Selangor' }, marker: { x: 13.8, y: 53.2 } },
-    { id: 'terengganu', name: { en: 'Terengganu', ms: 'Terengganu' }, marker: { x: 28.8, y: 28.2 } }
+    { id: 'johor', name: { en: 'Johor', ms: 'Johor' } },
+    { id: 'kedah', name: { en: 'Kedah', ms: 'Kedah' } },
+    { id: 'kuala-lumpur', name: { en: 'Kuala Lumpur', ms: 'Kuala Lumpur' } },
+    { id: 'melaka', name: { en: 'Melaka', ms: 'Melaka' } },
+    { id: 'pahang', name: { en: 'Pahang', ms: 'Pahang' } },
+    { id: 'perak', name: { en: 'Perak', ms: 'Perak' } },
+    { id: 'perlis', name: { en: 'Perlis', ms: 'Perlis' } },
+    { id: 'penang', name: { en: 'Penang', ms: 'Pulau Pinang' } },
+    { id: 'putrajaya', name: { en: 'Putrajaya', ms: 'Putrajaya' } },
+    { id: 'sabah', name: { en: 'Sabah', ms: 'Sabah' } },
+    { id: 'sarawak', name: { en: 'Sarawak', ms: 'Sarawak' } },
+    { id: 'selangor', name: { en: 'Selangor', ms: 'Selangor' } },
+    { id: 'terengganu', name: { en: 'Terengganu', ms: 'Terengganu' } }
   ];
 
   const cinemas = [

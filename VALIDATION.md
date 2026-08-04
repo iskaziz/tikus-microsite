@@ -182,3 +182,12 @@ Confirmed:
 - `prefers-reduced-motion` removes map-selection transitions.
 - A headless Chromium visual pass was attempted in the execution environment but the process did not complete; no visual-runtime claim is made from that blocked pass.
 
+
+
+## v15 cinema finder checks
+
+- `Where to Watch / Lokasi Tayangan` appears after the House / Games explorer and before the footer.
+- No cinema-map SVG, marker layer or state-chip interface remains in `index.html`.
+- Native state selector contains all 13 screening areas and updates the venue panel without page navigation.
+- All 22 venue records and 13 / 6 / 3 chain totals remain unchanged.
+- EN/BM cinema finder labels and dynamic state names remain supported.

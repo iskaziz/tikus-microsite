@@ -120,7 +120,7 @@ The complete gallery derivative set is approximately 2.05 MiB, but it is not dow
 
 The uploaded official poster contains no alpha transparency. The section uses `object-fit: contain` and does not crop the artwork.
 
-## Where to Watch map
+## Where to Watch state finder
 
-The cinema finder adds no raster or external map assets. The Malaysia map is a small inline schematic SVG in `index.html`, with state markers and venue panels driven by `js/cinema-data.js` and `js/cinema-controller.js`. Google Maps is only opened after a visitor deliberately selects an external directions link.
+The cinema finder adds no raster or external map assets. A native bilingual state selector and venue panel are driven by `js/cinema-data.js` and `js/cinema-controller.js`. Google Maps is only opened after a visitor deliberately selects an external directions link.
 
