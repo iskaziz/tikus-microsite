@@ -25,6 +25,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
     /images
       /title
       /characters
+      /gallery
       /scenes
       /games/tikus-beat
       /games/tikus-slider
@@ -41,6 +42,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /js
     content-data.js
     language-controller.js
+    gallery-controller.js
     app.js
     scene-controller.js
     modal-controller.js
@@ -69,6 +71,7 @@ The shared `js/language-controller.js` translates:
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
+- Responsive First Look film-still gallery with a large 16:9 featured frame, horizontal thumbnail filmstrip, swipe/arrow navigation and fullscreen viewer.
 - Eight keyboard-operable cast and character flip cards, grouped as Hosts and Guests & The Inspector.
 - Character cards open on the illustrated character side.
 - Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.

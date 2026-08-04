@@ -4,10 +4,10 @@ Validation was performed against the complete packaged project without adding sp
 
 ## Static checks
 
-- All 8 JavaScript files pass `node --check`.
+- All 10 JavaScript files pass `node --check`.
 - All 6 stylesheets parse without CSS syntax errors.
 - `index.html` contains unique IDs and no missing local stylesheet, script, image or source references.
-- All 84 packaged assets resolve through relative paths.
+- All 126 packaged assets resolve through relative paths.
 - No base64 asset, framework, build dependency, autoplay media or external animation library is present.
 - The obsolete `js/tikus-logic-game.js` file remains absent.
 - Saved results continue to use `tikus-rush-best-v2`, `tikus-beat-best-v2` and `tikus-slider-best-v1`.
@@ -144,3 +144,16 @@ Confirmed:
 - Escape closes each game dialog and restores focus to the originating hotspot in both languages.
 - Tested at 1440×900, 390×844 and 320×700, including reduced-motion mode and page-level horizontal-overflow checks.
 
+
+## First Look gallery validation
+
+- Added seven approved stills using uncropped 16:9 derivatives at 960 × 540 and 1600 × 900, plus 360 × 203 thumbnails.
+- Gallery media adds approximately 2.05 MiB to the deployable package, while large images after Still 01 remain interaction-loaded rather than initial page requests.
+- `js/gallery-controller.js` passes `node --check` and keeps the gallery separate from the existing trailer, information and game-dialog controllers.
+- Thumbnail buttons, previous/next controls and the featured-image control are native keyboard-operable buttons.
+- Featured-gallery left/right keys and horizontal swipe gestures change stills; the native fullscreen dialog adds Escape close and focus restoration to the opening control.
+- The EN/BM dictionaries contain the same 209 translation keys, including gallery labels, live-status copy and seven image alternatives.
+- All six stylesheets parse without CSS syntax errors; all ten JavaScript files pass syntax checks.
+- `index.html` contains unique IDs and all referenced local scripts, stylesheets and gallery assets resolve.
+- No base64 images, autoplay media or external gallery library was added.
+- A Chromium screenshot pass was attempted in the execution environment, but the headless browser process did not complete; no visual-runtime claim is made from that blocked pass.

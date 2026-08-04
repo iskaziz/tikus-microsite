@@ -161,3 +161,14 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Scene/hash state, card flip state, saved game progress and audio preferences are preserved when the language changes.
 - No duplicate HTML pages, external translation service or additional media assets were introduced.
 
+
+## First Look film still gallery
+
+- Added a new bilingual `FIRST LOOK / PANDANGAN PERTAMA` section between the trailer and cast sections.
+- Added seven approved 16:9 film stills as responsive WebP/JPEG derivatives without cropping the original framing.
+- Added one large featured image with a horizontally scrolling thumbnail filmstrip rather than an auto-playing carousel.
+- Added previous/next controls, left/right keyboard navigation and horizontal swipe navigation.
+- Selecting the featured image opens a native fullscreen `<dialog>` viewer with previous/next controls, Escape handling and focus restoration.
+- Added `js/gallery-controller.js`; the gallery remains independent of the core information, trailer and game modal controllers.
+- English and Bahasa Malaysia gallery labels, instructions, ARIA text and image alternatives are included in the shared language dictionary.
+- Thumbnail images are lazy-loaded. Only the first large still exists in initial page markup; other large stills load on selection and adjacent 960-pixel WebP images are prefetched only after user interaction.
