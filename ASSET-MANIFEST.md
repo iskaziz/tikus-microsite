@@ -108,3 +108,14 @@ Seven approved 16:9 film stills are included under `assets/images/gallery/`. The
 | 07 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
 
 The complete gallery derivative set is approximately 2.05 MiB, but it is not downloaded up front. Thumbnail files are lazy-loaded near the gallery. Only Still 01 is referenced as the initial large image; other large stills are requested when selected, with adjacent 960-pixel WebP files prefetched only after gallery interaction. The photographs use their complete 16:9 compositions and no grain/filter overlay is applied over the image pixels.
+
+## Official poster derivatives
+
+| File | Format | Dimensions | Aspect ratio | True transparency | Intended role |
+|---|---:|---:|---:|---:|---|
+| `assets/images/poster/tikus-official-poster-420.webp` | `WEBP` | `420 × 622` | `0.675:1` | `No` | `Responsive film-summary poster` |
+| `assets/images/poster/tikus-official-poster-420.jpg` | `JPG` | `420 × 622` | `0.675:1` | `No` | `Poster fallback` |
+| `assets/images/poster/tikus-official-poster-670.webp` | `WEBP` | `670 × 992` | `0.675:1` | `No` | `Responsive film-summary poster` |
+| `assets/images/poster/tikus-official-poster-670.jpg` | `JPG` | `670 × 992` | `0.675:1` | `No` | `Poster fallback` |
+
+The uploaded official poster contains no alpha transparency. The section uses `object-fit: contain` and does not crop the artwork.

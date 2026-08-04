@@ -157,3 +157,15 @@ Confirmed:
 - `index.html` contains unique IDs and all referenced local scripts, stylesheets and gallery assets resolve.
 - No base64 images, autoplay media or external gallery library was added.
 - A Chromium screenshot pass was attempted in the execution environment, but the headless browser process did not complete; no visual-runtime claim is made from that blocked pass.
+
+## Film-summary validation
+
+- Official poster source confirmed at 670 × 992 with no alpha transparency.
+- Generated 420-pixel and 670-pixel WebP/JPEG responsive derivatives; poster framing remains uncropped.
+- Added bilingual summary labels, synopsis, release date, credits and accessibility text.
+- Summary cast list contains the nine names supplied for the film-information section, including Roshafiq Roslee; existing interactive cast-card data was not modified.
+- Removed the obsolete TBA film-information block from `index.html`.
+- Static syntax, translation-key parity, unique-ID and local-reference checks are included in the final package validation.
+
+- Final static validation passed with 226 matching EN/BM translation keys, 22 unique HTML IDs, three direct Sitting Room game hotspots, balanced CSS braces and no missing local references/base64 media.
+- A final headless Chromium screenshot attempt was made for the new section, but the browser process did not complete within the execution timeout; no visual-runtime claim is made from that attempt.

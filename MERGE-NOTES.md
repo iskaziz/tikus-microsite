@@ -172,3 +172,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added `js/gallery-controller.js`; the gallery remains independent of the core information, trailer and game modal controllers.
 - English and Bahasa Malaysia gallery labels, instructions, ARIA text and image alternatives are included in the shared language dictionary.
 - Thumbnail images are lazy-loaded. Only the first large still exists in initial page markup; other large stills load on selection and adjacent 960-pixel WebP images are prefetched only after user interaction.
+
+## Film-summary section — 2026-08-04
+
+- Added an IMDb-inspired summary card between First Look and the interactive cast section.
+- Added responsive official-poster WebP/JPEG derivatives; the source PNG is not required by the deployed page.
+- Added the supplied Malay synopsis, principal credits, production company, nine-name cast list and hashtags without changing proper names.
+- Added a faithful English translation for the EN language mode and matching BM labels for the bilingual controller.
+- Added the theatrical date shown on the approved poster: 3 September 2026.
+- Removed the obsolete placeholder `More from TIKUS` / TBA information block to avoid contradictory release information.
+- Existing cast cards remain unchanged; the summary list reflects the complete cast list supplied for this section.

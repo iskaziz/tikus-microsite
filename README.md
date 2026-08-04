@@ -26,6 +26,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
       /title
       /characters
       /gallery
+      /poster
       /scenes
       /games/tikus-beat
       /games/tikus-slider
@@ -59,7 +60,7 @@ A compact EN/BM switch is fixed to the top-right corner. English is the default 
 
 The shared `js/language-controller.js` translates:
 
-- Main headings, synopsis, trailer controls and final-information content.
+- Main headings, synopsis, trailer controls, First Look gallery and film-summary content.
 - Cast groups, card instructions, descriptions and accessible flip-card announcements.
 - House and Sitting Room names, image alternatives, hotspot labels and scene status messages.
 - Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
@@ -72,6 +73,7 @@ The shared `js/language-controller.js` translates:
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
 - Responsive First Look film-still gallery with a large 16:9 featured frame, horizontal thumbnail filmstrip, swipe/arrow navigation and fullscreen viewer.
+- IMDb-inspired film-summary section with the official poster, approved synopsis, principal credits, full supplied cast list and release date, styled in the TIKUS visual language.
 - Eight keyboard-operable cast and character flip cards, grouped as Hosts and Guests & The Inspector.
 - Character cards open on the illustrated character side.
 - Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.
