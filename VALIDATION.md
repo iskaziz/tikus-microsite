@@ -165,3 +165,12 @@ Confirmed:
 - Confirmed the EN/BM dictionaries retain matching translation-key sets.
 - Confirmed the cast grid still contains eight cards and only Harris uses the profile-coming-soon copy.
 - Confirmed JavaScript syntax passes after the copy update.
+
+
+## Cast photography validation — 2026-08-05
+
+- Confirmed the supplied files `Haiccal.jpeg`, `Iski Senna.jpeg`, `Y Mun.jpeg`, `Fattah.jpeg` and `Marsha.jpeg` are opaque RGB JPEG images with no alpha transparency.
+- Confirmed all five responsive derivative sets exist at 480×600 and 720×900 in AVIF, WebP and JPEG.
+- Confirmed Y Mun, Fattah, Marsha, Iski Senna and Haiccal reference the new cast-photo derivatives.
+- Confirmed QIU QATINA, Diana Ooi and Harris continue to reference their existing illustrated portraits.
+- Confirmed the new photography treatment is static CSS only and introduces no continuous animation, base64 media or external dependency.

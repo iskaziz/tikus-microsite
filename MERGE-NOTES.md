@@ -180,3 +180,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added the supplied Fattah Fawzy biography.
 - Added Bahasa Malaysia translations for both biographies so the EN/BM switch remains complete.
 - Harris remains the only cast card using the profile-coming-soon copy.
+
+
+## Cast photography update — 2026-08-05
+
+- Replaced the illustrated/placeholder fronts for Y Mun, Fattah, Marsha, Iski Senna and Haiccal with the newly supplied cast photographs.
+- Source JPEGs were inspected as opaque RGB images.
+- Each photograph is cropped to a consistent 4:5 profile composition and exported at 480×600 and 720×900 in AVIF, WebP and progressive JPEG.
+- The full-resolution source files are not shipped in the microsite.
+- A dedicated `cast-card__portrait--photo` treatment adds restrained saturation, contrast, sepia and static print texture without modifying facial features.
+- QIU QATINA, Diana Ooi and Harris retain their existing illustrated portrait assets.

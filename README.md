@@ -24,6 +24,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /assets
     /images
       /title
+      /cast
       /characters
       /scenes
       /games/tikus-beat
@@ -71,8 +72,8 @@ The shared `js/language-controller.js` translates:
 - Retro television presentation for the official trailer, without autoplay.
 - Eight keyboard-operable cast profile cards in one responsive grid with no horizontal card-strip scrolling.
 - Card fronts show the cast name and approved portrait artwork; selecting a card flips it to the cast biography.
+- Y Mun, Fattah, Marsha, Iski Senna and Haiccal use the newly supplied photographic portraits; QIU QATINA, Diana Ooi and Harris retain the existing illustrated portraits.
 - Supplied biographies are included for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal; Harris remains marked as profile coming soon.
-- Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.
 - Compact vertical spacing across the trailer, cast, explorer and final-information sections.
 - Responsive 16:9 House → Sitting Room explorer using `object-fit: contain`.
 - Exactly three percentage-positioned hotspot buttons in the Sitting Room.
@@ -160,7 +161,7 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 
 Only the title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house-entry control.
 
-Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives.
+Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Cast portrait media uses responsive AVIF, WebP and JPEG derivatives; supplied photography is cropped to 480×600 and 720×900 while remaining illustrated portraits use 480×480 and 720×720.
 
 ## Mobile puzzle interaction
 

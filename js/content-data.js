@@ -31,6 +31,19 @@
     altName: characterName
   });
 
+
+  const castPortraitSet = (filename, actorName) => ({
+    avif: `assets/images/cast/${filename}-480.avif 480w, assets/images/cast/${filename}-720.avif 720w`,
+    webp: `assets/images/cast/${filename}-480.webp 480w, assets/images/cast/${filename}-720.webp 720w`,
+    fallback: `assets/images/cast/${filename}-720.jpg`,
+    fallbackSrcset: `assets/images/cast/${filename}-480.jpg 480w, assets/images/cast/${filename}-720.jpg 720w`,
+    sizes: '(max-width: 48rem) min(44vw, 11rem), 16rem',
+    width: 720,
+    height: 900,
+    kind: 'photo',
+    alt: `Portrait photograph of ${actorName}`
+  });
+
   const scenes = {
     house: {
       id: 'house',
@@ -102,14 +115,14 @@
     {
       id: 'y-mun',
       actorName: 'Y Mun',
-      portrait: characterPortraitSet('jay', 'Jay'),
+      portrait: castPortraitSet('y-mun', 'Y Mun'),
       bio: 'I’m Nicholas Chin, and TIKUS is my very first feature film. I’ve always loved films and did a bit of theatre in college. Getting cast in this role was such an unexpected and exciting moment for me, and honestly the whole process from auditions to filming has taught me so much. I’m really grateful to be part of this project and can’t wait for people to finally see it!',
       bioKey: 'cast.bio.yMun'
     },
     {
       id: 'fattah',
       actorName: 'Fattah',
-      portrait: characterPortraitSet('saladin', 'Saladin'),
+      portrait: castPortraitSet('fattah', 'Fattah'),
       bio: 'Fattah Fawzy is a Malaysian filmmaker, actor, theatre practitioner, and singer-songwriter. He believes in truthful and grounded performances, bringing honesty and careful preparation to every role. Alongside his work in film and theatre, he has also shared his experience through workshops, talks, and collaborations with students and aspiring filmmakers. His background as a writer and director has further shaped his approach to storytelling, both on stage and on screen.',
       bioKey: 'cast.bio.fattah'
     },
@@ -130,21 +143,21 @@
     {
       id: 'marsha',
       actorName: 'Marsha',
-      portrait: characterPortraitSet('alayna', 'Alayna'),
+      portrait: castPortraitSet('marsha', 'Marsha'),
       bio: 'Marsha Biddulph is a Malaysian actress and content creator. She began her acting career in 2024 and has since appeared in productions including Harimau Malaya, a Unifi series, a Viu series, and the upcoming films Tikus and Sujud Syaitan. Passionate about storytelling, she continues to build her career across film, television, and digital content.',
       bioKey: 'cast.bio.marsha'
     },
     {
       id: 'iski',
       actorName: 'Iski Senna',
-      portrait: characterPortraitSet('guy', 'Guy'),
+      portrait: castPortraitSet('iski-senna', 'Iski Senna'),
       bio: 'Iski Senna is a Thespian, Tango Dancer and Drama teacher. From Istana Budaya to ITV UK, Netflix to Nueve de Julio Avenue, his particular set of skills has taken him to many places, mostly unexpected.\n\nYou might have seen him in bit parts on Netflix\'s "Marco Polo" and ITV\'s "The Singapore Grip", or in M. Raihan Halim\'s Horror flick as the titular "Ibu", under heavy prosthetics, but you can always guarantee he steals the spotlight.',
       bioKey: 'cast.bio.iski'
     },
     {
       id: 'haiccal',
       actorName: 'Haiccal',
-      portrait: null,
+      portrait: castPortraitSet('haiccal', 'Haiccal'),
       bio: 'Haiccal Hazim is a Malaysian actor, stage actor, model, commercial talent and a host, who is passionate about bringing honest and relatable characters to life. With experience in theatre, film, and commercial productions, he enjoys collaborating with creative teams and embracing new challenges both on and off screen. His commitment to continuous growth and storytelling has allowed him to work across a variety of projects, and he looks forward to connecting with audiences through every role he takes on.',
       bioKey: 'cast.bio.haiccal'
     }

@@ -810,6 +810,31 @@ img.cast-card__portrait,
   background: var(--crimson-950);
 }
 
+.cast-card__portrait--photo {
+  position: relative;
+  isolation: isolate;
+  background: #1a0b0d;
+}
+
+.cast-card__portrait--photo img {
+  filter: saturate(0.84) contrast(1.07) sepia(0.08);
+  transform: scale(1.002);
+}
+
+.cast-card__portrait--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(245, 231, 204, 0.04), rgba(73, 5, 14, 0.11)),
+    repeating-linear-gradient(0deg, transparent 0 0.22rem, rgba(28, 12, 12, 0.045) 0.24rem 0.255rem);
+  box-shadow:
+    inset 0 0 0 0.08rem rgba(239, 228, 204, 0.2),
+    inset 0 -2.3rem 3rem rgba(20, 6, 8, 0.08);
+}
+
 .cast-card__portrait--cast {
   color: var(--paper-bright);
   background:

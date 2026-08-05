@@ -24,21 +24,19 @@ The packaged site uses responsive derivatives only. Original source documents, s
 | `assets/images/title/tikus-title-720.webp` | `WEBP` | `720 × 235` | `3.064:1` | `Yes` | `Responsive title artwork` |
 
 
-## Character portraits
+## Cast profile portraits
 
-Seven approved, opaque square portraits are included for the reverse sides of the Mimi, Jay, Saladin, Madam Boey, Major Mansor, Alayna and Guy cards.
+Five approved cast photographs are included as cropped, opaque 4:5 responsive derivatives. The source JPEGs contain no transparency. Facial features are not regenerated or retouched; the site applies only a restrained warm/aged-print CSS treatment so the photography sits naturally within the TIKUS card design.
 
-| Character | Base filename | Formats | Responsive dimensions | True transparency |
-|---|---|---|---:|---:|
-| Mimi | `mimi` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
-| Jay | `jay` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
-| Saladin | `saladin` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
-| Madam Boey | `madam-boey` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
-| Major Mansor | `mejar-mansor` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
-| Alayna | `alayna` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
-| Guy | `guy` | AVIF, WebP, JPEG | `480 × 480`, `720 × 720` | No |
+| Cast | Source filename | Public base filename | Formats | Responsive dimensions | True transparency |
+|---|---|---|---|---:|---:|
+| Y Mun | `Y Mun.jpeg` | `y-mun` | AVIF, WebP, JPEG | `480 × 600`, `720 × 900` | No |
+| Fattah | `Fattah.jpeg` | `fattah` | AVIF, WebP, JPEG | `480 × 600`, `720 × 900` | No |
+| Marsha | `Marsha.jpeg` | `marsha` | AVIF, WebP, JPEG | `480 × 600`, `720 × 900` | No |
+| Iski Senna | `Iski Senna.jpeg` | `iski-senna` | AVIF, WebP, JPEG | `480 × 600`, `720 × 900` | No |
+| Haiccal | `Haiccal.jpeg` | `haiccal` | AVIF, WebP, JPEG | `480 × 600`, `720 × 900` | No |
 
-The remaining Inspektor Mislan character card retains its existing illustrated placeholder until approved artwork is supplied. Actor-side portraits also remain placeholders. Portraits are lazy-loaded and use AVIF first, WebP second and progressive JPEG as the fallback.
+QIU QATINA, Diana Ooi and Harris retain their previously approved illustrated portrait assets until photographic portraits are supplied. All cast media is lazy-loaded and uses AVIF first, WebP second and progressive JPEG as fallback.
 
 ## Tikus Beat weapon icons
 
@@ -69,14 +67,14 @@ The audio control persists under `tikus-beat-sound-v1`. Neither file is embedded
 
 - **Title:** WebP is preferred where supported; transparent PNG remains the fallback. Both title PNG files contain real alpha transparency.
 - **Main scenes:** House and Sitting Room artwork use AVIF first, WebP second and progressive JPEG as the fallback. Both are opaque and use a 16:9 ratio.
-- **Character portraits:** AVIF is preferred, WebP is secondary and progressive JPEG is the fallback.
+- **Cast portraits:** AVIF is preferred, WebP is secondary and progressive JPEG is the fallback. New photographic portraits use 4:5 crops; existing illustrated portraits remain square.
 - **Preloading:** Only the title and house exterior are preloaded. The Sitting Room is prefetched on pointer, focus or touch interaction with the house entry control.
 - **Cropping:** Main stage images use `object-fit: contain` so essential composition is not cropped on mobile.
 
 ## Source transparency findings
 
 - Approved title derivatives in `assets/images/title/` retain true transparency.
-- House, Sitting Room and character portrait source illustrations are RGB/opaque and do not require transparency.
+- House, Sitting Room, illustrated portraits and the five supplied cast photographs are RGB/opaque and do not require transparency.
 - No image is embedded as base64 data.
 
 ## Tikus Slider
