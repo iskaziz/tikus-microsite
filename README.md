@@ -25,8 +25,6 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
     /images
       /title
       /characters
-      /gallery
-      /poster
       /scenes
       /games/tikus-beat
       /games/tikus-slider
@@ -43,9 +41,6 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /js
     content-data.js
     language-controller.js
-    cinema-data.js
-    cinema-controller.js
-    gallery-controller.js
     app.js
     scene-controller.js
     modal-controller.js
@@ -62,7 +57,7 @@ A compact EN/BM switch is fixed to the top-right corner. English is the default 
 
 The shared `js/language-controller.js` translates:
 
-- Main headings, synopsis, trailer controls, First Look gallery, film-summary content and cinema finder.
+- Main headings, synopsis, trailer controls and final-information content.
 - Cast groups, card instructions, descriptions and accessible flip-card announcements.
 - House and Sitting Room names, image alternatives, hotspot labels and scene status messages.
 - Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
@@ -74,11 +69,9 @@ The shared `js/language-controller.js` translates:
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
-- Responsive First Look film-still gallery with a large 16:9 featured frame, horizontal thumbnail filmstrip, swipe/arrow navigation and fullscreen viewer.
-- IMDb-inspired film-summary section with the official poster, approved synopsis, principal credits, full supplied cast list and release date, styled in the TIKUS visual language.
-- Compact bilingual **Where to Watch / Lokasi Tayangan** state finder at the bottom of the experience, covering all 22 confirmed cinema locations with a state selector, addresses and external directions links. No map library or embedded map tiles are used.
-- Eight keyboard-operable cast and character flip cards, grouped as Hosts and Guests & The Inspector.
-- Character cards open on the illustrated character side.
+- Eight keyboard-operable cast profile cards in one responsive grid with no horizontal card-strip scrolling.
+- Card fronts show the cast name and approved portrait artwork; selecting a card flips it to the cast biography.
+- Supplied biographies are included for Y Mun, Diana Ooi, Marsha, Iski Senna and Haiccal; Que, Fattah and Harris remain marked as profile coming soon.
 - Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.
 - Compact vertical spacing across the trailer, cast, explorer and final-information sections.
 - Responsive 16:9 House → Sitting Room explorer using `object-fit: contain`.

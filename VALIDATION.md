@@ -4,10 +4,10 @@ Validation was performed against the complete packaged project without adding sp
 
 ## Static checks
 
-- All 10 JavaScript files pass `node --check`.
+- All 8 JavaScript files pass `node --check`.
 - All 6 stylesheets parse without CSS syntax errors.
 - `index.html` contains unique IDs and no missing local stylesheet, script, image or source references.
-- All 126 packaged assets resolve through relative paths.
+- All 84 packaged assets resolve through relative paths.
 - No base64 asset, framework, build dependency, autoplay media or external animation library is present.
 - The obsolete `js/tikus-logic-game.js` file remains absent.
 - Saved results continue to use `tikus-rush-best-v2`, `tikus-beat-best-v2` and `tikus-slider-best-v1`.
@@ -144,50 +144,16 @@ Confirmed:
 - Escape closes each game dialog and restores focus to the originating hotspot in both languages.
 - Tested at 1440×900, 390×844 and 320×700, including reduced-motion mode and page-level horizontal-overflow checks.
 
+## Cast profile grid validation
 
-## First Look gallery validation
+- All eight cast IDs remain present and keyboard-operable.
+- Front state is the default and contains cast name plus portrait/placeholder only.
+- Reverse state contains the cast biography and a return-to-portrait prompt.
+- English and Bahasa Malaysia dictionaries contain matching translation-key sets, including all supplied biographies.
+- The cast container no longer uses horizontal overflow or scroll-snap rules.
+- Responsive grid rules resolve to four, three and two columns at desktop, intermediate and mobile breakpoints respectively.
+- JavaScript syntax passes `node --check` for every project script.
+- `styles.css` parses without CSS syntax errors.
+- All referenced local assets exist.
+- Chromium layout navigation was attempted, but local and loopback navigation are blocked by the execution-environment administrator; no new live-browser claim is made for this amendment.
 
-- Added seven approved stills using uncropped 16:9 derivatives at 960 × 540 and 1600 × 900, plus 360 × 203 thumbnails.
-- Gallery media adds approximately 2.05 MiB to the deployable package, while large images after Still 01 remain interaction-loaded rather than initial page requests.
-- `js/gallery-controller.js` passes `node --check` and keeps the gallery separate from the existing trailer, information and game-dialog controllers.
-- Thumbnail buttons, previous/next controls and the featured-image control are native keyboard-operable buttons.
-- Featured-gallery left/right keys and horizontal swipe gestures change stills; the native fullscreen dialog adds Escape close and focus restoration to the opening control.
-- The EN/BM dictionaries contain the same 209 translation keys, including gallery labels, live-status copy and seven image alternatives.
-- All six stylesheets parse without CSS syntax errors; all ten JavaScript files pass syntax checks.
-- `index.html` contains unique IDs and all referenced local scripts, stylesheets and gallery assets resolve.
-- No base64 images, autoplay media or external gallery library was added.
-- A Chromium screenshot pass was attempted in the execution environment, but the headless browser process did not complete; no visual-runtime claim is made from that blocked pass.
-
-## Film-summary validation
-
-- Official poster source confirmed at 670 × 992 with no alpha transparency.
-- Generated 420-pixel and 670-pixel WebP/JPEG responsive derivatives; poster framing remains uncropped.
-- Added bilingual summary labels, synopsis, release date, credits and accessibility text.
-- Summary cast list contains the nine names supplied for the film-information section, including Roshafiq Roslee; existing interactive cast-card data was not modified.
-- Removed the obsolete TBA film-information block from `index.html`.
-- Static syntax, translation-key parity, unique-ID and local-reference checks are included in the final package validation.
-
-- Final static validation passed with 226 matching EN/BM translation keys, 22 unique HTML IDs, three direct Sitting Room game hotspots, balanced CSS braces and no missing local references/base64 media.
-- A final headless Chromium screenshot attempt was made for the new section, but the browser process did not complete within the execution timeout; no visual-runtime claim is made from that attempt.
-
-## v14 cinema-map validation
-
-- Confirmed 22 cinema records in `js/cinema-data.js`: 13 GSC, 6 TGV and 3 independent venues.
-- Confirmed the state grouping matches the supplied release-list table; states/territories with no listed venue remain visually inactive on the schematic map.
-- Verified all new local JS/CSS references exist and all JavaScript files pass `node --check`.
-- Parsed all stylesheets with `tinycss2` with no CSS parse errors.
-- Confirmed unique HTML IDs and no missing `data-i18n` keys referenced by the page.
-- The map uses numbered markers plus state buttons, so venue availability is not communicated through colour alone.
-- Mobile state controls are horizontally scrollable, cinema directions links retain touch-sized targets, and the results panel becomes non-sticky below 68rem.
-- `prefers-reduced-motion` removes map-selection transitions.
-- A headless Chromium visual pass was attempted in the execution environment but the process did not complete; no visual-runtime claim is made from that blocked pass.
-
-
-
-## v15 cinema finder checks
-
-- `Where to Watch / Lokasi Tayangan` appears after the House / Games explorer and before the footer.
-- No cinema-map SVG, marker layer or state-chip interface remains in `index.html`.
-- Native state selector contains all 13 screening areas and updates the venue panel without page navigation.
-- All 22 venue records and 13 / 6 / 3 chain totals remain unchanged.
-- EN/BM cinema finder labels and dynamic state names remain supported.

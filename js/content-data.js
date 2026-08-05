@@ -94,99 +94,59 @@
   const cast = [
     {
       id: 'que',
-      group: 'hosts',
       actorName: 'Que',
-      characterName: 'Mimi',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('mimi', 'Mimi'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      portrait: characterPortraitSet('mimi', 'Mimi'),
+      bio: 'Profile coming soon.',
+      bioKey: 'cast.profileComing'
     },
     {
       id: 'y-mun',
-      group: 'hosts',
       actorName: 'Y Mun',
-      characterName: 'Jay',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('jay', 'Jay'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      portrait: characterPortraitSet('jay', 'Jay'),
+      bio: 'I’m Nicholas Chin, and TIKUS is my very first feature film. I’ve always loved films and did a bit of theatre in college. Getting cast in this role was such an unexpected and exciting moment for me, and honestly the whole process from auditions to filming has taught me so much. I’m really grateful to be part of this project and can’t wait for people to finally see it!',
+      bioKey: 'cast.bio.yMun'
     },
     {
       id: 'fattah',
-      group: 'guests',
       actorName: 'Fattah',
-      characterName: 'Saladin',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('saladin', 'Saladin'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      portrait: characterPortraitSet('saladin', 'Saladin'),
+      bio: 'Profile coming soon.',
+      bioKey: 'cast.profileComing'
     },
     {
       id: 'diana',
-      group: 'guests',
-      actorName: 'Diana',
-      characterName: 'Madam Boey',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('madam-boey', 'Madam Boey'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      actorName: 'Diana Ooi',
+      portrait: characterPortraitSet('madam-boey', 'Madam Boey'),
+      bio: 'At 73, Diana Ooi proves it is never too late to chase a lifelong calling. After stepping down from her second career in 2020, she immediately pivoted to her childhood passion for acting. Just a year later, she landed her standout screen debut playing a character with dementia in an entry for Short + Sweet Malaysia, establishing herself as a compelling, authentic talent',
+      bioKey: 'cast.bio.diana'
     },
     {
       id: 'harris',
-      group: 'guests',
       actorName: 'Harris',
-      characterName: 'Major Mansor',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('mejar-mansor', 'Major Mansor'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      portrait: characterPortraitSet('mejar-mansor', 'Major Mansor'),
+      bio: 'Profile coming soon.',
+      bioKey: 'cast.profileComing'
     },
     {
       id: 'marsha',
-      group: 'guests',
       actorName: 'Marsha',
-      characterName: 'Alayna',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('alayna', 'Alayna'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      portrait: characterPortraitSet('alayna', 'Alayna'),
+      bio: 'Marsha Biddulph is a Malaysian actress and content creator. She began her acting career in 2024 and has since appeared in productions including Harimau Malaya, a Unifi series, a Viu series, and the upcoming films Tikus and Sujud Syaitan. Passionate about storytelling, she continues to build her career across film, television, and digital content.',
+      bioKey: 'cast.bio.marsha'
     },
     {
       id: 'iski',
-      group: 'guests',
-      actorName: 'Iski',
-      characterName: 'Guy',
-      actorPortrait: null,
-      characterPortrait: characterPortraitSet('guy', 'Guy'),
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character profile coming soon.',
-      characterDescriptionKey: 'cast.characterDescription'
+      actorName: 'Iski Senna',
+      portrait: characterPortraitSet('guy', 'Guy'),
+      bio: 'Iski Senna is a Thespian, Tango Dancer and Drama teacher. From Istana Budaya to ITV UK, Netflix to Nueve de Julio Avenue, his particular set of skills has taken him to many places, mostly unexpected.\n\nYou might have seen him in bit parts on Netflix\'s "Marco Polo" and ITV\'s "The Singapore Grip", or in M. Raihan Halim\'s Horror flick as the titular "Ibu", under heavy prosthetics, but you can always guarantee he steals the spotlight.',
+      bioKey: 'cast.bio.iski'
     },
     {
       id: 'haiccal',
-      group: 'inspector',
       actorName: 'Haiccal',
-      characterName: 'Inspektor Mislan',
-      actorPortrait: null,
-      characterPortrait: null,
-      actorDescription: 'Cast portrait and profile coming soon.',
-      actorDescriptionKey: 'cast.actorDescription',
-      characterDescription: 'Character portrait and profile coming soon.',
-      characterDescriptionKey: 'cast.characterPortraitDescription'
+      portrait: null,
+      bio: 'Haiccal Hazim is a Malaysian actor, stage actor, model, commercial talent and a host, who is passionate about bringing honest and relatable characters to life. With experience in theatre, film, and commercial productions, he enjoys collaborating with creative teams and embracing new challenges both on and off screen. His commitment to continuous growth and storytelling has allowed him to work across a variety of projects, and he looks forward to connecting with audiences through every role he takes on.',
+      bioKey: 'cast.bio.haiccal'
     }
   ];
 

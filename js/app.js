@@ -8,10 +8,10 @@
   }
 
 
-  function createPortraitPlaceholder(label, variant) {
+  function createPortraitPlaceholder(label) {
     const portrait = document.createElement('span');
-    portrait.className = `cast-card__portrait cast-card__portrait--${variant}`;
-    portrait.setAttribute('aria-label', t('cast.portraitPlaceholder', { name: label }, `${label} portrait placeholder`));
+    portrait.className = 'cast-card__portrait cast-card__portrait--cast';
+    portrait.setAttribute('aria-hidden', 'true');
 
     const artwork = document.createElement('span');
     artwork.className = 'cast-card__portrait-art';
@@ -43,7 +43,7 @@
       const source = document.createElement('source');
       source.type = 'image/avif';
       source.srcset = portrait.avif;
-      source.sizes = portrait.sizes || '16rem';
+      source.sizes = portrait.sizes || '14rem';
       picture.append(source);
     }
 
@@ -51,7 +51,7 @@
       const source = document.createElement('source');
       source.type = 'image/webp';
       source.srcset = portrait.webp;
-      source.sizes = portrait.sizes || '16rem';
+      source.sizes = portrait.sizes || '14rem';
       picture.append(source);
     }
 
@@ -59,9 +59,9 @@
     image.src = portrait.fallback;
     if (portrait.fallbackSrcset) {
       image.srcset = portrait.fallbackSrcset;
-      image.sizes = portrait.sizes || '16rem';
+      image.sizes = portrait.sizes || '14rem';
     }
-    image.alt = portrait.altKey ? t(portrait.altKey, { name: portrait.altName || '' }, portrait.alt || '') : (portrait.alt || '');
+    image.alt = '';
     image.loading = 'lazy';
     image.decoding = 'async';
     image.width = portrait.width || 720;
@@ -71,10 +71,9 @@
     return picture;
   }
 
-  function createCardFace({ side, eyebrow, name, description, portrait, index }) {
+  function createCastFront(member, index) {
     const face = document.createElement('span');
-    face.className = `cast-card__face cast-card__${side}`;
-    face.setAttribute('aria-hidden', side === 'back' ? 'true' : 'false');
+    face.className = 'cast-card__face cast-card__front';
 
     const cornerTop = document.createElement('span');
     cornerTop.className = 'cast-card__corner cast-card__corner--top';
@@ -84,35 +83,56 @@
     const cornerBottom = document.createElement('span');
     cornerBottom.className = 'cast-card__corner cast-card__corner--bottom';
     cornerBottom.setAttribute('aria-hidden', 'true');
-    cornerBottom.textContent = side === 'front' ? 'T' : 'K';
+    cornerBottom.textContent = 'T';
 
-    const media = portrait
-      ? createPortraitMedia(portrait)
-      : createPortraitPlaceholder(name, side === 'front' ? 'cast' : 'character');
-
-    const label = eyebrow ? document.createElement('span') : null;
-    if (label) {
-      label.className = 'cast-card__eyebrow';
-      label.textContent = eyebrow;
-    }
+    const media = member.portrait
+      ? createPortraitMedia(member.portrait)
+      : createPortraitPlaceholder(member.actorName);
 
     const heading = document.createElement('span');
     heading.className = 'cast-card__name';
-    heading.textContent = name;
-
-    const copy = document.createElement('span');
-    copy.className = 'cast-card__description';
-    copy.textContent = description;
+    heading.textContent = member.actorName;
 
     const flipHint = document.createElement('span');
     flipHint.className = 'cast-card__flip-hint';
-    flipHint.textContent = side === 'front' ? t('cast.returnCharacter', {}, 'Return to character') : t('cast.revealCast', {}, 'Reveal cast');
+    flipHint.textContent = t('cast.revealBio', {}, 'Read profile');
 
-    face.append(cornerTop, cornerBottom, media);
-    if (label) {
-      face.append(label);
-    }
-    face.append(heading, copy, flipHint);
+    face.append(cornerTop, cornerBottom, media, heading, flipHint);
+    return face;
+  }
+
+  function createCastBack(member, index) {
+    const face = document.createElement('span');
+    face.className = 'cast-card__face cast-card__back';
+    face.setAttribute('aria-hidden', 'true');
+
+    const cornerTop = document.createElement('span');
+    cornerTop.className = 'cast-card__corner cast-card__corner--top';
+    cornerTop.setAttribute('aria-hidden', 'true');
+    cornerTop.textContent = String(index + 1).padStart(2, '0');
+
+    const cornerBottom = document.createElement('span');
+    cornerBottom.className = 'cast-card__corner cast-card__corner--bottom';
+    cornerBottom.setAttribute('aria-hidden', 'true');
+    cornerBottom.textContent = 'K';
+
+    const label = document.createElement('span');
+    label.className = 'cast-card__eyebrow';
+    label.textContent = t('cast.bioLabel', {}, 'Cast profile');
+
+    const heading = document.createElement('span');
+    heading.className = 'cast-card__name';
+    heading.textContent = member.actorName;
+
+    const copy = document.createElement('span');
+    copy.className = 'cast-card__description cast-card__bio';
+    copy.textContent = member.bioKey ? t(member.bioKey, {}, member.bio) : member.bio;
+
+    const flipHint = document.createElement('span');
+    flipHint.className = 'cast-card__flip-hint';
+    flipHint.textContent = t('cast.returnPortrait', {}, 'Return to portrait');
+
+    face.append(cornerTop, cornerBottom, label, heading, copy, flipHint);
     return face;
   }
 
@@ -128,104 +148,53 @@
       card.classList.contains('is-flipped')
     ]));
 
-    const groups = [
-      { id: 'hosts', label: t('cast.hosts', {}, 'Hosts'), memberGroups: ['hosts'] },
-      { id: 'guests', label: t('cast.guestsInspector', {}, 'Guests & The Inspector'), memberGroups: ['guests', 'inspector'] }
-    ];
-    const categoryLabels = {
-      hosts: t('cast.host', {}, 'Host'),
-      guests: t('cast.guest', {}, 'Guest'),
-      inspector: t('cast.inspector', {}, 'Inspector')
-    };
-    const tilts = [-2.2, 1.4, -1.1, 2.1, -0.7, 1.8, -1.8, 0.9];
     const fragment = document.createDocumentFragment();
-    let cardIndex = 0;
 
-    groups.forEach((group) => {
-      const members = cast.filter((member) => group.memberGroups.includes(member.group));
-      if (!members.length) {
-        return;
-      }
+    cast.forEach((member, index) => {
+      const initialFlipped = existingStates.get(member.id) || false;
+      const card = document.createElement('button');
+      card.className = `cast-card${initialFlipped ? ' is-flipped' : ''}`;
+      card.type = 'button';
+      card.dataset.castCard = member.id;
+      card.setAttribute('aria-pressed', String(initialFlipped));
+      card.setAttribute(
+        'aria-label',
+        initialFlipped
+          ? t('cast.backAria', { actor: member.actorName }, `${member.actorName} profile. Flip to return to the portrait.`)
+          : t('cast.frontAria', { actor: member.actorName }, `${member.actorName}. Flip to read the cast profile.`)
+      );
 
-      const section = document.createElement('section');
-      section.className = 'cast-group';
-      section.dataset.castGroup = group.id;
-      section.setAttribute('aria-labelledby', `cast-group-${group.id}`);
+      const inner = document.createElement('span');
+      inner.className = 'cast-card__inner';
 
-      const heading = document.createElement('h3');
-      heading.className = 'cast-group__heading';
-      heading.id = `cast-group-${group.id}`;
-      heading.textContent = group.label;
+      const front = createCastFront(member, index);
+      const back = createCastBack(member, index);
+      front.setAttribute('aria-hidden', String(initialFlipped));
+      back.setAttribute('aria-hidden', String(!initialFlipped));
 
-      const grid = document.createElement('div');
-      grid.className = 'cast-group__grid';
+      inner.append(front, back);
+      card.append(inner);
 
-      members.forEach((member) => {
-        const index = cardIndex;
-        cardIndex += 1;
+      card.addEventListener('click', () => {
+        const isFlipped = card.classList.toggle('is-flipped');
+        card.setAttribute('aria-pressed', String(isFlipped));
+        front.setAttribute('aria-hidden', String(isFlipped));
+        back.setAttribute('aria-hidden', String(!isFlipped));
+        card.setAttribute(
+          'aria-label',
+          isFlipped
+            ? t('cast.backAria', { actor: member.actorName }, `${member.actorName} profile. Flip to return to the portrait.`)
+            : t('cast.frontAria', { actor: member.actorName }, `${member.actorName}. Flip to read the cast profile.`)
+        );
 
-        const initialFlipped = existingStates.has(member.id) ? existingStates.get(member.id) : true;
-        const card = document.createElement('button');
-        card.className = `cast-card${initialFlipped ? ' is-flipped' : ''}`;
-        card.type = 'button';
-        card.dataset.castCard = member.id;
-        card.setAttribute('aria-pressed', String(initialFlipped));
-        card.setAttribute('aria-label', initialFlipped
-          ? t('cast.characterAria', { character: member.characterName, actor: member.actorName }, `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`)
-          : t('cast.actorAria', { actor: member.actorName, character: member.characterName }, `${member.actorName} plays ${member.characterName}. Flip to return to the character.`));
-        card.style.setProperty('--card-tilt', `${tilts[index % tilts.length]}deg`);
-
-        const inner = document.createElement('span');
-        inner.className = 'cast-card__inner';
-
-        const front = createCardFace({
-          side: 'front',
-          eyebrow: '',
-          name: member.actorName,
-          description: member.actorDescriptionKey ? t(member.actorDescriptionKey, {}, member.actorDescription) : member.actorDescription,
-          portrait: member.actorPortrait,
-          index
-        });
-
-        const back = createCardFace({
-          side: 'back',
-          eyebrow: categoryLabels[member.group] || 'Character',
-          name: member.characterName,
-          description: member.characterDescriptionKey ? t(member.characterDescriptionKey, {}, member.characterDescription) : member.characterDescription,
-          portrait: member.characterPortrait,
-          index
-        });
-
-        front.setAttribute('aria-hidden', String(initialFlipped));
-        back.setAttribute('aria-hidden', String(!initialFlipped));
-
-        inner.append(front, back);
-        card.append(inner);
-
-        card.addEventListener('click', () => {
-          const isFlipped = card.classList.toggle('is-flipped');
-          card.setAttribute('aria-pressed', String(isFlipped));
-          front.setAttribute('aria-hidden', String(isFlipped));
-          back.setAttribute('aria-hidden', String(!isFlipped));
-          card.setAttribute(
-            'aria-label',
-            isFlipped
-              ? t('cast.characterAria', { character: member.characterName, actor: member.actorName }, `${member.characterName}, played by ${member.actorName}. Flip to reveal the cast profile.`)
-              : t('cast.actorAria', { actor: member.actorName, character: member.characterName }, `${member.actorName} plays ${member.characterName}. Flip to return to the character.`)
-          );
-
-          if (status) {
-            status.textContent = isFlipped
-              ? t('cast.characterStatus', { character: member.characterName, actor: member.actorName }, `Showing the character profile for ${member.characterName}, played by ${member.actorName}.`)
-              : t('cast.actorStatus', { actor: member.actorName, character: member.characterName }, `Showing the cast profile for ${member.actorName}, who plays ${member.characterName}.`);
-          }
-        });
-
-        grid.append(card);
+        if (status) {
+          status.textContent = isFlipped
+            ? t('cast.backStatus', { actor: member.actorName }, `Showing the cast profile for ${member.actorName}.`)
+            : t('cast.frontStatus', { actor: member.actorName }, `Showing the portrait for ${member.actorName}.`);
+        }
       });
 
-      section.append(heading, grid);
-      fragment.append(section);
+      fragment.append(card);
     });
 
     container.replaceChildren(fragment);

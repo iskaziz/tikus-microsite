@@ -92,35 +92,3 @@ The supplied painting is an opaque 4:3 RGB image. Correctly named JPEG and WebP 
 
 The EN/BM feature adds no media assets. Translation strings and accessibility labels are stored in `js/language-controller.js`, and the selected language is saved locally under `tikus-language-v1`.
 
-
-## First Look film still gallery
-
-Seven approved 16:9 film stills are included under `assets/images/gallery/`. The original 1920 × 1080 PNG uploads are not shipped in the public package; the site uses smaller responsive derivatives instead.
-
-| Still | Large formats | Large sizes | Thumbnail formats | Thumbnail size | Cropping |
-|---:|---|---:|---|---:|---|
-| 01 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-| 02 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-| 03 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-| 04 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-| 05 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-| 06 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-| 07 | WebP, JPEG | `960 × 540`, `1600 × 900` | WebP, JPEG | `360 × 203` | None |
-
-The complete gallery derivative set is approximately 2.05 MiB, but it is not downloaded up front. Thumbnail files are lazy-loaded near the gallery. Only Still 01 is referenced as the initial large image; other large stills are requested when selected, with adjacent 960-pixel WebP files prefetched only after gallery interaction. The photographs use their complete 16:9 compositions and no grain/filter overlay is applied over the image pixels.
-
-## Official poster derivatives
-
-| File | Format | Dimensions | Aspect ratio | True transparency | Intended role |
-|---|---:|---:|---:|---:|---|
-| `assets/images/poster/tikus-official-poster-420.webp` | `WEBP` | `420 × 622` | `0.675:1` | `No` | `Responsive film-summary poster` |
-| `assets/images/poster/tikus-official-poster-420.jpg` | `JPG` | `420 × 622` | `0.675:1` | `No` | `Poster fallback` |
-| `assets/images/poster/tikus-official-poster-670.webp` | `WEBP` | `670 × 992` | `0.675:1` | `No` | `Responsive film-summary poster` |
-| `assets/images/poster/tikus-official-poster-670.jpg` | `JPG` | `670 × 992` | `0.675:1` | `No` | `Poster fallback` |
-
-The uploaded official poster contains no alpha transparency. The section uses `object-fit: contain` and does not crop the artwork.
-
-## Where to Watch state finder
-
-The cinema finder adds no raster or external map assets. A native bilingual state selector and venue panel are driven by `js/cinema-data.js` and `js/cinema-controller.js`. Google Maps is only opened after a visitor deliberately selects an external directions link.
-

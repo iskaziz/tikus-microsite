@@ -18,9 +18,6 @@
 <link href="css/tikus-slider.css" rel="stylesheet"/>
 <script defer src="js/content-data.js"></script>
 <script defer src="js/language-controller.js"></script>
-<script defer src="js/cinema-data.js"></script>
-<script defer src="js/cinema-controller.js"></script>
-<script defer src="js/gallery-controller.js"></script>
 <script defer src="js/modal-controller.js"></script>
 <script defer src="js/scene-controller.js"></script>
 <script defer src="js/app.js"></script>
@@ -84,142 +81,21 @@
 </div>
 </div>
 <p class="trailer-section__note" data-i18n="trailer.note">The video is hosted by YouTube. No video is loaded until the television is selected.</p>
-<a class="trailer-section__continue" href="#first-look"><span data-i18n="trailer.firstLook">See the first look</span><span aria-hidden="true">↓</span></a>
-</section>
-<section aria-labelledby="gallery-title" class="gallery-section" id="first-look">
-<div aria-hidden="true" class="gallery-section__rings"></div>
-<header class="section-heading gallery-section__heading">
-<p class="eyebrow" data-i18n="gallery.eyebrow">From the film</p>
-<h2 data-i18n="gallery.heading" id="gallery-title">FIRST LOOK</h2>
-<p data-i18n="gallery.description">A selection of stills from TIKUS. Choose a frame to view it larger.</p>
-</header>
-<div class="gallery-shell" data-gallery-root="">
-<div class="gallery-feature">
-<button aria-haspopup="dialog" aria-label="Enlarge film still 1 of 7" class="gallery-feature__button" data-gallery-open="" type="button">
-<picture data-gallery-feature-picture="">
-<source data-gallery-feature-source="webp" sizes="(max-width: 48rem) calc(100vw - 2rem), min(88vw, 78rem)" srcset="assets/images/gallery/tikus-first-look-1-960.webp 960w, assets/images/gallery/tikus-first-look-1-1600.webp 1600w" type="image/webp"/>
-<img alt="A film still showing the weathered exterior of a building surrounded by dense greenery, with the TIKUS first-look title and Malaysian theatrical date overlaid." data-gallery-feature-image="" data-i18n-alt="gallery.still1.alt" decoding="async" height="900" loading="lazy" sizes="(max-width: 48rem) calc(100vw - 2rem), min(88vw, 78rem)" src="assets/images/gallery/tikus-first-look-1-1600.jpg" srcset="assets/images/gallery/tikus-first-look-1-960.jpg 960w, assets/images/gallery/tikus-first-look-1-1600.jpg 1600w" width="1600"/>
-</picture>
-<span aria-hidden="true" class="gallery-feature__shade"></span>
-<span class="gallery-feature__counter" data-gallery-counter="">01 / 07</span>
-<span class="gallery-feature__enlarge"><span aria-hidden="true">↗</span> <span data-i18n="gallery.enlarge">Enlarge</span></span>
-</button>
-<button aria-label="Previous film still" class="gallery-arrow gallery-arrow--previous" data-gallery-previous="" data-i18n-aria-label="gallery.previous" type="button"><span aria-hidden="true">‹</span></button>
-<button aria-label="Next film still" class="gallery-arrow gallery-arrow--next" data-gallery-next="" data-i18n-aria-label="gallery.next" type="button"><span aria-hidden="true">›</span></button>
-</div>
-<div aria-label="TIKUS film still thumbnails" class="gallery-filmstrip" data-gallery-filmstrip="" data-i18n-aria-label="gallery.filmstrip" role="group">
-<button aria-label="View film still 1 of 7" class="gallery-thumb" data-gallery-index="0" aria-current="true" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-1-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-1-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">01</span>
-</button>
-<button aria-label="View film still 2 of 7" class="gallery-thumb" data-gallery-index="1" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-2-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-2-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">02</span>
-</button>
-<button aria-label="View film still 3 of 7" class="gallery-thumb" data-gallery-index="2" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-3-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-3-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">03</span>
-</button>
-<button aria-label="View film still 4 of 7" class="gallery-thumb" data-gallery-index="3" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-4-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-4-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">04</span>
-</button>
-<button aria-label="View film still 5 of 7" class="gallery-thumb" data-gallery-index="4" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-5-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-5-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">05</span>
-</button>
-<button aria-label="View film still 6 of 7" class="gallery-thumb" data-gallery-index="5" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-6-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-6-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">06</span>
-</button>
-<button aria-label="View film still 7 of 7" class="gallery-thumb" data-gallery-index="6" type="button">
-<picture>
-<source srcset="assets/images/gallery/tikus-first-look-7-thumb.webp" type="image/webp"/>
-<img alt="" decoding="async" height="203" loading="lazy" src="assets/images/gallery/tikus-first-look-7-thumb.jpg" width="360"/>
-</picture>
-<span aria-hidden="true" class="gallery-thumb__number">07</span>
-</button>
-</div>
-<p class="gallery-section__instruction" data-i18n="gallery.instruction">Choose a thumbnail, use the arrow keys, or swipe across the featured image. Select the large image for fullscreen view.</p>
-<p aria-atomic="true" aria-live="polite" class="visually-hidden" data-gallery-status=""></p>
-</div>
-<a class="gallery-section__continue" href="#film-summary"><span data-i18n="gallery.filmSummary">Film summary</span><span aria-hidden="true">↓</span></a>
-</section>
-<section aria-labelledby="film-summary-title" class="film-summary-section" id="film-summary">
-<div aria-hidden="true" class="film-summary-section__rings"></div>
-<header class="section-heading film-summary-section__heading">
-<p class="eyebrow" data-i18n="summary.eyebrow">Film summary</p>
-<h2 data-i18n="summary.heading" id="film-summary-title">TIKUS at a glance</h2>
-<p data-i18n="summary.intro">Official poster, synopsis, principal credits and cast.</p>
-</header>
-<div class="film-summary-card">
-<figure class="film-summary-poster">
-<picture>
-<source sizes="(max-width: 48rem) min(78vw, 26rem), min(31vw, 24rem)" srcset="assets/images/poster/tikus-official-poster-420.webp 420w, assets/images/poster/tikus-official-poster-670.webp 670w" type="image/webp"/>
-<img alt="Official TIKUS poster in red, black and warm paper tones, with the title stacked vertically, rat silhouettes and cast credits." data-i18n-alt="summary.posterAlt" decoding="async" height="992" loading="lazy" sizes="(max-width: 48rem) min(78vw, 26rem), min(31vw, 24rem)" src="assets/images/poster/tikus-official-poster-670.jpg" srcset="assets/images/poster/tikus-official-poster-420.jpg 420w, assets/images/poster/tikus-official-poster-670.jpg 670w" width="670"/>
-</picture>
-<figcaption data-i18n="summary.posterCaption">Official poster</figcaption>
-</figure>
-<div class="film-summary-content">
-<div class="film-summary-titlebar">
-<div>
-<p class="eyebrow" data-i18n="summary.production">Feisk Productions presents</p>
-<h3>TIKUS</h3>
-</div>
-<p class="film-summary-release" data-i18n="summary.release">In cinemas 3 September 2026</p>
-</div>
-<p class="film-summary-synopsis" data-i18n="summary.synopsis">A group of guests attending a “healing” programme at a retreat are stranded when heavy rain cuts off every route out. The situation grows increasingly dire when it is revealed that there is a murderer among them.</p>
-<dl class="film-summary-credits">
-<div><dt data-i18n="summary.director">Director</dt><dd>Ellina Abdul Majid</dd></div>
-<div><dt data-i18n="summary.screenplay">Screenplay</dt><dd>Ellina Abdul Majid</dd></div>
-<div><dt data-i18n="summary.producers">Producers</dt><dd>Iskander &amp; Feisal Azizuddin</dd></div>
-<div><dt data-i18n="summary.executiveProducers">Executive Producers</dt><dd>Azizuddin Abdul Hamid &amp; Ellina Abdul Majid</dd></div>
-<div><dt data-i18n="summary.productionCompany">Production Company</dt><dd>Feisk Productions</dd></div>
-</dl>
-<div class="film-summary-cast-block">
-<h4 data-i18n="summary.cast">Cast</h4>
-<ul class="film-summary-cast" role="list">
-<li>Qiu Qatina</li><li>Nicholas Chin Y Mun</li><li>Fattah Fawzy</li><li>Diana Ooi</li><li>Harris Andria</li><li>Marsha Biddulph</li><li>Iski Senna</li><li>Haiccal Hazim</li><li>Roshafiq Roslee</li>
-</ul>
-</div>
-<div aria-label="TIKUS hashtags" class="film-summary-tags" data-i18n-aria-label="summary.hashtagsLabel">
-<span>#Tikus!</span><span>#siapabunuhdatinsaliha</span><span>#feiskproductions</span>
-</div>
-</div>
-</div>
-<a class="film-summary-section__continue" href="#cast"><span data-i18n="cinema.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
+<a class="trailer-section__continue" href="#cast"><span data-i18n="trailer.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
 </section>
 <section aria-labelledby="cast-title" class="cast-section" id="cast">
 <div aria-hidden="true" class="cast-section__rings"></div>
 <header class="section-heading cast-section__heading">
-<p class="eyebrow" data-i18n="cast.eyebrow">Cast &amp; characters</p>
-<h2 data-i18n="cast.heading" id="cast-title">The faces around the table</h2>
-<p data-i18n="cast.intro">The cards open on the character side. Select one to reveal the cast member.</p>
+<p class="eyebrow" data-i18n="cast.eyebrow">Cast</p>
+<h2 data-i18n="cast.heading" id="cast-title">Meet the cast</h2>
+<p data-i18n="cast.intro">Select a portrait to read more about the cast member.</p>
 </header>
-<div aria-label="Illustrated tabletop with cast playing cards" class="cast-table" data-i18n-aria-label="cast.tableLabel" role="group">
+<div aria-label="Cast portrait cards" class="cast-table" data-i18n-aria-label="cast.tableLabel" role="group">
 <div aria-hidden="true" class="cast-table__edge"></div>
-<div class="cast-groups" data-cast-grid=""></div>
+<div class="cast-grid" data-cast-grid=""></div>
 <p aria-atomic="true" aria-live="polite" class="visually-hidden" data-cast-status=""></p>
 </div>
-<p class="cast-section__instruction" data-i18n="cast.instruction">Select a card to reveal the cast member. Select it again to return to the character.</p>
+<p class="cast-section__instruction" data-i18n="cast.instruction">Select a card to read the cast profile. Select it again to return to the portrait.</p>
 <a class="cast-section__continue" href="#explorer"><span data-i18n="cast.enterHouse">Enter the house</span><span aria-hidden="true">↓</span></a>
 </section>
 <section aria-labelledby="explorer-title" class="explorer" data-active-scene="house" data-scene-explorer="" id="explorer" tabindex="-1">
@@ -262,44 +138,28 @@
 <p aria-atomic="true" aria-live="polite" class="visually-hidden" data-scene-status=""></p>
 </div>
 </section>
-
-<section aria-labelledby="cinema-title" class="cinema-section" data-cinema-section="" id="cinemas">
-<div aria-hidden="true" class="cinema-section__rings"></div>
-<header class="section-heading cinema-section__heading">
-<p class="eyebrow" data-i18n="cinema.eyebrow">Where to watch</p>
-<h2 data-i18n="cinema.heading" id="cinema-title">22 cinemas nationwide</h2>
-<p data-i18n="cinema.intro">Choose a state to see participating cinemas, addresses and directions.</p>
+<section aria-labelledby="pending-title" class="pending-material">
+<div class="pending-material__inner">
+<header>
+<p class="eyebrow" data-i18n="film.eyebrow">Film information</p>
+<h2 data-i18n="film.heading" id="pending-title">More from TIKUS</h2>
 </header>
-<div class="cinema-stats" aria-label="Cinema release network" data-i18n-aria-label="cinema.statsLabel">
-<div><strong>22</strong><span data-i18n="cinema.cinemas">Cinemas</span></div>
-<div><strong>13</strong><span>GSC</span></div>
-<div><strong>6</strong><span>TGV</span></div>
-<div><strong>3</strong><span data-i18n="cinema.independent">Independent</span></div>
-</div>
-<div class="cinema-finder">
-<div class="cinema-finder__controls">
-<label for="cinema-state-select" data-i18n="cinema.selectorLabel">Select your state</label>
-<div class="cinema-select-shell">
-<select aria-describedby="cinema-state-help" data-cinema-state-select="" id="cinema-state-select"></select>
-<span aria-hidden="true" class="cinema-select-shell__arrow">⌄</span>
-</div>
-<p data-i18n="cinema.selectorHelp" id="cinema-state-help">Choose a state or territory to see its participating cinemas.</p>
-</div>
-<aside class="cinema-panel" aria-live="polite" aria-atomic="false">
-<header class="cinema-panel__header">
+<dl class="pending-grid">
 <div>
-<p class="eyebrow" data-i18n="cinema.locations">Cinema locations</p>
-<h3 data-cinema-panel-title="" tabindex="-1">Choose a state</h3>
+<dt data-i18n="film.releaseDate">Release date</dt>
+<dd data-i18n="film.toBeAnnounced">To be announced</dd>
 </div>
-<span class="cinema-panel__count" data-cinema-panel-count=""></span>
-</header>
-<div data-cinema-panel-body=""></div>
-<p class="cinema-panel__disclaimer" data-i18n="cinema.disclaimer">Cinema locations are based on the TIKUS release list. Addresses were checked against current cinema or mall listings; schedules can change, so confirm before travelling.</p>
-<p aria-live="polite" class="visually-hidden" data-cinema-status=""></p>
-</aside>
+<div>
+<dt data-i18n="film.socialMedia">Social media</dt>
+<dd data-i18n="film.urlPending">URL pending</dd>
+</div>
+<div>
+<dt data-i18n="film.pressKit">Press kit</dt>
+<dd data-i18n="film.downloadPending">Download pending</dd>
+</div>
+</dl>
 </div>
 </section>
-
 </main>
 <footer class="site-footer" data-dialog-inert="">
 <p><strong>TIKUS</strong> · <span data-i18n="site.feiskFilm">A Feisk Productions film</span></p>
@@ -323,28 +183,6 @@
 <p class="trailer-dialog__fallback">
 <a data-i18n="trailer.watchYoutube" data-trailer-link="" href="https://youtu.be/9sgXasrieAE" rel="noopener noreferrer" target="_blank">Watch directly on YouTube</a>
 </p>
-</article>
-</dialog>
-<dialog aria-describedby="gallery-dialog-description" aria-labelledby="gallery-dialog-title" class="gallery-dialog" id="gallery-dialog">
-<article class="gallery-dialog__surface">
-<header class="gallery-dialog__header">
-<div>
-<p class="eyebrow" data-i18n="gallery.dialogEyebrow">TIKUS film stills</p>
-<h2 data-i18n="gallery.heading" id="gallery-dialog-title" tabindex="-1">FIRST LOOK</h2>
-<p class="visually-hidden" data-i18n="gallery.dialogDescription" id="gallery-dialog-description">Fullscreen gallery of TIKUS film stills. Use the previous and next buttons or the left and right arrow keys to browse.</p>
-</div>
-<div class="gallery-dialog__meta"><span data-gallery-dialog-counter="">01 / 07</span></div>
-<button aria-label="Close first look gallery" class="gallery-dialog__close" data-gallery-close="" data-i18n-aria-label="gallery.close" type="button"><span aria-hidden="true">×</span></button>
-</header>
-<div class="gallery-dialog__viewer" data-gallery-dialog-viewer="">
-<button aria-label="Previous film still" class="gallery-dialog__arrow gallery-dialog__arrow--previous" data-gallery-dialog-previous="" data-i18n-aria-label="gallery.previous" type="button"><span aria-hidden="true">‹</span></button>
-<picture data-gallery-dialog-picture="">
-<source data-gallery-dialog-source="webp" sizes="92vw" srcset="assets/images/gallery/tikus-first-look-1-960.webp 960w, assets/images/gallery/tikus-first-look-1-1600.webp 1600w" type="image/webp"/>
-<img alt="A film still showing the weathered exterior of a building surrounded by dense greenery, with the TIKUS first-look title and Malaysian theatrical date overlaid." data-gallery-dialog-image="" data-i18n-alt="gallery.still1.alt" decoding="async" height="900" sizes="92vw" src="assets/images/gallery/tikus-first-look-1-1600.jpg" srcset="assets/images/gallery/tikus-first-look-1-960.jpg 960w, assets/images/gallery/tikus-first-look-1-1600.jpg 1600w" width="1600"/>
-</picture>
-<button aria-label="Next film still" class="gallery-dialog__arrow gallery-dialog__arrow--next" data-gallery-dialog-next="" data-i18n-aria-label="gallery.next" type="button"><span aria-hidden="true">›</span></button>
-</div>
-<p class="gallery-dialog__hint" data-i18n="gallery.dialogHint">Swipe or use ← → to browse. Press Escape to close.</p>
 </article>
 </dialog>
 <dialog aria-describedby="dialog-body" aria-labelledby="dialog-title" class="info-dialog" id="hotspot-dialog">

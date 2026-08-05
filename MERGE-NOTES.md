@@ -161,45 +161,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Scene/hash state, card flip state, saved game progress and audio preferences are preserved when the language changes.
 - No duplicate HTML pages, external translation service or additional media assets were introduced.
 
+## Cast profile grid amendment
 
-## First Look film still gallery
+- Replaced the Hosts / Guests & Inspector horizontal card groups with one responsive cast grid.
+- Removed character names, role/category labels and character-profile copy from the card UI.
+- Card fronts now show only cast name, portrait artwork and a small profile prompt.
+- Card backs now show the supplied actor biography and retain EN/BM switching.
+- Added supplied copy for Y Mun, Diana Ooi, Marsha, Iski Senna and Haiccal without inventing biographies for Que, Fattah or Harris.
+- Diana Ooi and Iski Senna now use the full display names supplied with their profiles.
+- Layout uses four columns on desktop, three at intermediate widths and two on mobile, with no horizontal panning.
 
-- Added a new bilingual `FIRST LOOK / PANDANGAN PERTAMA` section between the trailer and cast sections.
-- Added seven approved 16:9 film stills as responsive WebP/JPEG derivatives without cropping the original framing.
-- Added one large featured image with a horizontally scrolling thumbnail filmstrip rather than an auto-playing carousel.
-- Added previous/next controls, left/right keyboard navigation and horizontal swipe navigation.
-- Selecting the featured image opens a native fullscreen `<dialog>` viewer with previous/next controls, Escape handling and focus restoration.
-- Added `js/gallery-controller.js`; the gallery remains independent of the core information, trailer and game modal controllers.
-- English and Bahasa Malaysia gallery labels, instructions, ARIA text and image alternatives are included in the shared language dictionary.
-- Thumbnail images are lazy-loaded. Only the first large still exists in initial page markup; other large stills load on selection and adjacent 960-pixel WebP images are prefetched only after user interaction.
-
-## Film-summary section — 2026-08-04
-
-- Added an IMDb-inspired summary card between First Look and the interactive cast section.
-- Added responsive official-poster WebP/JPEG derivatives; the source PNG is not required by the deployed page.
-- Added the supplied Malay synopsis, principal credits, production company, nine-name cast list and hashtags without changing proper names.
-- Added a faithful English translation for the EN language mode and matching BM labels for the bilingual controller.
-- Added the theatrical date shown on the approved poster: 3 September 2026.
-- Removed the obsolete placeholder `More from TIKUS` / TBA information block to avoid contradictory release information.
-- Existing cast cards remain unchanged; the summary list reflects the complete cast list supplied for this section.
-
-## v14 — Where to Watch cinema map
-
-- Added a bilingual `Where to Watch / Lokasi Tayangan` section between the film summary and interactive cast cards.
-- Cinema names and state groupings come from the supplied TIKUS cinema release list: 22 venues total, comprising 13 GSC, 6 TGV and 3 independent/Paragon locations.
-- Added `js/cinema-data.js` for venue/state data and `js/cinema-controller.js` for map selection and panel rendering.
-- Added a lightweight poster-style schematic Malaysia map with numbered state markers. No Google Maps embed, map tiles, mapping library or runtime geolocation is used.
-- State chips provide an accessible fallback for small states and mobile users; the default panel is a compact state index rather than a 22-card wall.
-- Venue cards display the release-list cinema name, verified current address and an external Google Maps search link.
-- Addresses were checked against current official GSC, TGV, Paragon Cinemas or IOI City Mall listings on 4 August 2026. Release schedules may change, so the public section includes a confirmation disclaimer.
-- Added full English/Bahasa Malaysia copy and live language refresh for dynamic state/panel content.
-
-
-
-## v15 — compact cinema state finder
-
-- Replaced the stylised Malaysia map with a simpler state dropdown and cinema-results panel.
-- Moved `Where to Watch / Lokasi Tayangan` to the bottom of the page after the House / Games explorer.
-- Kept all 22 venue records, verified addresses, chain counts and external Maps links.
-- Preserved the bilingual EN/BM language system and keyboard-accessible native `<select>` control.
-- Removed map-only SVG, markers, chips and interaction code.
