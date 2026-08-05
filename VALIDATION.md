@@ -157,3 +157,11 @@ Confirmed:
 - All referenced local assets exist.
 - Chromium layout navigation was attempted, but local and loopback navigation are blocked by the execution-environment administrator; no new live-browser claim is made for this amendment.
 
+
+
+## Cast copy update validation — 2026-08-05
+
+- Confirmed QIU QATINA and Fattah use dedicated biography translation keys in both EN and BM.
+- Confirmed the EN/BM dictionaries retain matching translation-key sets.
+- Confirmed the cast grid still contains eight cards and only Harris uses the profile-coming-soon copy.
+- Confirmed JavaScript syntax passes after the copy update.

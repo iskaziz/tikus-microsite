@@ -63,7 +63,7 @@ All major or continuous effects have reduced-motion alternatives.
 
 - Hero eyebrow: “Welcome to Samasihat Wellness Retreat”.
 - Approved spoiler-safe synopsis.
-- Hosts: Que, Y Mun.
+- Earlier cast grouping included Que and Y Mun as Hosts; the current cast grid no longer displays category groupings.
 - Guests & The Inspector share one card row in this order: Fattah, Diana, Harris, Marsha, Iski, Haiccal.
 - Character-facing cards visible first with Host, Guest or Inspector labels.
 - No category label above cast names.
@@ -167,7 +167,16 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Removed character names, role/category labels and character-profile copy from the card UI.
 - Card fronts now show only cast name, portrait artwork and a small profile prompt.
 - Card backs now show the supplied actor biography and retain EN/BM switching.
-- Added supplied copy for Y Mun, Diana Ooi, Marsha, Iski Senna and Haiccal without inventing biographies for Que, Fattah or Harris.
+- Added supplied copy for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal without inventing a biography for Harris.
 - Diana Ooi and Iski Senna now use the full display names supplied with their profiles.
 - Layout uses four columns on desktop, three at intermediate widths and two on mobile, with no horizontal panning.
 
+
+
+## 2026-08-05 cast copy update
+
+- Renamed the displayed Que card to the supplied stage name `QIU QATINA`.
+- Added the supplied Qiu Qatina biography and artist quotation.
+- Added the supplied Fattah Fawzy biography.
+- Added Bahasa Malaysia translations for both biographies so the EN/BM switch remains complete.
+- Harris remains the only cast card using the profile-coming-soon copy.

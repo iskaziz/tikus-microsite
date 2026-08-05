@@ -71,7 +71,7 @@ The shared `js/language-controller.js` translates:
 - Retro television presentation for the official trailer, without autoplay.
 - Eight keyboard-operable cast profile cards in one responsive grid with no horizontal card-strip scrolling.
 - Card fronts show the cast name and approved portrait artwork; selecting a card flips it to the cast biography.
-- Supplied biographies are included for Y Mun, Diana Ooi, Marsha, Iski Senna and Haiccal; Que, Fattah and Harris remain marked as profile coming soon.
+- Supplied biographies are included for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal; Harris remains marked as profile coming soon.
 - Smaller horizontally scrolling cards, with the Inspector placed at the end of the Guests row on narrow screens.
 - Compact vertical spacing across the trailer, cast, explorer and final-information sections.
 - Responsive 16:9 House → Sitting Room explorer using `object-fit: contain`.

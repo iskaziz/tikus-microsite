@@ -93,11 +93,11 @@
 
   const cast = [
     {
-      id: 'que',
-      actorName: 'Que',
+      id: 'qiu',
+      actorName: 'QIU QATINA',
       portrait: characterPortraitSet('mimi', 'Mimi'),
-      bio: 'Profile coming soon.',
-      bioKey: 'cast.profileComing'
+      bio: 'Qiu Qatina is a Malaysian actress and arts practitioner with over a decade of experiences in the performing arts industry. A graduate of University Teknologi MARA (UiTM) with a Bachelor’s Degree in Performing Arts and currently pursuing a Master’s in Creative Arts at ASWARA, she has built a diverse career spanning from theatre to drama and film. Qiu has involved in numerous acclaimed stage productions and screen projects while earning recognition. Rooted in both artistic practice and scholarly inquiry, Qiu’s creations are driven by the belief that art is not merely an act of expression but a process of self-discovery.\n\n“An artist does not create to escape reality, but to reveal the truths that silence cannot speak.”',
+      bioKey: 'cast.bio.qiu'
     },
     {
       id: 'y-mun',
@@ -110,8 +110,8 @@
       id: 'fattah',
       actorName: 'Fattah',
       portrait: characterPortraitSet('saladin', 'Saladin'),
-      bio: 'Profile coming soon.',
-      bioKey: 'cast.profileComing'
+      bio: 'Fattah Fawzy is a Malaysian filmmaker, actor, theatre practitioner, and singer-songwriter. He believes in truthful and grounded performances, bringing honesty and careful preparation to every role. Alongside his work in film and theatre, he has also shared his experience through workshops, talks, and collaborations with students and aspiring filmmakers. His background as a writer and director has further shaped his approach to storytelling, both on stage and on screen.',
+      bioKey: 'cast.bio.fattah'
     },
     {
       id: 'diana',
