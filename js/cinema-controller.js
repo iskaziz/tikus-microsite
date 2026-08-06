@@ -1,146 +1,119 @@
 (function registerTikusCinemaController(global) {
   'use strict';
 
-  const data = global.TikusCinemaData;
-  if (!data) return;
-
-  const stateById = new Map(data.states.map((state) => [state.id, state]));
-  let selectedState = '';
-
-  function i18n() { return global.TikusI18n; }
-  function language() { return i18n()?.language === 'ms' ? 'ms' : 'en'; }
-  function t(key, variables = {}, fallback = '') { return i18n()?.t(key, variables, fallback) ?? fallback; }
-  function stateName(state) { return state?.name?.[language()] || state?.name?.en || state?.id || ''; }
-  function countLabel(count) { return t(count === 1 ? 'cinema.cinemaCount' : 'cinema.cinemasCount', { count }, `${count} cinemas`); }
-  function mapsUrl(cinema) {
-    const query = encodeURIComponent(`${cinema.name}, ${cinema.address}, Malaysia`);
-    return `https://www.google.com/maps/search/?api=1&query=${query}`;
+  function t(key, variables = {}, fallback = '') {
+    return global.TikusI18n?.t(key, variables, fallback) ?? fallback;
   }
 
-  function createCinemaCard(cinema) {
-    const article = document.createElement('article');
-    article.className = 'cinema-card';
-
-    const badge = document.createElement('span');
-    badge.className = `cinema-card__chain cinema-card__chain--${cinema.chain}`;
-    badge.textContent = cinema.chain === 'gsc' ? 'GSC' : cinema.chain === 'tgv' ? 'TGV' : t('cinema.independent', {}, 'Independent');
-
-    const title = document.createElement('h4');
-    title.textContent = cinema.name;
-
-    const label = document.createElement('span');
-    label.className = 'cinema-card__address-label';
-    label.textContent = t('cinema.address', {}, 'Address');
-
-    const address = document.createElement('p');
-    address.className = 'cinema-card__address';
-    address.textContent = cinema.address;
-
-    const link = document.createElement('a');
-    link.className = 'cinema-card__maps';
-    link.href = mapsUrl(cinema);
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = t('cinema.openMaps', {}, 'Open in Maps');
-    link.setAttribute('aria-label', t('cinema.openMapsAria', { cinema: cinema.name }, `Open ${cinema.name} in Maps`));
-
-    article.append(badge, title, label, address, link);
-    return article;
+  function mapsUrl(venue) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue.name}, ${venue.address}`)}`;
   }
 
-  function renderPrompt(root) {
-    const panel = root.querySelector('[data-cinema-panel-body]');
-    const heading = root.querySelector('[data-cinema-panel-title]');
-    const count = root.querySelector('[data-cinema-panel-count]');
-    if (!panel || !heading || !count) return;
-
-    panel.replaceChildren();
-    heading.textContent = t('cinema.promptHeading', {}, 'Choose a state');
-    count.textContent = '';
-
-    const intro = document.createElement('p');
-    intro.className = 'cinema-panel__intro';
-    intro.textContent = t('cinema.promptIntro', {}, 'Use the state selector to find participating cinemas near you.');
-    panel.appendChild(intro);
-  }
-
-  function renderState(root, stateId) {
-    const panel = root.querySelector('[data-cinema-panel-body]');
-    const heading = root.querySelector('[data-cinema-panel-title]');
-    const count = root.querySelector('[data-cinema-panel-count]');
-    const status = root.querySelector('[data-cinema-status]');
-    const state = stateById.get(stateId);
-    if (!panel || !heading || !count || !state) return;
-
-    const venues = data.cinemas.filter((cinema) => cinema.state === stateId);
-    panel.replaceChildren();
-    heading.textContent = stateName(state);
-    count.textContent = countLabel(venues.length);
-
-    const list = document.createElement('div');
-    list.className = 'cinema-card-list';
-    venues.forEach((cinema) => list.appendChild(createCinemaCard(cinema)));
-    panel.appendChild(list);
-
-    if (status) {
-      const selection = `${stateName(state)}: ${countLabel(venues.length)}`;
-      status.textContent = t('cinema.selectionStatus', { selection }, `${selection} selected.`);
-    }
-  }
-
-  function buildSelect(root) {
-    const select = root.querySelector('[data-cinema-state-select]');
-    if (!select) return;
-
-    select.replaceChildren();
-
-    const placeholder = document.createElement('option');
-    placeholder.value = '';
-    placeholder.textContent = t('cinema.selectorPlaceholder', {}, 'Choose a state');
-    select.appendChild(placeholder);
-
-    data.states.forEach((state) => {
-      const option = document.createElement('option');
-      option.value = state.id;
-      const count = data.stateCounts[state.id] || 0;
-      option.textContent = `${stateName(state)} — ${countLabel(count)}`;
-      select.appendChild(option);
-    });
-
-    select.value = selectedState;
-  }
-
-  function selectState(root, stateId, options = {}) {
-    if (stateId && !stateById.has(stateId)) return;
-    selectedState = stateId;
-
-    if (!selectedState) renderPrompt(root);
-    else renderState(root, selectedState);
-
-    const select = root.querySelector('[data-cinema-state-select]');
-    if (select && select.value !== selectedState) select.value = selectedState;
-    if (options.focusPanel && selectedState) root.querySelector('[data-cinema-panel-title]')?.focus({ preventScroll: true });
-  }
-
-  function refreshDynamicLanguage(root) {
-    buildSelect(root);
-    selectState(root, selectedState);
+  function getLanguage() {
+    return global.TikusI18n?.language || document.documentElement.lang || 'en';
   }
 
   function init() {
-    const root = document.querySelector('[data-cinema-section]');
-    if (!root) return;
+    const data = global.TikusCinemaData;
+    const select = document.querySelector('[data-cinema-state]');
+    const panel = document.querySelector('[data-cinema-results]');
+    const status = document.querySelector('[data-cinema-status]');
+    if (!data || !select || !panel) return;
 
-    buildSelect(root);
-    selectState(root, '');
+    let selected = select.value || '';
 
-    root.querySelector('[data-cinema-state-select]')?.addEventListener('change', (event) => {
-      selectState(root, event.currentTarget.value, { focusPanel: Boolean(event.currentTarget.value) });
+    function areaName(area) {
+      return getLanguage() === 'ms' ? area.ms : area.en;
+    }
+
+    function populateSelect() {
+      const current = selected;
+      const first = document.createElement('option');
+      first.value = '';
+      first.textContent = t('cinema.chooseState', {}, 'Choose a state');
+      const fragment = document.createDocumentFragment();
+      fragment.append(first);
+      data.areas.forEach((area) => {
+        const count = data.venues.filter((venue) => venue.area === area.id).length;
+        const option = document.createElement('option');
+        option.value = area.id;
+        option.textContent = `${areaName(area)} · ${count}`;
+        fragment.append(option);
+      });
+      select.replaceChildren(fragment);
+      select.value = current;
+    }
+
+    function render() {
+      panel.replaceChildren();
+      if (!selected) {
+        const empty = document.createElement('p');
+        empty.className = 'cinema-finder__empty';
+        empty.textContent = t('cinema.empty', {}, 'Select a state to see cinema locations.');
+        panel.append(empty);
+        if (status) status.textContent = '';
+        return;
+      }
+
+      const area = data.areas.find((item) => item.id === selected);
+      const venues = data.venues.filter((venue) => venue.area === selected);
+      const heading = document.createElement('div');
+      heading.className = 'cinema-finder__result-heading';
+      const title = document.createElement('h3');
+      title.textContent = area ? areaName(area) : selected;
+      const count = document.createElement('span');
+      count.textContent = t('cinema.locationCount', { count: venues.length }, `${venues.length} locations`);
+      heading.append(title, count);
+
+      const list = document.createElement('div');
+      list.className = 'cinema-list';
+      venues.forEach((venue) => {
+        const article = document.createElement('article');
+        article.className = 'cinema-card';
+        const top = document.createElement('div');
+        top.className = 'cinema-card__top';
+        const name = document.createElement('h4');
+        name.textContent = venue.name;
+        const badge = document.createElement('span');
+        badge.className = 'cinema-card__chain';
+        badge.textContent = venue.chain === 'PARAGON' ? 'PARAGON' : venue.chain;
+        top.append(name, badge);
+        const address = document.createElement('p');
+        address.textContent = venue.address;
+        const link = document.createElement('a');
+        link.className = 'cinema-card__map';
+        link.href = mapsUrl(venue);
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = t('cinema.openMap', {}, 'Open in Maps');
+        link.setAttribute('aria-label', t('cinema.openMapAria', { cinema: venue.name }, `Open ${venue.name} in Google Maps`));
+        article.append(top, address, link);
+        list.append(article);
+      });
+
+      panel.append(heading, list);
+      if (status) {
+        status.textContent = t('cinema.status', { state: area ? areaName(area) : selected, count: venues.length }, `${venues.length} cinema locations shown for ${area ? areaName(area) : selected}.`);
+      }
+    }
+
+    select.addEventListener('change', () => {
+      selected = select.value;
+      render();
     });
 
-    i18n()?.subscribe(() => refreshDynamicLanguage(root));
+    global.TikusI18n?.subscribe(() => {
+      populateSelect();
+      render();
+    });
+
+    populateSelect();
+    render();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
-  else init();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })(window);

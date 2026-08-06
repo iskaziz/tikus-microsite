@@ -157,20 +157,17 @@ Confirmed:
 - All referenced local assets exist.
 - Chromium layout navigation was attempted, but local and loopback navigation are blocked by the execution-environment administrator; no new live-browser claim is made for this amendment.
 
+## First Look + Cinema restoration validation — 2026-08-06
 
+- `node --check` passes for every JavaScript file.
+- All CSS files parse successfully with `tinycss2`.
+- All local HTML/CSS asset references resolve; no base64 media was introduced.
+- English and Bahasa Malaysia dictionaries contain the same 205 translation keys.
+- The current page contains one First Look section, one fullscreen gallery dialog and one cinema section.
+- The First Look controller generates seven thumbnails, advances with next/previous controls, opens the native dialog and closes with Escape.
+- The cinema state selector renders 13 states/territories plus its placeholder and the dataset contains exactly 22 venue records.
+- Kuala Lumpur renders four venue cards in the restored state finder; Selangor renders four.
+- The latest cast grid still renders eight cards and retains QIU QATINA/Fattah profile content.
+- House → Sitting Room still resolves to exactly three direct game hotspots: Tikus Beat, Tikus Slider and Tikus Rush.
+- An inline-resource Chromium regression pass was used because direct `file://` and loopback navigation are blocked by the execution-environment administrator. It passed at 1440×1000, 390×844, 320×740 and 390×844 with reduced motion, with no page errors and no page-level horizontal overflow.
 
-## Cast copy update validation — 2026-08-05
-
-- Confirmed QIU QATINA and Fattah use dedicated biography translation keys in both EN and BM.
-- Confirmed the EN/BM dictionaries retain matching translation-key sets.
-- Confirmed the cast grid still contains eight cards and only Harris uses the profile-coming-soon copy.
-- Confirmed JavaScript syntax passes after the copy update.
-
-
-## Cast photography validation — 2026-08-05
-
-- Confirmed the supplied files `Haiccal.jpeg`, `Iski Senna.jpeg`, `Y Mun.jpeg`, `Fattah.jpeg` and `Marsha.jpeg` are opaque RGB JPEG images with no alpha transparency.
-- Confirmed all five responsive derivative sets exist at 480×600 and 720×900 in AVIF, WebP and JPEG.
-- Confirmed Y Mun, Fattah, Marsha, Iski Senna and Haiccal reference the new cast-photo derivatives.
-- Confirmed QIU QATINA, Diana Ooi and Harris continue to reference their existing illustrated portraits.
-- Confirmed the new photography treatment is static CSS only and introduces no continuous animation, base64 media or external dependency.

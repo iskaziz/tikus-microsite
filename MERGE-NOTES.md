@@ -63,7 +63,7 @@ All major or continuous effects have reduced-motion alternatives.
 
 - Hero eyebrow: “Welcome to Samasihat Wellness Retreat”.
 - Approved spoiler-safe synopsis.
-- Earlier cast grouping included Que and Y Mun as Hosts; the current cast grid no longer displays category groupings.
+- Hosts: Que, Y Mun.
 - Guests & The Inspector share one card row in this order: Fattah, Diana, Harris, Marsha, Iski, Haiccal.
 - Character-facing cards visible first with Host, Guest or Inspector labels.
 - No category label above cast names.
@@ -167,26 +167,16 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Removed character names, role/category labels and character-profile copy from the card UI.
 - Card fronts now show only cast name, portrait artwork and a small profile prompt.
 - Card backs now show the supplied actor biography and retain EN/BM switching.
-- Added supplied copy for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal without inventing a biography for Harris.
+- Added supplied copy for Y Mun, Diana Ooi, Marsha, Iski Senna and Haiccal without inventing biographies for Que, Fattah or Harris.
 - Diana Ooi and Iski Senna now use the full display names supplied with their profiles.
 - Layout uses four columns on desktop, three at intermediate widths and two on mobile, with no horizontal panning.
 
+## 2026-08-06 — First Look and Cinema restoration
 
+- Restored the seven-image First Look gallery that was introduced in repository history at commit `36234b9`.
+- Restored the compact 22-location cinema state finder refined at commit `75b3b4b`.
+- Inserted First Look between Trailer and Cast, and Cinema Locations after the House/Games explorer.
+- Preserved the latest direct three-game hotspot routing, hybrid Tikus Beat audio, bilingual EN/BM controller, mobile slider scroll lock and cast-profile grid.
+- Preserved the latest QIU QATINA and Fattah profile copy; Harris remains the only profile placeholder.
+- Added EN/BM copy and accessible labels for both restored sections without adding a second page or framework.
 
-## 2026-08-05 cast copy update
-
-- Renamed the displayed Que card to the supplied stage name `QIU QATINA`.
-- Added the supplied Qiu Qatina biography and artist quotation.
-- Added the supplied Fattah Fawzy biography.
-- Added Bahasa Malaysia translations for both biographies so the EN/BM switch remains complete.
-- Harris remains the only cast card using the profile-coming-soon copy.
-
-
-## Cast photography update — 2026-08-05
-
-- Replaced the illustrated/placeholder fronts for Y Mun, Fattah, Marsha, Iski Senna and Haiccal with the newly supplied cast photographs.
-- Source JPEGs were inspected as opaque RGB images.
-- Each photograph is cropped to a consistent 4:5 profile composition and exported at 480×600 and 720×900 in AVIF, WebP and progressive JPEG.
-- The full-resolution source files are not shipped in the microsite.
-- A dedicated `cast-card__portrait--photo` treatment adds restrained saturation, contrast, sepia and static print texture without modifying facial features.
-- QIU QATINA, Diana Ooi and Harris retain their existing illustrated portrait assets.

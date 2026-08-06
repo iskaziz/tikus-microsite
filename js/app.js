@@ -37,7 +37,7 @@
     }
 
     const picture = document.createElement('picture');
-    picture.className = `cast-card__portrait cast-card__portrait--image${portrait.kind === 'photo' ? ' cast-card__portrait--photo' : ''}`;
+    picture.className = 'cast-card__portrait cast-card__portrait--image';
 
     if (portrait.avif) {
       const source = document.createElement('source');

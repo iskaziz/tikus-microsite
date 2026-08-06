@@ -24,8 +24,8 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /assets
     /images
       /title
-      /cast
       /characters
+      /gallery
       /scenes
       /games/tikus-beat
       /games/tikus-slider
@@ -42,6 +42,9 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /js
     content-data.js
     language-controller.js
+    gallery-controller.js
+    cinema-data.js
+    cinema-controller.js
     app.js
     scene-controller.js
     modal-controller.js
@@ -58,7 +61,7 @@ A compact EN/BM switch is fixed to the top-right corner. English is the default 
 
 The shared `js/language-controller.js` translates:
 
-- Main headings, synopsis, trailer controls and final-information content.
+- Main headings, synopsis, trailer controls, First Look gallery, cinema finder and final-information content.
 - Cast groups, card instructions, descriptions and accessible flip-card announcements.
 - House and Sitting Room names, image alternatives, hotspot labels and scene status messages.
 - Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
@@ -70,10 +73,11 @@ The shared `js/language-controller.js` translates:
 
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
+- Seven-image **First Look** gallery with responsive WebP/JPEG derivatives, keyboard navigation, swipe support and an accessible fullscreen viewer.
 - Eight keyboard-operable cast profile cards in one responsive grid with no horizontal card-strip scrolling.
 - Card fronts show the cast name and approved portrait artwork; selecting a card flips it to the cast biography.
-- Y Mun, Fattah, Marsha, Iski Senna and Haiccal use the newly supplied photographic portraits; QIU QATINA, Diana Ooi and Harris retain the existing illustrated portraits.
-- Supplied biographies are included for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal; Harris remains marked as profile coming soon.
+- Supplied biographies are included for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal; only Harris remains marked as profile coming soon.
+- **Where to Watch** state finder with 22 cinema locations across 13 Malaysian states/territories and deliberate external Google Maps links.
 - Compact vertical spacing across the trailer, cast, explorer and final-information sections.
 - Responsive 16:9 House → Sitting Room explorer using `object-fit: contain`.
 - Exactly three percentage-positioned hotspot buttons in the Sitting Room.
@@ -161,7 +165,7 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 
 Only the title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house-entry control.
 
-Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Cast portrait media uses responsive AVIF, WebP and JPEG derivatives; supplied photography is cropped to 480×600 and 720×900 while remaining illustrated portraits use 480×480 and 720×720.
+Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. First Look stills include 960-pixel and 1600-pixel WebP/JPEG versions plus lightweight thumbnail derivatives and remain lazy-loaded.
 
 ## Mobile puzzle interaction
 

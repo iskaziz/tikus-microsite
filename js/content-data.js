@@ -40,8 +40,9 @@
     sizes: '(max-width: 48rem) min(44vw, 11rem), 16rem',
     width: 720,
     height: 900,
-    kind: 'photo',
-    alt: `Portrait photograph of ${actorName}`
+    alt: `Portrait of ${actorName}`,
+    altKey: 'cast.castPortraitAlt',
+    altName: actorName
   });
 
   const scenes = {
@@ -108,8 +109,10 @@
     {
       id: 'qiu',
       actorName: 'QIU QATINA',
-      portrait: characterPortraitSet('mimi', 'Mimi'),
-      bio: 'Qiu Qatina is a Malaysian actress and arts practitioner with over a decade of experiences in the performing arts industry. A graduate of University Teknologi MARA (UiTM) with a Bachelor’s Degree in Performing Arts and currently pursuing a Master’s in Creative Arts at ASWARA, she has built a diverse career spanning from theatre to drama and film. Qiu has involved in numerous acclaimed stage productions and screen projects while earning recognition. Rooted in both artistic practice and scholarly inquiry, Qiu’s creations are driven by the belief that art is not merely an act of expression but a process of self-discovery.\n\n“An artist does not create to escape reality, but to reveal the truths that silence cannot speak.”',
+      portrait: characterPortraitSet('mimi', 'QIU QATINA'),
+      bio: `Qiu Qatina is a Malaysian actress and arts practitioner with over a decade of experiences in the performing arts industry. A graduate of University Teknologi MARA (UiTM) with a Bachelor’s Degree in Performing Arts and currently pursuing a Master’s in Creative Arts at ASWARA, she has built a diverse career spanning from theatre to drama and film. Qiu has involved in numerous acclaimed stage productions and screen projects while earning recognition. Rooted in both artistic practice and scholarly inquiry, Qiu’s creations are driven by the belief that art is not merely an act of expression but a process of self-discovery.
+
+“An artist does not create to escape reality, but to reveal the truths that silence cannot speak.”`,
       bioKey: 'cast.bio.qiu'
     },
     {
@@ -129,14 +132,14 @@
     {
       id: 'diana',
       actorName: 'Diana Ooi',
-      portrait: characterPortraitSet('madam-boey', 'Madam Boey'),
+      portrait: characterPortraitSet('madam-boey', 'Diana Ooi'),
       bio: 'At 73, Diana Ooi proves it is never too late to chase a lifelong calling. After stepping down from her second career in 2020, she immediately pivoted to her childhood passion for acting. Just a year later, she landed her standout screen debut playing a character with dementia in an entry for Short + Sweet Malaysia, establishing herself as a compelling, authentic talent',
       bioKey: 'cast.bio.diana'
     },
     {
       id: 'harris',
       actorName: 'Harris',
-      portrait: characterPortraitSet('mejar-mansor', 'Major Mansor'),
+      portrait: characterPortraitSet('mejar-mansor', 'Harris'),
       bio: 'Profile coming soon.',
       bioKey: 'cast.profileComing'
     },
@@ -151,7 +154,9 @@
       id: 'iski',
       actorName: 'Iski Senna',
       portrait: castPortraitSet('iski-senna', 'Iski Senna'),
-      bio: 'Iski Senna is a Thespian, Tango Dancer and Drama teacher. From Istana Budaya to ITV UK, Netflix to Nueve de Julio Avenue, his particular set of skills has taken him to many places, mostly unexpected.\n\nYou might have seen him in bit parts on Netflix\'s "Marco Polo" and ITV\'s "The Singapore Grip", or in M. Raihan Halim\'s Horror flick as the titular "Ibu", under heavy prosthetics, but you can always guarantee he steals the spotlight.',
+      bio: `Iski Senna is a Thespian, Tango Dancer and Drama teacher. From Istana Budaya to ITV UK, Netflix to Nueve de Julio Avenue, his particular set of skills has taken him to many places, mostly unexpected.
+
+You might have seen him in bit parts on Netflix's "Marco Polo" and ITV's "The Singapore Grip", or in M. Raihan Halim's Horror flick as the titular "Ibu", under heavy prosthetics, but you can always guarantee he steals the spotlight.`,
       bioKey: 'cast.bio.iski'
     },
     {
