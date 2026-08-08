@@ -188,6 +188,8 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Uses the supplied TIKUS poster as the focal artwork with responsive WebP/JPEG derivatives and `loading="lazy"`.
 - Added the supplied Bahasa Malaysia synopsis and a faithful English translation.
 - Added supplied production credits for director, screenplay, producers, executive producers, production company and full cast list.
-- Added deliberate external links to IMDb, Instagram and Threads, plus the supplied campaign hashtags.
+- Added the deliberate external IMDb link in Film Overview.
+- Moved Instagram, Threads and the supplied campaign hashtags to the existing bottom Social media slot.
+- Replaced the bottom release-date placeholder with the confirmed theatrical date: 3 September 2026.
 - Updated the First Look continuation link to flow into Film Overview, then onward to Meet the Cast.
 - No existing gallery, cast, cinema, house, game, language or audio feature was removed.

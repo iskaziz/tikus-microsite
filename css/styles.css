@@ -1020,6 +1020,58 @@ img.cast-card__portrait,
   line-height: 1.35;
 }
 
+/* Bottom release + social information ---------------------------------- */
+.pending-grid__release {
+  color: var(--paper-bright) !important;
+  font-family: var(--header-font);
+  font-size: clamp(1.1rem, 0.98rem + 0.55vw, 1.45rem) !important;
+  letter-spacing: 0.035em;
+}
+
+.pending-grid__social {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.pending-grid__social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.9rem;
+}
+
+.pending-grid__social-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.35rem;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-decoration-thickness: 0.08rem;
+  text-underline-offset: 0.22rem;
+  text-transform: uppercase;
+}
+
+.pending-grid__social-links a:hover {
+  color: var(--paper-dim);
+}
+
+.pending-grid__social-links a:focus-visible {
+  outline: 0.18rem solid var(--paper-bright);
+  outline-offset: 0.2rem;
+}
+
+.pending-grid__hashtags {
+  margin: 0;
+  color: #efc8c8;
+  font-family: var(--ui-font);
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .site-footer {
   min-height: 5rem;
   display: flex;

@@ -75,7 +75,8 @@ The shared `js/language-controller.js` translates:
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
 - Seven-image **First Look** gallery with responsive WebP/JPEG derivatives, keyboard navigation, swipe support and an accessible fullscreen viewer.
-- **Film Overview** section before Meet the Cast, using the approved poster, supplied synopsis, production credits, cast list, IMDb link and Feisk Productions social links.
+- **Film Overview** section before Meet the Cast, using the approved poster, supplied synopsis, production credits, cast list and IMDb link.
+- Bottom information panel now carries the confirmed theatrical release date (3 September 2026), Instagram, Threads and campaign hashtags in the previously allocated release/social slots.
 - Eight keyboard-operable cast profile cards in one responsive grid with no horizontal card-strip scrolling.
 - Card fronts show the cast name and approved portrait artwork; selecting a card flips it to the cast biography.
 - Supplied biographies are included for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal; only Harris remains marked as profile coming soon.

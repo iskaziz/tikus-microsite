@@ -179,7 +179,9 @@ Confirmed:
 - Supplied poster source confirmed as 670 × 992 and opaque; deployed poster files are 480/670 WebP and JPEG derivatives.
 - Poster remains lazy-loaded and is not added to the preload list.
 - English and Bahasa Malaysia dictionaries contain matching translation-key sets for all new Film Overview copy and accessibility labels.
-- IMDb, Instagram and Threads links use HTTPS, open deliberately in a new tab and include `rel="noopener noreferrer"`.
+- IMDb remains in Film Overview; Instagram and Threads are present only in the existing bottom Social media slot. All external links use HTTPS, open deliberately in a new tab and include `rel="noopener noreferrer"`.
+- Bottom Release date displays `3 September 2026` in both EN and BM modes.
+- Campaign hashtags appear with the bottom social links and no longer appear in Film Overview.
 - Supplied campaign hashtags are visible and exposed to assistive technology.
 - Production names and credits are reproduced from the user's supplied copy; no production facts were inferred from the screenplay.
 - Responsive rules stack poster/content on narrow screens and retain `object-fit: contain` with no poster cropping.
