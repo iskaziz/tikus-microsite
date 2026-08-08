@@ -180,3 +180,14 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Preserved the latest QIU QATINA and Fattah profile copy; Harris remains the only profile placeholder.
 - Added EN/BM copy and accessible labels for both restored sections without adding a second page or framework.
 
+
+
+## Film Overview + official poster — v14
+
+- Added a new bilingual Film Overview / Maklumat Filem section between First Look and Meet the Cast.
+- Uses the supplied TIKUS poster as the focal artwork with responsive WebP/JPEG derivatives and `loading="lazy"`.
+- Added the supplied Bahasa Malaysia synopsis and a faithful English translation.
+- Added supplied production credits for director, screenplay, producers, executive producers, production company and full cast list.
+- Added deliberate external links to IMDb, Instagram and Threads, plus the supplied campaign hashtags.
+- Updated the First Look continuation link to flow into Film Overview, then onward to Meet the Cast.
+- No existing gallery, cast, cinema, house, game, language or audio feature was removed.

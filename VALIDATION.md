@@ -171,3 +171,15 @@ Confirmed:
 - House → Sitting Room still resolves to exactly three direct game hotspots: Tikus Beat, Tikus Slider and Tikus Rush.
 - An inline-resource Chromium regression pass was used because direct `file://` and loopback navigation are blocked by the execution-environment administrator. It passed at 1440×1000, 390×844, 320×740 and 390×844 with reduced motion, with no page errors and no page-level horizontal overflow.
 
+
+
+## Film Overview validation — v14
+
+- New `#film-overview` section is positioned after `#first-look` and before `#cast`.
+- Supplied poster source confirmed as 670 × 992 and opaque; deployed poster files are 480/670 WebP and JPEG derivatives.
+- Poster remains lazy-loaded and is not added to the preload list.
+- English and Bahasa Malaysia dictionaries contain matching translation-key sets for all new Film Overview copy and accessibility labels.
+- IMDb, Instagram and Threads links use HTTPS, open deliberately in a new tab and include `rel="noopener noreferrer"`.
+- Supplied campaign hashtags are visible and exposed to assistive technology.
+- Production names and credits are reproduced from the user's supplied copy; no production facts were inferred from the screenplay.
+- Responsive rules stack poster/content on narrow screens and retain `object-fit: contain` with no poster cropping.

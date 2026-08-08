@@ -2659,3 +2659,283 @@ body.has-open-dialog .language-switch {
     animation: none !important;
   }
 }
+
+/* Film overview — compact database-style summary using the TIKUS print language. */
+.film-overview {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(2.8rem, 5vw, 5.25rem) var(--page-gutter);
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 86% 14%, rgba(183, 22, 36, 0.23), transparent 26rem),
+    linear-gradient(180deg, #0c0808 0%, #12090a 54%, #090707 100%);
+}
+
+.film-overview__rings {
+  position: absolute;
+  z-index: -1;
+  width: min(58rem, 88vw);
+  aspect-ratio: 1;
+  right: -28rem;
+  bottom: -30rem;
+  border-radius: 50%;
+  opacity: 0.11;
+  background: repeating-radial-gradient(circle, transparent 0 2.4rem, var(--crimson-700) 2.5rem 2.72rem, transparent 2.82rem 5rem, var(--paper-dim) 5.08rem 5.22rem);
+}
+
+.film-overview__heading {
+  margin-bottom: clamp(1.4rem, 3vw, 2.6rem);
+}
+
+.film-overview__card {
+  width: min(100%, 78rem);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(15rem, 20rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3.8vw, 3.7rem);
+  align-items: start;
+}
+
+.film-overview__poster {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0.55rem;
+  border: 1px solid rgba(239, 228, 204, 0.28);
+  background: #070505;
+  box-shadow: 0 1.4rem 3.8rem rgba(0, 0, 0, 0.48);
+}
+
+.film-overview__poster::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.7rem -0.75rem -0.75rem 0.7rem;
+  background: var(--crimson-700);
+  opacity: 0.78;
+}
+
+.film-overview__poster picture,
+.film-overview__poster img {
+  display: block;
+  width: 100%;
+}
+
+.film-overview__poster img {
+  height: auto;
+  object-fit: contain;
+}
+
+.film-overview__content {
+  min-width: 0;
+  padding: clamp(1.15rem, 2.4vw, 2rem);
+  border-top: 0.28rem solid var(--crimson-700);
+  border-bottom: 1px solid rgba(239, 228, 204, 0.22);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 0.42rem, rgba(239, 228, 204, 0.018) 0.45rem 0.48rem),
+    rgba(13, 8, 8, 0.88);
+  box-shadow: inset 0 0 0 1px rgba(239, 228, 204, 0.08);
+}
+
+.film-overview__synopsis {
+  margin: 0;
+  color: var(--paper-bright);
+  font-size: clamp(1rem, 0.94rem + 0.28vw, 1.18rem);
+  line-height: 1.62;
+  text-wrap: pretty;
+}
+
+.film-overview__primary-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.25rem;
+}
+
+.film-overview__button,
+.film-overview__social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-height: 2.75rem;
+  border: 1px solid rgba(239, 228, 204, 0.42);
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  line-height: 1.1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.film-overview__button {
+  padding: 0.72rem 0.9rem;
+  background: var(--crimson-700);
+  border-color: var(--crimson-700);
+}
+
+.film-overview__button:hover,
+.film-overview__social-links a:hover {
+  color: #fff7e8;
+  border-color: var(--paper-bright);
+  background: var(--crimson-800);
+}
+
+.film-overview__button:focus-visible,
+.film-overview__social-links a:focus-visible,
+.film-overview__continue:focus-visible {
+  outline: 0.18rem solid var(--paper-bright);
+  outline-offset: 0.22rem;
+}
+
+.film-overview__credits {
+  margin: clamp(1.45rem, 3vw, 2rem) 0 0;
+  border-top: 1px solid rgba(239, 228, 204, 0.2);
+}
+
+.film-overview__credits > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.78rem 0;
+  border-bottom: 1px solid rgba(239, 228, 204, 0.14);
+}
+
+.film-overview__credits dt,
+.film-overview__cast-block h3,
+.film-overview__social h3 {
+  color: var(--grey);
+  font-family: var(--ui-font);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.film-overview__credits dd {
+  margin: 0;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.film-overview__cast-block,
+.film-overview__social {
+  margin-top: 1.35rem;
+}
+
+.film-overview__cast-block h3,
+.film-overview__social h3 {
+  margin: 0 0 0.65rem;
+}
+
+.film-overview__cast-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.film-overview__cast-list li {
+  padding: 0.42rem 0.58rem;
+  border: 1px solid rgba(239, 228, 204, 0.2);
+  color: var(--paper-dim);
+  background: rgba(255, 244, 220, 0.035);
+  font-family: var(--ui-font);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.film-overview__social {
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(239, 228, 204, 0.2);
+}
+
+.film-overview__social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.film-overview__social-links a {
+  min-width: 8.5rem;
+  padding: 0.65rem 0.78rem;
+  background: rgba(255, 244, 220, 0.035);
+}
+
+.film-overview__hashtags {
+  margin: 0.85rem 0 0;
+  color: #efc8c8;
+  font-family: var(--ui-font);
+  font-size: clamp(0.72rem, 0.67rem + 0.2vw, 0.84rem);
+  font-weight: 800;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.film-overview__continue {
+  min-height: 2.75rem;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: clamp(1.45rem, 3vw, 2.4rem) auto 0;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.film-overview__continue:hover {
+  color: var(--paper-dim);
+}
+
+@media (max-width: 48rem) {
+  .film-overview {
+    padding-block: clamp(2.4rem, 9vw, 3.4rem);
+  }
+
+  .film-overview__card {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+
+  .film-overview__poster {
+    width: min(76vw, 28rem);
+    margin-inline: auto;
+  }
+
+  .film-overview__content {
+    padding: 1rem;
+  }
+
+  .film-overview__credits > div {
+    grid-template-columns: minmax(6.5rem, 0.38fr) minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 23rem) {
+  .film-overview__poster {
+    width: min(82vw, 24rem);
+  }
+
+  .film-overview__credits > div {
+    grid-template-columns: 1fr;
+    gap: 0.28rem;
+  }
+
+  .film-overview__social-links a {
+    width: 100%;
+  }
+}

@@ -26,6 +26,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
       /title
       /characters
       /gallery
+      /poster
       /scenes
       /games/tikus-beat
       /games/tikus-slider
@@ -61,7 +62,7 @@ A compact EN/BM switch is fixed to the top-right corner. English is the default 
 
 The shared `js/language-controller.js` translates:
 
-- Main headings, synopsis, trailer controls, First Look gallery, cinema finder and final-information content.
+- Main headings, synopsis, trailer controls, First Look gallery, Film Overview, cinema finder and final-information content.
 - Cast groups, card instructions, descriptions and accessible flip-card announcements.
 - House and Sitting Room names, image alternatives, hotspot labels and scene status messages.
 - Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
@@ -74,6 +75,7 @@ The shared `js/language-controller.js` translates:
 - CSS-generated concentric crimson rings and approved TIKUS title artwork.
 - Retro television presentation for the official trailer, without autoplay.
 - Seven-image **First Look** gallery with responsive WebP/JPEG derivatives, keyboard navigation, swipe support and an accessible fullscreen viewer.
+- **Film Overview** section before Meet the Cast, using the approved poster, supplied synopsis, production credits, cast list, IMDb link and Feisk Productions social links.
 - Eight keyboard-operable cast profile cards in one responsive grid with no horizontal card-strip scrolling.
 - Card fronts show the cast name and approved portrait artwork; selecting a card flips it to the cast biography.
 - Supplied biographies are included for QIU QATINA, Y Mun, Fattah, Diana Ooi, Marsha, Iski Senna and Haiccal; only Harris remains marked as profile coming soon.
@@ -165,7 +167,7 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 
 Only the title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house-entry control.
 
-Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. First Look stills include 960-pixel and 1600-pixel WebP/JPEG versions plus lightweight thumbnail derivatives and remain lazy-loaded.
+Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. First Look stills include 960-pixel and 1600-pixel WebP/JPEG versions plus lightweight thumbnail derivatives. The official poster uses 480-pixel and 670-pixel WebP/JPEG derivatives. Gallery stills and poster imagery remain lazy-loaded.
 
 ## Mobile puzzle interaction
 

@@ -100,3 +100,15 @@ The package includes seven approved First Look stills under `assets/images/galle
 
 The cinema finder adds no image or map assets. `js/cinema-data.js` contains 22 venue records across 13 states/territories and `js/cinema-controller.js` renders the native state selector and venue cards. Google Maps opens only after the visitor selects a directions link.
 
+
+
+## Official TIKUS poster
+
+The supplied poster source is an opaque 670 × 992 palette PNG. The deployed package uses responsive derivatives only; the uploaded source PNG is not included.
+
+| File | Format | Dimensions | True transparency | Intended role |
+|---|---:|---:|---:|---|
+| `assets/images/poster/tikus-official-poster-480.webp` | WebP | 480 × 711 | No | Mobile/tablet film overview poster |
+| `assets/images/poster/tikus-official-poster-480.jpg` | JPEG | 480 × 711 | No | Mobile/tablet fallback |
+| `assets/images/poster/tikus-official-poster-670.webp` | WebP | 670 × 992 | No | Desktop film overview poster |
+| `assets/images/poster/tikus-official-poster-670.jpg` | JPEG | 670 × 992 | No | Desktop fallback |
