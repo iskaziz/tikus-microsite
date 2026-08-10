@@ -292,20 +292,31 @@
   line-height: 1.5;
 }
 
-.slider-game__help {
+.slider-game__help,
+.slider-game__artist {
   padding-top: 0.75rem;
   color: var(--slider-muted);
   border-top: 1px solid var(--slider-line);
 }
 
-.slider-game__help summary {
+.slider-game__artist {
+  margin-top: 0.75rem;
+}
+
+.slider-game__help summary,
+.slider-game__artist summary {
   color: var(--slider-cream);
   cursor: pointer;
 }
 
-.slider-game__help p {
+.slider-game__help p,
+.slider-game__artist p {
   margin-bottom: 0;
   line-height: 1.5;
+}
+
+.slider-game__artist p + p {
+  margin-top: 0.65rem;
 }
 
 .slider-game__completion {

@@ -185,3 +185,9 @@ Confirmed:
 - Supplied campaign hashtags are visible and exposed to assistive technology.
 - Production names and credits are reproduced from the user's supplied copy; no production facts were inferred from the screenplay.
 - Responsive rules stack poster/content on narrow screens and retain `object-fit: contain` with no poster cropping.
+
+## v16 validation
+- Tikus Slider artist disclosure is rendered from `js/tikus-slider-game.js`.
+- EN/BM artist copy is provided by `js/language-controller.js`.
+- The disclosure is collapsed by default and introduces no new media requests.
+- Mobile puzzle touch-action / scroll-lock rules remain unchanged.

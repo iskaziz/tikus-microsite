@@ -193,3 +193,9 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Replaced the bottom release-date placeholder with the confirmed theatrical date: 3 September 2026.
 - Updated the First Look continuation link to flow into Film Overview, then onward to Meet the Cast.
 - No existing gallery, cast, cinema, house, game, language or audio feature was removed.
+
+## v16 — Tikus Slider artist context
+- Added a compact `About the artist` / `Tentang artis` disclosure inside Tikus Slider, beneath the game instructions.
+- Added the supplied M. Zain biography as two paragraphs in English.
+- Added a Bahasa Malaysia translation through the existing language controller.
+- Kept the disclosure collapsed by default so the mobile puzzle controls remain compact and the puzzle board scroll-lock behaviour is unchanged.

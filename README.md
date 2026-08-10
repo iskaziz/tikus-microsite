@@ -174,3 +174,6 @@ Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives.
 
 The Tikus Slider board captures touch gestures inside the framed puzzle area. Browser panning, text selection, overscroll chaining and touch callouts are disabled only on the board and its tiles, so the surrounding game controls and page remain normally scrollable. A non-passive `touchmove` fallback is included for older mobile Safari behavior.
 
+
+### Tikus Slider artist note
+The painting puzzle includes an optional bilingual artist-information disclosure for M. Zain beneath the gameplay instructions. It is collapsed by default to keep the mobile game interface compact.

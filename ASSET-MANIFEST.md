@@ -112,3 +112,6 @@ The supplied poster source is an opaque 670 × 992 palette PNG. The deployed pac
 | `assets/images/poster/tikus-official-poster-480.jpg` | JPEG | 480 × 711 | No | Mobile/tablet fallback |
 | `assets/images/poster/tikus-official-poster-670.webp` | WebP | 670 × 992 | No | Desktop film overview poster |
 | `assets/images/poster/tikus-official-poster-670.jpg` | JPEG | 670 × 992 | No | Desktop fallback |
+
+## v16 content-only update
+No new image, audio, font or other binary assets were added for the M. Zain write-up.

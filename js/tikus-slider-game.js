@@ -148,7 +148,14 @@
     const helpSummary = create('summary', '', t('slider.howTo', {}, 'How to play'));
     const helpText = create('p', '', t('slider.help', {}, 'Move a tile into the empty square until the full painting is restored. Arrow keys move the adjacent tile toward the empty square while the board is focused.'));
     help.append(helpSummary, helpText);
-    controls.append(stats, actions, status, help);
+
+    const artistInfo = create('details', 'slider-game__artist');
+    const artistSummary = create('summary', '', t('slider.artistHeading', {}, 'About the artist'));
+    const artistBioOne = create('p', '', t('slider.artistBio1', {}, `M. Zain (Mohamed Zain Idris 1939–2000) was a renowned self-taught Malaysian artist from Terengganu, fondly described as the \"Fisherman's Artist\". He is best known for his idealised scenes of East Coast Malay village life and tranquil beach scenes of fishing boats.`));
+    const artistBioTwo = create('p', '', t('slider.artistBio2', {}, 'His original works are highly sought after by collectors of Southeast Asian art and frequently appear at art auctions.'));
+    artistInfo.append(artistSummary, artistBioOne, artistBioTwo);
+
+    controls.append(stats, actions, status, help, artistInfo);
     layout.append(stageWrap, controls);
 
     const completion = create('div', 'slider-game__completion');
