@@ -191,3 +191,14 @@ Confirmed:
 - EN/BM artist copy is provided by `js/language-controller.js`.
 - The disclosure is collapsed by default and introduces no new media requests.
 - Mobile puzzle touch-action / scroll-lock rules remain unchanged.
+
+## v17 validation
+- Trailer content configuration uses YouTube ID `zP-A0q7aVko`; no reference to the previous trailer ID remains in deployed HTML/JS/docs.
+- The direct fallback URL matches the user-supplied YouTube link.
+- Trailer controller behavior remains lazy: `iframe.src` is assigned only inside the deliberate open action and removed again on close.
+- Mobile First Look featured image uses intrinsic image height and remains uncropped.
+- Mobile enlarged viewer uses intrinsic image height rather than a full-viewport-height image box; navigation arrows overlay the still.
+- All seven restored First Look assets remain present at 16:9.
+- `node --check` passes for every JavaScript file.
+- `tinycss2` parses all CSS stylesheets without parse errors.
+- All local HTML/CSS asset references resolve.

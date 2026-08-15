@@ -177,3 +177,7 @@ The Tikus Slider board captures touch gestures inside the framed puzzle area. Br
 
 ### Tikus Slider artist note
 The painting puzzle includes an optional bilingual artist-information disclosure for M. Zain beneath the gameplay instructions. It is collapsed by default to keep the mobile game interface compact.
+
+## v17 trailer and mobile First Look
+
+The official trailer is configured as YouTube video `zP-A0q7aVko`. It remains privacy-enhanced and lazy: YouTube is not requested until the visitor opens the trailer. On mobile, First Look stills use the full available width and the enlarged viewer preserves each uncropped 16:9 frame without stretching its image box to the full portrait viewport height.

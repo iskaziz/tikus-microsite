@@ -115,3 +115,7 @@ The supplied poster source is an opaque 670 × 992 palette PNG. The deployed pac
 
 ## v16 content-only update
 No new image, audio, font or other binary assets were added for the M. Zain write-up.
+
+## v17 media configuration
+- Official trailer: YouTube ID `zP-A0q7aVko` (remote, deliberately loaded only after user interaction; no local trailer asset added).
+- First Look: no new image assets added; existing responsive seven-still set reused.

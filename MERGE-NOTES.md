@@ -199,3 +199,12 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added the supplied M. Zain biography as two paragraphs in English.
 - Added a Bahasa Malaysia translation through the existing language controller.
 - Kept the disclosure collapsed by default so the mobile puzzle controls remain compact and the puzzle board scroll-lock behaviour is unchanged.
+
+## v17 — official trailer + mobile First Look refinement
+- Updated the official trailer configuration to YouTube video `zP-A0q7aVko` and retained privacy-enhanced `youtube-nocookie.com` embedding.
+- Preserved lazy loading: the iframe receives its `src` only after the visitor deliberately opens the trailer dialog.
+- Updated the direct YouTube fallback link to the supplied URL.
+- Reduced apparent black/empty space in the First Look experience on mobile by allowing the inline still to run edge-to-edge within the section.
+- Removed the forced full-height image box in the enlarged mobile viewer; stills now render at their intrinsic 16:9 height without cropping.
+- Moved enlarged-view previous/next controls over the image on mobile so they no longer consume image width.
+- Tightened mobile filmstrip and gallery spacing while preserving keyboard, swipe, dialog and reduced-motion behavior.

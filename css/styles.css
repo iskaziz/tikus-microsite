@@ -2991,3 +2991,103 @@ body.has-open-dialog .language-switch {
     width: 100%;
   }
 }
+
+/* v17 mobile First Look refinement --------------------------------------- */
+@media (max-width: 48rem) {
+  /* Let the film still itself dominate the narrow viewport. */
+  .gallery-section {
+    padding-inline: 0;
+  }
+
+  .gallery-section__heading,
+  .gallery-section__instruction,
+  .gallery-section__continue {
+    padding-inline: var(--page-gutter);
+  }
+
+  .gallery-feature {
+    border-inline: 0;
+  }
+
+  .gallery-feature__button img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background: transparent;
+  }
+
+  .gallery-filmstrip {
+    margin-top: 0.5rem;
+    padding-inline: var(--page-gutter);
+    padding-bottom: 0.3rem;
+  }
+
+  /* In the enlarged mobile viewer, preserve the full 16:9 frame without
+     stretching the image box to the height of the portrait viewport. */
+  .gallery-dialog__surface {
+    grid-template-rows: auto auto auto;
+    align-content: center;
+    gap: 0.4rem;
+  }
+
+  .gallery-dialog__viewer {
+    width: calc(100% + max(0.65rem, env(safe-area-inset-left)) + max(0.65rem, env(safe-area-inset-right)));
+    max-width: none;
+    margin-left: calc(0px - max(0.65rem, env(safe-area-inset-left)));
+    display: block;
+  }
+
+  .gallery-dialog__viewer picture {
+    width: 100%;
+    display: block;
+  }
+
+  .gallery-dialog__viewer img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+  }
+
+  .gallery-dialog__arrow {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    width: 2.45rem;
+    min-height: 3.2rem;
+    transform: translateY(-50%);
+  }
+
+  .gallery-dialog__arrow--previous {
+    left: 0.35rem;
+  }
+
+  .gallery-dialog__arrow--next {
+    right: 0.35rem;
+  }
+
+  .gallery-dialog__hint {
+    padding-inline: 0.75rem;
+  }
+}
+
+@media (max-width: 35rem) {
+  .gallery-section__heading {
+    margin-bottom: 0.65rem;
+  }
+
+  .gallery-section__instruction {
+    margin-top: 0.4rem;
+  }
+
+  .gallery-dialog__header .eyebrow {
+    display: none;
+  }
+
+  .gallery-dialog__header h2 {
+    font-size: 1.35rem;
+  }
+}
