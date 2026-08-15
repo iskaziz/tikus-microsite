@@ -698,3 +698,105 @@
     background-position: center;
   }
 }
+
+
+/* v20: physical kitchen ambience for Tikus Rush. */
+.rush__arena::before {
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 24% 18%, rgb(255 241 208 / 22%) 0, rgb(255 241 208 / 12%) 16%, transparent 34%),
+    radial-gradient(ellipse at 76% 72%, rgb(0 0 0 / 14%) 0, transparent 32%),
+    linear-gradient(180deg, rgb(16 9 11 / 4%), transparent 22%, transparent 72%, rgb(16 9 11 / 11%));
+  opacity: 1;
+  animation: rush-light-drift 13s ease-in-out infinite alternate;
+}
+
+.rush__beams {
+  display: block;
+  inset: -8%;
+  z-index: 1;
+  opacity: 0.16;
+  background: linear-gradient(120deg, transparent 16%, rgb(255 241 208 / 10%) 36%, rgb(255 241 208 / 22%) 44%, rgb(255 241 208 / 10%) 52%, transparent 68%);
+  animation: rush-sheen 16s ease-in-out infinite;
+}
+
+.rush__crumbs {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.rush__crumb {
+  position: absolute;
+  width: 0.42rem;
+  height: 0.22rem;
+  border-radius: 999px;
+  background: rgb(91 62 44 / 46%);
+  transform: rotate(var(--crumb-rotate)) scale(var(--crumb-scale));
+  box-shadow: 0 0 0.18rem rgb(0 0 0 / 12%);
+}
+
+.rush__mouse {
+  overflow: visible;
+}
+
+.rush__mouse-shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 1rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(18 4 7 / 28%) 0, rgb(18 4 7 / 14%) 58%, transparent 78%);
+  transform: translateY(0.2rem) scale(1);
+  pointer-events: none;
+}
+
+.rush__mouse svg {
+  position: relative;
+  z-index: 1;
+}
+
+.rush__impact-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  border: 0.18rem solid rgb(255 244 220 / 72%);
+  transform: translate(-50%, -50%);
+  animation: rush-impact-ring 0.55s ease-out forwards;
+}
+
+.rush__burst--gold .rush__impact-ring {
+  border-color: rgb(255 232 140 / 92%);
+}
+
+@keyframes rush-light-drift {
+  from { transform: translate3d(-2%, -1%, 0); }
+  to { transform: translate3d(2.4%, 1.2%, 0); }
+}
+
+@keyframes rush-sheen {
+  0% { transform: translate3d(-8%, -3%, 0) rotate(-2deg); opacity: 0.08; }
+  42% { opacity: 0.18; }
+  100% { transform: translate3d(8%, 3%, 0) rotate(2deg); opacity: 0.1; }
+}
+
+@keyframes rush-impact-ring {
+  from { opacity: 0.8; transform: translate(-50%, -50%) scale(0.2); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rush__arena::before,
+  .rush__beams {
+    animation: none;
+  }
+
+  .rush__impact-ring {
+    animation-duration: 0.01ms;
+  }
+}

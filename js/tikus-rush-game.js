@@ -125,6 +125,8 @@
     grain.setAttribute('aria-hidden', 'true');
     const dust = create('div', 'rush__dust');
     dust.setAttribute('aria-hidden', 'true');
+    const crumbs = create('div', 'rush__crumbs');
+    crumbs.setAttribute('aria-hidden', 'true');
     const miceLayer = create('div', 'rush__mice');
     const effectsLayer = create('div', 'rush__effects');
     effectsLayer.setAttribute('aria-hidden', 'true');
@@ -168,9 +170,19 @@
     resultCard.append(resultKicker, resultTitle, finalScore, breakdown, bestMessage, resultActions);
     result.append(resultCard);
 
-    arena.append(rings, beams, grain, dust, miceLayer, effectsLayer, announcer, intro, result);
+    arena.append(rings, beams, grain, dust, crumbs, miceLayer, effectsLayer, announcer, intro, result);
     root.append(header, hud, arena);
     container.replaceChildren(root);
+
+    const crumbMarkup = Array.from({ length: 10 }, (_, index) => {
+      const crumb = create('span', 'rush__crumb');
+      crumb.style.left = `${8 + (index % 5) * 18 + Math.random() * 9}%`;
+      crumb.style.top = `${10 + Math.floor(index / 5) * 34 + Math.random() * 18}%`;
+      crumb.style.setProperty('--crumb-rotate', `${Math.random() * 180}deg`);
+      crumb.style.setProperty('--crumb-scale', `${0.75 + Math.random() * 0.7}`);
+      crumbs.append(crumb);
+      return crumb;
+    });
 
     function updateHud() {
       scoreValue.textContent = String(score);
@@ -185,6 +197,8 @@
     function createBurst(x, y, type, points) {
       if (reducedMotion) return;
       const burst = create('span', `rush__burst rush__burst--${type}`);
+      const ring = create('i', 'rush__impact-ring');
+      burst.append(ring);
       burst.style.left = `${x}px`;
       burst.style.top = `${y}px`;
       const label = create('strong', 'rush__score-pop', `+${points}`);
@@ -366,7 +380,7 @@
       const type = Math.random() < GOLD_CHANCE ? 'gold' : 'grey';
       const button = create('button', `rush__mouse rush__mouse--${type}`);
       button.type = 'button';
-      button.innerHTML = mouseSvg(type);
+      button.innerHTML = '<span class="rush__mouse-shadow" aria-hidden="true"></span>' + mouseSvg(type);
       button.setAttribute('aria-label', t('rush.mouseAria', { type: type === 'gold' ? t('rush.goldMouse', {}, 'Gold mouse') : t('rush.greyMouse', {}, 'Grey mouse'), points: type === 'gold' ? GOLD_POINTS : GREY_POINTS }, `${type === 'gold' ? 'Gold' : 'Grey'} mouse, worth ${type === 'gold' ? GOLD_POINTS : GREY_POINTS} points`));
       const id = ++mouseId;
       const scale = randomBetween(0.78, 1.12);

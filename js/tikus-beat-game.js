@@ -403,6 +403,7 @@
     let blastMilestone = 0;
     let isPaused = false;
     let hiddenAt = 0;
+    let stormTimer = 0;
 
     const root = create('section', 'beat');
     root.dataset.beatRoot = '';
@@ -627,6 +628,33 @@
       });
     }
 
+    function flashStorm(intensity = 'soft') {
+      root.classList.remove('is-storm-flash', 'is-storm-flash-strong');
+      void stage.offsetWidth;
+      root.classList.add(intensity === 'strong' ? 'is-storm-flash-strong' : 'is-storm-flash');
+      window.setTimeout(() => {
+        root.classList.remove('is-storm-flash', 'is-storm-flash-strong');
+      }, intensity === 'strong' ? 500 : 320);
+    }
+
+    function scheduleStormFlash() {
+      window.clearTimeout(stormTimer);
+      if (!running || reducedMotion) return;
+      stormTimer = window.setTimeout(() => {
+        if (!running || isPaused) return;
+        flashStorm(Math.random() < 0.28 ? 'strong' : 'soft');
+        scheduleStormFlash();
+      }, 5200 + Math.random() * 8600);
+    }
+
+    function reflectHit(laneIndex, type) {
+      if (reducedMotion) return;
+      const reflection = create('span', `beat__lane-strike beat__lane-strike--${type}`);
+      reflection.style.setProperty('--lane-index', String(laneIndex));
+      effects.append(reflection);
+      window.setTimeout(() => reflection.remove(), type === 'perfect' ? 460 : 320);
+    }
+
     function removeNote(id) {
       const note = notes.get(id);
       if (!note) return;
@@ -667,6 +695,7 @@
       effects.append(shockwave);
       window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 680);
       showCallout(t('beat.blast', {}, '20 HIT BLAST'), 'beat__callout--blast');
+      flashStorm('strong');
       soundEngine.blast();
       announcer.textContent = t('beat.blastAnnounce', {}, 'Twenty hit streak. Every visible object cleared.');
     }
@@ -713,6 +742,7 @@
       const comboBonus = Math.min(50, Math.floor(combo / 5) * 5);
       score += points + comboBonus;
       pulseLane(laneIndex, type);
+      reflectHit(laneIndex, type);
       pulseStage(combo > 0 && combo % 5 === 0 ? 'combo' : 'hit');
       soundEngine.hit(laneIndex, type);
       setJudgement(type === 'perfect' ? t('beat.perfect', {}, 'PERFECT') : t('beat.good', {}, 'GOOD'), type);
@@ -809,6 +839,7 @@
       lastTempoTier = tier;
       const labels = [t('beat.pickingUp', {}, 'PICKING UP'), t('beat.upbeat', {}, 'UPBEAT'), t('beat.finalPush', {}, 'FINAL PUSH')];
       showCallout(labels[tier - 1] || t('beat.pickingUp', {}, 'PICKING UP'), 'beat__callout--tempo');
+      if (tier >= 2) flashStorm(tier >= 3 ? 'strong' : 'soft');
       if (!reducedMotion && typeof lanes.animate === 'function') {
         lanes.animate([
           { transform: 'scale(1)' },
@@ -835,6 +866,7 @@
       if (!running || !isPaused) return;
       isPaused = false;
       soundEngine.resume(true);
+      scheduleStormFlash();
       const hiddenDuration = Math.max(0, performance.now() - hiddenAt);
       startTime += hiddenDuration;
       notes.forEach((note) => {
@@ -884,6 +916,7 @@
         best = score;
         writeBest(best);
       }
+      window.clearTimeout(stormTimer);
       soundEngine.finish(isRecord);
       finalScore.textContent = String(score);
       breakdown.textContent = t('beat.breakdown', { perfect: judgements.perfect, good: judgements.good, miss: judgements.miss, combo: maxCombo }, `${judgements.perfect} perfect · ${judgements.good} good · ${judgements.miss} miss · max combo ${maxCombo}`);
@@ -915,6 +948,7 @@
       updateHud();
       spawnNote();
       scheduleSpawn();
+      scheduleStormFlash();
       clockTimer = window.setInterval(updateClock, 50);
       root.focus({ preventScroll: true });
     }
@@ -942,6 +976,7 @@
         running = false;
         isPaused = false;
         window.clearTimeout(spawnTimer);
+        window.clearTimeout(stormTimer);
         window.clearInterval(clockTimer);
         bufferedInputs.clear();
         Array.from(notes.keys()).forEach(removeNote);
