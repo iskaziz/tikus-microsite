@@ -212,3 +212,9 @@ Confirmed:
 - Rush ring and beam layers resolve to `display: none`; mouse timing, paths and scoring logic are unchanged.
 - JavaScript syntax, CSS parsing, translation-key parity and local asset references pass static validation.
 - A headless Chromium interaction pass was attempted using the installed browser, but navigation is blocked by the execution environment administrator; no new live-browser claim is made for this amendment.
+
+## v19 backdrop framing checks
+- Confirmed Tikus Beat artwork paths resolve for 1672px WebP/JPEG and 960px WebP.
+- Foreground backdrop uses `background-size: contain` with no image distortion.
+- Dark cover underlay prevents empty letterbox areas on portrait/mobile stages.
+- No JavaScript or game-state logic changed in this revision.

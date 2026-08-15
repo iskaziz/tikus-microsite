@@ -219,3 +219,9 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Strengthened Beat's target line into one continuous warm-paper/crimson line across all five lanes.
 - Removed the repeated per-lane `HIT LINE` labels and replaced them with one centred translated label (`Hit Line` / `Garis Pukulan`).
 - Gameplay timing, scoring, Beat audio, reduced-motion handling and direct Sitting Room routing are unchanged.
+
+## v19 — Tikus Beat backdrop framing
+- Changed the approved rainy-window artwork from a single `cover` crop to a layered cinematic treatment.
+- A darkened `cover` copy fills the stage while a foreground `contain` copy preserves the complete 16:9 composition.
+- Mobile uses the 960px WebP derivative for both layers where supported.
+- No Beat timing, scoring, audio, lanes, hit line, weapon graphics, or input logic changed.
