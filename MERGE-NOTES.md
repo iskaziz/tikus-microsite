@@ -208,3 +208,14 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Removed the forced full-height image box in the enlarged mobile viewer; stills now render at their intrinsic 16:9 height without cropping.
 - Moved enlarged-view previous/next controls over the image on mobile so they no longer consume image width.
 - Tightened mobile filmstrip and gallery spacing while preserving keyboard, swipe, dialog and reduced-motion behavior.
+
+## v18 — approved game backdrops and Beat target clarity
+
+- Replaced Tikus Beat's generated concentric-ring stage with the approved rainy glass-window / moonlit-night backdrop supplied by the user.
+- Replaced Tikus Rush's vortex stage with the approved ceramic kitchen-floor backdrop supplied by the user.
+- Added 1672px WebP/JPEG derivatives plus 960px WebP mobile derivatives under `assets/images/games/backdrops/`.
+- Removed Rush's visible vortex/ring and beam layers so the floor illustration is the dominant arena surface.
+- Increased Tikus Beat falling weapon icons, receptor icons and introductory guide icons for faster visual recognition.
+- Strengthened Beat's target line into one continuous warm-paper/crimson line across all five lanes.
+- Removed the repeated per-lane `HIT LINE` labels and replaced them with one centred translated label (`Hit Line` / `Garis Pukulan`).
+- Gameplay timing, scoring, Beat audio, reduced-motion handling and direct Sitting Room routing are unchanged.

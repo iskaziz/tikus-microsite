@@ -262,20 +262,6 @@
   box-shadow: 0 -0.32rem 0 var(--beat-crimson), 0 -0.65rem 1.25rem rgb(9 8 8 / 45%);
 }
 
-.beat__hit-zone::before {
-  content: "HIT LINE";
-  position: absolute;
-  left: 50%;
-  top: -1.45rem;
-  padding: 0.08rem 0.35rem;
-  color: var(--beat-ink);
-  font-size: 0.48rem;
-  font-weight: 1000;
-  letter-spacing: 0.15em;
-  background: var(--beat-paper);
-  transform: translateX(-50%);
-}
-
 .beat__receptor {
   position: relative;
   display: grid;
@@ -772,5 +758,181 @@
   .beat__lane-feedback,
   .beat__combo-flash-layer {
     animation-duration: 0.01ms;
+  }
+}
+
+/* v18: approved rainy-window backdrop and clearer gameplay targets. */
+.beat__backdrop {
+  inset: 0;
+  opacity: 1;
+  background-color: var(--beat-ink);
+  background-image: url("../assets/images/games/backdrops/tikus-beat-window-1672.jpg");
+  background-image: image-set(
+    url("../assets/images/games/backdrops/tikus-beat-window-1672.webp") type("image/webp"),
+    url("../assets/images/games/backdrops/tikus-beat-window-1672.jpg") type("image/jpeg")
+  );
+  background-position: center;
+  background-size: cover;
+  transform: none;
+  animation: none;
+}
+
+.beat__backdrop::before {
+  background:
+    linear-gradient(180deg, rgb(9 8 8 / 22%), transparent 30%, transparent 62%, rgb(9 8 8 / 55%)),
+    radial-gradient(ellipse at 50% 48%, transparent 30%, rgb(9 8 8 / 28%) 100%);
+}
+
+.beat__backdrop::after {
+  opacity: 0.08;
+}
+
+.beat__pulse-field {
+  opacity: calc(0.05 + var(--beat-progress) * 0.08);
+}
+
+.beat__lanes {
+  background: rgb(9 8 8 / 27%);
+  border-inline-color: rgb(239 228 204 / 28%);
+}
+
+.beat__lanes::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20%;
+  z-index: 7;
+  height: 0.32rem;
+  pointer-events: none;
+  background: var(--beat-paper-bright);
+  box-shadow:
+    0 -0.18rem 0 var(--beat-crimson),
+    0 0 0.8rem rgb(150 13 26 / 82%),
+    0 0 1.4rem rgb(255 244 220 / 26%);
+}
+
+.beat__lane {
+  border-right-color: rgb(239 228 204 / 24%);
+  background: linear-gradient(180deg, rgb(9 8 8 / 8%), rgb(9 8 8 / 18%) 58%, rgb(52 3 8 / 47%) 100%);
+}
+
+.beat__rail {
+  opacity: 0.38;
+}
+
+.beat__hit-zone {
+  border-top: 0;
+  background:
+    linear-gradient(180deg, rgb(150 13 26 / 4%), rgb(52 3 8 / 70%)),
+    repeating-linear-gradient(90deg, transparent 0 0.85rem, rgb(239 228 204 / 4%) 0.9rem 0.95rem);
+  box-shadow: none;
+}
+
+.beat__hit-line-label {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  z-index: 9;
+  padding: 0.2rem 0.65rem 0.18rem;
+  color: var(--beat-ink);
+  font-size: clamp(0.62rem, 1.6vw, 0.82rem);
+  font-weight: 1000;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  background: var(--beat-paper-bright);
+  border: 0.12rem solid var(--beat-crimson);
+  box-shadow: 0.18rem 0.18rem 0 var(--beat-crimson-deep);
+  transform: translate(-50%, 50%);
+}
+
+.beat__receptor {
+  width: min(90%, 6.9rem);
+  padding: 0.42rem;
+  background:
+    radial-gradient(circle at 50% 46%, rgb(239 228 204 / 15%), transparent 60%),
+    #100d0d;
+  border: 0.12rem solid rgb(255 244 220 / 72%);
+  box-shadow:
+    inset 0 -0.34rem 0 var(--beat-crimson-deep),
+    0 0 0 0.12rem rgb(150 13 26 / 64%),
+    0 0.5rem 1rem rgb(0 0 0 / 36%);
+}
+
+.beat__receptor .beat-weapon {
+  width: 86%;
+  height: 86%;
+}
+
+.beat__note {
+  width: clamp(3rem, 6.3vw, 5.25rem);
+  padding: 0.28rem;
+  background: rgb(239 228 204 / 88%);
+  border: 0.12rem solid var(--beat-crimson);
+  box-shadow:
+    0 0 0 0.12rem rgb(255 244 220 / 68%),
+    0 0.45rem 0 var(--beat-crimson-deep),
+    0 0.8rem 1.2rem rgb(0 0 0 / 36%);
+}
+
+.beat__note .beat-weapon {
+  width: 96%;
+  height: 96%;
+}
+
+.beat__key-guide-item {
+  min-height: 5.4rem;
+  padding: 0.65rem 0.2rem;
+  background: rgb(255 244 220 / 30%);
+  border: 1px solid rgb(80 42 35 / 38%);
+}
+
+.beat__key-guide-item .beat-weapon {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (max-width: 48rem) {
+  .beat__backdrop {
+    background-image: url("../assets/images/games/backdrops/tikus-beat-window-1672.jpg");
+    background-image: image-set(
+      url("../assets/images/games/backdrops/tikus-beat-window-960.webp") type("image/webp"),
+      url("../assets/images/games/backdrops/tikus-beat-window-1672.jpg") type("image/jpeg")
+    );
+    background-position: 48% center;
+  }
+
+  .beat__note {
+    width: clamp(2.85rem, 15vw, 4.2rem);
+  }
+
+  .beat__receptor .beat-weapon {
+    width: 88%;
+    height: 88%;
+  }
+
+  .beat__hit-line-label {
+    font-size: 0.58rem;
+    padding-inline: 0.5rem;
+  }
+
+  .beat__key-guide-item .beat-weapon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .beat__receptor .beat-weapon {
+    width: 86%;
+    height: 86%;
+  }
+
+  .beat__key-guide-item .beat-weapon {
+    width: 2.35rem;
+    height: 2.35rem;
   }
 }

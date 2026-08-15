@@ -472,6 +472,8 @@
     const rhythmPulse = create('div', 'beat__rhythm-pulse');
     rhythmPulse.setAttribute('aria-hidden', 'true');
     const lanes = create('div', 'beat__lanes');
+    const hitLineLabel = create('div', 'beat__hit-line-label', t('beat.hitLine', {}, 'Hit Line'));
+    hitLineLabel.setAttribute('aria-hidden', 'true');
     const effects = create('div', 'beat__effects');
     effects.setAttribute('aria-hidden', 'true');
     const judgement = create('div', 'beat__judgement');
@@ -545,7 +547,7 @@
     resultCard.append(resultKicker, resultTitle, finalScore, breakdown, bestMessage, actions);
     result.append(resultCard);
 
-    stage.append(backdrop, pulseField, rhythmPulse, orbitField, scanlines, lightSweep, lanes, effects, judgement, announcer, intro, result);
+    stage.append(backdrop, pulseField, rhythmPulse, orbitField, scanlines, lightSweep, lanes, hitLineLabel, effects, judgement, announcer, intro, result);
     root.append(header, hud, stage);
     container.replaceChildren(root);
 

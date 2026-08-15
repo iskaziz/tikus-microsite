@@ -103,7 +103,7 @@ The shared game-dialog controller routes each hotspot directly from `scene-contr
 - Enlarged invisible tap areas and immediate `pointerdown` response for mouse and touch input.
 - Escaped mice only soften the streak instead of resetting it completely.
 - Score, best score and streak display.
-- A continuously rotating crimson vortex, moving light beams, dust, score bursts, gold flashes and final-ten-second intensity.
+- Approved ceramic kitchen-floor backdrop with restrained grain/dust, score bursts, gold flashes and final-ten-second intensity.
 - Native mouse buttons remain keyboard accessible.
 - Best score stored under `tikus-rush-best-v2`.
 
@@ -126,7 +126,7 @@ The shared game-dialog controller routes each hotspot directly from `scene-contr
 - Pointer input is handled on `pointerdown`, with a short early-input buffer.
 - Empty taps are not penalised, and a missed note trims rather than erases the combo.
 - Judgement timing follows the note’s rendered animation rather than an independent spawn clock.
-- Site-matched concentric crimson rings, warm paper texture, black lanes, restrained print grain, beat-reactive pulses, lane flashes and tempo callouts.
+- Approved rainy glass-window / moonlit-night backdrop with translucent black lanes, restrained print grain, beat-reactive pulses, lane flashes and tempo callouts.
 - Every new 20-hit combo milestone triggers a visual blast that clears all visible weapon icons without counting them as misses.
 - Procedural Web Audio effects play for every successful hit, five-hit combo milestone, 20-hit blast and final result.
 - A subtle 24-second mono music loop is lazy-loaded only after the player presses Start. Opus is preferred, with an MP3 fallback.
@@ -168,7 +168,7 @@ Do not place confidential or spoiler-sensitive material in deployed JavaScript, 
 
 Only the title and house artwork are preloaded. The Sitting Room is prefetched when a visitor approaches or focuses the house-entry control.
 
-Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. First Look stills include 960-pixel and 1600-pixel WebP/JPEG versions plus lightweight thumbnail derivatives. The official poster uses 480-pixel and 670-pixel WebP/JPEG derivatives. Gallery stills and poster imagery remain lazy-loaded.
+Scene artwork includes 960-pixel and 1600-pixel AVIF, WebP and JPEG derivatives. Character portraits include 480-pixel and 720-pixel AVIF, WebP and JPEG derivatives. First Look stills include 960-pixel and 1600-pixel WebP/JPEG versions plus lightweight thumbnail derivatives. The official poster uses 480-pixel and 670-pixel WebP/JPEG derivatives. The two game backdrops use 960/1672 WebP derivatives with JPEG fallbacks and remain game-lazy. Gallery stills and poster imagery remain lazy-loaded.
 
 ## Mobile puzzle interaction
 
@@ -181,3 +181,9 @@ The painting puzzle includes an optional bilingual artist-information disclosure
 ## v17 trailer and mobile First Look
 
 The official trailer is configured as YouTube video `zP-A0q7aVko`. It remains privacy-enhanced and lazy: YouTube is not requested until the visitor opens the trailer. On mobile, First Look stills use the full available width and the enlarged viewer preserves each uncropped 16:9 frame without stretching its image box to the full portrait viewport height.
+
+## v18 game backdrops
+
+- **Tikus Beat:** uses the approved rainy glass-window / moonlit-night illustration as the gameplay backdrop. The five weapon objects are larger and higher contrast, and the former per-lane `HIT LINE` labels are replaced by one continuous, prominent hit line with a single centred label.
+- **Tikus Rush:** uses the approved ceramic kitchen-floor illustration as the arena surface. The earlier vortex/ring layers are disabled so the floor remains readable beneath the mice.
+- Both game backdrops are local responsive WebP assets with JPEG fallbacks and are requested only when their game DOM is mounted.

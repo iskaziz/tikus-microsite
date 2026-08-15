@@ -646,3 +646,55 @@
 .rush__dust {
   opacity: 0.09;
 }
+
+/* v18: approved 16:9 ceramic kitchen-floor backdrop. */
+.rush__arena {
+  background-color: #b6a388;
+  background-image: url("../assets/images/games/backdrops/tikus-rush-floor-1672.jpg");
+  background-image: image-set(
+    url("../assets/images/games/backdrops/tikus-rush-floor-1672.webp") type("image/webp"),
+    url("../assets/images/games/backdrops/tikus-rush-floor-1672.jpg") type("image/jpeg")
+  );
+  background-position: center;
+  background-size: cover;
+}
+
+.rush__arena::before {
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at center, transparent 38%, rgb(16 9 11 / 26%) 100%),
+    linear-gradient(180deg, rgb(16 9 11 / 7%), transparent 25%, transparent 72%, rgb(16 9 11 / 13%));
+  opacity: 1;
+  transform: none;
+}
+
+.rush__rings,
+.rush__beams {
+  display: none;
+}
+
+.rush__grain {
+  z-index: 2;
+  opacity: 0.04;
+}
+
+.rush__dust {
+  z-index: 2;
+  opacity: 0.08;
+}
+
+.rush__mice,
+.rush__effects {
+  z-index: 3;
+}
+
+@media (max-width: 48rem) {
+  .rush__arena {
+    background-image: url("../assets/images/games/backdrops/tikus-rush-floor-1672.jpg");
+    background-image: image-set(
+      url("../assets/images/games/backdrops/tikus-rush-floor-960.webp") type("image/webp"),
+      url("../assets/images/games/backdrops/tikus-rush-floor-1672.jpg") type("image/jpeg")
+    );
+    background-position: center;
+  }
+}

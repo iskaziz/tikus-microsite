@@ -119,3 +119,18 @@ No new image, audio, font or other binary assets were added for the M. Zain writ
 ## v17 media configuration
 - Official trailer: YouTube ID `zP-A0q7aVko` (remote, deliberately loaded only after user interaction; no local trailer asset added).
 - First Look: no new image assets added; existing responsive seven-still set reused.
+
+## v18 game backdrops
+
+Approved user-supplied backdrops are deployed as lightweight derivatives; the multi-megabyte source PNGs are not included in the final package.
+
+| File | Format | Dimensions | Intended role |
+|---|---|---:|---|
+| `assets/images/games/backdrops/tikus-beat-window-1672.webp` | WebP | 1672 × 941 | Preferred desktop Beat backdrop |
+| `assets/images/games/backdrops/tikus-beat-window-960.webp` | WebP | 960 × 540 | Mobile Beat backdrop |
+| `assets/images/games/backdrops/tikus-beat-window-1672.jpg` | JPEG | 1672 × 941 | Beat fallback |
+| `assets/images/games/backdrops/tikus-rush-floor-1672.webp` | WebP | 1672 × 941 | Preferred desktop Rush backdrop |
+| `assets/images/games/backdrops/tikus-rush-floor-960.webp` | WebP | 960 × 540 | Mobile Rush backdrop |
+| `assets/images/games/backdrops/tikus-rush-floor-1672.jpg` | JPEG | 1672 × 941 | Rush fallback |
+
+These images are referenced only by the respective game styles and are not part of the page preload list.

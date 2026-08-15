@@ -202,3 +202,13 @@ Confirmed:
 - `node --check` passes for every JavaScript file.
 - `tinycss2` parses all CSS stylesheets without parse errors.
 - All local HTML/CSS asset references resolve.
+
+## v18 validation — game backdrops and Tikus Beat hit line
+
+- Tikus Beat and Tikus Rush reference only the new local backdrop derivatives; both supplied source PNGs remain excluded from the package.
+- Beat contains one `.beat__hit-line-label` element and no CSS-generated per-lane `HIT LINE` labels.
+- Beat's continuous hit-line rule spans the full five-lane container at the same 20% target boundary used by the hit zones.
+- Beat weapon notes/receptors/key guide retain the same approved five-icon mapping and input controls with larger display sizing only.
+- Rush ring and beam layers resolve to `display: none`; mouse timing, paths and scoring logic are unchanged.
+- JavaScript syntax, CSS parsing, translation-key parity and local asset references pass static validation.
+- A headless Chromium interaction pass was attempted using the installed browser, but navigation is blocked by the execution environment administrator; no new live-browser claim is made for this amendment.
