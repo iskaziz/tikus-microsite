@@ -231,3 +231,15 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added an accessible fixed hamburger navigation with EN/BM labels, Escape/outside-click closing and focus cycling.
 - Tikus Beat background overlays were reduced so the rainy-window illustration reads clearly; rain, lightning and hit reflections are now visibly event-driven.
 - Tikus Rush gained stronger moving kitchen light, ceramic sheen, mouse shadows, crumbs and catch-impact feedback.
+
+
+## v22 — Full Cast & Crew
+
+- Added a dedicated `#credits` section after Cinema Locations and before release/social information.
+- Kept the eight existing Meet the Cast profile cards unchanged.
+- Added principal cast character/actor pairings supplied by the producer.
+- Added eight additional cast names without late-story role labels for spoiler control.
+- Added complete supplied crew credits grouped by department.
+- Added EN/BM section and department labels while preserving supplied individual credit terminology.
+- Added Credits to the hamburger navigation and a closing transition into Release & Socials.
+- No new image or media assets.

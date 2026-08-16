@@ -187,3 +187,8 @@ The official trailer is configured as YouTube video `zP-A0q7aVko`. It remains pr
 - **Tikus Beat:** uses the approved rainy glass-window / moonlit-night illustration as the gameplay backdrop. The five weapon objects are larger and higher contrast, and the former per-lane `HIT LINE` labels are replaced by one continuous, prominent hit line with a single centred label.
 - **Tikus Rush:** uses the approved ceramic kitchen-floor illustration as the arena surface. The earlier vortex/ring layers are disabled so the floor remains readable beneath the mice.
 - Both game backdrops are local responsive WebP assets with JPEG fallbacks and are requested only when their game DOM is mounted.
+
+
+## Full Cast & Crew
+
+The site includes a spoiler-safe full credits programme after Cinema Locations. The existing Meet the Cast portrait cards remain unchanged. Principal cast members are credited with their public character names, while potentially spoiler-sensitive supporting roles are grouped under Additional Cast without role labels. Crew credits are grouped by department and the section is linked from the hamburger navigation.

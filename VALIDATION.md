@@ -218,3 +218,14 @@ Confirmed:
 - Foreground backdrop uses `background-size: contain` with no image distortion.
 - Dark cover underlay prevents empty letterbox areas on portrait/mobile stages.
 - No JavaScript or game-state logic changed in this revision.
+
+
+## v22 — Cast & Crew validation
+
+- Full credits section order: Cinema Locations → Cast & Crew → Release & Socials.
+- Principal cast: 8 character/actor pairings.
+- Additional cast: 8 performer names with spoiler-sensitive role labels omitted.
+- Crew: all supplied credits present and grouped by department.
+- Hamburger navigation includes `#credits`.
+- EN/BM credit UI keys are present in both dictionaries.
+- No screenplay-derived role or story detail added.

@@ -134,3 +134,7 @@ Approved user-supplied backdrops are deployed as lightweight derivatives; the mu
 | `assets/images/games/backdrops/tikus-rush-floor-1672.jpg` | JPEG | 1672 × 941 | Rush fallback |
 
 These images are referenced only by the respective game styles and are not part of the page preload list.
+
+## v22 — Full Cast & Crew
+
+No new image, audio or media assets were added. The credits feature is HTML/CSS only and reuses the existing site typography, palette and texture system.
