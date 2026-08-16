@@ -2039,8 +2039,8 @@ html[data-language="ms"] .language-switch__option[data-language-option="ms"] {
   border-color: var(--paper-bright);
 }
 
-html.has-arcade-dialog .language-switch,
-body.has-open-dialog .language-switch {
+html.has-arcade-dialog .site-controls,
+body.has-open-dialog .site-controls {
   visibility: hidden;
 }
 
@@ -2063,6 +2063,159 @@ body.has-open-dialog .language-switch {
   .language-switch__option {
     transition: none;
   }
+}
+
+
+/* Fixed navigation ------------------------------------------------------- */
+.site-controls {
+  position: fixed;
+  z-index: 1200;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(0.75rem, env(safe-area-inset-right));
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-family: var(--ui-font);
+}
+
+.site-controls .language-switch {
+  position: relative;
+  top: auto;
+  right: auto;
+}
+
+.menu-toggle {
+  position: relative;
+  width: 2.9rem;
+  height: 2.9rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: var(--paper-bright);
+  background: rgba(9, 8, 8, 0.9);
+  border: 0.125rem solid rgba(255, 244, 220, 0.72);
+  border-radius: 50%;
+  box-shadow: 0 0.45rem 1.4rem rgba(0, 0, 0, 0.38), inset 0 0 0 1px rgba(183, 22, 36, 0.45);
+}
+
+.menu-toggle:hover,
+.menu-toggle[aria-expanded="true"] {
+  border-color: var(--paper-bright);
+  background: var(--crimson-800);
+}
+
+.menu-toggle__icon {
+  width: 1.2rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.menu-toggle__icon i {
+  display: block;
+  width: 100%;
+  height: 0.125rem;
+  background: currentColor;
+  transform-origin: center;
+  transition: transform 180ms ease, opacity 150ms ease;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon i:nth-child(1) { transform: translateY(0.375rem) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon i:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon i:nth-child(3) { transform: translateY(-0.375rem) rotate(-45deg); }
+
+.site-navigation {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  width: min(21rem, calc(100vw - 1.5rem - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-height: min(36rem, calc(100dvh - 5rem));
+  overflow-y: auto;
+  color: var(--paper);
+  background:
+    linear-gradient(145deg, rgba(150, 13, 26, 0.2), transparent 35%),
+    rgba(9, 8, 8, 0.97);
+  border: 1px solid rgba(239, 228, 204, 0.36);
+  box-shadow: 0.7rem 0.7rem 0 var(--crimson-900), 0 1.2rem 3rem rgba(0, 0, 0, 0.58);
+  overscroll-behavior: contain;
+}
+
+.site-navigation[hidden] { display: none; }
+
+.site-navigation__inner {
+  display: grid;
+  padding: 0.8rem;
+}
+
+.site-navigation__eyebrow {
+  margin: 0 0 0.45rem;
+  padding: 0.3rem 0.45rem 0.65rem;
+  color: var(--paper-dim);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(239, 228, 204, 0.18);
+}
+
+.site-navigation a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 2.8rem;
+  padding: 0.5rem 2rem 0.5rem 0.6rem;
+  color: var(--paper-bright);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.075em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(239, 228, 204, 0.1);
+}
+
+.site-navigation a::after {
+  content: "→";
+  position: absolute;
+  right: 0.65rem;
+  color: var(--crimson-600);
+  font-size: 1.15rem;
+  transition: transform 140ms ease;
+}
+
+.site-navigation a:hover,
+.site-navigation a:focus-visible {
+  color: var(--ink);
+  background: var(--paper);
+}
+.site-navigation a:hover::after,
+.site-navigation a:focus-visible::after { transform: translateX(0.18rem); }
+
+html.has-site-menu::after {
+  content: "";
+  position: fixed;
+  z-index: 1190;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(9, 8, 8, 0.2);
+}
+
+@media (max-width: 35rem) {
+  .site-controls {
+    top: max(0.55rem, env(safe-area-inset-top));
+    right: max(0.55rem, env(safe-area-inset-right));
+    gap: 0.38rem;
+  }
+  .site-controls .language-switch {
+    width: 5.15rem;
+    min-height: 2.4rem;
+  }
+  .menu-toggle { width: 2.55rem; height: 2.55rem; }
+  .site-navigation { width: min(19rem, calc(100vw - 1.1rem)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle__icon i,
+  .site-navigation a::after { transition: none; }
 }
 
 /* Restored First Look gallery ------------------------------------------- */

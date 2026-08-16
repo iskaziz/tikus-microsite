@@ -174,15 +174,14 @@
     root.append(header, hud, arena);
     container.replaceChildren(root);
 
-    const crumbMarkup = Array.from({ length: 10 }, (_, index) => {
+    for (let index = 0; index < 12; index += 1) {
       const crumb = create('span', 'rush__crumb');
-      crumb.style.left = `${8 + (index % 5) * 18 + Math.random() * 9}%`;
-      crumb.style.top = `${10 + Math.floor(index / 5) * 34 + Math.random() * 18}%`;
-      crumb.style.setProperty('--crumb-rotate', `${Math.random() * 180}deg`);
-      crumb.style.setProperty('--crumb-scale', `${0.75 + Math.random() * 0.7}`);
+      crumb.style.left = `${5 + ((index * 23) % 88)}%`;
+      crumb.style.top = `${8 + ((index * 37) % 80)}%`;
+      crumb.style.setProperty('--crumb-rotate', `${(index * 31) % 180}deg`);
+      crumb.style.setProperty('--crumb-scale', String(0.7 + (index % 4) * 0.16));
       crumbs.append(crumb);
-      return crumb;
-    });
+    }
 
     function updateHud() {
       scoreValue.textContent = String(score);
@@ -197,8 +196,8 @@
     function createBurst(x, y, type, points) {
       if (reducedMotion) return;
       const burst = create('span', `rush__burst rush__burst--${type}`);
-      const ring = create('i', 'rush__impact-ring');
-      burst.append(ring);
+      burst.append(create('i', 'rush__impact-ring'));
+      burst.append(create('i', 'rush__impact-mark'));
       burst.style.left = `${x}px`;
       burst.style.top = `${y}px`;
       const label = create('strong', 'rush__score-pop', `+${points}`);

@@ -225,3 +225,9 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - A darkened `cover` copy fills the stage while a foreground `contain` copy preserves the complete 16:9 composition.
 - Mobile uses the 960px WebP derivative for both layers where supported.
 - No Beat timing, scoring, audio, lanes, hit line, weapon graphics, or input logic changed.
+
+
+## v21 navigation and game ambience
+- Added an accessible fixed hamburger navigation with EN/BM labels, Escape/outside-click closing and focus cycling.
+- Tikus Beat background overlays were reduced so the rainy-window illustration reads clearly; rain, lightning and hit reflections are now visibly event-driven.
+- Tikus Rush gained stronger moving kitchen light, ceramic sheen, mouse shadows, crumbs and catch-impact feedback.

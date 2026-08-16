@@ -472,6 +472,8 @@
     lightSweep.setAttribute('aria-hidden', 'true');
     const rhythmPulse = create('div', 'beat__rhythm-pulse');
     rhythmPulse.setAttribute('aria-hidden', 'true');
+    const stormFlash = create('div', 'beat__storm-flash');
+    stormFlash.setAttribute('aria-hidden', 'true');
     const lanes = create('div', 'beat__lanes');
     const hitLineLabel = create('div', 'beat__hit-line-label', t('beat.hitLine', {}, 'Hit Line'));
     hitLineLabel.setAttribute('aria-hidden', 'true');
@@ -548,7 +550,7 @@
     resultCard.append(resultKicker, resultTitle, finalScore, breakdown, bestMessage, actions);
     result.append(resultCard);
 
-    stage.append(backdrop, pulseField, rhythmPulse, orbitField, scanlines, lightSweep, lanes, hitLineLabel, effects, judgement, announcer, intro, result);
+    stage.append(backdrop, pulseField, orbitField, stormFlash, rhythmPulse, scanlines, lightSweep, lanes, hitLineLabel, effects, judgement, announcer, intro, result);
     root.append(header, hud, stage);
     container.replaceChildren(root);
 
@@ -570,6 +572,7 @@
       root.classList.toggle('is-final', remaining <= 10 && running);
       timeHud.item.classList.toggle('is-warning', remaining <= 10 && running);
       comboHud.item.classList.toggle('is-hot', combo >= 10);
+      root.classList.toggle('is-combo-hot', combo >= 10 && running);
     }
 
     function showCallout(text, modifier = '') {
@@ -628,31 +631,34 @@
       });
     }
 
-    function flashStorm(intensity = 'soft') {
-      root.classList.remove('is-storm-flash', 'is-storm-flash-strong');
-      void stage.offsetWidth;
-      root.classList.add(intensity === 'strong' ? 'is-storm-flash-strong' : 'is-storm-flash');
-      window.setTimeout(() => {
-        root.classList.remove('is-storm-flash', 'is-storm-flash-strong');
-      }, intensity === 'strong' ? 500 : 320);
+    function flashStorm(strong = false) {
+      if (reducedMotion || typeof stormFlash.animate !== 'function') return;
+      stormFlash.getAnimations().forEach((animation) => animation.cancel());
+      const peak = strong ? 0.78 : 0.48;
+      stormFlash.animate([
+        { opacity: 0 },
+        { opacity: peak, offset: 0.13 },
+        { opacity: strong ? 0.16 : 0.08, offset: 0.3 },
+        { opacity: strong ? 0.58 : 0.3, offset: 0.47 },
+        { opacity: 0 }
+      ], { duration: strong ? 520 : 330, easing: 'ease-out' });
     }
 
     function scheduleStormFlash() {
       window.clearTimeout(stormTimer);
       if (!running || reducedMotion) return;
       stormTimer = window.setTimeout(() => {
-        if (!running || isPaused) return;
-        flashStorm(Math.random() < 0.28 ? 'strong' : 'soft');
+        if (running && !isPaused) flashStorm(Math.random() < 0.25);
         scheduleStormFlash();
-      }, 5200 + Math.random() * 8600);
+      }, 4300 + Math.random() * 6500);
     }
 
     function reflectHit(laneIndex, type) {
       if (reducedMotion) return;
-      const reflection = create('span', `beat__lane-strike beat__lane-strike--${type}`);
+      const reflection = create('span', `beat__window-reflection beat__window-reflection--${type}`);
       reflection.style.setProperty('--lane-index', String(laneIndex));
       effects.append(reflection);
-      window.setTimeout(() => reflection.remove(), type === 'perfect' ? 460 : 320);
+      window.setTimeout(() => reflection.remove(), type === 'perfect' ? 520 : 380);
     }
 
     function removeNote(id) {
@@ -695,7 +701,7 @@
       effects.append(shockwave);
       window.setTimeout(() => shockwave.remove(), reducedMotion ? 80 : 680);
       showCallout(t('beat.blast', {}, '20 HIT BLAST'), 'beat__callout--blast');
-      flashStorm('strong');
+      flashStorm(true);
       soundEngine.blast();
       announcer.textContent = t('beat.blastAnnounce', {}, 'Twenty hit streak. Every visible object cleared.');
     }
@@ -839,7 +845,7 @@
       lastTempoTier = tier;
       const labels = [t('beat.pickingUp', {}, 'PICKING UP'), t('beat.upbeat', {}, 'UPBEAT'), t('beat.finalPush', {}, 'FINAL PUSH')];
       showCallout(labels[tier - 1] || t('beat.pickingUp', {}, 'PICKING UP'), 'beat__callout--tempo');
-      if (tier >= 2) flashStorm(tier >= 3 ? 'strong' : 'soft');
+      if (tier >= 2) flashStorm(tier >= 3);
       if (!reducedMotion && typeof lanes.animate === 'function') {
         lanes.animate([
           { transform: 'scale(1)' },
@@ -856,6 +862,7 @@
       window.clearTimeout(spawnTimer);
       window.clearInterval(clockTimer);
       soundEngine.pause();
+      window.clearTimeout(stormTimer);
       notes.forEach((note) => {
         note.animation?.pause();
         window.clearTimeout(note.missTimer);

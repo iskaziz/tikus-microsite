@@ -18,6 +18,7 @@
 <link href="css/tikus-slider.css" rel="stylesheet"/>
 <script defer src="js/content-data.js"></script>
 <script defer src="js/language-controller.js"></script>
+<script defer src="js/navigation-controller.js"></script>
 <script defer src="js/cinema-data.js"></script>
 <script defer src="js/cinema-controller.js"></script>
 <script defer src="js/gallery-controller.js"></script>
@@ -29,7 +30,23 @@
 <script defer src="js/tikus-slider-game.js"></script>
 <script defer src="js/arcade-controller.js"></script>
 </head>
-<body><button aria-checked="false" aria-label="Language: English. Switch to Bahasa Malaysia." class="language-switch" data-dialog-inert="" data-language-toggle="" role="switch" type="button"><span aria-hidden="true" class="language-switch__option" data-language-option="en">EN</span><span aria-hidden="true" class="language-switch__option" data-language-option="ms">BM</span></button>
+<body><div class="site-controls" data-dialog-inert="" data-site-controls>
+<button aria-checked="false" aria-label="Language: English. Switch to Bahasa Malaysia." class="language-switch" data-language-toggle="" role="switch" type="button"><span aria-hidden="true" class="language-switch__option" data-language-option="en">EN</span><span aria-hidden="true" class="language-switch__option" data-language-option="ms">BM</span></button>
+<button aria-controls="site-navigation" aria-expanded="false" aria-label="Open navigation menu" class="menu-toggle" data-menu-toggle data-i18n-aria-label="nav.open" type="button"><span aria-hidden="true" class="menu-toggle__icon"><i></i><i></i><i></i></span><span class="visually-hidden" data-i18n="nav.menu">Menu</span></button>
+<nav aria-label="Main navigation" class="site-navigation" data-i18n-aria-label="nav.label" data-site-navigation hidden id="site-navigation">
+<div class="site-navigation__inner">
+<p class="site-navigation__eyebrow" data-i18n="nav.explore">Explore TIKUS</p>
+<a data-nav-link data-i18n="nav.home" href="#main-content">Home</a>
+<a data-nav-link data-i18n="nav.trailer" href="#trailer">Trailer</a>
+<a data-nav-link data-i18n="nav.firstLook" href="#first-look">First Look</a>
+<a data-nav-link data-i18n="nav.filmOverview" href="#film-overview">Film Overview</a>
+<a data-nav-link data-i18n="nav.cast" href="#cast">Meet the Cast</a>
+<a data-nav-link data-i18n="nav.house" href="#explorer">House &amp; Games</a>
+<a data-nav-link data-i18n="nav.cinemas" href="#cinemas">Cinema Locations</a>
+<a data-nav-link data-i18n="nav.release" href="#more-from-tikus">Release &amp; Socials</a>
+</div>
+</nav>
+</div>
 <a class="skip-link" data-i18n="site.skipExplorer" href="#explorer">Skip to the house explorer</a>
 <div aria-hidden="true" class="page-grain"></div>
 <main data-dialog-inert="" id="main-content">
@@ -240,7 +257,7 @@
 </div>
 <p class="cinema-section__disclaimer" data-i18n="cinema.disclaimer">Cinema locations are based on the TIKUS release list. Schedules can change, so confirm before travelling.</p>
 </section>
-<section aria-labelledby="pending-title" class="pending-material">
+<section aria-labelledby="pending-title" class="pending-material" id="more-from-tikus">
 <div class="pending-material__inner">
 <header>
 <p class="eyebrow" data-i18n="film.eyebrow">Film information</p>
