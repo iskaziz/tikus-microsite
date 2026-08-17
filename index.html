@@ -19,6 +19,7 @@
 <script defer src="js/content-data.js"></script>
 <script defer src="js/language-controller.js"></script>
 <script defer src="js/navigation-controller.js"></script>
+<script defer src="js/credits-controller.js"></script>
 <script defer src="js/cinema-data.js"></script>
 <script defer src="js/cinema-controller.js"></script>
 <script defer src="js/gallery-controller.js"></script>
@@ -40,6 +41,7 @@
 <a data-nav-link data-i18n="nav.trailer" href="#trailer">Trailer</a>
 <a data-nav-link data-i18n="nav.firstLook" href="#first-look">First Look</a>
 <a data-nav-link data-i18n="nav.filmOverview" href="#film-overview">Film Overview</a>
+<a data-nav-link data-i18n="nav.director" href="#director-intention">Director's Intention</a>
 <a data-nav-link data-i18n="nav.cast" href="#cast">Meet the Cast</a>
 <a data-nav-link data-i18n="nav.house" href="#explorer">House &amp; Games</a>
 <a data-nav-link data-i18n="nav.cinemas" href="#cinemas">Cinema Locations</a>
@@ -172,7 +174,42 @@
 </div>
 </div>
 </div>
-<a class="film-overview__continue" href="#cast"><span data-i18n="overview.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
+<a class="film-overview__continue" href="#director-intention"><span data-i18n="overview.directorIntention">Director's Intention</span><span aria-hidden="true">↓</span></a>
+</section>
+<section aria-labelledby="director-intention-title" class="director-intention" id="director-intention">
+<div aria-hidden="true" class="director-intention__rings"></div>
+<header class="section-heading director-intention__heading">
+<p class="eyebrow" data-i18n="director.eyebrow">From the director</p>
+<h2 data-i18n="director.heading" id="director-intention-title">Director's Intention</h2>
+</header>
+<div class="director-intention__card">
+<div class="director-intention__intro">
+<p data-i18n="director.intro1">Ellina Abdul Majid is an award-winning screenwriter making her directorial debut with TIKUS!</p>
+<p data-i18n="director.intro2">In terms of story, TIKUS!, also written by Ellina, is a whodunnit that brings a fresh breath to the mystery genre, filled with clever dialogue that challenges the mind and surprising plot turns.</p>
+<p data-i18n="director.intro3">Ultimately, TIKUS! refuses to offer easy answers. Instead, it shows that the true cause behind a brutal crime can be difficult to predict. More than that, it challenges the audience to think about morality and ethics in the context of today's world.</p>
+<p data-i18n="director.intro4">Holding firmly to her ambition as an auteur director, Ellina has woven her own artistic vision throughout the production.</p>
+</div>
+<p class="director-intention__statement-lead" data-i18n="director.statementLead">Here is her Director’s Statement.</p>
+<details class="director-statement">
+<summary><span data-i18n="director.statementSummary">Read the Director’s Statement</span><span aria-hidden="true" class="director-statement__mark"></span></summary>
+<blockquote class="director-statement__body">
+<p data-i18n="director.statement1">For this story, I drew inspiration from the locked-room mystery, an idea often used by mystery writers around the world. Usually, these mystery stories are set in an isolated, quiet location.</p>
+<p data-i18n="director.statement2">There also need to be characters with very different, strange personalities. They have to be cut off from outside help, become suspicious, and realise that something is not right.</p>
+<p data-i18n="director.statement3">In terms of cinematography, I use lighting to show a character's inner emotions and mindset, rather than merely so the audience can see the scene.</p>
+<p data-i18n="director.statement4">I also often play with shadows using high-contrast lighting, so the characters look as though they are trapped in a web of conspiracy and mystery.</p>
+<p data-i18n="director.statement5">At times I choose dull grey light for interior spaces, as a sign of the bad weather outside and, sometimes, as a symbol of the confusion and despair felt by certain characters.</p>
+<p data-i18n="director.statement6">Rather than relying on the traditional use of “talking heads” shots and “quick glance” shots, I tried to direct the camera's movement as an invisible narrator. In this way, the audience does not feel that they are simply watching a film; they feel as if they too are trapped behind the silver screen.</p>
+<p data-i18n="director.statement7">I also use several everyday items and objects as “Easter eggs” — secret clues — to suggest the hidden meaning behind a character's dialogue and to foreshadow what comes later.</p>
+<p data-i18n="director.statement8">For me, as Writer and Director, TIKUS! is my love letter to the whodunnit genre.</p>
+<p data-i18n="director.statement9">It is often said that a great murder mystery depends on a clever twist. But my film TIKUS! also depends greatly on the powerful performances of every actor, keeping audiences constantly turning things over in their minds as they try to guess who the real murderer is among all the characters.</p>
+<p data-i18n="director.statement10">I feel fortunate to have had the opportunity to work with such a talented and passionate cast.</p>
+<p data-i18n="director.statement11">And with a production crew who are experts in their respective fields, deeply committed and willing to go all out, Alhamdulillah, I am truly grateful.</p>
+<p data-i18n="director.statement12">Above all, I am proud to say that the entire creative process from beginning to end — our cast and crew, including post-production — was realised 100% by homegrown Malaysian creative talent.</p>
+<p data-i18n="director.statement13">With humility, I sincerely hope that TIKUS! will entertain audiences while also touching them with the message behind the story we want to share.</p>
+</blockquote>
+</details>
+</div>
+<a class="director-intention__continue" href="#cast"><span data-i18n="director.meetCast">Meet the cast</span><span aria-hidden="true">↓</span></a>
 </section>
 <section aria-labelledby="cast-title" class="cast-section" id="cast">
 <div aria-hidden="true" class="cast-section__rings"></div>
@@ -265,12 +302,13 @@
 <h2 data-i18n="credits.heading" id="credits-title">Cast &amp; Crew</h2>
 <p data-i18n="credits.intro">The people in front of and behind the camera who brought TIKUS to life.</p>
 </header>
-<div class="credits-programme credits-programme--compact">
-<section aria-labelledby="credits-cast-title" class="credits-column credits-column--cast">
+<div class="credits-programme">
+<section aria-labelledby="credits-cast-title" class="credits-column credits-column--cast" data-credit-accordion>
 <p class="credits-column__number" aria-hidden="true">01</p>
 <h3 data-i18n="credits.cast" id="credits-cast-title">Cast</h3>
-<details class="credits-group credits-accordion" open>
-<summary><span data-i18n="credits.principalCast">Principal Cast</span><span aria-hidden="true" class="credits-group__count">8</span></summary>
+<p class="credits-column__hint" data-i18n="credits.expandHint">Select a group to expand.</p>
+<details class="credits-group">
+<summary><span data-i18n="credits.principalCast">Principal Cast</span><span aria-hidden="true" class="credits-group__count">8</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body">
 <dl class="credits-list credits-list--cast">
 <div><dt>Mimi</dt><dd>Qiu Qatina</dd></div>
@@ -284,8 +322,8 @@
 </dl>
 </div>
 </details>
-<details class="credits-group credits-accordion credits-group--additional">
-<summary><span data-i18n="credits.additionalCast">Additional Cast</span><span aria-hidden="true" class="credits-group__count">8</span></summary>
+<details class="credits-group credits-group--additional">
+<summary><span data-i18n="credits.additionalCast">Additional Cast</span><span aria-hidden="true" class="credits-group__count">8</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body">
 <ul class="credits-name-list">
 <li>Roshafiq Roslee</li>
@@ -300,49 +338,50 @@
 </div>
 </details>
 </section>
-<section aria-labelledby="credits-crew-title" class="credits-column credits-column--crew">
+<section aria-labelledby="credits-crew-title" class="credits-column credits-column--crew" data-credit-accordion>
 <p class="credits-column__number" aria-hidden="true">02</p>
 <h3 data-i18n="credits.crew" id="credits-crew-title">Crew</h3>
-<details class="credits-group credits-accordion" open>
-<summary><span data-i18n="credits.group.production">Production</span><span aria-hidden="true" class="credits-group__count">3</span></summary>
+<p class="credits-column__hint" data-i18n="credits.expandHint">Select a group to expand.</p>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.production">Production</span><span aria-hidden="true" class="credits-group__count">3</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>Producer</dt><dd>Iskander Azizuddin<br/>Feisal Azizuddin</dd></div>
 <div><dt>Executive Producer</dt><dd>Azizuddin Abdul Hamid<br/>Ellina Abdul Majid</dd></div>
 <div><dt>Line Producer</dt><dd>Arianna Low</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.direction">Direction</span><span aria-hidden="true" class="credits-group__count">2</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.direction">Direction</span><span aria-hidden="true" class="credits-group__count">2</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>Director</dt><dd>Ellina Abdul Majid</dd></div>
 <div><dt>AD</dt><dd>Feisal Azizuddin</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.camera">Camera</span><span aria-hidden="true" class="credits-group__count">3</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.camera">Camera</span><span aria-hidden="true" class="credits-group__count">3</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>DOP</dt><dd>Alex Wong Kam Thim</dd></div>
 <div><dt>Cam Op</dt><dd>Iskandar Sani</dd></div>
 <div><dt>DIT</dt><dd>Azim Rizal</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.art">Art Department</span><span aria-hidden="true" class="credits-group__count">3</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.art">Art Department</span><span aria-hidden="true" class="credits-group__count">3</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>Art Director</dt><dd>Harieth Azrien</dd></div>
 <div><dt>Art Assistant</dt><dd>Dollah Meiden</dd></div>
 <div><dt>Art Assistant</dt><dd>Azrien Hadi</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.lighting">Lighting &amp; Grip</span><span aria-hidden="true" class="credits-group__count">2</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.lighting">Lighting &amp; Grip</span><span aria-hidden="true" class="credits-group__count">2</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>Gaffer</dt><dd>Nick Lutfil Hadi</dd></div>
 <div><dt>Grip</dt><dd>Ady</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.makeup">Makeup &amp; Wardrobe</span><span aria-hidden="true" class="credits-group__count">4</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.makeup">Makeup &amp; Wardrobe</span><span aria-hidden="true" class="credits-group__count">4</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>MUA</dt><dd>Farini Husain</dd></div>
 <div><dt>MUA Assist</dt><dd>Sherry</dd></div>
@@ -350,15 +389,15 @@
 <div><dt>Wardrobe Assistant</dt><dd>Intan Zulaikah</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.sound">Sound</span><span aria-hidden="true" class="credits-group__count">2</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.sound">Sound</span><span aria-hidden="true" class="credits-group__count">2</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>Location Sound</dt><dd>Salahuddin Sabri</dd></div>
 <div><dt>Location Assistant</dt><dd>Nisa Ahmad</dd></div>
 </dl></div>
 </details>
-<details class="credits-group credits-accordion">
-<summary><span data-i18n="credits.group.productionTeam">Production Team</span><span aria-hidden="true" class="credits-group__count">2</span></summary>
+<details class="credits-group">
+<summary><span data-i18n="credits.group.productionTeam">Production Team</span><span aria-hidden="true" class="credits-group__count">2</span><span aria-hidden="true" class="credits-group__mark"></span></summary>
 <div class="credits-group__body"><dl class="credits-list">
 <div><dt>PA</dt><dd>Siti Sofea Amizi</dd></div>
 <div><dt>PA / Intern</dt><dd>Addison Low Chee Ren</dd></div>
@@ -366,7 +405,7 @@
 </details>
 </section>
 </div>
-<div class="credits-closing credits-closing--compact">
+<div class="credits-closing">
 <span class="credits-closing__rule" aria-hidden="true"></span>
 <strong>TIKUS</strong>
 <span data-i18n="site.feiskFilm">A Feisk Productions film</span>

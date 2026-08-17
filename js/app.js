@@ -200,31 +200,8 @@
     container.replaceChildren(fragment);
   }
 
-  function initCreditsAccordions() {
-    const programme = document.querySelector('.credits-programme--compact');
-    if (!programme) return;
-
-    const compactViewport = window.matchMedia('(max-width: 52rem)');
-    if (compactViewport.matches) {
-      programme.querySelectorAll('.credits-column--crew details.credits-accordion[open]').forEach((details) => {
-        details.open = false;
-      });
-    }
-
-    programme.querySelectorAll('details.credits-accordion').forEach((details) => {
-      details.addEventListener('toggle', () => {
-        if (!details.open) return;
-        const column = details.closest('.credits-column');
-        column?.querySelectorAll('details.credits-accordion[open]').forEach((other) => {
-          if (other !== details) other.open = false;
-        });
-      });
-    });
-  }
-
   function init() {
     const status = document.querySelector('[data-scene-status]');
-    initCreditsAccordions();
 
     try {
       if (

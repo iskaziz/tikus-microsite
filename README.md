@@ -193,5 +193,10 @@ The official trailer is configured as YouTube video `zP-A0q7aVko`. It remains pr
 
 The site includes a spoiler-safe full credits programme after Cinema Locations. The existing Meet the Cast portrait cards remain unchanged. Principal cast members are credited with their public character names, while potentially spoiler-sensitive supporting roles are grouped under Additional Cast without role labels. Crew credits are grouped by department and the section is linked from the hamburger navigation.
 
-### Compact credits
-The Full Cast & Crew section uses a two-column Cast/Crew programme on desktop and a single stacked layout on smaller screens. Credit departments use native `details/summary` accordions; only one group per column stays open at a time. Principal Cast is open by default, while Production is additionally open on desktop.
+## v23 editorial + compact credits update
+- Added a bilingual **Director's Intention** section between Film Overview and Meet the Cast.
+- The Director's Statement is collapsed by default using accessible native `<details>/<summary>` controls.
+- Added **Director's Intention** to the hamburger navigation.
+- Full Cast & Crew remains two columns on desktop/tablet, with Cast and Crew side by side.
+- Every cast/crew group is collapsed by default; opening one group closes the previously open group in the same column.
+- Additional Cast remains spoiler-safe by listing performer names without potentially revealing supporting character labels.

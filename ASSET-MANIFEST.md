@@ -138,3 +138,7 @@ These images are referenced only by the respective game styles and are not part 
 ## v22 — Full Cast & Crew
 
 No new image, audio or media assets were added. The credits feature is HTML/CSS only and reuses the existing site typography, palette and texture system.
+
+
+## v23
+No new media assets. Director's Intention and compact credits use existing CSS/HTML visual language only.

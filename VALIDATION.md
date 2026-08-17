@@ -230,10 +230,13 @@ Confirmed:
 - EN/BM credit UI keys are present in both dictionaries.
 - No screenplay-derived role or story detail added.
 
-## v23 — Compact credits validation
-- Credits use native keyboard-operable `details/summary` controls; no new JavaScript dependency.
-- Principal Cast and Production are the only groups marked `open` by default.
-- Desktop credits remain a two-column Cast/Crew layout; <=52rem stacks to one column.
-- All supplied cast/crew names are preserved from v22.
-- Accordion toggle handling keeps at most one group open per Cast/Crew column.
-- At <=52rem, the Crew column starts fully collapsed; Principal Cast remains the only initially expanded group.
+## v23 validation — Director's Intention + compact credits
+- All JavaScript files pass `node --check`, including the new `js/credits-controller.js`.
+- All CSS files parse without tinycss2 syntax errors.
+- English and Bahasa Malaysia dictionaries contain the same 303 unique keys with no duplicates.
+- All `data-i18n*` keys used by `index.html` exist in both dictionaries.
+- Director's Intention section and collapsed Director's Statement confirmed in markup.
+- Two Cast/Crew columns confirmed, containing ten credit accordions total; all start collapsed.
+- All local image/script/stylesheet references resolve.
+- All internal hash links resolve to existing IDs.
+- Static validation only; no fresh live-browser rendering claim is made for this package.

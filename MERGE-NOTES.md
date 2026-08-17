@@ -244,9 +244,11 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added Credits to the hamburger navigation and a closing transition into Release & Socials.
 - No new image or media assets.
 
-## v23 — Compact expandable credits
-- Converted Full Cast & Crew groups to native `details/summary` accordions.
-- Desktop keeps Cast and Crew in two columns; mobile stacks them into one column.
-- Principal Cast and Production are expanded by default; all other groups are collapsed until requested.
-- Reduced credits padding, row heights and closing-title scale so the section occupies substantially less initial vertical space.
-- No cast/crew names or spoiler-safe role treatment changed.
+## v23 — Director's Intention + compact credits
+- Added Director's Intention after Film Overview and before Meet the Cast.
+- Preserved the supplied Bahasa Malaysia Director's Intention/Statement content and added an English translation for the site language switch.
+- The long Director's Statement is collapsed by default to control page length.
+- Added a Director's Intention entry to the hamburger navigation and changed the Film Overview continuation link accordingly.
+- Reworked Full Cast & Crew into compact two-column Cast/Crew accordions.
+- All ten credit groups start collapsed. Within each column, opening a group closes its sibling group that was previously open.
+- Retained all previously supplied cast/crew credits and the spoiler-safe Additional Cast presentation.
