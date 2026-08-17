@@ -240,3 +240,14 @@ Confirmed:
 - All local image/script/stylesheet references resolve.
 - All internal hash links resolve to existing IDs.
 - Static validation only; no fresh live-browser rendering claim is made for this package.
+
+
+## v24 — Qiu portrait + crew collage validation
+
+- Confirmed all three supplied source files are opaque JPEG images.
+- Qiu derivatives: 480 × 600 and 720 × 900 in AVIF/WebP/JPEG.
+- Crew derivatives: 640 and 960 pixel widths in WebP/JPEG.
+- Qiu cast data now points to `castPortraitSet('qiu-qatina', 'QIU QATINA')`.
+- Crew collage images are `loading="lazy"` and preserve declared intrinsic dimensions.
+- Bilingual caption/alt keys added to both EN and BM dictionaries.
+- Headless Chromium HTTP rendering was attempted for desktop/mobile credits views, but Chromium timed out in this container with DBus/zygote errors; no fresh browser visual-pass claim is made for v24.

@@ -3965,3 +3965,188 @@ html.has-site-menu::after {
     transition: none;
   }
 }
+
+
+/* v24: Qiu portrait refresh + compact behind-the-scenes credits collage. */
+.credits-masthead {
+  width: min(100%, 88rem);
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(26rem, 1.28fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+  margin: 0 auto clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.credits-masthead .credits-section__heading {
+  width: auto;
+  margin: 0;
+  text-align: left;
+}
+
+.credits-masthead .credits-section__heading > p:last-child {
+  max-width: 34rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.credits-photo-collage {
+  position: relative;
+  min-width: 0;
+  height: clamp(12.5rem, 21vw, 17.5rem);
+  margin: 0;
+  isolation: isolate;
+}
+
+.credits-photo {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  border: 0.18rem solid var(--paper-bright);
+  outline: 0.1rem solid rgba(9, 8, 8, 0.9);
+  background: #191313;
+  box-shadow:
+    0 1.1rem 2.3rem rgba(0, 0, 0, 0.48),
+    0.3rem 0.35rem 0 rgba(150, 13, 26, 0.72);
+}
+
+.credits-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.04) sepia(0.06);
+}
+
+.credits-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(52, 3, 8, 0.04), transparent 45%, rgba(9, 8, 8, 0.25)),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(255, 244, 220, 0.035) 4px 5px);
+}
+
+.credits-photo--one {
+  z-index: 1;
+  left: 2%;
+  top: 1.45rem;
+  width: 56%;
+  height: 82%;
+  transform: rotate(-2.4deg);
+}
+
+.credits-photo--one img {
+  object-position: 50% 56%;
+}
+
+.credits-photo--two {
+  z-index: 2;
+  right: 2%;
+  top: 0.35rem;
+  width: 58%;
+  height: 88%;
+  transform: rotate(2.1deg);
+}
+
+.credits-photo--two img {
+  object-position: 50% 58%;
+}
+
+.credits-photo-collage figcaption {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 0.35rem;
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: baseline;
+  padding: 0.42rem 0.72rem 0.36rem;
+  color: var(--ink);
+  background: var(--paper-bright);
+  border: 0.1rem solid var(--crimson-700);
+  box-shadow: 0.18rem 0.18rem 0 var(--crimson-900);
+  font-family: var(--ui-font);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+.credits-photo-collage figcaption strong {
+  color: var(--crimson-800);
+  font-family: var(--header-font);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 60rem) {
+  .credits-masthead {
+    grid-template-columns: minmax(0, 0.85fr) minmax(22rem, 1.15fr);
+    gap: 1.25rem;
+  }
+
+  .credits-photo-collage {
+    height: clamp(11.5rem, 24vw, 14.5rem);
+  }
+}
+
+@media (max-width: 48rem) {
+  .credits-masthead {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .credits-masthead .credits-section__heading {
+    text-align: center;
+  }
+
+  .credits-masthead .credits-section__heading > p:last-child {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .credits-photo-collage {
+    width: min(100%, 35rem);
+    height: 10.5rem;
+    margin-inline: auto;
+  }
+
+  .credits-photo--one {
+    left: 4%;
+    top: 1.15rem;
+    width: 59%;
+    height: 80%;
+  }
+
+  .credits-photo--two {
+    right: 4%;
+    width: 59%;
+    height: 84%;
+  }
+
+  .credits-photo-collage figcaption {
+    bottom: 0.15rem;
+    font-size: 0.56rem;
+  }
+}
+
+@media (max-width: 24rem) {
+  .credits-photo-collage {
+    height: 9.25rem;
+  }
+
+  .credits-photo-collage figcaption span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credits-photo,
+  .credits-photo-collage figcaption {
+    transform: none;
+  }
+}

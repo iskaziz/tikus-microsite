@@ -200,3 +200,10 @@ The site includes a spoiler-safe full credits programme after Cinema Locations. 
 - Full Cast & Crew remains two columns on desktop/tablet, with Cast and Crew side by side.
 - Every cast/crew group is collapsed by default; opening one group closes the previously open group in the same column.
 - Additional Cast remains spoiler-safe by listing performer names without potentially revealing supporting character labels.
+
+
+### v24 visual credits update
+
+- Qiu Qatina's Meet the Cast card now uses the approved supplied portrait photograph.
+- The Full Cast & Crew masthead includes a responsive two-photo behind-the-scenes contact-sheet collage.
+- Crew stills are lazy-loaded and remain separate responsive assets so the collage can adapt without cropping the page layout into a fixed composite.

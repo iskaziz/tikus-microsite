@@ -252,3 +252,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Reworked Full Cast & Crew into compact two-column Cast/Crew accordions.
 - All ten credit groups start collapsed. Within each column, opening a group closes its sibling group that was previously open.
 - Retained all previously supplied cast/crew credits and the spoiler-safe Additional Cast presentation.
+
+
+## v24 — Qiu portrait and crew-photo collage
+
+- Replaced Qiu Qatina's illustrated Mimi image on her Meet the Cast card with the newly supplied photographic portrait.
+- Added responsive 480/720 AVIF, WebP and JPEG derivatives for Qiu.
+- Added two supplied behind-the-scenes production photographs to the Full Cast & Crew masthead.
+- The crew photographs are arranged as overlapping contact prints on desktop and a shallow stitched collage on mobile, so the visual addition does not significantly increase the initial height of the compact credits accordions.
+- Crew photographs are lazy-loaded and delivered as 640/960 WebP/JPEG derivatives.
+- Added bilingual behind-the-scenes caption and image alt text.

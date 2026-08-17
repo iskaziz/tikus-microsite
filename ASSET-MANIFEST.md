@@ -142,3 +142,15 @@ No new image, audio or media assets were added. The credits feature is HTML/CSS 
 
 ## v23
 No new media assets. Director's Intention and compact credits use existing CSS/HTML visual language only.
+
+
+## v24 — Qiu Qatina portrait + behind-the-scenes crew stills
+
+Confirmed uploaded assets integrated in this release:
+
+- `assets/images/cast/qiu-qatina-480.{avif,webp,jpg}` — 480 × 600 portrait derivative.
+- `assets/images/cast/qiu-qatina-720.{avif,webp,jpg}` — 720 × 900 portrait derivative.
+- `assets/images/crew/tikus-bts-1-{640,960}.{webp,jpg}` — behind-the-scenes Sitting Room production still.
+- `assets/images/crew/tikus-bts-2-{640,960}.{webp,jpg}` — alternate behind-the-scenes Sitting Room production still.
+
+The three source uploads are opaque JPEGs with no alpha channel. Source-resolution uploads are not deployed; responsive derivatives are used instead. Crew images remain separate assets and are combined responsively with CSS rather than baked into one collage image.

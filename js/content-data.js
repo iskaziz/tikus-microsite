@@ -109,7 +109,7 @@
     {
       id: 'qiu',
       actorName: 'QIU QATINA',
-      portrait: characterPortraitSet('mimi', 'QIU QATINA'),
+      portrait: castPortraitSet('qiu-qatina', 'QIU QATINA'),
       bio: `Qiu Qatina is a Malaysian actress and arts practitioner with over a decade of experiences in the performing arts industry. A graduate of University Teknologi MARA (UiTM) with a Bachelor’s Degree in Performing Arts and currently pursuing a Master’s in Creative Arts at ASWARA, she has built a diverse career spanning from theatre to drama and film. Qiu has involved in numerous acclaimed stage productions and screen projects while earning recognition. Rooted in both artistic practice and scholarly inquiry, Qiu’s creations are driven by the belief that art is not merely an act of expression but a process of self-discovery.
 
 “An artist does not create to escape reality, but to reveal the truths that silence cannot speak.”`,
