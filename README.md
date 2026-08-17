@@ -192,3 +192,6 @@ The official trailer is configured as YouTube video `zP-A0q7aVko`. It remains pr
 ## Full Cast & Crew
 
 The site includes a spoiler-safe full credits programme after Cinema Locations. The existing Meet the Cast portrait cards remain unchanged. Principal cast members are credited with their public character names, while potentially spoiler-sensitive supporting roles are grouped under Additional Cast without role labels. Crew credits are grouped by department and the section is linked from the hamburger navigation.
+
+### Compact credits
+The Full Cast & Crew section uses a two-column Cast/Crew programme on desktop and a single stacked layout on smaller screens. Credit departments use native `details/summary` accordions; only one group per column stays open at a time. Principal Cast is open by default, while Production is additionally open on desktop.

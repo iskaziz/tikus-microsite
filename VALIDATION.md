@@ -229,3 +229,11 @@ Confirmed:
 - Hamburger navigation includes `#credits`.
 - EN/BM credit UI keys are present in both dictionaries.
 - No screenplay-derived role or story detail added.
+
+## v23 — Compact credits validation
+- Credits use native keyboard-operable `details/summary` controls; no new JavaScript dependency.
+- Principal Cast and Production are the only groups marked `open` by default.
+- Desktop credits remain a two-column Cast/Crew layout; <=52rem stacks to one column.
+- All supplied cast/crew names are preserved from v22.
+- Accordion toggle handling keeps at most one group open per Cast/Crew column.
+- At <=52rem, the Crew column starts fully collapsed; Principal Cast remains the only initially expanded group.

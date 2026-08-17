@@ -243,3 +243,10 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added EN/BM section and department labels while preserving supplied individual credit terminology.
 - Added Credits to the hamburger navigation and a closing transition into Release & Socials.
 - No new image or media assets.
+
+## v23 — Compact expandable credits
+- Converted Full Cast & Crew groups to native `details/summary` accordions.
+- Desktop keeps Cast and Crew in two columns; mobile stacks them into one column.
+- Principal Cast and Production are expanded by default; all other groups are collapsed until requested.
+- Reduced credits padding, row heights and closing-title scale so the section occupies substantially less initial vertical space.
+- No cast/crew names or spoiler-safe role treatment changed.
