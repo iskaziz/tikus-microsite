@@ -211,3 +211,7 @@ The site includes a spoiler-safe full credits programme after Cinema Locations. 
 ### Filmmaker perspectives
 
 The Film Overview is followed by a combined **From the Filmmakers** editorial section. It pairs a responsive behind-the-scenes photo collage with the Director's Intention, an expandable Director's Statement, and a shorter Producer's Statement. The section is bilingual and preserves the existing `#director-intention` anchor for compatibility.
+
+
+## v26 filmmaker layout
+The two filmmaker photographs now form a full-width masthead above the Director's Intention and Producer's Statement. Desktop keeps the statements in two columns beneath the imagery; mobile uses a compact stitched photo band followed by stacked copy.

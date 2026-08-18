@@ -261,3 +261,7 @@ Confirmed:
 - New filmmaker section order confirmed: Film Overview → From the Filmmakers → Meet the Cast.
 - New photographs use lazy loading, explicit intrinsic dimensions, WebP sources and JPEG fallbacks.
 - Chromium visual rendering was attempted through a local HTTP server but timed out because of the container's DBus/zygote environment; no fresh browser-render claim is made for v25.
+
+
+## v26 filmmaker layout
+The two filmmaker photographs now form a full-width masthead above the Director's Intention and Producer's Statement. Desktop keeps the statements in two columns beneath the imagery; mobile uses a compact stitched photo band followed by stacked copy.

@@ -272,3 +272,7 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - Added the Producer's Statement as a visible pull-quote card without inventing a named speaker attribution.
 - Added EN/BM translations and bilingual alt/caption text.
 - Added optimized 640/960 WebP and JPEG derivatives; source uploads are excluded from the deployed package.
+
+
+## v26 filmmaker layout
+The two filmmaker photographs now form a full-width masthead above the Director's Intention and Producer's Statement. Desktop keeps the statements in two columns beneath the imagery; mobile uses a compact stitched photo band followed by stacked copy.
