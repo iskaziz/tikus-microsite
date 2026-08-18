@@ -38,7 +38,7 @@
       'trailer.playerLabel': 'Retro television trailer player',
       'trailer.playOfficial': 'Play official trailer',
       'trailer.playOfficialAria': 'Play the official TIKUS trailer',
-      'trailer.note': 'The video is hosted by YouTube. No video is loaded until the television is selected.',
+
       'trailer.meetCast': 'Meet the cast',
       'trailer.official': 'Official trailer',
       'trailer.dialogDescription': 'YouTube video player for the official TIKUS trailer.',
@@ -48,12 +48,12 @@
       'trailer.firstLook': 'See the first look',
       'gallery.eyebrow': 'From the film',
       'gallery.heading': 'FIRST LOOK',
-      'gallery.description': 'A selection of stills from TIKUS. Choose a frame to view it larger.',
+
       'gallery.enlarge': 'Enlarge',
       'gallery.previous': 'Previous film still',
       'gallery.next': 'Next film still',
       'gallery.filmstrip': 'TIKUS film still thumbnails',
-      'gallery.instruction': 'Choose a thumbnail, use the arrow keys, or swipe across the featured image. Select the large image for fullscreen view.',
+
       'gallery.meetCast': 'Meet the cast',
       'gallery.filmOverview': 'Film overview',
       'overview.eyebrow': 'Film information',
@@ -76,11 +76,11 @@
       'overview.directorIntention': 'From the filmmakers',
       'director.eyebrow': 'Behind the film',
       'director.heading': 'From the Filmmakers',
-      'director.introHeading': 'The creative perspective behind TIKUS, from direction to production.',
+
       'director.intentionLabel': "Director's Intention",
       'director.photoMonitorAlt': 'Behind-the-scenes photograph of a production monitor, screenplay pages, coffee cup and teddy bear during the making of TIKUS.',
       'director.photoFamilyAlt': 'Behind-the-scenes photograph of members of the TIKUS creative team seated together with screenplay pages.',
-      'director.collageCaption': 'From page to production',
+
       'producer.eyebrow': "Producer's Statement",
       'producer.heading': "Producer's Statement",
       'producer.statement': "I grew up with a love for crime novels and a juicy whodunit, inspired by my mother's love for the written word. Being able to see our very own whodunit come to life is made more significant because it is authored and directed by my dearest Mummy.",
@@ -340,7 +340,7 @@
       'trailer.playerLabel': 'Pemain treler televisyen retro',
       'trailer.playOfficial': 'Mainkan treler rasmi',
       'trailer.playOfficialAria': 'Mainkan treler rasmi TIKUS',
-      'trailer.note': 'Video ini dihoskan oleh YouTube. Tiada video dimuatkan sehingga televisyen dipilih.',
+
       'trailer.meetCast': 'Kenali barisan pelakon',
       'trailer.official': 'Treler rasmi',
       'trailer.dialogDescription': 'Pemain video YouTube untuk treler rasmi TIKUS.',
@@ -350,12 +350,12 @@
       'trailer.firstLook': 'Lihat pandangan pertama',
       'gallery.eyebrow': 'Daripada filem',
       'gallery.heading': 'PANDANGAN PERTAMA',
-      'gallery.description': 'Pilihan gambar adegan daripada TIKUS. Pilih satu bingkai untuk melihatnya dengan lebih besar.',
+
       'gallery.enlarge': 'Besarkan',
       'gallery.previous': 'Gambar adegan sebelumnya',
       'gallery.next': 'Gambar adegan seterusnya',
       'gallery.filmstrip': 'Gambar kecil adegan filem TIKUS',
-      'gallery.instruction': 'Pilih gambar kecil, gunakan kekunci anak panah, atau leret pada imej utama. Pilih imej besar untuk paparan skrin penuh.',
+
       'gallery.meetCast': 'Kenali barisan pelakon',
       'gallery.filmOverview': 'Maklumat filem',
       'overview.eyebrow': 'Maklumat filem',
@@ -378,11 +378,11 @@
       'overview.directorIntention': 'Daripada pembikin filem',
       'director.eyebrow': 'Di sebalik filem',
       'director.heading': 'Daripada Pembikin Filem',
-      'director.introHeading': 'Perspektif kreatif di sebalik TIKUS, daripada pengarahan hingga produksi.',
+
       'director.intentionLabel': 'Intensi Pengarah',
       'director.photoMonitorAlt': 'Foto di sebalik tabir yang menunjukkan monitor produksi, halaman lakon layar, cawan kopi dan patung beruang semasa pembikinan TIKUS.',
       'director.photoFamilyAlt': 'Foto di sebalik tabir anggota pasukan kreatif TIKUS duduk bersama dengan halaman lakon layar.',
-      'director.collageCaption': 'Daripada halaman ke produksi',
+
       'producer.eyebrow': 'Kenyataan Penerbit',
       'producer.heading': 'Kenyataan Penerbit',
       'producer.statement': 'Saya membesar dengan kecintaan terhadap novel jenayah dan kisah whodunnit yang mengasyikkan, diinspirasikan oleh kecintaan ibu saya terhadap dunia penulisan. Dapat melihat whodunnit kita sendiri dihidupkan terasa lebih bermakna kerana ia ditulis dan diarahkan oleh Mummy saya yang tersayang.',

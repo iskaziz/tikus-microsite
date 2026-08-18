@@ -167,3 +167,9 @@ Source photographs were supplied directly for the combined Director / Producer e
   - Personal behind-the-scenes creative-team photograph with screenplay pages.
 
 All images lazy-load and have explicit intrinsic dimensions.
+
+### Diana Ooi cast portrait
+
+- `assets/images/cast/diana-ooi-480.avif` / `.webp` / `.jpg`
+- `assets/images/cast/diana-ooi-720.avif` / `.webp` / `.jpg`
+- Source: user-supplied approved portrait; deployed derivatives use a centred 4:5 crop for the existing cast-card frame.

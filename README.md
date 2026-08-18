@@ -215,3 +215,7 @@ The Film Overview is followed by a combined **From the Filmmakers** editorial se
 
 ## v26 filmmaker layout
 The two filmmaker photographs now form a full-width masthead above the Director's Intention and Producer's Statement. Desktop keeps the statements in two columns beneath the imagery; mobile uses a compact stitched photo band followed by stacked copy.
+
+### v28 Diana Ooi portrait
+
+Diana Ooi's Meet the Cast card now uses the approved supplied photographic portrait, delivered as responsive 480/720 AVIF, WebP and JPEG derivatives.

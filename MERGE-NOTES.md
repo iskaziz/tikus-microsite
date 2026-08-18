@@ -276,3 +276,14 @@ Existing best scores remain stored under the original v2 localStorage keys.
 
 ## v26 filmmaker layout
 The two filmmaker photographs now form a full-width masthead above the Director's Intention and Producer's Statement. Desktop keeps the statements in two columns beneath the imagery; mobile uses a compact stitched photo band followed by stacked copy.
+
+
+## v27 — Copy cleanup
+- Removed auxiliary trailer, First Look and Filmmakers helper copy requested by the project owner.
+- Removed matching EN/BM translation entries; no interaction or layout behavior changed.
+
+## v28 — Diana Ooi portrait
+
+- Replaced Diana Ooi's illustrated cast-card image with the user-approved photographic portrait.
+- Added responsive 480/720 AVIF, WebP and JPEG derivatives.
+- No biography, cast order, interaction or layout changes.

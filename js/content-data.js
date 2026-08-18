@@ -132,7 +132,7 @@
     {
       id: 'diana',
       actorName: 'Diana Ooi',
-      portrait: characterPortraitSet('madam-boey', 'Diana Ooi'),
+      portrait: castPortraitSet('diana-ooi', 'Diana Ooi'),
       bio: 'At 73, Diana Ooi proves it is never too late to chase a lifelong calling. After stepping down from her second career in 2020, she immediately pivoted to her childhood passion for acting. Just a year later, she landed her standout screen debut playing a character with dementia in an entry for Short + Sweet Malaysia, establishing herself as a compelling, authentic talent',
       bioKey: 'cast.bio.diana'
     },

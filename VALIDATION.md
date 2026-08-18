@@ -265,3 +265,14 @@ Confirmed:
 
 ## v26 filmmaker layout
 The two filmmaker photographs now form a full-width masthead above the Director's Intention and Producer's Statement. Desktop keeps the statements in two columns beneath the imagery; mobile uses a compact stitched photo band followed by stacked copy.
+
+
+## v27 validation
+- Confirmed removed copy is absent from HTML and translation dictionaries.
+- JavaScript syntax and local asset paths rechecked after cleanup.
+
+## v28 — Diana Ooi portrait
+
+- Diana Ooi now resolves through `castPortraitSet('diana-ooi', 'Diana Ooi')`.
+- Confirmed all six responsive portrait derivatives exist at the referenced paths.
+- No cast biography or interaction logic changed.
