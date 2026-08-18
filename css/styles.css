@@ -4150,3 +4150,265 @@ html.has-site-menu::after {
     transform: none;
   }
 }
+
+
+/* v25: combined Director + Producer editorial section. */
+.director-intention__heading > p:last-child {
+  max-width: 42rem;
+  margin: 0.65rem auto 0;
+  color: var(--paper-dim);
+  line-height: 1.6;
+}
+
+.filmmakers-card {
+  width: min(100%, 82rem);
+  margin-inline: auto;
+  padding: clamp(0.75rem, 1.5vw, 1.15rem);
+  border: 1px solid rgba(239, 228, 204, 0.2);
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 244, 220, 0.015) 0 1px, transparent 1px 5px),
+    rgba(14, 10, 10, 0.9);
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.35);
+}
+
+.filmmakers-overview {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(1rem, 2.6vw, 2.2rem);
+  align-items: stretch;
+}
+
+.filmmakers-collage {
+  position: relative;
+  min-height: clamp(26rem, 46vw, 37rem);
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(239, 228, 204, 0.18);
+  background: #090808;
+  isolation: isolate;
+}
+
+.filmmakers-collage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 64%, rgba(9, 8, 8, 0.72) 100%),
+    repeating-linear-gradient(0deg, rgba(255, 244, 220, 0.025) 0 1px, transparent 1px 5px);
+}
+
+.filmmakers-photo {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  border: 0.38rem solid var(--paper-dim);
+  background: var(--paper-dim);
+  box-shadow: 0 1.1rem 2.2rem rgba(0, 0, 0, 0.48);
+}
+
+.filmmakers-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.filmmakers-photo--monitor {
+  z-index: 1;
+  inset: 3% 25% 13% 3%;
+  transform: rotate(-2.2deg);
+}
+
+.filmmakers-photo--monitor img {
+  object-position: 50% 54%;
+}
+
+.filmmakers-photo--family {
+  z-index: 2;
+  width: 48%;
+  height: 55%;
+  right: 3%;
+  bottom: 5%;
+  transform: rotate(2.8deg);
+}
+
+.filmmakers-photo--family img {
+  object-position: 50% 42%;
+}
+
+.filmmakers-collage figcaption {
+  position: absolute;
+  z-index: 4;
+  left: 1rem;
+  bottom: 0.8rem;
+  display: flex;
+  gap: 0.55rem;
+  align-items: baseline;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.filmmakers-collage figcaption strong {
+  color: var(--crimson-500);
+  font-size: 0.9rem;
+}
+
+.filmmakers-copy {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.filmmakers-copy .director-intention__card {
+  width: auto;
+  margin: 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  box-shadow: none;
+  background: rgba(18, 12, 12, 0.72);
+}
+
+.filmmakers-copy__eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--crimson-500);
+  font-family: var(--ui-font);
+  font-size: 0.7rem;
+  font-weight: 1000;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.filmmakers-copy .director-intention__intro {
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.filmmakers-copy .director-intention__intro p,
+.filmmakers-copy .director-intention__intro p:first-child {
+  font-size: clamp(0.9rem, 0.86rem + 0.15vw, 1rem);
+  line-height: 1.62;
+}
+
+.producer-statement {
+  position: relative;
+  align-self: stretch;
+  padding: clamp(1.05rem, 2.2vw, 1.55rem);
+  overflow: hidden;
+  border: 1px solid rgba(239, 228, 204, 0.2);
+  border-left: 0.28rem solid var(--crimson-700);
+  background:
+    radial-gradient(circle at 92% 16%, rgba(150, 13, 26, 0.2), transparent 30%),
+    rgba(52, 3, 8, 0.28);
+}
+
+.producer-statement::before {
+  content: "“";
+  position: absolute;
+  right: 0.35rem;
+  top: -1rem;
+  color: rgba(239, 228, 204, 0.08);
+  font-family: Georgia, serif;
+  font-size: 8rem;
+  line-height: 1;
+}
+
+.producer-statement blockquote {
+  position: relative;
+  margin: 0;
+  color: var(--paper-bright);
+  font-size: clamp(1rem, 0.93rem + 0.28vw, 1.2rem);
+  font-style: italic;
+  line-height: 1.68;
+}
+
+.filmmakers-card > .director-intention__statement-lead {
+  margin-inline: clamp(0.25rem, 1vw, 0.8rem);
+}
+
+.filmmakers-card > .director-statement {
+  margin-inline: clamp(0.25rem, 1vw, 0.8rem);
+}
+
+@media (max-width: 56rem) {
+  .filmmakers-overview {
+    grid-template-columns: minmax(14rem, 0.88fr) minmax(0, 1.12fr);
+  }
+
+  .filmmakers-collage {
+    min-height: 31rem;
+  }
+}
+
+@media (max-width: 44rem) {
+  .director-intention__heading > p:last-child {
+    margin-inline: 0;
+  }
+
+  .filmmakers-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .filmmakers-collage {
+    min-height: 15rem;
+    aspect-ratio: 16 / 8.8;
+  }
+
+  .filmmakers-photo--monitor {
+    inset: 4% 42% 5% 2%;
+    transform: rotate(-1.2deg);
+  }
+
+  .filmmakers-photo--family {
+    width: 54%;
+    height: 91%;
+    right: 2%;
+    bottom: 3%;
+    transform: rotate(1.5deg);
+  }
+
+  .filmmakers-photo--monitor img {
+    object-position: 50% 57%;
+  }
+
+  .filmmakers-photo--family img {
+    object-position: 50% 39%;
+  }
+
+  .filmmakers-copy {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 34rem) {
+  .filmmakers-card {
+    padding: 0.55rem;
+  }
+
+  .filmmakers-collage {
+    min-height: 13rem;
+  }
+
+  .filmmakers-collage figcaption {
+    left: 0.65rem;
+    bottom: 0.55rem;
+    font-size: 0.56rem;
+  }
+
+  .filmmakers-copy .director-intention__card,
+  .producer-statement {
+    padding: 0.95rem 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filmmakers-photo--monitor,
+  .filmmakers-photo--family {
+    transform: none;
+  }
+}

@@ -262,3 +262,13 @@ Existing best scores remain stored under the original v2 localStorage keys.
 - The crew photographs are arranged as overlapping contact prints on desktop and a shallow stitched collage on mobile, so the visual addition does not significantly increase the initial height of the compact credits accordions.
 - Crew photographs are lazy-loaded and delivered as 640/960 WebP/JPEG derivatives.
 - Added bilingual behind-the-scenes caption and image alt text.
+
+## v25 — Combined filmmaker statements
+
+- Combined Director's Intention and Producer's Statement into a single `#director-intention` editorial section to preserve existing anchors.
+- Renamed the section-facing navigation treatment to **From the Filmmakers / Filmmakers**.
+- Added a responsive two-image editorial collage using the newly supplied production-monitor and personal creative-team photographs.
+- Kept the long Director's Statement collapsed by default through the existing native `<details>` control.
+- Added the Producer's Statement as a visible pull-quote card without inventing a named speaker attribution.
+- Added EN/BM translations and bilingual alt/caption text.
+- Added optimized 640/960 WebP and JPEG derivatives; source uploads are excluded from the deployed package.

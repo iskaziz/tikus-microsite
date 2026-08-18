@@ -154,3 +154,16 @@ Confirmed uploaded assets integrated in this release:
 - `assets/images/crew/tikus-bts-2-{640,960}.{webp,jpg}` — alternate behind-the-scenes Sitting Room production still.
 
 The three source uploads are opaque JPEGs with no alpha channel. Source-resolution uploads are not deployed; responsive derivatives are used instead. Crew images remain separate assets and are combined responsively with CSS rather than baked into one collage image.
+
+## Filmmakers editorial photographs — v25
+
+Source photographs were supplied directly for the combined Director / Producer editorial section. Deployed files are optimized derivatives only; the original uploads are not included in the site package.
+
+- `assets/images/editorial/filmmakers-monitor-640.webp` / `.jpg`
+- `assets/images/editorial/filmmakers-monitor-960.webp` / `.jpg`
+  - Production monitor, screenplay pages, coffee and teddy-bear behind-the-scenes image.
+- `assets/images/editorial/filmmakers-family-640.webp` / `.jpg`
+- `assets/images/editorial/filmmakers-family-960.webp` / `.jpg`
+  - Personal behind-the-scenes creative-team photograph with screenplay pages.
+
+All images lazy-load and have explicit intrinsic dimensions.

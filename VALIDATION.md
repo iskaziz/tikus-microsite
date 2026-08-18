@@ -251,3 +251,13 @@ Confirmed:
 - Crew collage images are `loading="lazy"` and preserve declared intrinsic dimensions.
 - Bilingual caption/alt keys added to both EN and BM dictionaries.
 - Headless Chromium HTTP rendering was attempted for desktop/mobile credits views, but Chromium timed out in this container with DBus/zygote errors; no fresh browser visual-pass claim is made for v24.
+
+## v25 validation — Combined Director / Producer section
+
+- All JavaScript files pass `node --check`.
+- All CSS files parse with `tinycss2` without stylesheet errors.
+- EN and BM dictionaries each contain 295 unique matching translation keys.
+- New editorial image references and `srcset` paths resolve locally.
+- New filmmaker section order confirmed: Film Overview → From the Filmmakers → Meet the Cast.
+- New photographs use lazy loading, explicit intrinsic dimensions, WebP sources and JPEG fallbacks.
+- Chromium visual rendering was attempted through a local HTTP server but timed out because of the container's DBus/zygote environment; no fresh browser-render claim is made for v25.

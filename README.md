@@ -207,3 +207,7 @@ The site includes a spoiler-safe full credits programme after Cinema Locations. 
 - Qiu Qatina's Meet the Cast card now uses the approved supplied portrait photograph.
 - The Full Cast & Crew masthead includes a responsive two-photo behind-the-scenes contact-sheet collage.
 - Crew stills are lazy-loaded and remain separate responsive assets so the collage can adapt without cropping the page layout into a fixed composite.
+
+### Filmmaker perspectives
+
+The Film Overview is followed by a combined **From the Filmmakers** editorial section. It pairs a responsive behind-the-scenes photo collage with the Director's Intention, an expandable Director's Statement, and a shorter Producer's Statement. The section is bilingual and preserves the existing `#director-intention` anchor for compatibility.
