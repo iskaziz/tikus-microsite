@@ -287,3 +287,21 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Replaced Diana Ooi's illustrated cast-card image with the user-approved photographic portrait.
 - Added responsive 480/720 AVIF, WebP and JPEG derivatives.
 - No biography, cast order, interaction or layout changes.
+
+## v29 synopsis and venue-name amendment
+
+- Replaced the Film Overview synopsis with the newly approved English synopsis.
+- Updated the Bahasa Malaysia Film Overview synopsis to match the new meaning.
+- Locked **Samasihat Wellness Retreat** as a proper name in both language modes; it is no longer translated as “Pusat Percutian Kesihatan Samasihat”.
+
+## v30 — Harris portrait
+
+- Replaced Harris's illustrated Major Mansor cast-card image with the user-approved photographic portrait.
+- Added responsive 480/720 AVIF, WebP and JPEG derivatives.
+- No biography, cast order or interaction changes.
+
+## v31 — Roshafiq Roslee principal cast
+
+- Moved Roshafiq Roslee from Additional Cast to Principal Cast in the Full Cast & Crew section.
+- Principal Cast count is now 9; Additional Cast count is now 7.
+- No character/role label was invented for Roshafiq Roslee; the principal-cast credit displays his name only.

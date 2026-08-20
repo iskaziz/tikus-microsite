@@ -4540,3 +4540,12 @@ html.has-site-menu::after {
     height: clamp(13rem, 62vw, 17rem);
   }
 }
+
+/* v31: Principal-cast entry without a public character label. */
+.credits-list--cast > .credits-list__name-only {
+  grid-template-columns: 1fr;
+}
+
+.credits-list--cast > .credits-list__name-only dd {
+  grid-column: 1 / -1;
+}

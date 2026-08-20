@@ -68,7 +68,7 @@ The shared `js/language-controller.js` translates:
 - Tikus Rush, Tikus Beat and Tikus Slider instructions, controls, live feedback and results.
 - Dialog labels, close controls, document title and metadata.
 
-`<html lang>` and the language-switch `aria-checked` state update with the active language. Proper names, game names and approved title artwork remain unchanged.
+`<html lang>` and the language-switch `aria-checked` state update with the active language. Proper names, game names and approved title artwork remain unchanged. The venue name **Samasihat Wellness Retreat** is a fixed proper name and remains exactly the same in both English and Bahasa Malaysia.
 
 ## Main experience
 
@@ -219,3 +219,11 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 ### v28 Diana Ooi portrait
 
 Diana Ooi's Meet the Cast card now uses the approved supplied photographic portrait, delivered as responsive 480/720 AVIF, WebP and JPEG derivatives.
+
+### v30 Harris portrait
+
+Harris's Meet the Cast card now uses the approved supplied photographic portrait, delivered as responsive 480/720 AVIF, WebP and JPEG derivatives.
+
+### v31 principal cast update
+
+Roshafiq Roslee is listed under Principal Cast. His public character/role label has not been supplied, so the credit intentionally displays his name without inventing a role. Additional Cast now contains seven names.

@@ -139,7 +139,7 @@
     {
       id: 'harris',
       actorName: 'Harris',
-      portrait: characterPortraitSet('mejar-mansor', 'Harris'),
+      portrait: castPortraitSet('harris', 'Harris'),
       bio: 'Profile coming soon.',
       bioKey: 'cast.profileComing'
     },
