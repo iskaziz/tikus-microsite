@@ -305,3 +305,8 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Moved Roshafiq Roslee from Additional Cast to Principal Cast in the Full Cast & Crew section.
 - Principal Cast count is now 9; Additional Cast count is now 7.
 - No character/role label was invented for Roshafiq Roslee; the principal-cast credit displays his name only.
+
+## v32 — Principal Cast list simplification
+- Principal Cast now displays actor names only; character names have been removed.
+- Principal Cast remains nine names, including Roshafiq Roslee.
+- Additional Cast and all other credits remain unchanged.
