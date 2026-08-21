@@ -140,8 +140,8 @@
       id: 'harris',
       actorName: 'Harris',
       portrait: castPortraitSet('harris', 'Harris'),
-      bio: 'Profile coming soon.',
-      bioKey: 'cast.profileComing'
+      bio: 'Harris Andria is a familiar face in Feisk Productions, having appeared across a number of the company’s projects. His feature film credits include Angkat, the unreleased Curi Makan and Shotguns and Selendangs, and the upcoming TIKUS!. He has also appeared in the series Jabatan Kegembiraan and the short film Tali Kasut, building a varied body of work across film, television and shorts.',
+      bioKey: 'cast.bio.harris'
     },
     {
       id: 'marsha',

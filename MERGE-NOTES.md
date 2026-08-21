@@ -319,3 +319,4 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Added custom events for trailer, First Look, cast profiles, scene changes, language changes, cinema-state selection, cinema directions, navigation/outbound links and all three games.
 - Tikus Rush and Tikus Beat send score/judgement data on completion; Tikus Slider sends moves/time data.
 - Google Signals and ad-personalisation signals are disabled in the site configuration.
+- v34: Replaced the Harris cast-profile placeholder with the approved Harris Andria biography in English and a Bahasa Malaysia translation.

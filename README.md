@@ -235,3 +235,4 @@ Harris's Meet the Cast card now uses the approved supplied photographic portrait
 ### v31 principal cast update
 
 Roshafiq Roslee is listed under Principal Cast. His public character/role label has not been supplied, so the credit intentionally displays his name without inventing a role. Additional Cast now contains seven names.
+- v34: Replaced the Harris cast-profile placeholder with the approved Harris Andria biography in English and a Bahasa Malaysia translation.
