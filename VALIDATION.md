@@ -276,3 +276,15 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Diana Ooi now resolves through `castPortraitSet('diana-ooi', 'Diana Ooi')`.
 - Confirmed all six responsive portrait derivatives exist at the referenced paths.
 - No cast biography or interaction logic changed.
+
+
+## v33 validation — Google Analytics 4
+
+- Measurement ID is `G-7VN040G6K0`.
+- Analytics activation is restricted to `feisk.com.my` and `www.feisk.com.my`; `file://`, localhost and GitHub-hosted copies do not load the Google tag.
+- Page-view configuration and custom-event calls use the shared `TikusAnalytics.track()` wrapper.
+- Custom events cover trailer, gallery, cast profiles, scene changes, language changes, cinema finder actions, navigation/outbound links, game opens, game starts, game closes and game completions.
+- Rush completion metadata includes score, grey/gold catches, max combo and record status.
+- Beat completion metadata includes score, perfect/good/miss counts, max combo and record status.
+- Slider completion metadata includes moves, elapsed seconds and record status.
+- No analytics request is required for the site to function; failure/blocking of the Google script leaves all microsite interactions operational.

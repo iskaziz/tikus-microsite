@@ -310,3 +310,12 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Principal Cast now displays actor names only; character names have been removed.
 - Principal Cast remains nine names, including Roshafiq Roslee.
 - Additional Cast and all other credits remain unchanged.
+
+## v33 — Google Analytics 4
+
+- Added `js/analytics.js` using measurement ID `G-7VN040G6K0`.
+- Analytics loads only on `feisk.com.my` and `www.feisk.com.my`, keeping local and GitHub testing out of production statistics.
+- GA4 page views are enabled on the live microsite.
+- Added custom events for trailer, First Look, cast profiles, scene changes, language changes, cinema-state selection, cinema directions, navigation/outbound links and all three games.
+- Tikus Rush and Tikus Beat send score/judgement data on completion; Tikus Slider sends moves/time data.
+- Google Signals and ad-personalisation signals are disabled in the site configuration.

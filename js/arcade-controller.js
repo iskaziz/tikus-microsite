@@ -125,6 +125,9 @@
       this.dialog.showModal();
       document.documentElement.classList.add('has-arcade-dialog');
       const launched = this.launch(gameId);
+      if (launched) {
+        global.TikusAnalytics?.track('game_open', { game_name: gameId });
+      }
       if (!launched) this.focusFirst();
       else this.currentGame?.focus?.();
     }
@@ -192,6 +195,10 @@
     }
 
     handleClose() {
+      const closingGame = this.dialog?.dataset.arcadeView || '';
+      if (closingGame) {
+        global.TikusAnalytics?.track('game_close', { game_name: closingGame });
+      }
       if (this.currentGame?.destroy) this.currentGame.destroy();
       this.currentGame = null;
       this.content.replaceChildren();

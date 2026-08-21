@@ -219,6 +219,10 @@
       this.syncInteractiveBounds();
 
       if (announce) {
+        global.TikusAnalytics?.track('scene_view', {
+          scene_id: sceneId,
+          scene_title: sceneTitle
+        });
         const count = scene.hotspots.length;
         this.liveRegion.textContent = count > 0
           ? t('scene.loadedHotspots', { title: sceneTitle, count, hint: sceneHint }, `${sceneTitle} loaded. ${count} interactive hotspots available. ${sceneHint}`)

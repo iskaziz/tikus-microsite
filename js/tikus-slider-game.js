@@ -295,6 +295,7 @@
       elapsed = 0;
       playing = true;
       pausedByVisibility = false;
+      global.TikusAnalytics?.track('game_start', { game_name: 'slider' });
       shuffledBoard();
       status.textContent = t('slider.shuffled', {}, 'Puzzle shuffled. Restore the painting.');
       render();
@@ -326,6 +327,12 @@
       header.setAttribute('inert', '');
       intro.setAttribute('inert', '');
       completion.hidden = false;
+      global.TikusAnalytics?.track('game_complete', {
+        game_name: 'slider',
+        moves,
+        time_seconds: elapsed,
+        new_record: isBest
+      });
       if (!reducedMotion) root.classList.add('is-complete');
       window.setTimeout(() => {
         root.classList.remove('is-complete');

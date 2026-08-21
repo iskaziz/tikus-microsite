@@ -43,6 +43,7 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
   /js
     content-data.js
     language-controller.js
+    analytics.js
     gallery-controller.js
     cinema-data.js
     cinema-controller.js
@@ -55,6 +56,13 @@ The same folder can be uploaded unchanged to GitHub Pages or ordinary static hos
     arcade-controller.js
 ```
 
+
+
+## Analytics
+
+The live TIKUS microsite uses Google Analytics 4 measurement ID `G-7VN040G6K0`. Analytics is deliberately enabled only when the hostname is `feisk.com.my` or `www.feisk.com.my`; local `file://` testing and GitHub-hosted previews do not send analytics data.
+
+Tracked campaign interactions include trailer opens, First Look engagement, cast profile opens, scene changes, EN/BM changes, cinema-state selections, cinema direction clicks, outbound links, and game opens/starts/completions. Game-completion events include score/result metadata appropriate to each game.
 
 ## English / Bahasa Malaysia
 

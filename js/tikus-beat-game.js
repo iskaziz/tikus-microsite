@@ -931,6 +931,15 @@
       result.hidden = false;
       intro.hidden = true;
       root.classList.add('is-finished');
+      global.TikusAnalytics?.track('game_complete', {
+        game_name: 'beat',
+        score,
+        perfect_hits: judgements.perfect,
+        good_hits: judgements.good,
+        misses: judgements.miss,
+        max_combo: maxCombo,
+        new_record: isRecord
+      });
       updateHud();
       replayButton.focus({ preventScroll: true });
     }
@@ -951,6 +960,7 @@
       root.classList.remove('is-finished', 'is-combo-flash', 'is-tempo-shift', 'is-shape-blast');
       running = true;
       isPaused = false;
+      global.TikusAnalytics?.track('game_start', { game_name: 'beat' });
       startTime = performance.now();
       updateHud();
       spawnNote();

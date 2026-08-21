@@ -493,6 +493,14 @@
       result.hidden = false;
       intro.hidden = true;
       root.classList.add('is-finished');
+      global.TikusAnalytics?.track('game_complete', {
+        game_name: 'rush',
+        score,
+        grey_caught: caughtGrey,
+        gold_caught: caughtGold,
+        max_combo: maxCombo,
+        new_record: score > previousBest
+      });
       updateHud();
       replayButton.focus({ preventScroll: true });
     }
@@ -510,6 +518,7 @@
       root.classList.remove('is-finished', 'is-gold-hit');
       running = true;
       isPaused = false;
+      global.TikusAnalytics?.track('game_start', { game_name: 'rush' });
       startTime = performance.now();
       updateHud();
       spawnMouse();
