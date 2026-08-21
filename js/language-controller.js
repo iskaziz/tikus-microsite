@@ -83,6 +83,7 @@
 
       'producer.eyebrow': "Producer's Statement",
       'producer.heading': "Producer's Statement",
+      'producer.name': 'Iskander Azizuddin',
       'producer.statement': "I grew up with a love for crime novels and a juicy whodunit, inspired by my mother's love for the written word. Being able to see our very own whodunit come to life is made more significant because it is authored and directed by my dearest Mummy.",
       'executiveProducer.eyebrow': "Executive Producer's Statement",
       'executiveProducer.heading': "Executive Producer's Statement",
@@ -390,6 +391,7 @@
 
       'producer.eyebrow': 'Kenyataan Penerbit',
       'producer.heading': 'Kenyataan Penerbit',
+      'producer.name': 'Iskander Azizuddin',
       'producer.statement': 'Saya membesar dengan kecintaan terhadap novel jenayah dan kisah whodunnit yang mengasyikkan, diinspirasikan oleh kecintaan ibu saya terhadap dunia penulisan. Dapat melihat whodunnit kita sendiri dihidupkan terasa lebih bermakna kerana ia ditulis dan diarahkan oleh Mummy saya yang tersayang.',
       'executiveProducer.eyebrow': 'Kenyataan Penerbit Eksekutif',
       'executiveProducer.heading': 'Kenyataan Penerbit Eksekutif',
