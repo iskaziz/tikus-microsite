@@ -242,3 +242,6 @@ Roshafiq Roslee is listed under Principal Cast. His public character/role label 
 The **From the Filmmakers** section now follows a single editorial reading order beneath the full-width photo masthead: Director's Intention, expandable Director's Statement, Producer's Statement, then Executive Producer's Statement. The Executive Producer entry identifies Azizuddin Abdul Hamid and includes the approved bilingual statement.
 ### v36 update
 The From the Filmmakers section now identifies **Iskander Azizuddin** directly under the Producer's Statement heading.
+
+### v37 filmmaker statement update
+The From the Filmmakers section now includes producer statements from both Iskander Azizuddin and Feisal Azizuddin, followed by the Executive Producer's Statement from Azizuddin Abdul Hamid. The redundant Director's Statement lead-in sentence has been removed.

@@ -4584,3 +4584,12 @@ html.has-site-menu::after {
 .executive-producer-statement {
   border-left-color: var(--crimson-500);
 }
+
+/* v37: support multi-paragraph producer statements without oversized default paragraph spacing. */
+.producer-statement blockquote p {
+  margin: 0;
+}
+
+.producer-statement blockquote p + p {
+  margin-top: 0.95rem;
+}
