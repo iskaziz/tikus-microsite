@@ -92,7 +92,7 @@
     const heading = create('div', 'slider-game__heading');
     heading.append(
       create('p', 'slider-game__eyebrow', t('slider.eyebrow', {}, '3 × 3 PAINTING PUZZLE')),
-      create('h2', 'slider-game__title', 'Tikus Slider')
+      create('h2', 'slider-game__title', 'Tikus! Slider')
     );
     const backButton = create('button', 'slider-game__back', t('common.backSitting', {}, '← Sitting Room'));
     backButton.type = 'button';
@@ -422,7 +422,7 @@
   global.TikusGames = global.TikusGames || {};
   global.TikusGames.slider = Object.freeze({
     id: 'slider',
-    title: 'Tikus Slider',
+    title: 'Tikus! Slider',
     titleKey: 'game.slider.title',
     eyebrow: '3 × 3 PAINTING PUZZLE',
     eyebrowKey: 'slider.eyebrow',

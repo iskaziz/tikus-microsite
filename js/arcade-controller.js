@@ -59,7 +59,7 @@
       const topbar = create('header', 'tikus-arcade-dialog__topbar');
       const brand = create('div', 'tikus-arcade-dialog__brand');
       const eyebrow = create('p', 'tikus-arcade-dialog__eyebrow', t('dialog.gameEyebrow', {}, 'SAMASIHAT AFTER DARK'));
-      const title = create('h2', 'tikus-arcade-dialog__title', t('dialog.gameTitle', {}, 'TIKUS Game'));
+      const title = create('h2', 'tikus-arcade-dialog__title', t('dialog.gameTitle', {}, 'TIKUS! Game'));
       title.id = 'tikus-game-dialog-title';
       brand.append(eyebrow, title);
 
@@ -71,7 +71,7 @@
 
       const content = create('div', 'tikus-arcade-dialog__content');
       content.dataset.arcadeContent = '';
-      const description = create('p', 'visually-hidden', t('dialog.gameDescription', {}, 'A spoiler-safe, non-canonical TIKUS game.'));
+      const description = create('p', 'visually-hidden', t('dialog.gameDescription', {}, 'A spoiler-safe, non-canonical TIKUS! game.'));
       description.id = 'tikus-game-dialog-description';
       surface.append(topbar, content, description);
       dialog.append(surface);
@@ -90,10 +90,10 @@
       dialog.addEventListener('close', this.handleClose);
       this.unsubscribeLanguage = global.TikusI18n?.subscribe(() => {
         closeButton.setAttribute('aria-label', t('dialog.gameClose', {}, 'Close game and return to the Sitting Room'));
-        description.textContent = t('dialog.gameDescription', {}, 'A spoiler-safe, non-canonical TIKUS game.');
+        description.textContent = t('dialog.gameDescription', {}, 'A spoiler-safe, non-canonical TIKUS! game.');
         if (!this.currentGame) {
           eyebrow.textContent = t('dialog.gameEyebrow', {}, 'SAMASIHAT AFTER DARK');
-          title.textContent = t('dialog.gameTitle', {}, 'TIKUS Game');
+          title.textContent = t('dialog.gameTitle', {}, 'TIKUS! Game');
         }
       }) || null;
     }
@@ -217,7 +217,7 @@
   }
 
   if (!validateGameHotspots()) {
-    console.warn('The Sitting Room must contain exactly three direct game hotspots: Tikus Beat, Tikus Slider and Tikus Rush.');
+    console.warn('The Sitting Room must contain exactly three direct game hotspots: Tikus! Beat, Tikus! Slider and Tikus! Rush.');
   }
 
   let controller = null;

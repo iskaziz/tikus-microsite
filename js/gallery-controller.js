@@ -43,7 +43,7 @@
     let suppressFeatureOpen = false;
 
     function currentAlt() {
-      return t(ITEMS[current].altKey, {}, `TIKUS first-look still ${current + 1}.`);
+      return t(ITEMS[current].altKey, {}, `TIKUS! first-look still ${current + 1}.`);
     }
 
     function updatePicture(webpSource, image, item, alt) {

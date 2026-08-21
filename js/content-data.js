@@ -77,9 +77,9 @@
           gameId: 'beat',
           x: 16,
           y: 56,
-          label: 'Play Tikus Beat at the family console',
+          label: 'Play Tikus! Beat at the family console',
           labelKey: 'scene.hotspot.beat',
-          subject: 'Tikus Beat'
+          subject: 'Tikus! Beat'
         },
         {
           id: 'tikus-slider',
@@ -87,9 +87,9 @@
           gameId: 'slider',
           x: 59,
           y: 53,
-          label: 'Play Tikus Slider at the inherited painting',
+          label: 'Play Tikus! Slider at the inherited painting',
           labelKey: 'scene.hotspot.slider',
-          subject: 'Tikus Slider'
+          subject: 'Tikus! Slider'
         },
         {
           id: 'tikus-rush',
@@ -97,9 +97,9 @@
           gameId: 'rush',
           x: 72,
           y: 68,
-          label: 'Play Tikus Rush at the main sofa',
+          label: 'Play Tikus! Rush at the main sofa',
           labelKey: 'scene.hotspot.rush',
-          subject: 'Tikus Rush'
+          subject: 'Tikus! Rush'
         }
       ]
     }
@@ -119,7 +119,7 @@
       id: 'y-mun',
       actorName: 'Y Mun',
       portrait: castPortraitSet('y-mun', 'Y Mun'),
-      bio: 'I’m Nicholas Chin, and TIKUS is my very first feature film. I’ve always loved films and did a bit of theatre in college. Getting cast in this role was such an unexpected and exciting moment for me, and honestly the whole process from auditions to filming has taught me so much. I’m really grateful to be part of this project and can’t wait for people to finally see it!',
+      bio: 'I’m Nicholas Chin, and TIKUS! is my very first feature film. I’ve always loved films and did a bit of theatre in college. Getting cast in this role was such an unexpected and exciting moment for me, and honestly the whole process from auditions to filming has taught me so much. I’m really grateful to be part of this project and can’t wait for people to finally see it!',
       bioKey: 'cast.bio.yMun'
     },
     {
@@ -147,7 +147,7 @@
       id: 'marsha',
       actorName: 'Marsha',
       portrait: castPortraitSet('marsha', 'Marsha'),
-      bio: 'Marsha Biddulph is a Malaysian actress and content creator. She began her acting career in 2024 and has since appeared in productions including Harimau Malaya, a Unifi series, a Viu series, and the upcoming films Tikus and Sujud Syaitan. Passionate about storytelling, she continues to build her career across film, television, and digital content.',
+      bio: 'Marsha Biddulph is a Malaysian actress and content creator. She began her acting career in 2024 and has since appeared in productions including Harimau Malaya, a Unifi series, a Viu series, and the upcoming films Tikus! and Sujud Syaitan. Passionate about storytelling, she continues to build her career across film, television, and digital content.',
       bioKey: 'cast.bio.marsha'
     },
     {
@@ -170,8 +170,8 @@ You might have seen him in bit parts on Netflix's "Marco Polo" and ITV's "The Si
 
   global.TIKUS_CONTENT = Object.freeze({
     site: Object.freeze({
-      title: 'TIKUS',
-      baseDocumentTitle: 'TIKUS — Official Film Microsite',
+      title: 'TIKUS!',
+      baseDocumentTitle: 'TIKUS! — Official Film Microsite',
       baseDocumentTitleKey: 'meta.title',
       trailer: Object.freeze({
         youtubeId: 'zP-A0q7aVko',

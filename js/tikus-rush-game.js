@@ -88,7 +88,7 @@
     const heading = create('div', 'rush__heading');
     heading.append(
       create('p', 'rush__eyebrow', t('rush.challenge', {}, '30-SECOND CHALLENGE')),
-      create('h2', 'rush__title', 'Tikus Rush')
+      create('h2', 'rush__title', 'Tikus! Rush')
     );
     const backButton = create('button', 'rush__back', t('common.backSitting', {}, '← Sitting Room'));
     backButton.type = 'button';
@@ -551,7 +551,7 @@
   global.TikusGames = global.TikusGames || {};
   global.TikusGames.rush = Object.freeze({
     id: 'rush',
-    title: 'Tikus Rush',
+    title: 'Tikus! Rush',
     titleKey: 'game.rush.title',
     eyebrow: '30-SECOND ARCADE',
     eyebrowKey: 'rush.arcadeEyebrow',

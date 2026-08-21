@@ -337,3 +337,10 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Added a Bahasa Malaysia translation for Feisal Azizuddin's statement so the EN/BM switch remains complete.
 - Removed the redundant "Here is her Director’s Statement." lead-in (and its BM equivalent); the existing expandable "Read the Director’s Statement" control remains.
 - Added compact spacing for the new multi-paragraph producer statement.
+
+
+## v38 title punctuation update
+- All user-facing references to the film title now include the official exclamation mark: `Tikus!` / `TIKUS!`.
+- Branded game names now read `Tikus! Rush`, `Tikus! Beat`, and `Tikus! Slider`.
+- Removed the redundant Cast & Crew intro line about the people in front of and behind the camera.
+- Technical filenames, IDs, storage keys, JavaScript namespaces, and URL hashes remain unchanged.

@@ -210,7 +210,7 @@
         !global.TikusTrailerModalController ||
         !global.TikusSceneController
       ) {
-        throw new Error('Required TIKUS modules did not load.');
+        throw new Error('Required TIKUS! modules did not load.');
       }
 
       initCastCards(global.TIKUS_CONTENT.cast);

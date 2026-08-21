@@ -413,7 +413,7 @@
     const heading = create('div', 'beat__heading');
     heading.append(
       create('p', 'beat__eyebrow', t('beat.eyebrow', {}, '60-SECOND RHYTHM')),
-      create('h2', 'beat__title', 'Tikus Beat')
+      create('h2', 'beat__title', 'Tikus! Beat')
     );
     const headerActions = create('div', 'beat__header-actions');
     const soundButton = create('button', 'beat__sound');
@@ -427,8 +427,8 @@
       soundButton.textContent = soundEngine.supported ? (enabled ? t('beat.audioOn', {}, 'Audio on') : t('beat.audioOff', {}, 'Audio off')) : t('beat.noAudio', {}, 'No audio');
       soundButton.setAttribute('aria-pressed', String(enabled));
       soundButton.setAttribute('aria-label', soundEngine.supported
-        ? t('beat.audioToggle', { state: enabled ? t('beat.stateOff', {}, 'off') : t('beat.stateOn', {}, 'on') }, `Turn Tikus Beat music and sound effects ${enabled ? 'off' : 'on'}`)
-        : t('beat.audioUnavailable', {}, 'Tikus Beat audio is unavailable in this browser'));
+        ? t('beat.audioToggle', { state: enabled ? t('beat.stateOff', {}, 'off') : t('beat.stateOn', {}, 'on') }, `Turn Tikus! Beat music and sound effects ${enabled ? 'off' : 'on'}`)
+        : t('beat.audioUnavailable', {}, 'Tikus! Beat audio is unavailable in this browser'));
       soundButton.disabled = !soundEngine.supported;
     }
 
@@ -518,7 +518,7 @@
     introCard.append(
       create('p', 'beat__card-kicker', t('beat.follow', {}, 'FOLLOW THE FALLING OBJECTS')),
       create('p', 'beat__description', t('beat.description', {}, 'Tap the matching lane as an object reaches the crimson hit area. The notes move at a gentler pace, and early taps receive a small input buffer.')),
-      create('p', 'beat__sound-note', soundEngine.supported ? t('beat.soundNote', {}, 'A lightweight music loop plus hit, combo and final-score sounds begin only after you press Start. Use the Audio control at any time.') : t('beat.soundUnsupported', {}, 'This browser does not provide the audio features used by Tikus Beat.'))
+      create('p', 'beat__sound-note', soundEngine.supported ? t('beat.soundNote', {}, 'A lightweight music loop plus hit, combo and final-score sounds begin only after you press Start. Use the Audio control at any time.') : t('beat.soundUnsupported', {}, 'This browser does not provide the audio features used by Tikus! Beat.'))
     );
     const keyGuide = create('div', 'beat__key-guide');
     WEAPONS.forEach((weapon, index) => {
@@ -1008,7 +1008,7 @@
   global.TikusGames = global.TikusGames || {};
   global.TikusGames.beat = Object.freeze({
     id: 'beat',
-    title: 'Tikus Beat',
+    title: 'Tikus! Beat',
     titleKey: 'game.beat.title',
     eyebrow: '60-SECOND RHYTHM',
     eyebrowKey: 'beat.eyebrow',

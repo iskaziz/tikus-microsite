@@ -245,3 +245,10 @@ The From the Filmmakers section now identifies **Iskander Azizuddin** directly u
 
 ### v37 filmmaker statement update
 The From the Filmmakers section now includes producer statements from both Iskander Azizuddin and Feisal Azizuddin, followed by the Executive Producer's Statement from Azizuddin Abdul Hamid. The redundant Director's Statement lead-in sentence has been removed.
+
+
+## v38 title punctuation update
+- All user-facing references to the film title now include the official exclamation mark: `Tikus!` / `TIKUS!`.
+- Branded game names now read `Tikus! Rush`, `Tikus! Beat`, and `Tikus! Slider`.
+- Removed the redundant Cast & Crew intro line about the people in front of and behind the camera.
+- Technical filenames, IDs, storage keys, JavaScript namespaces, and URL hashes remain unchanged.
