@@ -236,3 +236,7 @@ Harris's Meet the Cast card now uses the approved supplied photographic portrait
 
 Roshafiq Roslee is listed under Principal Cast. His public character/role label has not been supplied, so the credit intentionally displays his name without inventing a role. Additional Cast now contains seven names.
 - v34: Replaced the Harris cast-profile placeholder with the approved Harris Andria biography in English and a Bahasa Malaysia translation.
+
+### v35 filmmaker statement order
+
+The **From the Filmmakers** section now follows a single editorial reading order beneath the full-width photo masthead: Director's Intention, expandable Director's Statement, Producer's Statement, then Executive Producer's Statement. The Executive Producer entry identifies Azizuddin Abdul Hamid and includes the approved bilingual statement.

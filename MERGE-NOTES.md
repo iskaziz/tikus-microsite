@@ -320,3 +320,11 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 - Tikus Rush and Tikus Beat send score/judgement data on completion; Tikus Slider sends moves/time data.
 - Google Signals and ad-personalisation signals are disabled in the site configuration.
 - v34: Replaced the Harris cast-profile placeholder with the approved Harris Andria biography in English and a Bahasa Malaysia translation.
+
+## v35 — Filmmaker statement order + Executive Producer
+
+- Reordered the **From the Filmmakers** copy to read: Director's Intention → Director's Statement → Producer's Statement → Executive Producer's Statement.
+- Moved the existing expandable Director's Statement directly beneath Director's Intention.
+- Added **Executive Producer's Statement** with **Azizuddin Abdul Hamid** displayed directly beneath the heading and the approved statement supplied by the project owner.
+- Added a Bahasa Malaysia translation for the new Executive Producer statement while preserving the name unchanged.
+- Kept the filmmaker photo masthead, collapsible Director's Statement, analytics and all existing site interactions intact.

@@ -4549,3 +4549,38 @@ html.has-site-menu::after {
 .credits-list--cast > .credits-list__name-only dd {
   grid-column: 1 / -1;
 }
+
+/* v35: filmmaker statements follow the requested editorial reading order. */
+.filmmakers-copy {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: none;
+  gap: clamp(0.9rem, 1.8vw, 1.35rem);
+}
+
+.filmmakers-copy .director-intention__card,
+.filmmakers-copy .producer-statement,
+.filmmakers-copy .director-statement {
+  height: auto;
+}
+
+.filmmakers-copy .director-intention__statement-lead {
+  margin: 0.25rem 0 -0.35rem;
+}
+
+.filmmakers-copy .director-statement {
+  margin-top: 0;
+}
+
+.filmmakers-statement__name {
+  position: relative;
+  margin: -0.25rem 0 0.75rem;
+  color: var(--paper-bright);
+  font-family: var(--ui-font);
+  font-size: clamp(0.9rem, 0.86rem + 0.15vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.executive-producer-statement {
+  border-left-color: var(--crimson-500);
+}
