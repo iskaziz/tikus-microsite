@@ -119,7 +119,7 @@
       id: 'y-mun',
       actorName: 'Y Mun',
       portrait: castPortraitSet('y-mun', 'Y Mun'),
-      bio: 'I’m Nicholas Chin, and TIKUS! is my very first feature film. I’ve always loved films and did a bit of theatre in college. Getting cast in this role was such an unexpected and exciting moment for me, and honestly the whole process from auditions to filming has taught me so much. I’m really grateful to be part of this project and can’t wait for people to finally see it!',
+      bio: 'I’m Nicholas Chin, and Tikus! is my very first feature film. I’ve always loved films and did a bit of theatre in college. Getting cast in this role was such an unexpected and exciting moment for me, and honestly the whole process from auditions to filming has taught me so much. I’m really grateful to be part of this project and can’t wait for people to finally see it!',
       bioKey: 'cast.bio.yMun'
     },
     {
@@ -140,7 +140,7 @@
       id: 'harris',
       actorName: 'Harris',
       portrait: castPortraitSet('harris', 'Harris'),
-      bio: 'Harris Andria is a familiar face in Feisk Productions, having appeared across a number of the company’s projects. His feature film credits include Angkat, the unreleased Curi Makan and Shotguns and Selendangs, and the upcoming TIKUS!. He has also appeared in the series Jabatan Kegembiraan and the short film Tali Kasut, building a varied body of work across film, television and shorts.',
+      bio: 'Harris Andria is a familiar face in Feisk Productions, having appeared across a number of the company’s projects. His feature film credits include Angkat, the unreleased Curi Makan and Shotguns and Selendangs, and the upcoming Tikus!. He has also appeared in the series Jabatan Kegembiraan and the short film Tali Kasut, building a varied body of work across film, television and shorts.',
       bioKey: 'cast.bio.harris'
     },
     {
@@ -170,8 +170,8 @@ You might have seen him in bit parts on Netflix's "Marco Polo" and ITV's "The Si
 
   global.TIKUS_CONTENT = Object.freeze({
     site: Object.freeze({
-      title: 'TIKUS!',
-      baseDocumentTitle: 'TIKUS! — Official Film Microsite',
+      title: 'Tikus!',
+      baseDocumentTitle: 'Tikus! — Official Film Microsite',
       baseDocumentTitleKey: 'meta.title',
       trailer: Object.freeze({
         youtubeId: 'zP-A0q7aVko',

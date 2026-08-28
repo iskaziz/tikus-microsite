@@ -340,7 +340,21 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 
 
 ## v38 title punctuation update
-- All user-facing references to the film title now include the official exclamation mark: `Tikus!` / `TIKUS!`.
+- All user-facing references to the film title now include the official exclamation mark: `Tikus!` / `Tikus!`.
 - Branded game names now read `Tikus! Rush`, `Tikus! Beat`, and `Tikus! Slider`.
 - Removed the redundant Cast & Crew intro line about the people in front of and behind the camera.
 - Technical filenames, IDs, storage keys, JavaScript namespaces, and URL hashes remain unchanged.
+
+## v39 — Canonical film title across EN/BM
+- Standardised every user-facing reference to the film title as `Tikus!`.
+- The EN/BM language switch never translates or changes the film title; only surrounding copy is localised.
+- Official title artwork and technical filenames/IDs remain untouched.
+- Ordinary Malay uses of `tikus` meaning mouse/mice remain contextual rather than being treated as the film title.
+
+
+
+## v40 — Confirmed FINAS cinema locations
+
+- Replaced the previous 22-cinema release list with the 15 venues confirmed in FINAS Skim Wajib Tayang Borang C dated 27 August 2026.
+- Cinema totals are now 8 GSC, 4 TGV and 3 independent venues (2 Paragon, 1 Mega Cineplex) across 11 states/federal territories.
+- Release date remains 3 September 2026.
