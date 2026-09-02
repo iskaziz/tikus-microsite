@@ -356,5 +356,13 @@ The two filmmaker photographs now form a full-width masthead above the Director'
 ## v40 — Confirmed FINAS cinema locations
 
 - Replaced the previous 22-cinema release list with the 15 venues confirmed in FINAS Skim Wajib Tayang Borang C dated 27 August 2026.
-- Cinema totals are now 8 GSC, 4 TGV and 3 independent venues (2 Paragon, 1 Mega Cineplex) across 11 states/federal territories.
+- Cinema totals are now 8 GSC, 5 TGV and 3 independent venues (2 Paragon, 1 Mega Cineplex) across 11 states/federal territories, for 16 confirmed cinemas in total.
 - Release date remains 3 September 2026.
+
+
+## v41 update
+- Removed the Press kit item from Release & Socials.
+- Added TGV 1 Utama to the confirmed allocation.
+- Confirmed Paragon allocation is limited to Paragon Cinemas Batu Pahat and Paragon Cinema KTCC.
+- Retained Mega Cineplex River Front Mall, Kedah, and standardized its displayed name accordingly.
+- Cinema total is now 16: 8 GSC, 5 TGV, 2 Paragon and 1 Mega Cineplex.

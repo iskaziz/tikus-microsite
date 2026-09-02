@@ -1,7 +1,7 @@
 (function registerTikusCinemaData(global) {
   'use strict';
 
-  // Confirmed FINAS Skim Wajib Tayang locations from Borang C dated 27 August 2026.
+  // Confirmed Tikus! cinema allocation. The core list includes FINAS Skim Wajib Tayang Borang C dated 27 August 2026, with subsequent confirmed allocation updates.
   const areas = [
     { id: 'johor', en: 'Johor', ms: 'Johor' },
     { id: 'kedah', en: 'Kedah', ms: 'Kedah' },
@@ -29,9 +29,10 @@
     { area: 'kuala-lumpur', chain: 'TGV', name: 'TGV Wangsa Walk', address: '2-01, Level 2, Wangsa Walk Mall, Wangsa Avenue, 9 Jalan Wangsa Perdana 1, Bandar Wangsa Maju, 53300 Kuala Lumpur' },
     { area: 'penang', chain: 'TGV', name: 'TGV Gurney', address: 'Level 8, Gurney Paragon Mall, Lorong Kelawai, 10250 George Town, Pulau Pinang' },
     { area: 'selangor', chain: 'TGV', name: 'TGV Bukit Tinggi', address: 'Lot S32, 2nd Floor, AEON Bukit Tinggi Shopping Centre, 1 Persiaran Batu Nilam 1/KS6, Bandar Bukit Tinggi 2, 41200 Klang, Selangor' },
+    { area: 'selangor', chain: 'TGV', name: 'TGV 1 Utama', address: 'Level 3, Old Wing, 1 Utama Shopping Centre, 1, Lebuh Bandar Utama, Bandar Utama, 47800 Petaling Jaya, Selangor, Malaysia' },
     { area: 'johor', chain: 'PARAGON', name: 'Paragon Cinemas Batu Pahat', address: '2nd Floor, Batu Pahat Mall, Jalan Kluang, 83000 Batu Pahat, Johor' },
     { area: 'terengganu', chain: 'PARAGON', name: 'Paragon Cinema KTCC', address: 'Lot 2-888, Level 2, KTCC Mall, Jalan Sultan Zainal Abidin, Muara Selatan, 20000 Kuala Terengganu, Terengganu' },
-    { area: 'kedah', chain: 'MEGA', name: 'Mega Cineplex Riverfront Mall', address: 'Riverfront City, 192 & 193, Jalan Mawar 3/2, Taman Pekan Baru, 08000 Sungai Petani, Kedah' }
+    { area: 'kedah', chain: 'MEGA', name: 'Mega Cineplex River Front Mall', address: 'Riverfront City, 192 & 193, Jalan Mawar 3/2, Taman Pekan Baru, 08000 Sungai Petani, Kedah' }
   ];
 
   const frozenAreas = areas.map((item) => Object.freeze(item));
@@ -41,6 +42,6 @@
     areas: Object.freeze(frozenAreas),
     venues: Object.freeze(frozenVenues),
     total: frozenVenues.length,
-    chainTotals: Object.freeze({ GSC: 8, TGV: 4, PARAGON: 2, MEGA: 1 })
+    chainTotals: Object.freeze({ GSC: 8, TGV: 5, PARAGON: 2, MEGA: 1 })
   });
 })(window);
